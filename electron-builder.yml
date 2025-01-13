@@ -12,5 +12,8 @@ files:
 publish:
   - provider: github
     protocol: https
+    # Required for auto updater
+    owner: derechtenap
+    repo: dartsmate
 win:
   target: nsis

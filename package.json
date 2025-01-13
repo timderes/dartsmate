@@ -3,7 +3,7 @@
   "name": "dartsmate",
   "productName": "DartsMate",
   "description": "Analyze, track and compare your dart games.",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "author": "DartsMate Contributors",
   "main": "app/background.js",
   "repository": "https://github.com/derechtenap/dartsmate",
@@ -24,7 +24,8 @@
   "dependencies": {
     "electron-log": "^5.2.4",
     "electron-serve": "^1.3.0",
-    "electron-store": "^8.2.0"
+    "electron-store": "^8.2.0",
+    "electron-updater": "^6.3.9"
   },
   "devDependencies": {
     "@mantine/charts": "^7.15.0",
