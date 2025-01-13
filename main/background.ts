@@ -5,6 +5,7 @@ import path from "path";
 import log from "electron-log";
 import { appSettingsStore } from "./helpers/stores";
 import { getPreferredLocale, logSystemInfo } from "./helpers/utils";
+import { autoUpdater } from "electron-updater";
 
 export const isProd: boolean = process.env.NODE_ENV === "production";
 
@@ -28,8 +29,15 @@ if (isProd) {
 void (async () => {
   await app.whenReady().then(() => {
     logSystemInfo();
-
     log.initialize(); // Initialize the logger for renderer process
+    autoUpdater.logger = log;
+
+    if (isProd) {
+      autoUpdater.allowPrerelease = false; // TODO: Maybe remove after releasing stable versions
+      autoUpdater.checkForUpdatesAndNotify();
+    } else {
+      log.info("Skipping auto-updater in development mode.");
+    }
   });
 
   const mainWindow = createWindow("main", {
@@ -74,4 +82,32 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
+});
+
+// TODO: Add more meaningful code to these functions :)
+autoUpdater.on("checking-for-update", () => {
+  log.info("Checking for update...");
+});
+
+autoUpdater.on("update-available", () => {
+  log.info("Update available.");
+});
+
+autoUpdater.on("update-not-available", () => {
+  log.info("Update not available.");
+});
+
+autoUpdater.on("error", (error) => {
+  log.error("Error in auto-updater. " + error);
+});
+
+autoUpdater.on("update-downloaded", () => {
+  log.info("Download completed.");
+
+  //TODO: Let the user decide if he wants to update after download
+  autoUpdater.quitAndInstall();
+});
+
+autoUpdater.on("download-progress", (info) => {
+  log.info("Download running", info);
 });
