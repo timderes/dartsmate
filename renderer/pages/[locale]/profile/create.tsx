@@ -22,7 +22,7 @@ import {
 import { useForm } from "@mantine/form";
 import { useTranslation } from "next-i18next";
 import { FormEvent, useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as getUUID } from "uuid";
 import { useRouter } from "next/router";
 import type { Profile } from "types/profile";
 import ProfileAvatar from "@/components/content/ProfileAvatar";
@@ -51,7 +51,7 @@ const CreateProfilePage: NextPage = () => {
   } = useTranslation();
   const theme = useMantineTheme();
   const router = useRouter();
-  const userUUID = uuidv4();
+  const userUUID = getUUID();
 
   const [avatarColor, setAvatarColor] = useState<DefaultMantineColor>(
     theme.primaryColor
