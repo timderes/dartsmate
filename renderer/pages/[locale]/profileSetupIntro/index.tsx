@@ -10,7 +10,6 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { IconUserPlus } from "@tabler/icons-react";
 import { useTranslation } from "next-i18next";
 import sendIPC from "utils/ipc/send";
 import { useRouter } from "next/router";
@@ -19,7 +18,12 @@ import OnlyControlsLayout, {
 } from "@/components/layouts/OnlyControlsLayout";
 import { APP_NAME } from "utils/constants";
 
-const WelcomePage: NextPage = () => {
+/**
+ * Renders the `ProfileSetupIntroPage`, displayed when no default profile exists.
+ * This component provides a welcome message to the user and directs them to the
+ * profile creation route to create a default profile.
+ */
+const ProfileSetupIntroPage: NextPage = () => {
   const {
     t,
     i18n: { language: locale },
@@ -28,22 +32,21 @@ const WelcomePage: NextPage = () => {
   const router = useRouter();
   const pageHeight = `calc(100vh - ${headerHeightOnlyControls}px)`;
 
-  const renderLeftCol = () => {
+  const renderLeftColumn = () => {
     return <BackgroundImage src="/images/dartboard.jpg" h="100%" />;
   };
 
-  const renderRightCol = () => {
+  const renderRightColumn = () => {
     return (
       <Center h={pageHeight} p="xl" maw={800}>
         <Stack gap="xl">
-          <Title fw="bold">{t("welcome:title", { APP_NAME: APP_NAME })}</Title>
-          <Text>{t("welcome:description", { APP_NAME: APP_NAME })}</Text>
+          <Title fw="bold">{t("appIntro:welcomeTitle", { APP_NAME })}</Title>
+          <Text>{t("appIntro:welcomeText", { APP_NAME })}</Text>
           <Group>
             <Button
-              leftSection={<IconUserPlus />}
               onClick={() => void router.push(`/${locale}/profile/create`)}
             >
-              {t("profile:buttons.createProfile")}
+              {t("appIntro:startIntro")}
             </Button>
             <Button variant="default" onClick={() => sendIPC("close-app")}>
               {t("closeApp")}
@@ -57,19 +60,22 @@ const WelcomePage: NextPage = () => {
   return (
     <OnlyControlsLayout>
       <Grid gutter={0}>
-        <Grid.Col span={6}>{renderLeftCol()}</Grid.Col>
-        <Grid.Col span="auto">{renderRightCol()}</Grid.Col>
+        <Grid.Col
+          span={{
+            xs: 6,
+            xl: 7,
+          }}
+        >
+          {renderLeftColumn()}
+        </Grid.Col>
+        <Grid.Col span="auto">{renderRightColumn()}</Grid.Col>
       </Grid>
     </OnlyControlsLayout>
   );
 };
 
-export default WelcomePage;
+export default ProfileSetupIntroPage;
 
-export const getStaticProps = makeStaticProperties([
-  "common",
-  "profile",
-  "welcome",
-]);
+export const getStaticProps = makeStaticProperties(["common", "appIntro"]);
 
 export { getStaticPaths };

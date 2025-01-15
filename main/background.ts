@@ -58,16 +58,20 @@ void (async () => {
   const defaultProfile = appSettingsStore.get("defaultProfileUUID");
 
   const port = process.argv[2];
-  const welcomeRoute = isProd
-    ? `app://./${locale}/welcome`
-    : `http://localhost:${port}/${locale}/welcome`;
+  const profileSetupIntroRoute = isProd
+    ? `app://./${locale}/profileSetupIntro`
+    : `http://localhost:${port}/${locale}/profileSetupIntro`;
 
   if (!defaultProfile) {
-    // Default profile is undefined, load url to create a new profile
-    log.info("Default profile is undefined. Redirect user to welcome route.");
-    await mainWindow.loadURL(welcomeRoute);
+    log.info(
+      "No default profile detected. Redirecting user to the Profile Setup Intro route: %s",
+      profileSetupIntroRoute
+    );
+    await mainWindow.loadURL(profileSetupIntroRoute);
   } else {
-    log.info("Found default profile. Direct user to index route.");
+    log.info(
+      "Default profile found. Redirecting user to the main Index route."
+    );
     if (isProd) {
       await mainWindow.loadURL(`app://./${locale}/`);
     } else {
