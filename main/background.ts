@@ -33,8 +33,8 @@ void (async () => {
     autoUpdater.logger = log;
 
     if (isProd) {
-      autoUpdater.allowPrerelease = false; // TODO: Maybe remove after releasing stable versions
-      autoUpdater.checkForUpdatesAndNotify();
+      autoUpdater.allowPrerelease = false;
+      void autoUpdater.checkForUpdatesAndNotify();
     } else {
       log.info("Skipping auto-updater in development mode.");
     }
@@ -102,7 +102,7 @@ autoUpdater.on("update-not-available", () => {
 });
 
 autoUpdater.on("error", (error) => {
-  log.error("Error in auto-updater. " + error);
+  log.error(`Error in auto-updater: ${error.message}`);
 });
 
 autoUpdater.on("update-downloaded", () => {
