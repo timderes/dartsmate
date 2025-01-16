@@ -88,5 +88,6 @@
     "title": "Oops! It seems like there's no data to display at the moment."
   },
   "greetingText": "Hello, {{FIRST_NAME}}!",
-  "greetingSubtext": "Let's play a game of darts."
+  "greetingSubtext": "Let's play a game of darts.",
+  "playGameMode": "Start {{GAME_MODE}}..."
 }

@@ -1,0 +1,30 @@
+{
+  "match": {
+    "text": "Play a game of 501 with friends or against the AI.",
+    "title": "501 Game"
+  },
+  "aroundTheClock": {
+    "text": "Hit every number on the dartboard from 1 to 20 and then the bullseye.",
+    "title": "Around the Clock"
+  },
+  "bobs27": {
+    "text": "Test your dart skills by hitting doubles and scoring points. Start with 27 points and try not to lose any!",
+    "title": "Bob's 27"
+  },
+  "doublesTraining": {
+    "text": "Throw your darts at the indicated double. The better your accuracy, the more points you earn.",
+    "title": "Double Training"
+  },
+  "singlesTraining": {
+    "text": "Throw your darts at the indicated area of the dartboard. Hitting doubles or triples earns bonus points.",
+    "title": "Singles Training"
+  },
+  "scoreTraining": {
+    "text": "Aim for the highest score possible with a set number of darts.",
+    "title": "Score Training"
+  },
+  "shanghai": {
+    "text": "Hit a single, double, and triple of a specified number in one round to score points. Master your throwing technique!",
+    "title": "Shanghai"
+  }
+}
