@@ -44,7 +44,7 @@ const SettingsPage = () => {
         });
 
         window.ipc.removeDefaultProfileUUID();
-        void router.push(`/${locale}/welcome`);
+        void router.push(`/${locale}/profileSetupIntro`);
       },
     });
   };

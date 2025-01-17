@@ -61,7 +61,7 @@ const storagePage = () => {
             .push(
               formatLocalizedRoute({
                 locale,
-                route: "/welcome",
+                route: "/profileSetupIntro",
               })
             )
             .then(() => {
@@ -119,7 +119,7 @@ const storagePage = () => {
         void router.push(
           formatLocalizedRoute({
             locale,
-            route: "/welcome",
+            route: "/profileSetupIntro",
           })
         );
       },
