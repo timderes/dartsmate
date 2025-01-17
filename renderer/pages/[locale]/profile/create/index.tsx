@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
 import { Box, Button, Group, Paper, Stack, Stepper, Text } from "@mantine/core";
 import { useTranslation } from "next-i18next";
-import { useState, FormEvent } from "react";
+import { createElement, useState, FormEvent } from "react";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import log from "electron-log/renderer";
@@ -33,11 +33,21 @@ const CreateProfilePage: NextPage = () => {
   const { form } = useProfileForm(isGuestProfile);
 
   const pageHeight = `calc(100vh - ${headerHeightOnlyControls}px)`;
+
+  const steps = [
+    { label: t("profile:step.label.profile"), page: Step1 },
+    { label: t("profile:step.label.misc"), page: Step2 },
+    { label: t("profile:step.label.avatar"), page: Step3 },
+  ];
+
   const [active, setActive] = useState(0);
+  const isFirstPage = active === 0;
+  const isLastPage = active === steps.length;
+
   const nextStep = () =>
-    setActive((current) => (current < 3 ? current + 1 : current));
+    setActive((current) => (!isLastPage ? current + 1 : current));
   const prevStep = () =>
-    setActive((current) => (current > 0 ? current - 1 : current));
+    setActive((current) => (!isFirstPage ? current - 1 : current));
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,15 +94,11 @@ const CreateProfilePage: NextPage = () => {
             allowNextStepsSelect={false}
             onStepClick={setActive}
           >
-            <Stepper.Step label={t("profile:step.label.profile")}>
-              <Step1 form={form} />
-            </Stepper.Step>
-            <Stepper.Step label={t("profile:step.label.misc")}>
-              <Step2 form={form} />
-            </Stepper.Step>
-            <Stepper.Step label={t("profile:step.label.avatar")}>
-              <Step3 form={form} />
-            </Stepper.Step>
+            {steps.map((step, _idx) => (
+              <Stepper.Step key={_idx} label={step.label}>
+                {createElement(step.page, { form })}
+              </Stepper.Step>
+            ))}
             <Stepper.Completed>
               <Group grow>
                 <Button type="submit" disabled={!form.isValid()}>
@@ -108,17 +114,10 @@ const CreateProfilePage: NextPage = () => {
             </Stepper.Completed>
           </Stepper>
           <Paper component={Group} p="xs" withBorder justify="space-between">
-            <Button
-              variant="default"
-              disabled={active === 0}
-              onClick={prevStep}
-            >
+            <Button variant="default" disabled={isFirstPage} onClick={prevStep}>
               {t("back")}
             </Button>
-            <Button
-              disabled={active === 3 || !form.isValid()}
-              onClick={nextStep}
-            >
+            <Button disabled={isLastPage || !form.isValid()} onClick={nextStep}>
               {t("next")}
             </Button>
           </Paper>
