@@ -70,5 +70,9 @@
       "title": "Profil konnte nicht erstellt werden!",
       "text": "Bitte versuche es später erneut."
     }
+  },
+  "cancelProfileCreation": {
+    "title": "Profilerstellung abbrechen",
+    "text": "Möchten Sie die Profilerstellung wirklich abbrechen? Alle Änderungen gehen verloren."
   }
 }
