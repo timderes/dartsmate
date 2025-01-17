@@ -13,10 +13,11 @@ import OnlyControlsLayout, {
   headerHeightOnlyControls,
 } from "@/components/layouts/OnlyControlsLayout";
 import useProfileForm from "hooks/useProfileForm";
-import Step1 from "./step1";
-import Step2 from "./step2";
-import Step3 from "./step3";
+import StepOne from "@/components/content/profileCreation/StepOne";
+
 import { modals } from "@mantine/modals";
+import StepTwo from "@/components/content/profileCreation/StepTwo";
+import StepThree from "@/components/content/profileCreation/StepThree";
 
 /**
  *
@@ -35,9 +36,9 @@ const CreateProfilePage: NextPage = () => {
   const pageHeight = `calc(100vh - ${headerHeightOnlyControls}px)`;
 
   const steps = [
-    { label: t("profile:step.label.profile"), page: Step1 },
-    { label: t("profile:step.label.misc"), page: Step2 },
-    { label: t("profile:step.label.avatar"), page: Step3 },
+    { label: t("profile:step.label.profile"), step: StepOne },
+    { label: t("profile:step.label.misc"), step: StepTwo },
+    { label: t("profile:step.label.avatar"), step: StepThree },
   ];
 
   const [active, setActive] = useState(0);
@@ -96,7 +97,7 @@ const CreateProfilePage: NextPage = () => {
           >
             {steps.map((step, _idx) => (
               <Stepper.Step key={_idx} label={step.label}>
-                {createElement(step.page, { form })}
+                {createElement(step.step, { form })}
               </Stepper.Step>
             ))}
             <Stepper.Completed>

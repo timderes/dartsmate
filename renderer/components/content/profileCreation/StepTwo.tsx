@@ -12,7 +12,7 @@ import { useMantineTheme } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
 import { Profile } from "types/profile";
 
-const Step2 = ({
+const StepTwo = ({
   form,
 }: {
   form: UseFormReturnType<Profile, (values: Profile) => Profile>;
@@ -44,4 +44,4 @@ const Step2 = ({
   );
 };
 
-export default Step2;
+export default StepTwo;

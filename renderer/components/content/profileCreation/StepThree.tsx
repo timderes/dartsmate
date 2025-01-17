@@ -9,7 +9,7 @@ import log from "electron-log/renderer";
 import { UseFormReturnType } from "@mantine/form";
 import { Profile } from "types/profile";
 
-const Step3 = ({
+const StepThree = ({
   form,
 }: {
   form: UseFormReturnType<Profile, (values: Profile) => Profile>;
@@ -84,4 +84,4 @@ const Step3 = ({
   );
 };
 
-export default Step3;
+export default StepThree;

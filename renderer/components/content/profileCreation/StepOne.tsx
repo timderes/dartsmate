@@ -11,7 +11,7 @@ import { UseFormReturnType } from "@mantine/form";
 import { useTranslation } from "next-i18next";
 import { Profile } from "types/profile";
 
-const Step1 = ({
+const StepOne = ({
   form,
 }: {
   form: UseFormReturnType<Profile, (values: Profile) => Profile>;
@@ -51,4 +51,4 @@ const Step1 = ({
   );
 };
 
-export default Step1;
+export default StepOne;
