@@ -62,6 +62,7 @@ import { modals } from "@mantine/modals";
 import addMatchToDatabase from "@/lib/db/matches/addMatch";
 import getFirstNineAverage from "@/lib/playing/stats/getFirstNineAverage";
 import isBust from "@/lib/playing/stats/isBust";
+import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
 
 const PlayingPage: NextPage = () => {
   const theme = useMantineTheme();
@@ -309,17 +310,11 @@ const PlayingPage: NextPage = () => {
   const openAbortModal = () =>
     modals.openConfirmModal({
       title: t("match:modalAbortMatch:title"),
-      centered: true,
       children: <Text size="sm">{t("match:modalAbortMatch:text")}</Text>,
       labels: {
         confirm: t("match:abortMatch"),
         cancel: t("match:modalAbortMatch:cancelButton"),
       },
-      overlayProps: {
-        backgroundOpacity: 0.75,
-        blur: 3,
-      },
-      confirmProps: { color: "red" },
       onConfirm: () => {
         void addMatchToDatabase({
           ...matchSessionData,
@@ -327,6 +322,7 @@ const PlayingPage: NextPage = () => {
         });
         void router.push(`/${locale}/match/view`);
       },
+      ...SharedConfirmModalProps,
     });
 
   const handleAbortMatch = (): void => {

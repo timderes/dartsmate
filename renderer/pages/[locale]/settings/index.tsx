@@ -14,6 +14,7 @@ import getDefaultIconSize from "utils/misc/getDefaultIconSize";
 // import log from "electron-log/renderer";
 import useDefaultProfile from "hooks/getDefaultProfile";
 import deleteProfileFromDatabase from "@/lib/db/profiles/deleteProfile";
+import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
 
 const SettingsPage = () => {
   const defaultProfile = useDefaultProfile();
@@ -32,10 +33,6 @@ const SettingsPage = () => {
         confirm: t("settings:deleteProfile.title"),
         cancel: t("cancel"),
       },
-      overlayProps: {
-        backgroundOpacity: 0.75,
-        blur: 3,
-      },
       onConfirm: () => {
         if (!defaultProfile) throw new Error("Unable to delete the profile!");
 
@@ -46,6 +43,7 @@ const SettingsPage = () => {
         window.ipc.removeDefaultProfileUUID();
         void router.push(`/${locale}/profileSetupIntro`);
       },
+      ...SharedConfirmModalProps,
     });
   };
 

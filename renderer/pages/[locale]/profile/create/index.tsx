@@ -18,6 +18,7 @@ import StepOne from "@/components/content/profileCreation/StepOne";
 import { modals } from "@mantine/modals";
 import StepTwo from "@/components/content/profileCreation/StepTwo";
 import StepThree from "@/components/content/profileCreation/StepThree";
+import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
 
 /**
  *
@@ -83,6 +84,7 @@ const CreateProfilePage: NextPage = () => {
         confirm: t("confirm"),
         cancel: t("cancel"),
       },
+      ...SharedConfirmModalProps,
     });
   };
 

@@ -23,6 +23,7 @@ import { notifications } from "@mantine/notifications";
 import { useSessionStorage } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import EmptyState from "@/components/content/EmptyState";
+import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
 
 const HistoryPage = () => {
   const {
@@ -51,17 +52,11 @@ const HistoryPage = () => {
   const handleDeleteMatch = (uuid: Match["uuid"]) => {
     modals.openConfirmModal({
       title: t("match:modals.deleteMatchTitle"),
-      centered: true,
       children: <Text size="sm">{t("match:modals.deleteMatchText")}</Text>,
       labels: {
         confirm: t("confirm"),
         cancel: t("cancel"),
       },
-      overlayProps: {
-        backgroundOpacity: 0.75,
-        blur: 3,
-      },
-      confirmProps: { color: "red" },
       onConfirm: () => {
         void deleteMatchFromDatabase(uuid).then(() => {
           setMatches((prev) => prev?.filter((match) => match.uuid !== uuid));
@@ -71,6 +66,7 @@ const HistoryPage = () => {
           });
         });
       },
+      ...SharedConfirmModalProps,
     });
   };
 
