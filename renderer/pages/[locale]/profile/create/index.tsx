@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
-import { Box, Button, Group, Paper, Stack, Stepper, Text } from "@mantine/core";
+import { Box, Button, Group, Stack, Stepper, Text } from "@mantine/core";
 import { useTranslation } from "next-i18next";
 import { createElement, useState, FormEvent } from "react";
 import { useRouter } from "next/router";
@@ -41,6 +41,8 @@ const CreateProfilePage: NextPage = () => {
     { label: t("profile:step.label.misc"), step: StepTwo },
     { label: t("profile:step.label.avatar"), step: StepThree },
   ];
+
+  const isFormValid = form.isValid();
 
   const [active, setActive] = useState(0);
   const isFirstPage = active === 0;
@@ -88,6 +90,14 @@ const CreateProfilePage: NextPage = () => {
     });
   };
 
+  const validateAndGoToNextPage = () => {
+    form.validate();
+
+    if (isFormValid) {
+      nextStep();
+    }
+  };
+
   return (
     <OnlyControlsLayout>
       <Box component="form" h={pageHeight} onSubmit={(e) => handleSubmit(e)}>
@@ -104,7 +114,7 @@ const CreateProfilePage: NextPage = () => {
             ))}
             <Stepper.Completed>
               <Group grow>
-                <Button type="submit" disabled={!form.isValid()}>
+                <Button type="submit" disabled={!isFormValid}>
                   {t("profile:buttons.createProfile")}
                 </Button>
                 <Button
@@ -116,14 +126,17 @@ const CreateProfilePage: NextPage = () => {
               </Group>
             </Stepper.Completed>
           </Stepper>
-          <Paper component={Group} p="xs" withBorder justify="space-between">
+          <Group justify="space-between">
             <Button variant="default" disabled={isFirstPage} onClick={prevStep}>
               {t("back")}
             </Button>
-            <Button disabled={isLastPage || !form.isValid()} onClick={nextStep}>
+            <Button
+              disabled={isLastPage}
+              onClick={() => validateAndGoToNextPage()}
+            >
               {t("next")}
             </Button>
-          </Paper>
+          </Group>
         </Stack>
       </Box>
     </OnlyControlsLayout>
@@ -132,6 +145,10 @@ const CreateProfilePage: NextPage = () => {
 
 export default CreateProfilePage;
 
-export const getStaticProps = makeStaticProperties(["common", "profile"]);
+export const getStaticProps = makeStaticProperties([
+  "common",
+  "countries",
+  "profile",
+]);
 
 export { getStaticPaths };

@@ -42,6 +42,7 @@
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
+    "@workmate/country-and-currency": "^1.2.2",
     "dexie": "^4.0.10",
     "dexie-react-hooks": "^1.1.7",
     "electron": "^33.2.1",

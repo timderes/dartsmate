@@ -89,5 +89,6 @@
   },
   "greetingText": "Hallo, {{FIRST_NAME}}!",
   "greetingSubtext": "Lass uns eine Runde Darts spielen.",
-  "playGameMode": "{{GAME_MODE}} starten..."
+  "playGameMode": "{{GAME_MODE}} starten...",
+  "country": "Land"
 }
