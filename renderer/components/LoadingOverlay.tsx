@@ -1,5 +1,6 @@
-import { Center, Loader, Stack, Text } from "@mantine/core";
+import { Center, Loader, Stack } from "@mantine/core";
 import { useTranslation } from "next-i18next";
+import DarkenedText from "./content/DarkenedText";
 
 const LoadingOverlay = () => {
   const { t } = useTranslation();
@@ -8,9 +9,9 @@ const LoadingOverlay = () => {
     <Center h="100vh">
       <Stack>
         <Loader mx="auto" type="dots" />
-        <Text c="dimmed" fw="bold" fz="sm" tt="uppercase">
+        <DarkenedText fw="bold" fz="sm" tt="uppercase">
           {t("loading")}
-        </Text>
+        </DarkenedText>
       </Stack>
     </Center>
   );
