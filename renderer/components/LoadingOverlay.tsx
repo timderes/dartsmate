@@ -9,7 +9,7 @@ const LoadingOverlay = () => {
       <Stack>
         <Loader mx="auto" type="dots" />
         <Text c="dimmed" fw="bold" fz="sm" tt="uppercase">
-          {t("common:loading")}
+          {t("loading")}
         </Text>
       </Stack>
     </Center>
