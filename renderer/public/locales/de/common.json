@@ -19,6 +19,7 @@
     "online": "Verbunden",
     "offline": "Offline"
   },
+  "loading": "Lädt...",
   "closeApp": "Schließen",
   "routes": {
     "home": "Startseite",

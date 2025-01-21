@@ -19,6 +19,7 @@
     "online": "Online",
     "offline": "Offline"
   },
+  "loading": "Loading...",
   "closeApp": "Close",
   "routes": {
     "home": "Home",
