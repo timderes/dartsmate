@@ -58,6 +58,7 @@ const NewGamePage = () => {
         });
       })
       .catch((e) => {
+        // TODO: Add better notification :)
         notifications.show({
           title: "Error!",
           message: e as string,
@@ -158,7 +159,6 @@ const NewGamePage = () => {
           >
             <ActionIcon
               onClick={() => handleRemovePlayer(profile.uuid)}
-              disabled={false}
               variant="default"
             >
               <IconUserMinus
@@ -178,7 +178,6 @@ const NewGamePage = () => {
           >
             <ActionIcon
               onClick={() => handleAddPlayer(profile)}
-              disabled={false}
               variant="default"
             >
               <IconUserPlus
