@@ -12,12 +12,16 @@
     "title": "Leere Lobby",
     "text": "Aktuell sind keine Spieler in der Lobby. Füge einige Spieler hinzu, um das Spiel zu starten."
   },
-  "loadPreviousMatchSettings": "Vorherige Spieleinstellungen laden...",
+  "loadPreviousMatchSettings": "Spieleinstellungen laden...",
   "saveMatchSettings": "Spieleinstellungen als Vorlage speichern...",
   "score": "Punktzahl",
   "checkout": "Checkout",
   "gameCheckout.any": "Any",
   "gameCheckout.double": "Double",
   "gameCheckout.single": "Single",
-  "gameCheckout.triple": "Triple"
+  "gameCheckout.triple": "Triple",
+  "modalAbortLobby": {
+    "title": "Möchten Sie das Lobby wirklich schließen?",
+    "text": "Die Lobby wird geschlossen und alle Einstellungen gehen verloren. Möchten Sie fortfahren?"
+  }
 }

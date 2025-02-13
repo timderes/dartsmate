@@ -12,12 +12,16 @@
     "title": "Empty Lobby",
     "text": "No players are currently in the lobby. Add some players to get the match going."
   },
-  "loadPreviousMatchSettings": "Load previous match settings...",
+  "loadPreviousMatchSettings": "Load match settings...",
   "saveMatchSettings": "Save match settings as a template...",
   "score": "Score",
   "checkout": "Checkout",
   "gameCheckout.any": "Any",
   "gameCheckout.double": "Double",
   "gameCheckout.single": "Single",
-  "gameCheckout.triple": "Triple"
+  "gameCheckout.triple": "Triple",
+  "modalAbortLobby": {
+    "title": "Do you really want to close the lobby?",
+    "text": "The lobby will be closed, and all settings will be lost. Do you want to proceed?"
+  }
 }

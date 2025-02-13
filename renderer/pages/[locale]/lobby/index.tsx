@@ -3,7 +3,9 @@ import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
 import OnlyControlsLayout from "@/components/layouts/OnlyControlsLayout";
 import {
   ActionIcon,
+  Button,
   ComboboxItem,
+  Divider,
   Flex,
   Grid,
   Menu,
@@ -11,6 +13,7 @@ import {
   ScrollArea,
   Select,
   Stack,
+  Text,
   Title,
 } from "@mantine/core";
 import { headerHeight } from "@/components/layouts/Default";
@@ -27,13 +30,20 @@ import {
 } from "@tabler/icons-react";
 import { Checkout } from "types/match";
 import useLobbyForm from "hooks/useLobbyForm";
+import { modals } from "@mantine/modals";
+import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
+import { useRouter } from "next/router";
 
 /**
  *
  */
 const NewGamePage: NextPage = () => {
   const { form } = useLobbyForm();
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language: locale },
+  } = useTranslation();
+  const router = useRouter();
 
   const SELECTABLE_CHECKOUTS = CHECKOUTS.map(
     (checkout): ComboboxItem => ({
@@ -43,6 +53,20 @@ const NewGamePage: NextPage = () => {
   );
 
   console.info("FORM", form);
+
+  const handleAbortLobby = () =>
+    modals.openConfirmModal({
+      title: t("lobby:modalAbortLobby:title"),
+      children: <Text size="sm">{t("lobby:modalAbortLobby:text")}</Text>,
+      labels: {
+        confirm: t("confirm"),
+        cancel: t("cancel"),
+      },
+      onConfirm: () => {
+        void router.push(`/${locale}/`);
+      },
+      ...SharedConfirmModalProps,
+    });
 
   /**
    *
@@ -62,8 +86,8 @@ const NewGamePage: NextPage = () => {
    */
   const renderMatchSettings = (): JSX.Element => {
     return (
-      <ScrollArea h={`calc(100vh - ${headerHeight}px)`} type="never" p="xs">
-        <Stack p="xs">
+      <ScrollArea h={`calc(100vh - ${headerHeight}px)`} type="never">
+        <Stack h={`calc(100vh - ${headerHeight}px)`} p="md">
           <Flex align="center" justify="space-between">
             <Title fz="h5" tt="uppercase">
               {t("lobby:title.matchSettings")}
@@ -108,6 +132,11 @@ const NewGamePage: NextPage = () => {
               {...form.getInputProps("matchCheckout", { type: "checkbox" })}
             />
           </Stack>
+          <Divider mt="auto" />
+          <Button onClick={() => handleAbortLobby()} variant="default">
+            {t("cancel")}
+          </Button>
+          <Button>{t("lobby:startMatch")}</Button>
         </Stack>
       </ScrollArea>
     );
@@ -128,6 +157,6 @@ const NewGamePage: NextPage = () => {
 
 export default NewGamePage;
 
-export const getStaticProps = makeStaticProperties(["lobby"]);
+export const getStaticProps = makeStaticProperties(["common", "lobby"]);
 
 export { getStaticPaths };
