@@ -26,11 +26,13 @@ import {
   IconTool,
 } from "@tabler/icons-react";
 import { Checkout } from "types/match";
+import useLobbyForm from "hooks/useLobbyForm";
 
 /**
  *
  */
 const NewGamePage: NextPage = () => {
+  const { form } = useLobbyForm();
   const { t } = useTranslation();
 
   const SELECTABLE_CHECKOUTS = CHECKOUTS.map(
@@ -39,6 +41,8 @@ const NewGamePage: NextPage = () => {
       value: checkout,
     })
   );
+
+  console.info("FORM", form);
 
   /**
    *
@@ -88,6 +92,8 @@ const NewGamePage: NextPage = () => {
               defaultValue={DEFAULT_MATCH_SETTINGS.SCORE}
               min={MATCH_SCORE.MIN}
               max={MATCH_SCORE.MAX}
+              key={form.key("initialScore")}
+              {...form.getInputProps("initialScore", { type: "input" })}
             />
             <Select
               variant="filled"
@@ -97,6 +103,9 @@ const NewGamePage: NextPage = () => {
               comboboxProps={{
                 transitionProps: { transition: "pop", duration: 200 },
               }}
+              allowDeselect={false}
+              key={form.key("matchCheckout")}
+              {...form.getInputProps("matchCheckout", { type: "checkbox" })}
             />
           </Stack>
         </Stack>

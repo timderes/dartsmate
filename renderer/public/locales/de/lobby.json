@@ -12,6 +12,8 @@
     "title": "Leere Lobby",
     "text": "Aktuell sind keine Spieler in der Lobby. Füge einige Spieler hinzu, um das Spiel zu starten."
   },
+  "loadPreviousMatchSettings": "Vorherige Spieleinstellungen laden...",
+  "saveMatchSettings": "Spieleinstellungen als Vorlage speichern...",
   "score": "Punktzahl",
   "checkout": "Checkout",
   "gameCheckout.any": "Any",

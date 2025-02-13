@@ -12,6 +12,8 @@
     "title": "Empty Lobby",
     "text": "No players are currently in the lobby. Add some players to get the match going."
   },
+  "loadPreviousMatchSettings": "Load previous match settings...",
+  "saveMatchSettings": "Save match settings as a template...",
   "score": "Score",
   "checkout": "Checkout",
   "gameCheckout.any": "Any",
