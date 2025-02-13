@@ -1,5 +1,5 @@
 import pkg from "../../package.json";
-import { Checkout, MatchStatus } from "types/match";
+import type { Checkout, MatchStatus } from "types/match";
 
 export const APP_NAME = pkg.productName;
 export const APP_VERSION = pkg.version;
@@ -23,6 +23,13 @@ export const DARTBOARD_ZONES = [
 export const SCORE_BULLSEYE = 50;
 export const SCORE_OUTER_BULL = 25;
 export const SCORE_MISSED = 0;
+
+export const CHECKOUTS: Checkout[] = [
+  "Any",
+  "Double",
+  "Single",
+  "Triple",
+] as const;
 
 // Define default values for match setup
 export const DEFAULT_MATCH_SETTINGS: {

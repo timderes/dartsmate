@@ -6,6 +6,7 @@ interface Player extends Profile {
   rounds: MatchRound[];
 }
 
+declare type startRule = "Double in" | "Straight in" | "Master in";
 declare type Checkout = "Any" | "Double" | "Single" | "Triple";
 declare type MatchStatus = "aborted" | "finished" | "started" | "undefined";
 

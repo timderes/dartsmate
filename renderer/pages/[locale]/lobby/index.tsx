@@ -1,276 +1,124 @@
-import { useEffect } from "react";
-import { useTranslation } from "next-i18next";
+import type { NextPage } from "next";
 import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
-import DefaultLayout from "@/components/layouts/Default";
+import OnlyControlsLayout from "@/components/layouts/OnlyControlsLayout";
 import {
   ActionIcon,
-  Button,
-  Divider,
-  Drawer,
+  ComboboxItem,
+  Flex,
   Grid,
-  Group,
+  Menu,
   NumberInput,
   ScrollArea,
   Select,
   Stack,
-  Text,
   Title,
-  Tooltip,
-  rem,
 } from "@mantine/core";
-import type { Profile } from "types/profile";
-import ProfileAvatar from "@/components/content/ProfileAvatar";
-import { useDisclosure, useListState, useSessionStorage } from "@mantine/hooks";
+import { headerHeight } from "@/components/layouts/Default";
+import { useTranslation } from "next-i18next";
 import {
-  IconUserMinus,
-  IconUserPlus,
-  IconUserQuestion,
-} from "@tabler/icons-react";
-import { useRouter } from "next/router";
-import { useForm } from "@mantine/form";
-import { Match } from "types/match";
-import {
-  APP_VERSION,
+  CHECKOUTS,
   DEFAULT_MATCH_SETTINGS,
   MATCH_SCORE,
 } from "utils/constants";
-import { v4 as getUUID } from "uuid";
-import getFormattedName from "utils/misc/getFormattedName";
-import EmptyState from "@/components/content/EmptyState";
-import getAllProfilesFromDatabase from "@/lib/db/profiles/getAllProfiles";
-import { notifications } from "@mantine/notifications";
+import {
+  IconDeviceFloppy,
+  IconFileDownload,
+  IconTool,
+} from "@tabler/icons-react";
+import { Checkout } from "types/match";
 
-const NewGamePage = () => {
-  const {
-    t,
-    i18n: { language: locale },
-  } = useTranslation();
-  const [selectedProfiles, selectedProfilesActions] = useListState<Profile>([]);
-  const [availableProfiles, availableProfilesActions] = useListState<Profile>(
-    []
+/**
+ *
+ */
+const NewGamePage: NextPage = () => {
+  const { t } = useTranslation();
+
+  const SELECTABLE_CHECKOUTS = CHECKOUTS.map(
+    (checkout): ComboboxItem => ({
+      label: t(`lobby:gameCheckout.${checkout.toLowerCase()}`),
+      value: checkout,
+    })
   );
 
-  const getAllProfiles = () =>
-    getAllProfilesFromDatabase()
-      .then((profiles) => {
-        profiles.forEach((profile) => {
-          availableProfilesActions.append(profile);
-        });
-      })
-      .catch((e) => {
-        // TODO: Add better notification :)
-        notifications.show({
-          title: "Error!",
-          message: e as string,
-        });
-      });
-
-  const [opened, { open, close }] = useDisclosure(false);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    // Reset profiles since they will refetch each render
-    selectedProfilesActions.setState([]);
-    availableProfilesActions.setState([]);
-
-    void getAllProfiles();
-  }, []);
-
-  const uuid = getUUID();
-
-  const [, setMatchStorage] = useSessionStorage<Match>({
-    key: "currentMatch",
-    defaultValue: undefined,
-  });
-
-  const matchSettings = useForm<Match>({
-    initialValues: {
-      appVersion: APP_VERSION,
-      createdAt: Date.now(),
-      initialScore: DEFAULT_MATCH_SETTINGS.SCORE,
-      matchCheckout: DEFAULT_MATCH_SETTINGS.CHECKOUT,
-      matchStatus: DEFAULT_MATCH_SETTINGS.STATUS,
-      uuid: uuid,
-      players: [],
-      updatedAt: Date.now(),
-    },
-  });
-
-  const handleRemovePlayer = (uuid: Profile["uuid"]): void => {
-    const updatedProfiles = selectedProfiles.filter(
-      (profile) => profile.uuid !== uuid
-    );
-    selectedProfilesActions.setState(updatedProfiles);
-
-    matchSettings.setValues({
-      players: updatedProfiles.map((profile) => ({
-        ...profile,
-        scoreLeft: -1,
-        isWinner: false,
-        rounds: [],
-      })),
-    });
-  };
-
-  const handleAddPlayer = (profile: Profile): void => {
-    selectedProfilesActions.append(profile);
-    const updatedProfiles = [...selectedProfiles, profile];
-
-    matchSettings.setValues({
-      players: updatedProfiles.map((profile) => ({
-        ...profile,
-        scoreLeft: -1,
-        isWinner: false,
-        rounds: [],
-      })),
-    });
-  };
-
-  const handleStartMatch = (): void => {
-    if (!matchSettings.isValid()) return;
-
-    setMatchStorage(matchSettings.values);
-    void router.push(`/${locale}/match/playing`);
-  };
-
-  const renderPlayer = (profile: Profile): JSX.Element => {
+  /**
+   *
+   */
+  const renderPlayerList = (): JSX.Element => {
     return (
-      <Group justify="space-between">
-        <Group>
-          <ProfileAvatar
-            profile={profile}
-            src={profile.avatarImage}
-            size="lg"
-          />
-          <Text>
-            {getFormattedName(profile.name)}{" "}
-            <Text component="span" c="dimmed" display="block" size="xs">
-              {profile.username}
-            </Text>
-          </Text>
-        </Group>
-        {selectedProfiles.includes(profile) ? (
-          <Tooltip
-            label={t("lobby:removePlayerFromLobby", {
-              PLAYER_NAME: profile.username,
-            })}
-            withArrow
-          >
-            <ActionIcon
-              onClick={() => handleRemovePlayer(profile.uuid)}
-              variant="default"
-            >
-              <IconUserMinus
-                style={{
-                  height: rem(18),
-                  width: rem(18),
-                }}
-              />
-            </ActionIcon>
-          </Tooltip>
-        ) : (
-          <Tooltip
-            label={t("lobby:addPlayerToLobby", {
-              PLAYER_NAME: profile.username,
-            })}
-            withArrow
-          >
-            <ActionIcon
-              onClick={() => handleAddPlayer(profile)}
-              variant="default"
-            >
-              <IconUserPlus
-                style={{
-                  height: rem(18),
-                  width: rem(18),
-                }}
-              />
-            </ActionIcon>
-          </Tooltip>
-        )}
-      </Group>
+      <ScrollArea h={`calc(100vh - ${headerHeight}px)`} type="never" p="xs">
+        <Title fz="h5" tt="uppercase">
+          {t("lobby:title.players")}
+        </Title>
+      </ScrollArea>
     );
   };
 
-  return (
-    <DefaultLayout withNavbarOpen={false}>
-      <Drawer opened={opened} onClose={close} title={t("lobby:addPlayer")}>
-        <ScrollArea pr="xl" h="auto">
+  /**
+   *
+   */
+  const renderMatchSettings = (): JSX.Element => {
+    return (
+      <ScrollArea h={`calc(100vh - ${headerHeight}px)`} type="never" p="xs">
+        <Stack p="xs">
+          <Flex align="center" justify="space-between">
+            <Title fz="h5" tt="uppercase">
+              {t("lobby:title.matchSettings")}
+            </Title>
+            <Menu shadow="md" withArrow arrowPosition="center">
+              <Menu.Target>
+                <ActionIcon>
+                  <IconTool />
+                </ActionIcon>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item leftSection={<IconFileDownload size={14} />}>
+                  {t("lobby:loadPreviousMatchSettings")}
+                </Menu.Item>
+                <Menu.Item leftSection={<IconDeviceFloppy size={14} />}>
+                  {t("lobby:saveMatchSettings")}
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </Flex>
           <Stack>
-            <Button
-              onClick={() =>
-                void router.push({
-                  pathname: `/${locale}/profile/create`,
-                  query: { isGuest: true },
-                })
-              }
-            >
-              {t("lobby:createGuestPlayer")}
-            </Button>
-            {availableProfiles.map((guestPlayer) => {
-              if (selectedProfiles.includes(guestPlayer)) return;
-
-              return (
-                <div key={guestPlayer.uuid}>{renderPlayer(guestPlayer)}</div>
-              );
-            })}
-          </Stack>
-        </ScrollArea>
-      </Drawer>
-      <Grid gutter={0}>
-        <Grid.Col span="auto" px="xs">
-          <Stack gap="lg">
-            <Group>
-              <Title>{t("lobby:title.players")}</Title>
-              <Button ml="auto" size="xs" onClick={open}>
-                {t("lobby:addPlayer")}
-              </Button>
-            </Group>
-            {selectedProfiles.map((player) => (
-              <div key={player.uuid}>{renderPlayer(player)}</div>
-            ))}
-            {selectedProfiles.length === 0 ? (
-              <EmptyState
-                icon={<IconUserQuestion size={64} opacity={0.6} />}
-                title={t("lobby:emptyLobbyState.title")}
-                text={t("lobby:emptyLobbyState.text")}
-              />
-            ) : undefined}
-          </Stack>
-        </Grid.Col>
-        <Grid.Col span={4} px="xs" h="100%">
-          <Stack>
-            <Title>{t("lobby:title.matchSettings")}</Title>
             <NumberInput
+              variant="filled"
               label={t("lobby:score")}
+              allowNegative={false}
+              defaultValue={DEFAULT_MATCH_SETTINGS.SCORE}
               min={MATCH_SCORE.MIN}
               max={MATCH_SCORE.MAX}
-              {...matchSettings.getInputProps("initialScore")}
             />
             <Select
+              variant="filled"
               label={t("lobby:checkout")}
-              {...matchSettings.getInputProps("matchCheckout")}
-              defaultValue={matchSettings.values.matchCheckout}
-              data={["Any", "Single", "Double", "Triple"]}
+              defaultValue={"Double" as Checkout}
+              data={SELECTABLE_CHECKOUTS}
+              comboboxProps={{
+                transitionProps: { transition: "pop", duration: 200 },
+              }}
             />
-            <Divider />
-            <Button
-              disabled={selectedProfiles.length === 0}
-              onClick={() => handleStartMatch()}
-              mt="auto"
-            >
-              {t("lobby:startMatch")}
-            </Button>
           </Stack>
-        </Grid.Col>
+        </Stack>
+      </ScrollArea>
+    );
+  };
+
+  /**
+   *
+   */
+  return (
+    <OnlyControlsLayout>
+      <Grid type="container" gutter={0}>
+        <Grid.Col span={9}>{renderPlayerList()}</Grid.Col>
+        <Grid.Col span="auto">{renderMatchSettings()}</Grid.Col>
       </Grid>
-    </DefaultLayout>
+    </OnlyControlsLayout>
   );
 };
 
 export default NewGamePage;
 
-export const getStaticProps = makeStaticProperties(["common", "lobby"]);
+export const getStaticProps = makeStaticProperties(["lobby"]);
 
 export { getStaticPaths };

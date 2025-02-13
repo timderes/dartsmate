@@ -13,5 +13,9 @@
     "text": "Aktuell sind keine Spieler in der Lobby. Füge einige Spieler hinzu, um das Spiel zu starten."
   },
   "score": "Punktzahl",
-  "checkout": "Checkout"
+  "checkout": "Checkout",
+  "gameCheckout.any": "Any",
+  "gameCheckout.double": "Double",
+  "gameCheckout.single": "Single",
+  "gameCheckout.triple": "Triple"
 }
