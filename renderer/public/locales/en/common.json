@@ -92,5 +92,9 @@
   "greetingSubtext": "Let's play a game of darts.",
   "playGameMode": "Start {{GAME_MODE}}...",
   "country": "Country",
-  "error": "Error!"
+  "error": "Error!",
+  "legs": "Leg",
+  "legs_plural": "Legs",
+  "sets": "Set",
+  "sets_plural": "Sets"
 }

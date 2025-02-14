@@ -92,5 +92,9 @@
   "greetingSubtext": "Lass uns eine Runde Darts spielen.",
   "playGameMode": "{{GAME_MODE}} starten...",
   "country": "Land",
-  "error": "Fehler!"
+  "error": "Fehler!",
+  "legs": "Leg",
+  "legs_other": "Legs",
+  "sets": "Set",
+  "sets_other": "Sets"
 }

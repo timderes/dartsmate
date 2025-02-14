@@ -112,6 +112,24 @@ const LobbySettings = (): JSX.Element => {
             key={form.key("matchCheckout")}
             {...form.getInputProps("matchCheckout", { type: "checkbox" })}
           />
+          <NumberInput
+            variant="filled"
+            label={t("sets", {
+              count: 2 /* Hardcoded count to 2 to force pluralization, regardless of actual value. */,
+            })}
+            defaultValue={1}
+            min={1}
+            disabled
+          />
+          <NumberInput
+            variant="filled"
+            label={t("legs", {
+              count: 2 /* Hardcoded count to 2 to force pluralization, regardless of actual value. */,
+            })}
+            defaultValue={1}
+            min={1}
+            disabled
+          />
           <Divider label={t("lobby:miscSettings")} labelPosition="left" />
           <Checkbox label={t("lobby:enableTeamGame")} disabled />
           <Checkbox
