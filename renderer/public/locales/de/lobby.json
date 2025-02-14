@@ -23,5 +23,6 @@
   "modalAbortLobby": {
     "title": "Möchten Sie das Lobby wirklich schließen?",
     "text": "Die Lobby wird geschlossen und alle Einstellungen gehen verloren. Möchten Sie fortfahren?"
-  }
+  },
+  "errorFetchingProfiles": "Fehler beim Abrufen der Profile. Bitte versuchen Sie es erneut. Fehler: {{error}}"
 }

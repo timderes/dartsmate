@@ -22,3 +22,9 @@ declare type Profile = {
   //  isProUser: boolean;
   // };
 };
+
+/*
+ * Profile type used in the lobby page. It includes a `selected` property
+ * to indicate if the profile is selected to play a match.
+ */
+declare type SelectableProfile = Profile & { selected: boolean };

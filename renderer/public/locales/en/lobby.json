@@ -23,5 +23,6 @@
   "modalAbortLobby": {
     "title": "Do you really want to close the lobby?",
     "text": "The lobby will be closed, and all settings will be lost. Do you want to proceed?"
-  }
+  },
+  "errorFetchingProfiles": "Error fetching profiles. Please try again. Error: {{error}}"
 }

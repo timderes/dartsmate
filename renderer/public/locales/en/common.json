@@ -91,5 +91,6 @@
   "greetingText": "Hello, {{FIRST_NAME}}!",
   "greetingSubtext": "Let's play a game of darts.",
   "playGameMode": "Start {{GAME_MODE}}...",
-  "country": "Country"
+  "country": "Country",
+  "error": "Error!"
 }

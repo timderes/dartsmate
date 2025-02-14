@@ -28,6 +28,7 @@
     "electron-updater": "^6.3.9"
   },
   "devDependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
     "@mantine/charts": "^7.16.0",
     "@mantine/core": "^7.16.0",
     "@mantine/dropzone": "^7.16.0",

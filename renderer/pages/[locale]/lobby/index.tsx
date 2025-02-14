@@ -33,6 +33,12 @@ import useLobbyForm from "hooks/useLobbyForm";
 import { modals } from "@mantine/modals";
 import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
 import { useRouter } from "next/router";
+import getAllProfilesFromDatabase from "@/lib/db/profiles/getAllProfiles";
+import { useCallback, useEffect } from "react";
+import type { SelectableProfile } from "types/profile";
+import { useListState } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 
 /**
  *
@@ -52,7 +58,29 @@ const NewGamePage: NextPage = () => {
     })
   );
 
-  console.info("FORM", form);
+  const [profiles, profilesActions] = useListState<SelectableProfile>([]);
+
+  const getAllProfiles = useCallback(() => {
+    getAllProfilesFromDatabase()
+      .then((profiles) => {
+        profiles.forEach((profile) => {
+          // Prevent duplicates from being added
+          if (profiles.includes(profile)) return;
+
+          profilesActions.append({ ...profile, selected: false });
+        });
+      })
+      .catch((err) => {
+        notifications.show({
+          title: t("error"),
+          message: t("lobby:errorFetchingProfiles", { error: err as string }),
+        });
+      });
+  }, [profiles]);
+
+  useEffect(() => {
+    void getAllProfiles();
+  }, []);
 
   const handleAbortLobby = () =>
     modals.openConfirmModal({
@@ -68,6 +96,22 @@ const NewGamePage: NextPage = () => {
       ...SharedConfirmModalProps,
     });
 
+  const profilesList = profiles.map((profile, idx) => (
+    <Draggable key={profile.uuid} index={idx} draggableId={profile.uuid}>
+      {(provided) => (
+        <div
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          <Text>{profile.username}</Text>
+
+          <Text>{profile.uuid}</Text>
+        </div>
+      )}
+    </Draggable>
+  ));
+
   /**
    *
    */
@@ -77,6 +121,23 @@ const NewGamePage: NextPage = () => {
         <Title fz="h5" tt="uppercase">
           {t("lobby:title.players")}
         </Title>
+        <DragDropContext
+          onDragEnd={({ destination, source }) =>
+            profilesActions.reorder({
+              from: source.index,
+              to: destination?.index || 0,
+            })
+          }
+        >
+          <Droppable droppableId="dnd-list" direction="vertical">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {profilesList}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </ScrollArea>
     );
   };
