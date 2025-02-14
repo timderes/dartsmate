@@ -10,10 +10,10 @@
   "fullscreenMode": "Vollbild",
   "windowedMode": "Fenstermodus",
   "player": "Spieler",
-  "player_plural": "Spieler",
+  "player_other": "Spieler",
   "date": "Datum",
   "match": "Spiel",
-  "match_plural": "Spiele",
+  "match_other": "Spiele",
   "networkStatus": {
     "text": "Netzwerk-Status",
     "online": "Verbunden",

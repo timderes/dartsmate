@@ -10,10 +10,10 @@
   "fullscreenMode": "Fullscreen",
   "windowedMode": "Windowed Mode",
   "player": "Player",
-  "player_plural": "Players",
+  "player_other": "Players",
   "date": "Date",
   "match": "Match",
-  "match_plural": "Matches",
+  "match_other": "Matches",
   "networkStatus": {
     "text": "Network Status",
     "online": "Online",
@@ -94,7 +94,7 @@
   "country": "Country",
   "error": "Error!",
   "legs": "Leg",
-  "legs_plural": "Legs",
+  "legs_other": "Legs",
   "sets": "Set",
-  "sets_plural": "Sets"
+  "sets_other": "Sets"
 }
