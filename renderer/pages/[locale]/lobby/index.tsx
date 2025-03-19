@@ -139,9 +139,10 @@ const NewGamePage = () => {
     ) {
       // Let the players bull-off to determine the starting player
       void router.push(`/${locale}/match/preMatch/bullOff`);
+      return;
     }
 
-    void router.push(`/${locale}/match/preMatch`);
+    void router.push(`/${locale}/match/playing`);
   };
 
   const renderPlayer = (profile: Profile): JSX.Element => {
