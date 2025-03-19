@@ -7,9 +7,9 @@ import type { Match } from "types/match";
 import { useState } from "react";
 import {
   Button,
-  Center,
-  Container,
+  Divider,
   Group,
+  Progress,
   Stack,
   Text,
   Title,
@@ -17,6 +17,7 @@ import {
 import LoadingOverlay from "@/components/LoadingOverlay";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { useRouter } from "next/router";
+import CenteredContent from "@/components/content/CenteredContent";
 
 /**
  * This page allows players to perform a bull-off to determine the starting player.
@@ -72,52 +73,67 @@ const BullOffPage: NextPage = () => {
 
   if (isBullOffFinished) {
     return (
-      <Container h="100dvh">
-        <Title>{t("lobby:bullOff")}</Title>
-        <Text fw="bold">{t("lobby:bullOffFinished")}</Text>
-        <DragDropContext
-          onDragEnd={({ destination, source }) =>
-            setCurrentMatch((prev) => {
-              if (!destination) return prev;
+      <CenteredContent w={1000}>
+        <Stack>
+          <Title fz="h2" c="dimmed" tt="uppercase">
+            {t("lobby:bullOff")}
+          </Title>
+          <Text fz="h2" fw="bold">
+            {t("lobby:bullOffFinished")}
+          </Text>
+          <DragDropContext
+            onDragEnd={({ destination, source }) =>
+              setCurrentMatch((prev) => {
+                if (!destination) return prev;
 
-              const players = [...prev.players];
-              const [removed] = players.splice(source.index, 1);
-              players.splice(destination.index, 0, removed);
+                const players = [...prev.players];
+                const [removed] = players.splice(source.index, 1);
+                players.splice(destination.index, 0, removed);
 
-              return { ...prev, players, updatedAt: Date.now() };
-            })
-          }
-        >
-          <Droppable droppableId="dnd-list" direction="vertical">
-            {(provided) => (
-              <div {...provided.droppableProps} ref={provided.innerRef}>
-                {players}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-        <Button onClick={() => handleStartMatch()}>
-          {t("lobby:startMatch")}
-        </Button>
-      </Container>
+                return { ...prev, players, updatedAt: Date.now() };
+              })
+            }
+          >
+            <Droppable droppableId="dnd-list" direction="vertical">
+              {(provided) => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {players}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+          <Divider />
+          <Button w="fit-content" onClick={() => handleStartMatch()}>
+            {t("lobby:startMatch")}
+          </Button>
+        </Stack>
+      </CenteredContent>
     );
   }
 
   return (
-    <Container h="100dvh">
-      <Center ta="center" component={Stack} w={600} mx="auto">
-        <Title>{t("lobby:bullOff")}</Title>
-        <Text>
+    <CenteredContent>
+      <Stack>
+        <Title fz="h2" c="dimmed" tt="uppercase">
+          {t("lobby:bullOff")}
+          &nbsp;&ndash;&nbsp;
+          {currentPlayer + 1}/{currentMatch.players.length}
+        </Title>
+        <Progress
+          radius="xs"
+          value={((currentPlayer + 1) / currentMatch.players.length) * 100}
+        />
+        <Text fz="h1">
           {t("lobby:playerCanBullOff", {
             FIRST_NAME: currentMatch.players[currentPlayer].name.firstName,
           })}
         </Text>
-        <Button w="fit-content" mx="auto" onClick={() => handleNextPlayer()}>
+        <Button w="fit-content" onClick={() => handleNextPlayer()}>
           {t("next")}
         </Button>
-      </Center>
-    </Container>
+      </Stack>
+    </CenteredContent>
   );
 };
 
