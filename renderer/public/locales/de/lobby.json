@@ -15,6 +15,7 @@
   "score": "Punktzahl",
   "checkout": "Checkout",
   "bullOff": "Ausbullen",
+  "bullOffHelpText": "Beim Ausbullen wird die Reihenfolge der Spieler bestimmt. Jeder Spieler wirft einen Dart auf das Bullseye. Der Spieler, der am nächsten dran ist, beginnt das Spiel.",
   "playerCanBullOff": "{{FIRST_NAME}} du bist dran! Werfe einen Dart auf das Bullseye.",
   "bullOffFinished": "Das Ausbullen ist beendet. Verschiebe die Spieler per Drag & Drop, um die Reihenfolge zu ändern."
 }

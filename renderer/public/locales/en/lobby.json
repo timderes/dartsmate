@@ -15,6 +15,7 @@
   "score": "Score",
   "checkout": "Checkout",
   "bullOff": "Bull-off",
+  "bullOffHelpText": "The bull-off determines the order of players. Each player throws a dart at the bullseye. The player closest to the bullseye starts the game.",
   "playerCanBullOff": "{{FIRST_NAME}} it's your turn! Throw a dart at the bullseye.",
   "bullOffFinished": "The bull-off is finished. Drag and drop the players to change the order."
 }

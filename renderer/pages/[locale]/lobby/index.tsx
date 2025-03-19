@@ -8,6 +8,7 @@ import {
   Checkbox,
   Divider,
   Drawer,
+  Flex,
   Grid,
   Group,
   NumberInput,
@@ -23,6 +24,8 @@ import type { Profile } from "types/profile";
 import ProfileAvatar from "@/components/content/ProfileAvatar";
 import { useDisclosure, useListState, useSessionStorage } from "@mantine/hooks";
 import {
+  IconHelpCircle,
+  IconHelpCircleFilled,
   IconUserMinus,
   IconUserPlus,
   IconUserQuestion,
@@ -268,11 +271,25 @@ const NewGamePage = () => {
               data={["Any", "Single", "Double", "Triple"]}
             />
             <Divider />
-            <Checkbox
-              label={t("lobby:bullOff")}
-              {...matchSettings.getInputProps("bullOff")}
-              checked={matchSettings.values.bullOff}
-            />
+            <Group gap="lg">
+              <Checkbox
+                label={t("lobby:bullOff")}
+                {...matchSettings.getInputProps("bullOff")}
+                checked={matchSettings.values.bullOff}
+              />
+              <Tooltip
+                label={t("lobby:bullOffHelpText")}
+                multiline
+                w={300}
+                withArrow
+              >
+                <IconHelpCircle
+                  style={{
+                    cursor: "help",
+                  }}
+                />
+              </Tooltip>
+            </Group>
             <Button
               disabled={selectedProfiles.length === 0}
               onClick={() => handleStartMatch()}
