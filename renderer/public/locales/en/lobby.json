@@ -14,5 +14,7 @@
   },
   "score": "Score",
   "checkout": "Checkout",
-  "bullOff": "Bull-off"
+  "bullOff": "Bull-off",
+  "playerCanBullOff": "{{FIRST_NAME}} it's your turn! Throw a dart at the bullseye.",
+  "bullOffFinished": "The bull-off is finished. Drag and drop the players to change the order."
 }

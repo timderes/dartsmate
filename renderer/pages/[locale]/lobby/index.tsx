@@ -132,7 +132,16 @@ const NewGamePage = () => {
     if (!matchSettings.isValid()) return;
 
     setMatchStorage(matchSettings.values);
-    void router.push(`/${locale}/match/playing`);
+
+    if (
+      matchSettings.values.bullOff &&
+      matchSettings.values.players.length > 1
+    ) {
+      // Let the players bull-off to determine the starting player
+      void router.push(`/${locale}/match/preMatch/bullOff`);
+    }
+
+    void router.push(`/${locale}/match/preMatch`);
   };
 
   const renderPlayer = (profile: Profile): JSX.Element => {
