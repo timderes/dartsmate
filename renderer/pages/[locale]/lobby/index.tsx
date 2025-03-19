@@ -88,7 +88,7 @@ const NewGamePage = () => {
     initialValues: {
       appVersion: APP_VERSION,
       createdAt: Date.now(),
-      bullOff: false,
+      bullOff: true,
       initialScore: DEFAULT_MATCH_SETTINGS.SCORE,
       matchCheckout: DEFAULT_MATCH_SETTINGS.CHECKOUT,
       matchStatus: DEFAULT_MATCH_SETTINGS.STATUS,
@@ -271,6 +271,7 @@ const NewGamePage = () => {
             <Checkbox
               label={t("lobby:bullOff")}
               {...matchSettings.getInputProps("bullOff")}
+              checked={matchSettings.values.bullOff}
             />
             <Button
               disabled={selectedProfiles.length === 0}
