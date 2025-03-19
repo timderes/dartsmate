@@ -14,6 +14,7 @@ declare type Match = {
   createdAt: number; // Timestamp when the match was created (UNIX timestamp)
   initialScore: number;
   players: Player[];
+  bullOff: boolean; // Whether a bull-off was performed to determine the starting player
   matchCheckout: Checkout;
   matchStatus: MatchStatus;
   uuid: string; // Unique identifier for the match (UUID format: eg. 1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed)

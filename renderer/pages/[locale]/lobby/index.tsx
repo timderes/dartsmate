@@ -5,6 +5,7 @@ import DefaultLayout from "@/components/layouts/Default";
 import {
   ActionIcon,
   Button,
+  Checkbox,
   Divider,
   Drawer,
   Grid,
@@ -87,6 +88,7 @@ const NewGamePage = () => {
     initialValues: {
       appVersion: APP_VERSION,
       createdAt: Date.now(),
+      bullOff: false,
       initialScore: DEFAULT_MATCH_SETTINGS.SCORE,
       matchCheckout: DEFAULT_MATCH_SETTINGS.CHECKOUT,
       matchStatus: DEFAULT_MATCH_SETTINGS.STATUS,
@@ -256,6 +258,10 @@ const NewGamePage = () => {
               data={["Any", "Single", "Double", "Triple"]}
             />
             <Divider />
+            <Checkbox
+              label={t("lobby:bullOff")}
+              {...matchSettings.getInputProps("bullOff")}
+            />
             <Button
               disabled={selectedProfiles.length === 0}
               onClick={() => handleStartMatch()}

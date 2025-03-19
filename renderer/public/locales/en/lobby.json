@@ -13,5 +13,6 @@
     "text": "No players are currently in the lobby. Add some players to get the match going."
   },
   "score": "Score",
-  "checkout": "Checkout"
+  "checkout": "Checkout",
+  "bullOff": "Bull-off"
 }
