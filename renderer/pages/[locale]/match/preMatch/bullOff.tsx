@@ -129,9 +129,19 @@ const BullOffPage: NextPage = () => {
             FIRST_NAME: currentMatch.players[currentPlayer].name.firstName,
           })}
         </Text>
-        <Button w="fit-content" onClick={() => handleNextPlayer()}>
-          {t("next")}
-        </Button>
+        <Group>
+          <Button w="fit-content" onClick={() => handleNextPlayer()}>
+            {t("next")}
+          </Button>
+          <Button
+            ml="auto"
+            c="dimmed"
+            onClick={() => setIsBullOffFinished(true)}
+            variant="transparent"
+          >
+            {t("skip")}
+          </Button>
+        </Group>
       </Stack>
     </CenteredContent>
   );
