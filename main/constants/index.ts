@@ -10,4 +10,9 @@ const MINIMAL_WINDOW_SIZE = {
   width: 1024,
 };
 
-export { MINIMAL_WINDOW_SIZE };
+/**
+ * Returns `true` if the application is build and running in production mode.
+ */
+const IS_APP_RUNNING_IN_PRODUCTION_MODE = process.env.NODE_ENV === "production";
+
+export { IS_APP_RUNNING_IN_PRODUCTION_MODE, MINIMAL_WINDOW_SIZE };

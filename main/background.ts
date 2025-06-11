@@ -6,12 +6,14 @@ import log from "electron-log";
 import { autoUpdater } from "electron-updater";
 import { appSettingsStore } from "./helpers/stores";
 import { getPreferredLocale, logSystemInfo } from "./helpers/utils";
-import { MINIMAL_WINDOW_SIZE } from "./constants";
-
+import {
+  IS_APP_RUNNING_IN_PRODUCTION_MODE,
+  MINIMAL_WINDOW_SIZE,
+} from "./constants";
 
 const sessionId = new Date().valueOf();
 
-if (isProd) {
+if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
   serve({ directory: "app" });
 
   log.transports.file.resolvePathFn = () => {
@@ -27,7 +29,7 @@ void (async () => {
     log.initialize(); // Initialize the logger for renderer process
     autoUpdater.logger = log;
 
-    if (isProd) {
+    if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
       autoUpdater.allowPrerelease = false;
       void autoUpdater.checkForUpdatesAndNotify();
     } else {
@@ -53,7 +55,7 @@ void (async () => {
   const defaultProfile = appSettingsStore.get("defaultProfileUUID");
 
   const port = process.argv[2];
-  const profileSetupIntroRoute = isProd
+  const profileSetupIntroRoute = IS_APP_RUNNING_IN_PRODUCTION_MODE
     ? `app://./${locale}/profileSetupIntro`
     : `http://localhost:${port}/${locale}/profileSetupIntro`;
 
@@ -67,7 +69,7 @@ void (async () => {
     log.info(
       "Default profile found. Redirecting user to the main Index route."
     );
-    if (isProd) {
+    if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
       await mainWindow.loadURL(`app://./${locale}/`);
     } else {
       await mainWindow.loadURL(`http://localhost:${port}/${locale}`);

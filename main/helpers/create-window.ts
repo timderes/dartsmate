@@ -6,8 +6,13 @@ import {
   Rectangle,
 } from "electron";
 import Store from "electron-store";
-import { isProd, minWindowSize } from "../background";
+
 import log from "electron-log";
+
+import {
+  IS_APP_RUNNING_IN_PRODUCTION_MODE,
+  MINIMAL_WINDOW_SIZE,
+} from "../constants";
 
 export default (
   windowName: string,
@@ -17,8 +22,8 @@ export default (
   const name = `window-state-${windowName}`;
   const store = new Store({ name });
   const defaultSize = {
-    width: minWindowSize.width,
-    height: minWindowSize.height,
+    height: MINIMAL_WINDOW_SIZE.height,
+    width: MINIMAL_WINDOW_SIZE.width,
   };
   let state = {};
 
@@ -85,15 +90,15 @@ export default (
       ...options.webPreferences,
     },
     // Keep frame and menu bar for easier debugging in dev mode
-    autoHideMenuBar: isProd ? true : false,
+    autoHideMenuBar: IS_APP_RUNNING_IN_PRODUCTION_MODE ? true : false,
     resizable: true,
     movable: true,
-    frame: isProd ? false : true,
+    frame: IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
   };
   win = new BrowserWindow(browserOptions);
 
   // Remove application menu, when the app runs in production mode
-  if (isProd) {
+  if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
     win.setMenu(null);
     Menu.setApplicationMenu(null);
   }
@@ -103,7 +108,7 @@ export default (
   // https://stackoverflow.com/questions/66257921/how-to-disable-next-previous-key-from-mouse-in-electron
   const disableMouseNavigation = async (): Promise<void> => {
     // Allow mouse navigation in dev mode
-    if (!isProd) return;
+    if (!IS_APP_RUNNING_IN_PRODUCTION_MODE) return;
 
     const disableNavigationScript = `
     document.addEventListener('mouseup', (event) => {
