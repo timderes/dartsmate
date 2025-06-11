@@ -29,7 +29,10 @@ import { DonutChart, type DonutChartCell } from "@mantine/charts";
 import getCategorizedThrows from "utils/match/stats/getCategorizedThrows";
 
 const ViewMatchPage: NextPage = () => {
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language: locale },
+  } = useTranslation();
 
   const [matchData] = useSessionStorage<Match>({
     key: "currentMatch",
@@ -71,8 +74,9 @@ const ViewMatchPage: NextPage = () => {
         <Table.Td>{player.scoreLeft}</Table.Td>
         <Table.Td>
           <NumberFormatter
-            decimalScale={2}
             value={getTotalMatchAvg(player.rounds)}
+            decimalScale={2}
+            decimalSeparator={Intl.NumberFormat(locale).format(1.1).charAt(1)}
           />
         </Table.Td>
         <Table.Td>
