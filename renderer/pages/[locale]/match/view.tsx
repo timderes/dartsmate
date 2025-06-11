@@ -107,7 +107,13 @@ const ViewMatchPage: NextPage = () => {
 
   return (
     <DefaultLayout withNavbarOpen>
-      <Title>Match Results</Title>
+      <Title>
+        {t("results:title", {
+          gameMode: `${matchData.initialScore}-${matchData.matchCheckout}`,
+          playerAmount: matchData.players.length,
+          count: matchData.players.length,
+        })}
+      </Title>
       <Text opacity={0.8}>{getLocaleDate(matchData.createdAt)}</Text>
       <Tabs defaultValue="result">
         <Tabs.List>

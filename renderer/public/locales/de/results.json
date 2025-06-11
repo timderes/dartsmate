@@ -1,4 +1,6 @@
 {
+  "title_one": "Spielergebnisse - {{playerAmount}} Spieler {{gameMode}}-Out",
+  "title_other": "Spielergebnisse - {{playerAmount}} Spieler {{gameMode}}-Out",
   "tabs": {
     "title": {
       "result": "Ergebnisse",
