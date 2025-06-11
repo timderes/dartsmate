@@ -29,10 +29,7 @@ import { DonutChart, type DonutChartCell } from "@mantine/charts";
 import getCategorizedThrows from "utils/match/stats/getCategorizedThrows";
 
 const ViewMatchPage: NextPage = () => {
-  const {
-    t,
-    // i18n: { language: locale },
-  } = useTranslation();
+  const { t } = useTranslation();
 
   const [matchData] = useSessionStorage<Match>({
     key: "currentMatch",
@@ -40,7 +37,11 @@ const ViewMatchPage: NextPage = () => {
   });
 
   if (!matchData) {
-    return <DefaultLayout withNavbarOpen>Missing Match Data</DefaultLayout>;
+    return (
+      <DefaultLayout withNavbarOpen>
+        {t("results:errorNoMatchData")}
+      </DefaultLayout>
+    );
   }
 
   const renderTableRows = matchData.players

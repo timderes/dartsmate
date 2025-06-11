@@ -8,5 +8,6 @@
   },
   "chartTitle": {
     "gameProgression": "Spielverlauf"
-  }
+  },
+  "errorNoMatchData": "Es konnten keine Ergebnisse für dieses Spiel geladen werden."
 }
