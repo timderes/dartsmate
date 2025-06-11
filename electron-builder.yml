@@ -13,7 +13,7 @@ publish:
   - provider: github
     protocol: https
     # Required for auto updater
-    owner: derechtenap
+    owner: timderes
     repo: dartsmate
 win:
   target: nsis
