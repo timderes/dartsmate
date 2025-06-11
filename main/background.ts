@@ -3,16 +3,11 @@ import serve from "electron-serve";
 import { createWindow } from "./helpers";
 import path from "path";
 import log from "electron-log";
+import { autoUpdater } from "electron-updater";
 import { appSettingsStore } from "./helpers/stores";
 import { getPreferredLocale, logSystemInfo } from "./helpers/utils";
-import { autoUpdater } from "electron-updater";
+import { MINIMAL_WINDOW_SIZE } from "./constants";
 
-export const isProd: boolean = process.env.NODE_ENV === "production";
-
-export const minWindowSize = {
-  height: 768,
-  width: 1024,
-};
 
 const sessionId = new Date().valueOf();
 
@@ -41,10 +36,10 @@ void (async () => {
   });
 
   const mainWindow = createWindow("main", {
-    height: minWindowSize.height,
-    width: minWindowSize.width,
-    minHeight: minWindowSize.height,
-    minWidth: minWindowSize.width,
+    height: MINIMAL_WINDOW_SIZE.height,
+    width: MINIMAL_WINDOW_SIZE.width,
+    minHeight: MINIMAL_WINDOW_SIZE.height,
+    minWidth: MINIMAL_WINDOW_SIZE.width,
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: true,
