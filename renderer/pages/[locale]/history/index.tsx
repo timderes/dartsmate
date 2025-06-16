@@ -24,6 +24,7 @@ import { useSessionStorage } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import EmptyState from "@/components/content/EmptyState";
 import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
+import getMatchWinner from "@/lib/playing/getMatchWinner";
 
 const HistoryPage = () => {
   const {
@@ -91,7 +92,13 @@ const HistoryPage = () => {
           ))}
         </AvatarGroup>
       </Table.Td>
-      <Table.Td>{t(`match:matchStatus.${match.matchStatus}`)}</Table.Td>
+      <Table.Td>
+        {match.matchStatus === "finished"
+          ? t("match:playerWon", {
+              PLAYER_NAME: getMatchWinner(match)?.name.firstName,
+            })
+          : t(`match:matchStatus.${match.matchStatus}`)}
+      </Table.Td>
       <Table.Td>
         <ActionIconGroup>
           <ActionIcon>
