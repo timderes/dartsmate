@@ -40,3 +40,9 @@ export const MATCH_SCORE = {
   MIN: 3,
   MAX: 901,
 };
+
+/*
+ * Maximum number of notifications displayed at a time, other new notifications
+ * will be added to queue.
+ */
+export const NOTIFICATION_LIMIT = 3;

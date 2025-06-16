@@ -3,6 +3,7 @@ import { MantineProvider } from "@mantine/core";
 import { appWithTranslation } from "next-i18next";
 import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
+import { NOTIFICATION_LIMIT } from "utils/constants";
 
 // All packages except `@mantine/hooks` require styles imports!
 import "@mantine/core/styles.css";
@@ -22,7 +23,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         primaryColor: "red",
       }}
     >
-      <Notifications position="top-right" limit={5} />
+      <Notifications position="top-right" limit={NOTIFICATION_LIMIT} />
       <ModalsProvider>
         <Component {...pageProps} />
       </ModalsProvider>
