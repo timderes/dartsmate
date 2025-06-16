@@ -14,7 +14,7 @@ const useProfileForm = (isGuestProfile: boolean) => {
   const theme = useMantineTheme();
   const userUUID = getUUID();
   const [avatarColor, setAvatarColor] = useState<DefaultMantineColor>(
-    theme.primaryColor
+    theme.primaryColor,
   );
   const { t } = useTranslation(["profile"]);
 
@@ -31,6 +31,13 @@ const useProfileForm = (isGuestProfile: boolean) => {
       updatedAt: Date.now(),
       color: avatarColor,
       country: undefined,
+      statistics: {
+        average: 0,
+        playedMatches: 0,
+        playedTrainings: 0,
+        thrownDarts: 0,
+        thrownOneHundredAndEighty: 0,
+      },
       name: {
         firstName: "",
         lastName: "",

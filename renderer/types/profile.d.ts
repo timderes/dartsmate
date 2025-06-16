@@ -21,4 +21,12 @@ declare type Profile = {
   //  isBetaUser: boolean;
   //  isProUser: boolean;
   // };
+  statistics: {
+    // TODO: Add more statistics
+    average: number;
+    playedMatches: number;
+    playedTrainings: number;
+    thrownDarts: number;
+    thrownOneHundredAndEighty: number;
+  };
 };

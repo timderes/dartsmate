@@ -61,6 +61,13 @@ const EditProfilePage: NextPage = () => {
         firstName: "",
         lastName: "",
       },
+      statistics: {
+        average: 0,
+        playedMatches: 0,
+        playedTrainings: 0,
+        thrownDarts: 0,
+        thrownOneHundredAndEighty: 0,
+      },
       username: "",
       updatedAt: 0,
       uuid: "",
@@ -117,7 +124,7 @@ const EditProfilePage: NextPage = () => {
   const handleEdit = () => {
     updateProfileFromDatabase(
       { ...form.values, updatedAt: Date.now() },
-      form.values.uuid
+      form.values.uuid,
     )
       .then(() => {
         notifications.show({
