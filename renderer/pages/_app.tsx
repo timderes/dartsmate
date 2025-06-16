@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { MantineProvider } from "@mantine/core";
+import { createTheme, MantineProvider } from "@mantine/core";
 import { appWithTranslation } from "next-i18next";
 import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
@@ -15,14 +15,16 @@ import "@mantine/charts/styles.css";
 import "../styles/globals.css";
 import "../styles/scrollbar.css";
 
+/*
+ * @see https://mantine.dev/theming/mantine-provider/#theme
+ */
+const appTheme = createTheme({
+  primaryColor: "red",
+});
+
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <MantineProvider
-      defaultColorScheme="auto"
-      theme={{
-        primaryColor: "red",
-      }}
-    >
+    <MantineProvider defaultColorScheme="auto" theme={appTheme}>
       <Notifications position="top-right" limit={NOTIFICATION_LIMIT} />
       <ModalsProvider>
         <Component {...pageProps} />
