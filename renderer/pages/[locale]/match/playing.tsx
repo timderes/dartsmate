@@ -366,7 +366,6 @@ const PlayingPage: NextPage = () => {
 
     updateProfileFromDatabase(
       {
-        ...player,
         statistics: {
           ...newStatistics,
         },
