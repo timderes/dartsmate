@@ -66,6 +66,7 @@ import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
 import updateProfileFromDatabase from "@/lib/db/profiles/updateProfile";
 import log from "electron-log/renderer";
 import getNumberOfRoundsAboveThreshold from "utils/match/stats/getScoresAbove";
+import getMatchWinner from "@/lib/playing/getMatchWinner";
 
 const PlayingPage: NextPage = () => {
   const theme = useMantineTheme();
@@ -571,7 +572,7 @@ const PlayingPage: NextPage = () => {
               {t("match:nextPlayer")}
             </Button>
             <Divider />
-            {players[currentPlayerIndex]?.isWinner ? (
+            {getMatchWinner(matchSessionData) ? (
               <Button onClick={() => handleFinishedMatch()}>
                 {t("match:closeFinishedMatch")}
               </Button>
