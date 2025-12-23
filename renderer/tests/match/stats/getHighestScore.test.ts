@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import getHighestScore from "../../../utils/match/stats/getHighestScore";
+import getHighestScore from "@utils/match/stats/getHighestScore";
 
 describe("match.stats.getHighestScore", () => {
   it("returns 0 when there are no match rounds", () => {
