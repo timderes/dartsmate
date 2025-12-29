@@ -6,7 +6,7 @@ const Board = () => {
    * AUTHOR: Cmglee <https://commons.wikimedia.org/wiki/User:Cmglee>
    * LICENSE: CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0/>
    * CONVERTED WITH svg2jsx <https://svg2jsx.com/>
-   * MODIFIED BY: derechtenap <https://github.com/derechtenap/>
+   * MODIFIED BY: Tim Deres <https://github.com/timderes/>
    */
 
   // TODO: The values should be adjustable via the settings
