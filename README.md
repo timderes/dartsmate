@@ -28,6 +28,7 @@
 | `npm run lint`        | Check the project for potential errors or issues                                    |
 | `npm run lint:fix`    | Check the project for errors or issues and attempt to automatically fix them        |
 | `npm run format`      | Format the project code                                                             |
+| `npm run test`        |                                                                                     |
 
 ## :construction_worker: Contributors
 
