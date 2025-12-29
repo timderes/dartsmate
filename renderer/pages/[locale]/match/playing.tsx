@@ -165,14 +165,14 @@ const PlayingPage: NextPage = () => {
   const isLastThrowCheckout = (
     checkout: Checkout,
     scoreLeft: number,
-    throwedScore: number,
+    thrownScore: number,
   ): boolean => {
     if (matchRound.length === 0) {
       // Can't win without a throw
       return false;
     }
 
-    if (scoreLeft - throwedScore !== 0) {
+    if (scoreLeft - thrownScore !== 0) {
       // Remaining score was not 0!
       return false;
     }
