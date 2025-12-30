@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { gameReducer } from "@/hooks/useDartGame";
+import { gameReducer } from "@hooks/useDartGame";
 import type { Player } from "types/match";
 
 const createMockPlayer = (id: string, name: string): Player => ({

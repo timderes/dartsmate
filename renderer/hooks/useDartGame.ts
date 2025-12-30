@@ -13,14 +13,14 @@ import {
   SCORE_OUTER_BULL,
   THROWS_PER_ROUND,
   APP_VERSION,
-} from "utils/constants";
-import { applyScoreMultiplier } from "utils/match/helper/applyScoreMultiplier";
-import isNonMultipleScore from "utils/match/helper/isNonMultipleScore";
+} from "@utils/constants";
+import { applyScoreMultiplier } from "@utils/match/helper/applyScoreMultiplier";
+import isNonMultipleScore from "@utils/match/helper/isNonMultipleScore";
 import isBust from "@/lib/playing/stats/isBust";
 import {
   getScores,
   getTotalRoundScore,
-} from "utils/match/stats/getTotalRoundScore";
+} from "@utils/match/stats/getTotalRoundScore";
 import { useElapsedTime } from "use-elapsed-time";
 
 // --- Types ---
@@ -55,7 +55,7 @@ const isWinningThrow = (
   checkoutType: Checkout,
   scoreLeft: number,
   roundTotal: number,
-  lastThrow: DartThrow
+  lastThrow: DartThrow,
 ): boolean => {
   if (scoreLeft - roundTotal !== 0) return false;
 
@@ -70,7 +70,10 @@ const isWinningThrow = (
 
 // --- Reducer ---
 
-export const gameReducer = (state: GameState, action: GameAction): GameState => {
+export const gameReducer = (
+  state: GameState,
+  action: GameAction,
+): GameState => {
   switch (action.type) {
     case "INIT_GAME": {
       const matchData = action.payload;
@@ -151,7 +154,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
           state.matchCheckout,
           currentPlayer.scoreLeft,
           totalRoundScore,
-          lastThrow
+          lastThrow,
         );
 
       // 2. Check Bust
@@ -176,7 +179,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
             ...state.matchRound,
             ...Array.from(
               { length: THROWS_PER_ROUND - state.matchRound.length },
-              () => emptyThrow
+              () => emptyThrow,
             ),
           ];
 
@@ -196,15 +199,11 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         ...currentPlayer,
         rounds: [...currentPlayer.rounds, matchRoundData],
         isWinner: isWinner,
-        scoreLeft: isWinner
-          ? 0
-          : bust
-          ? currentPlayer.scoreLeft
-          : newScoreLeft,
+        scoreLeft: isWinner ? 0 : bust ? currentPlayer.scoreLeft : newScoreLeft,
       };
 
       const updatedPlayers = state.players.map((p, i) =>
-        i === state.currentPlayerIndex ? updatedPlayer : p
+        i === state.currentPlayerIndex ? updatedPlayer : p,
       );
 
       return {

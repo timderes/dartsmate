@@ -2,7 +2,7 @@ import {
   SCORE_BULLSEYE,
   SCORE_MISSED,
   SCORE_OUTER_BULL,
-} from "utils/constants";
+} from "@utils/constants";
 
 export const NON_MULTIPLE_SCORE_ZONES = new Set([
   SCORE_BULLSEYE,

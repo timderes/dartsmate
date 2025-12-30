@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Divider,
+  Flex,
   Grid,
   Group,
   LoadingOverlay,
@@ -45,7 +46,7 @@ import updateProfileFromDatabase from "@/lib/db/profiles/updateProfile";
 import log from "electron-log/renderer";
 import getNumberOfRoundsAboveThreshold from "utils/match/stats/getScoresAbove";
 import getMatchWinner from "@/lib/playing/getMatchWinner";
-import { useDartGame } from "@/hooks/useDartGame";
+import { useDartGame } from "hooks/useDartGame";
 import getTotalDartsThrown from "utils/match/stats/getTotalDartsThrown";
 import getHighestScore from "utils/match/stats/getHighestScore";
 
@@ -81,7 +82,7 @@ const PlayingPage: NextPage = () => {
 
   const getCardBackgroundColor = (
     color: string,
-    index: number
+    index: number,
   ): string | undefined => {
     if (index === currentPlayerIndex) {
       if (colorScheme === "dark") {
@@ -168,7 +169,7 @@ const PlayingPage: NextPage = () => {
           ...newStatistics,
         },
       },
-      player.uuid
+      player.uuid,
     ).catch((err) => {
       log.error("Failed to update player statistics. Error:", err);
     });
@@ -332,8 +333,8 @@ const PlayingPage: NextPage = () => {
                   {matchRound[_idx]?.isDouble
                     ? "D"
                     : matchRound[_idx]?.isTriple
-                    ? "T"
-                    : undefined}
+                      ? "T"
+                      : undefined}
                   {matchRound[_idx]?.dartboardZone ?? "-"}
                 </Text>
               ))}
