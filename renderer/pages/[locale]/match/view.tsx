@@ -12,6 +12,23 @@ import getNumberOfRoundsAboveThreshold from "@utils/match/stats/getScoresAbove";
 import { getTotalMatchAvg } from "@utils/match/stats/getTotalMatchAvg";
 import { getLocaleDate } from "@utils/misc/getLocalDate";
 import getCategorizedThrows from "@utils/match/stats/getCategorizedThrows";
+import { useSessionStorage } from "@mantine/hooks";
+import {
+  Group,
+  NumberFormatter,
+  Stack,
+  Table,
+  Text,
+  Tabs,
+  Title,
+  Tooltip,
+} from "@mantine/core";
+import {
+  IconChartHistogram,
+  IconCrown,
+  IconListNumbers,
+  IconUsers,
+} from "@tabler/icons-react";
 
 const ViewMatchPage: NextPage = () => {
   const {
