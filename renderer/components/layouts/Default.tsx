@@ -166,7 +166,7 @@ const DefaultLayout = ({
                   formatLocalizedRoute({
                     locale,
                     route: route.route,
-                  })
+                  }),
                 )
               }
             />
@@ -182,10 +182,7 @@ const DefaultLayout = ({
               {upperFirst(CLIENT_OS)}
             </Text>
             <Text component="span" fz="xs" display="block">
-              {t("networkStatus.text")}:{" "}
-              {NETWORK_STATUS
-                ? t("networkStatus.online")
-                : t("networkStatus.offline")}
+              {NETWORK_STATUS ? t("online") : t("offline")}
             </Text>
           </Text>
         </AppShell.Section>

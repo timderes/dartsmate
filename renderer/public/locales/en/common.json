@@ -14,11 +14,8 @@
   "date": "Date",
   "match": "Match",
   "match_plural": "Matches",
-  "networkStatus": {
-    "text": "Network Status",
-    "online": "Online",
-    "offline": "Offline"
-  },
+  "online": "Online",
+  "offline": "Offline",
   "loading": "Loading...",
   "closeApp": "Close",
   "routes": {

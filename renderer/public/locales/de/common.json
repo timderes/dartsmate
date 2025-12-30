@@ -14,11 +14,8 @@
   "date": "Datum",
   "match": "Spiel",
   "match_plural": "Spiele",
-  "networkStatus": {
-    "text": "Netzwerk-Status",
-    "online": "Verbunden",
-    "offline": "Offline"
-  },
+  "online": "Online",
+  "offline": "Offline",
   "loading": "Lädt...",
   "closeApp": "Schließen",
   "routes": {
