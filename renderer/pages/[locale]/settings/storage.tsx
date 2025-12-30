@@ -1,4 +1,4 @@
-import SettingsLayout from "@/components/layouts/SettingsLayout";
+import SettingsLayout from "@components/layouts/SettingsLayout";
 import {
   Button,
   Paper,
@@ -8,12 +8,12 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { useTranslation } from "next-i18next";
 import { modals } from "@mantine/modals";
-import deleteAllMatchesFromDatabase from "@/lib/db/matches/deleteAllMatches";
+import deleteAllMatchesFromDatabase from "@lib/db/matches/deleteAllMatches";
 import { notifications } from "@mantine/notifications";
-import deleteAllProfilesFromDatabase from "@/lib/db/profiles/deleteAllProfiles";
+import deleteAllProfilesFromDatabase from "@lib/db/profiles/deleteAllProfiles";
 import { useRouter } from "next/router";
 import formatLocalizedRoute from "utils/navigation/formatLocalizedRoute";
 import { useLocalStorage, useSessionStorage } from "@mantine/hooks";

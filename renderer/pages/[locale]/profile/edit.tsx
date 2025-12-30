@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
-import DefaultLayout from "@/components/layouts/Default";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import DefaultLayout from "@components/layouts/Default";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
-import type { Profile } from "@types/profile";
+import type { Profile } from "types/profile";
 import { useForm } from "@mantine/form";
 import {
   Button,
@@ -28,11 +28,11 @@ import {
 import { notifications } from "@mantine/notifications";
 import resizeAvatarImage from "@utils/avatars/resizeAvatarImage";
 import { DEFAULT_AVATAR_FILE_SIZE } from "@utils/avatars/constants";
-import ProfileAvatar from "@/components/content/ProfileAvatar";
+import ProfileAvatar from "@components/content/ProfileAvatar";
 import log from "electron-log/renderer";
-import useDefaultProfile from "@/hooks/getDefaultProfile";
-import updateProfileFromDatabase from "@/lib/db/profiles/updateProfile";
-import LoadingOverlay from "@/components/LoadingOverlay";
+import useDefaultProfile from "@hooks/getDefaultProfile";
+import updateProfileFromDatabase from "@lib/db/profiles/updateProfile";
+import LoadingOverlay from "@components/LoadingOverlay";
 
 const EditProfilePage: NextPage = () => {
   const {

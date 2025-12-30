@@ -2,10 +2,10 @@ import type { NextPage } from "next";
 import { useTranslation } from "next-i18next";
 import { DonutChart, type DonutChartCell } from "@mantine/charts";
 
-import type { Match } from "@types/match";
-import ProfileAvatar from "@/components/content/ProfileAvatar";
-import DefaultLayout from "@/components/layouts/Default";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import type { Match } from "types/match";
+import ProfileAvatar from "@components/content/ProfileAvatar";
+import DefaultLayout from "@components/layouts/Default";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 
 import getHighestScore from "@utils/match/stats/getHighestScore";
 import getNumberOfRoundsAboveThreshold from "@utils/match/stats/getScoresAbove";

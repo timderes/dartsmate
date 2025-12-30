@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import {
   BackgroundImage,
   Button,
@@ -13,9 +13,9 @@ import {
 import { useTranslation } from "next-i18next";
 import sendIPC from "utils/ipc/send";
 import { useRouter } from "next/router";
-import OnlyControlsLayout from "@/components/layouts/OnlyControlsLayout";
+import OnlyControlsLayout from "@components/layouts/OnlyControlsLayout";
 import { APP_NAME } from "utils/constants";
-import { headerHeight } from "@/components/layouts/Default";
+import { headerHeight } from "@components/layouts/Default";
 
 /**
  * Renders the `ProfileSetupIntroPage`, displayed when no default profile exists.

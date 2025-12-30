@@ -1,4 +1,4 @@
-import SettingsLayout from "@/components/layouts/SettingsLayout";
+import SettingsLayout from "@components/layouts/SettingsLayout";
 import {
   Center,
   isMantineColorScheme,
@@ -10,7 +10,7 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 import { IconDeviceDesktop, IconMoon, IconSun } from "@tabler/icons-react";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { useTranslation } from "next-i18next";
 import getDefaultIconSize from "utils/misc/getDefaultIconSize";
 import log from "electron-log/renderer";

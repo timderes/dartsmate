@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import {
   Button,
   Card,
@@ -28,7 +28,7 @@ import { modals } from "@mantine/modals";
 import { IconCrown, IconEraser } from "@tabler/icons-react";
 import log from "electron-log/renderer";
 
-import type { Player } from "@types/match";
+import type { Player } from "types/match";
 
 import OnlyControlsLayout from "@components/layouts/OnlyControlsLayout";
 import ProfileAvatar from "@components/content/ProfileAvatar";

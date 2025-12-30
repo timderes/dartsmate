@@ -1,23 +1,23 @@
 import type { NextPage } from "next";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { Box, Button, Group, Stack, Stepper, Text } from "@mantine/core";
 import { useTranslation } from "next-i18next";
 import { createElement, useState, FormEvent } from "react";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import log from "electron-log/renderer";
-import addProfileToDatabase from "@/lib/db/profiles/addProfile";
+import addProfileToDatabase from "@lib/db/profiles/addProfile";
 import { notifications } from "@mantine/notifications";
 import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
-import OnlyControlsLayout from "@/components/layouts/OnlyControlsLayout";
-import useProfileForm from "@/hooks/useProfileForm";
-import StepOne from "@/components/content/profileCreation/StepOne";
+import OnlyControlsLayout from "@components/layouts/OnlyControlsLayout";
+import useProfileForm from "@hooks/useProfileForm";
+import StepOne from "@components/content/profileCreation/StepOne";
 
 import { modals } from "@mantine/modals";
-import StepTwo from "@/components/content/profileCreation/StepTwo";
-import StepThree from "@/components/content/profileCreation/StepThree";
+import StepTwo from "@components/content/profileCreation/StepTwo";
+import StepThree from "@components/content/profileCreation/StepThree";
 import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
-import { headerHeight } from "@/components/layouts/Default";
+import { headerHeight } from "@components/layouts/Default";
 
 /**
  *

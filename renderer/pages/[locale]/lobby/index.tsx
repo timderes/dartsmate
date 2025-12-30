@@ -18,7 +18,7 @@ import {
   Tooltip,
   rem,
 } from "@mantine/core";
-import type { Profile } from "@types/profile";
+import type { Profile } from "types/profile";
 import ProfileAvatar from "@components/content/ProfileAvatar";
 import { useDisclosure, useListState, useSessionStorage } from "@mantine/hooks";
 import {
@@ -28,7 +28,7 @@ import {
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
-import type { Match } from "@types/match";
+import type { Match } from "types/match";
 import {
   APP_VERSION,
   DEFAULT_MATCH_SETTINGS,

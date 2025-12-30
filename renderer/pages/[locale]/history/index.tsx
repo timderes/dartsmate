@@ -4,7 +4,7 @@ import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import DefaultLayout, { headerHeight } from "@components/layouts/Default";
 import getAllMatchesFromDatabase from "@lib/db/matches/getAllMatches";
 import { useEffect, useState } from "react";
-import type { Match } from "@types/match";
+import type { Match } from "types/match";
 import {
   ActionIcon,
   ActionIconGroup,

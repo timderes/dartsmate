@@ -1,7 +1,7 @@
-import SettingsLayout from "@/components/layouts/SettingsLayout";
+import SettingsLayout from "@components/layouts/SettingsLayout";
 import { type ComboboxData, Select, Stack, Text, Title } from "@mantine/core";
 
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { useTranslation } from "next-i18next";
 import { i18n as _i18n } from "../../.././../next-i18next.config";
 import { useEffect } from "react";

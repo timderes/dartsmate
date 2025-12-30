@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import type { NextPage } from "next";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
-import DefaultLayout from "@/components/layouts/Default";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
+import DefaultLayout from "@components/layouts/Default";
 import {
   ActionIcon,
   Divider,
@@ -14,10 +14,10 @@ import {
 } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import Stat from "@/components/content/Stat";
+import Stat from "@components/content/Stat";
 import getFormattedName from "@utils/misc/getFormattedName";
-import ProfileAvatar from "@/components/content/ProfileAvatar";
-import useDefaultProfile from "@/hooks/getDefaultProfile";
+import ProfileAvatar from "@components/content/ProfileAvatar";
+import useDefaultProfile from "@hooks/getDefaultProfile";
 
 const ProfileIndexPage: NextPage = () => {
   const {

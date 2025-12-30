@@ -1,6 +1,6 @@
 import { Button, Group, Paper, Title, Text } from "@mantine/core";
 import { useTranslation } from "next-i18next";
-import ProfileAvatar from "@/components/content/ProfileAvatar";
+import ProfileAvatar from "@components/content/ProfileAvatar";
 import { IconCamera, IconPhotoUp, IconPhotoX } from "@tabler/icons-react";
 import { FileButton } from "@mantine/core";
 import { useState, useEffect } from "react";

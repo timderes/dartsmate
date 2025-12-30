@@ -5,7 +5,7 @@ import type {
   DartThrow,
   MatchRound,
   Checkout,
-} from "@types/match";
+} from "types/match";
 import { useSessionStorage } from "@mantine/hooks";
 import {
   SCORE_BULLSEYE,
