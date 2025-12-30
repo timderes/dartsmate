@@ -9,9 +9,7 @@ import log from "electron-log/renderer";
 import addProfileToDatabase from "@/lib/db/profiles/addProfile";
 import { notifications } from "@mantine/notifications";
 import formatLocalizedRoute from "utils/navigation/formatLocalizedRoute";
-import OnlyControlsLayout, {
-  headerHeightOnlyControls,
-} from "@/components/layouts/OnlyControlsLayout";
+import OnlyControlsLayout from "@/components/layouts/OnlyControlsLayout";
 import useProfileForm from "hooks/useProfileForm";
 import StepOne from "@/components/content/profileCreation/StepOne";
 
@@ -19,6 +17,7 @@ import { modals } from "@mantine/modals";
 import StepTwo from "@/components/content/profileCreation/StepTwo";
 import StepThree from "@/components/content/profileCreation/StepThree";
 import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
+import { headerHeight } from "@/components/layouts/Default";
 
 /**
  *
@@ -34,7 +33,7 @@ const CreateProfilePage: NextPage = () => {
   const isGuestProfile = params.get("isGuest") ? true : false;
   const { form } = useProfileForm(isGuestProfile);
 
-  const pageHeight = `calc(100vh - ${headerHeightOnlyControls}px)`;
+  const pageHeight = `calc(100vh - ${headerHeight}px)`;
 
   const steps = [
     { label: t("profile:step.label.profile"), step: StepOne },
@@ -80,7 +79,7 @@ const CreateProfilePage: NextPage = () => {
       children: <Text>{t("profile:cancelProfileCreation.text")}</Text>,
       onConfirm: () =>
         void router.push(
-          formatLocalizedRoute({ locale, route: "/profileSetupIntro" })
+          formatLocalizedRoute({ locale, route: "/profileSetupIntro" }),
         ),
       labels: {
         confirm: t("confirm"),

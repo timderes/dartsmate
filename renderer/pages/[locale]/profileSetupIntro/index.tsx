@@ -13,10 +13,9 @@ import {
 import { useTranslation } from "next-i18next";
 import sendIPC from "utils/ipc/send";
 import { useRouter } from "next/router";
-import OnlyControlsLayout, {
-  headerHeightOnlyControls,
-} from "@/components/layouts/OnlyControlsLayout";
+import OnlyControlsLayout from "@/components/layouts/OnlyControlsLayout";
 import { APP_NAME } from "utils/constants";
+import { headerHeight } from "@/components/layouts/Default";
 
 /**
  * Renders the `ProfileSetupIntroPage`, displayed when no default profile exists.
@@ -30,7 +29,7 @@ const ProfileSetupIntroPage: NextPage = () => {
   } = useTranslation();
 
   const router = useRouter();
-  const pageHeight = `calc(100vh - ${headerHeightOnlyControls}px)`;
+  const pageHeight = `calc(100vh - ${headerHeight}px)`;
 
   const renderLeftColumn = () => {
     return <BackgroundImage src="/images/dartboard.jpg" h="100%" />;

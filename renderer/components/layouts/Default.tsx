@@ -36,8 +36,9 @@ type DefaultLayoutProps = {
   withNavbarOpen: boolean;
 };
 
-export const headerHeight = 50; // px
+export const headerHeight = 32; // px
 export const navbarWidth = 200; // px
+export const navbarIconSize = 24;
 
 const DefaultLayout = ({
   children,
@@ -106,6 +107,7 @@ const DefaultLayout = ({
             <Tooltip label={t("toggleNavigation")} withArrow>
               <ActionIcon
                 color="gray"
+                size={navbarIconSize}
                 onClick={toggleNavbar}
                 variant="transparent"
               >
@@ -121,6 +123,7 @@ const DefaultLayout = ({
               <Tooltip label={t("minimizeApp")} withArrow>
                 <ActionIcon
                   c="dimmed"
+                  size={navbarIconSize}
                   onClick={() => sendIPC("minimize-app-window")}
                   variant="transparent"
                 >
@@ -134,6 +137,7 @@ const DefaultLayout = ({
             >
               <ActionIcon
                 c="dimmed"
+                size={navbarIconSize}
                 onClick={() => void toggleFullscreen()}
                 variant="transparent"
               >
@@ -143,6 +147,7 @@ const DefaultLayout = ({
             <Tooltip label={t("closeApp")} withArrow>
               <ActionIcon
                 c="dimmed"
+                size={navbarIconSize}
                 onClick={() => sendIPC("close-app")}
                 variant="transparent"
               >
