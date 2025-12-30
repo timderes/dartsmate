@@ -17,12 +17,11 @@ import { useTranslation } from "next-i18next";
 
 import { APP_NAME } from "utils/constants";
 import sendIPC from "utils/ipc/send";
+import { navbarIconSize, headerHeight } from "./Default";
 
 type OnlyControlsLayoutProps = {
   children: React.ReactNode;
 };
-
-export const headerHeightOnlyControls = 50; // px
 
 const OnlyControlsLayout = ({ children }: OnlyControlsLayoutProps) => {
   const { toggle: toggleFullscreen, fullscreen } = useFullscreen();
@@ -32,15 +31,15 @@ const OnlyControlsLayout = ({ children }: OnlyControlsLayoutProps) => {
   return (
     <AppShell
       header={{
-        height: headerHeightOnlyControls,
+        height: headerHeight,
       }}
     >
       <AppShell.Header className="draggable">
         <Flex
           align="center"
           justify="space-between"
-          h={headerHeightOnlyControls}
-          mah={headerHeightOnlyControls}
+          h={headerHeight}
+          mah={headerHeight}
           px="sm"
           w="100%"
         >
@@ -54,6 +53,7 @@ const OnlyControlsLayout = ({ children }: OnlyControlsLayoutProps) => {
               <Tooltip label={t("minimizeApp")} withArrow>
                 <ActionIcon
                   c="dimmed"
+                  size={navbarIconSize}
                   onClick={() => sendIPC("minimize-app-window")}
                   variant="transparent"
                 >
@@ -67,6 +67,7 @@ const OnlyControlsLayout = ({ children }: OnlyControlsLayoutProps) => {
             >
               <ActionIcon
                 c="dimmed"
+                size={navbarIconSize}
                 onClick={() => void toggleFullscreen()}
                 variant="transparent"
               >
@@ -76,6 +77,7 @@ const OnlyControlsLayout = ({ children }: OnlyControlsLayoutProps) => {
             <Tooltip label={t("closeApp")} withArrow>
               <ActionIcon
                 c="dimmed"
+                size={navbarIconSize}
                 onClick={() => sendIPC("close-app")}
                 variant="transparent"
               >

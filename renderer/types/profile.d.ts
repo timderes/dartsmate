@@ -1,9 +1,11 @@
 import type { DefaultMantineColor } from "@mantine/core";
+import type Country from "@workmate/country-and-currency/lib/resources/Country";
 
 declare type Profile = {
   avatarImage?: string;
   bio: string;
   color: DefaultMantineColor;
+  country?: Country["iso2"];
   createdAt: number;
   isGuestProfile?: boolean;
   name: {
@@ -19,4 +21,12 @@ declare type Profile = {
   //  isBetaUser: boolean;
   //  isProUser: boolean;
   // };
+  statistics: {
+    // TODO: Add more statistics
+    average: number;
+    playedMatches: number;
+    playedTrainings: number;
+    thrownDarts: number;
+    thrownOneHundredAndEighty: number;
+  };
 };

@@ -32,6 +32,8 @@ const ProfileIndexPage: NextPage = () => {
     return <DefaultLayout withNavbarOpen>UNABLE TO LOAD PROFILE</DefaultLayout>;
   }
 
+  const stats = defaultProfile.statistics;
+
   return (
     <DefaultLayout withNavbarOpen>
       <Paper component="header" radius={0} p="xl" m={0}>
@@ -71,13 +73,16 @@ const ProfileIndexPage: NextPage = () => {
           </Paper>
           <Divider />
           <Group gap="xl" ta="center" grow>
-            <Stat text={t("stats.darts")} value={0} />
-            <Stat text={t("stats.180s")} value={0} />
-            <Stat text={t("stats.matches")} value={0} />
-            <Stat text={t("stats.trainings")} value={0} />
+            <Stat text={t("stats.darts")} value={stats.thrownDarts} />
+            <Stat
+              text={t("stats.180s")}
+              value={stats.thrownOneHundredAndEighty}
+            />
+            <Stat text={t("stats.matches")} value={stats.playedMatches} />
+            <Stat text={t("stats.trainings")} value={stats.playedTrainings} />
             <Stat
               text={t("stats.avg")}
-              value={0}
+              value={stats.average}
               numberProps={{
                 decimalScale: 2,
               }}

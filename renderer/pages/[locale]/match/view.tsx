@@ -31,7 +31,7 @@ import getCategorizedThrows from "utils/match/stats/getCategorizedThrows";
 const ViewMatchPage: NextPage = () => {
   const {
     t,
-    // i18n: { language: locale },
+    i18n: { language: locale },
   } = useTranslation();
 
   const [matchData] = useSessionStorage<Match>({
@@ -40,7 +40,11 @@ const ViewMatchPage: NextPage = () => {
   });
 
   if (!matchData) {
-    return <DefaultLayout withNavbarOpen>Missing Match Data</DefaultLayout>;
+    return (
+      <DefaultLayout withNavbarOpen>
+        {t("results:errorNoMatchData")}
+      </DefaultLayout>
+    );
   }
 
   const renderTableRows = matchData.players
@@ -70,8 +74,9 @@ const ViewMatchPage: NextPage = () => {
         <Table.Td>{player.scoreLeft}</Table.Td>
         <Table.Td>
           <NumberFormatter
-            decimalScale={2}
             value={getTotalMatchAvg(player.rounds)}
+            decimalScale={2}
+            decimalSeparator={Intl.NumberFormat(locale).format(1.1).charAt(1)}
           />
         </Table.Td>
         <Table.Td>
@@ -102,7 +107,13 @@ const ViewMatchPage: NextPage = () => {
 
   return (
     <DefaultLayout withNavbarOpen>
-      <Title>Match Results</Title>
+      <Title>
+        {t("results:title", {
+          gameMode: `${matchData.initialScore}-${matchData.matchCheckout}`,
+          playerAmount: matchData.players.length,
+          count: matchData.players.length,
+        })}
+      </Title>
       <Text opacity={0.8}>{getLocaleDate(matchData.createdAt)}</Text>
       <Tabs defaultValue="result">
         <Tabs.List>

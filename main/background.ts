@@ -3,20 +3,17 @@ import serve from "electron-serve";
 import { createWindow } from "./helpers";
 import path from "path";
 import log from "electron-log";
+import { autoUpdater } from "electron-updater";
 import { appSettingsStore } from "./helpers/stores";
 import { getPreferredLocale, logSystemInfo } from "./helpers/utils";
-import { autoUpdater } from "electron-updater";
-
-export const isProd: boolean = process.env.NODE_ENV === "production";
-
-export const minWindowSize = {
-  height: 768,
-  width: 1024,
-};
+import {
+  IS_APP_RUNNING_IN_PRODUCTION_MODE,
+  MINIMAL_WINDOW_SIZE,
+} from "./constants";
 
 const sessionId = new Date().valueOf();
 
-if (isProd) {
+if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
   serve({ directory: "app" });
 
   log.transports.file.resolvePathFn = () => {
@@ -32,19 +29,19 @@ void (async () => {
     log.initialize(); // Initialize the logger for renderer process
     autoUpdater.logger = log;
 
-    if (isProd) {
-      autoUpdater.allowPrerelease = false; // TODO: Maybe remove after releasing stable versions
-      autoUpdater.checkForUpdatesAndNotify();
+    if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
+      autoUpdater.allowPrerelease = false;
+      void autoUpdater.checkForUpdatesAndNotify();
     } else {
       log.info("Skipping auto-updater in development mode.");
     }
   });
 
   const mainWindow = createWindow("main", {
-    height: minWindowSize.height,
-    width: minWindowSize.width,
-    minHeight: minWindowSize.height,
-    minWidth: minWindowSize.width,
+    height: MINIMAL_WINDOW_SIZE.height,
+    width: MINIMAL_WINDOW_SIZE.width,
+    minHeight: MINIMAL_WINDOW_SIZE.height,
+    minWidth: MINIMAL_WINDOW_SIZE.width,
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: true,
@@ -58,17 +55,21 @@ void (async () => {
   const defaultProfile = appSettingsStore.get("defaultProfileUUID");
 
   const port = process.argv[2];
-  const welcomeRoute = isProd
-    ? `app://./${locale}/welcome`
-    : `http://localhost:${port}/${locale}/welcome`;
+  const profileSetupIntroRoute = IS_APP_RUNNING_IN_PRODUCTION_MODE
+    ? `app://./${locale}/profileSetupIntro`
+    : `http://localhost:${port}/${locale}/profileSetupIntro`;
 
   if (!defaultProfile) {
-    // Default profile is undefined, load url to create a new profile
-    log.info("Default profile is undefined. Redirect user to welcome route.");
-    await mainWindow.loadURL(welcomeRoute);
+    log.info(
+      "No default profile detected. Redirecting user to the Profile Setup Intro route: %s",
+      profileSetupIntroRoute
+    );
+    await mainWindow.loadURL(profileSetupIntroRoute);
   } else {
-    log.info("Found default profile. Direct user to index route.");
-    if (isProd) {
+    log.info(
+      "Default profile found. Redirecting user to the main Index route."
+    );
+    if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
       await mainWindow.loadURL(`app://./${locale}/`);
     } else {
       await mainWindow.loadURL(`http://localhost:${port}/${locale}`);
@@ -98,7 +99,7 @@ autoUpdater.on("update-not-available", () => {
 });
 
 autoUpdater.on("error", (error) => {
-  log.error("Error in auto-updater. " + error);
+  log.error(`Error in auto-updater: ${error.message}`);
 });
 
 autoUpdater.on("update-downloaded", () => {

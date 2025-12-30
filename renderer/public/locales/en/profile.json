@@ -56,7 +56,7 @@
   "webcam": "Webcam",
   "removePhotoUpload": "Remove Photo",
   "exportProfile": "Export Profile",
-  "emptyBioPlaceholder": "{{FIRST_NAME}} has not added a description.",
+  "emptyBioPlaceholder": "{{FIRST_NAME}} has not added a description yet.",
   "notifications": {
     "updateProfileSuccess": {
       "title": "Profile successfully updated!",
@@ -70,5 +70,9 @@
       "title": "Profile could not be created!",
       "text": "Please try again later."
     }
+  },
+  "cancelProfileCreation": {
+    "title": "Cancel Profile Creation",
+    "text": "Are you sure you want to cancel profile creation? All changes will be lost."
   }
 }

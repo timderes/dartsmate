@@ -14,11 +14,9 @@
   "date": "Datum",
   "match": "Spiel",
   "match_plural": "Spiele",
-  "networkStatus": {
-    "text": "Netzwerk-Status",
-    "online": "Verbunden",
-    "offline": "Offline"
-  },
+  "online": "Online",
+  "offline": "Offline",
+  "loading": "Lädt...",
   "closeApp": "Schließen",
   "routes": {
     "home": "Startseite",
@@ -88,5 +86,7 @@
     "title": "Oops! Es scheint, als gäbe es momentan keine Daten zum Anzeigen."
   },
   "greetingText": "Hallo, {{FIRST_NAME}}!",
-  "greetingSubtext": "Lass uns eine Runde Darts spielen."
+  "greetingSubtext": "Lass uns eine Runde Darts spielen.",
+  "playGameMode": "{{GAME_MODE}} starten...",
+  "country": "Land"
 }

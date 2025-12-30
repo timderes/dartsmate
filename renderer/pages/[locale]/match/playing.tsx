@@ -62,6 +62,11 @@ import { modals } from "@mantine/modals";
 import addMatchToDatabase from "@/lib/db/matches/addMatch";
 import getFirstNineAverage from "@/lib/playing/stats/getFirstNineAverage";
 import isBust from "@/lib/playing/stats/isBust";
+import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
+import updateProfileFromDatabase from "@/lib/db/profiles/updateProfile";
+import log from "electron-log/renderer";
+import getNumberOfRoundsAboveThreshold from "utils/match/stats/getScoresAbove";
+import getMatchWinner from "@/lib/playing/getMatchWinner";
 
 const PlayingPage: NextPage = () => {
   const theme = useMantineTheme();
@@ -115,7 +120,7 @@ const PlayingPage: NextPage = () => {
   }
 
   const handleMultiplierToggle = (
-    multiplierType: "double" | "triple"
+    multiplierType: "double" | "triple",
   ): void => {
     // Toggle the selected multiplier and reset the other to false
     setScoreMultiplier((prevMultiplier) => ({
@@ -133,7 +138,7 @@ const PlayingPage: NextPage = () => {
       score: applyScoreMultiplier(
         scoreMultiplier.double,
         scoreMultiplier.triple,
-        score
+        score,
       ),
       isBullseye: score === SCORE_BULLSEYE,
       isDouble: isNonMultipleScore(score) ? false : scoreMultiplier.double,
@@ -160,14 +165,14 @@ const PlayingPage: NextPage = () => {
   const isLastThrowCheckout = (
     checkout: Checkout,
     scoreLeft: number,
-    throwedScore: number
+    thrownScore: number,
   ): boolean => {
     if (matchRound.length === 0) {
       // Can't win without a throw
       return false;
     }
 
-    if (scoreLeft - throwedScore !== 0) {
+    if (scoreLeft - thrownScore !== 0) {
       // Remaining score was not 0!
       return false;
     }
@@ -205,7 +210,7 @@ const PlayingPage: NextPage = () => {
     const isWinner = isLastThrowCheckout(
       checkout,
       currentPlayer.scoreLeft,
-      totalRoundScore
+      totalRoundScore,
     );
 
     const emptyRoundData: DartThrow = {
@@ -222,7 +227,7 @@ const PlayingPage: NextPage = () => {
       ...matchRound,
       ...Array.from(
         { length: THROWS_PER_ROUND - matchRound.length },
-        () => emptyRoundData
+        () => emptyRoundData,
       ),
     ];
 
@@ -249,14 +254,14 @@ const PlayingPage: NextPage = () => {
         isWinner && newScoreLeft === 0
           ? 0
           : // Update score only if >0 and is not a bust!
-          newScoreLeft > 0 && !isBust(checkout, newScoreLeft)
-          ? newScoreLeft
-          : currentPlayer.scoreLeft,
+            newScoreLeft > 0 && !isBust(checkout, newScoreLeft)
+            ? newScoreLeft
+            : currentPlayer.scoreLeft,
     };
 
     // Update the players array with the updated current player data
     const updatedPlayers = players.map((player, index) =>
-      index === currentPlayerIndex ? updatedCurrentPlayer : player
+      index === currentPlayerIndex ? updatedCurrentPlayer : player,
     );
 
     playersActions.setState(updatedPlayers);
@@ -291,7 +296,7 @@ const PlayingPage: NextPage = () => {
 
   const getCardBackgroundColor = (
     color: string,
-    index: number
+    index: number,
   ): string | undefined => {
     if (index === currentPlayerIndex) {
       if (colorScheme === "dark") {
@@ -309,24 +314,24 @@ const PlayingPage: NextPage = () => {
   const openAbortModal = () =>
     modals.openConfirmModal({
       title: t("match:modalAbortMatch:title"),
-      centered: true,
       children: <Text size="sm">{t("match:modalAbortMatch:text")}</Text>,
       labels: {
         confirm: t("match:abortMatch"),
         cancel: t("match:modalAbortMatch:cancelButton"),
       },
-      overlayProps: {
-        backgroundOpacity: 0.75,
-        blur: 3,
-      },
-      confirmProps: { color: "red" },
       onConfirm: () => {
         void addMatchToDatabase({
           ...matchSessionData,
           matchStatus: "aborted",
         });
+
+        players.forEach((player) => {
+          handleUpdatePlayerStatistics(player);
+        });
+
         void router.push(`/${locale}/match/view`);
       },
+      ...SharedConfirmModalProps,
     });
 
   const handleAbortMatch = (): void => {
@@ -335,7 +340,40 @@ const PlayingPage: NextPage = () => {
 
   const handleFinishedMatch = (): void => {
     void addMatchToDatabase({ ...matchSessionData, matchStatus: "finished" });
+
+    players.forEach((player) => {
+      handleUpdatePlayerStatistics(player);
+    });
+
     void router.push(`/${locale}/match/view`);
+  };
+
+  const handleUpdatePlayerStatistics = (player: Player): void => {
+    const oldStatistics = player.statistics;
+
+    const newStatistics: Player["statistics"] = {
+      // TODO: Calculate the average needs more statistics. Add the these later
+      average: 0,
+      // Played trainings is not updated here, only matches
+      playedMatches: oldStatistics.playedMatches + 1,
+      playedTrainings: oldStatistics.playedTrainings,
+      thrownDarts:
+        oldStatistics.thrownDarts + player.rounds.length * THROWS_PER_ROUND,
+      thrownOneHundredAndEighty:
+        oldStatistics.thrownOneHundredAndEighty +
+        getNumberOfRoundsAboveThreshold(player.rounds, 180),
+    };
+
+    updateProfileFromDatabase(
+      {
+        statistics: {
+          ...newStatistics,
+        },
+      },
+      player.uuid,
+    ).catch((err) => {
+      log.error("Failed to update player statistics. Error:", err);
+    });
   };
 
   return (
@@ -497,8 +535,8 @@ const PlayingPage: NextPage = () => {
                   {matchRound[_idx]?.isDouble
                     ? "D"
                     : matchRound[_idx]?.isTriple
-                    ? "T"
-                    : undefined}
+                      ? "T"
+                      : undefined}
                   {matchRound[_idx]?.dartboardZone ?? "-"}
                 </Text>
               ))}
@@ -533,7 +571,7 @@ const PlayingPage: NextPage = () => {
               {t("match:nextPlayer")}
             </Button>
             <Divider />
-            {players[currentPlayerIndex]?.isWinner ? (
+            {getMatchWinner(matchSessionData) ? (
               <Button onClick={() => handleFinishedMatch()}>
                 {t("match:closeFinishedMatch")}
               </Button>

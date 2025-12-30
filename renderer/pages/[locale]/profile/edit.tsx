@@ -32,6 +32,7 @@ import ProfileAvatar from "@/components/content/ProfileAvatar";
 import log from "electron-log/renderer";
 import useDefaultProfile from "hooks/getDefaultProfile";
 import updateProfileFromDatabase from "@/lib/db/profiles/updateProfile";
+import LoadingOverlay from "@/components/LoadingOverlay";
 
 const EditProfilePage: NextPage = () => {
   const {
@@ -59,6 +60,13 @@ const EditProfilePage: NextPage = () => {
       name: {
         firstName: "",
         lastName: "",
+      },
+      statistics: {
+        average: 0,
+        playedMatches: 0,
+        playedTrainings: 0,
+        thrownDarts: 0,
+        thrownOneHundredAndEighty: 0,
       },
       username: "",
       updatedAt: 0,
@@ -116,7 +124,7 @@ const EditProfilePage: NextPage = () => {
   const handleEdit = () => {
     updateProfileFromDatabase(
       { ...form.values, updatedAt: Date.now() },
-      form.values.uuid
+      form.values.uuid,
     )
       .then(() => {
         notifications.show({
@@ -176,66 +184,68 @@ const EditProfilePage: NextPage = () => {
     });
   };
 
-  if (defaultProfile) {
-    return (
-      <DefaultLayout withNavbarOpen>
-        <Stack gap="xl" mt="xl">
-          <Dropzone
-            onDrop={(files) => handleFileChange(files)}
-            onReject={(files) => handleImageRejection(files)}
-            maxSize={DEFAULT_AVATAR_FILE_SIZE}
-            accept={IMAGE_MIME_TYPE}
-            maxFiles={1}
-            multiple={false}
-          >
-            <ProfileAvatar profile={form.values} size="xl" mx="auto" />
-          </Dropzone>
-          <Button
-            disabled={!form.values.avatarImage}
-            onClick={() => form.setFieldValue("avatarImage", undefined)}
-          >
-            {t("profile:buttons.resetAvatarImage")}
-          </Button>
-          <Group mx="auto">{swatches}</Group>
-          <Group grow>
-            <TextInput
-              data-autofocus
-              label={t("profile:formLabels.firstName.label")}
-              placeholder={t("profile:formLabels.firstName.placeholder")}
-              {...form.getInputProps("name.firstName")}
-            />
-            <TextInput
-              label={t("profile:formLabels.lastName.label")}
-              placeholder={t("profile:formLabels.lastName.placeholder")}
-              {...form.getInputProps("name.lastName")}
-            />
-          </Group>
-          <TextInput
-            label={t("profile:formLabels.username.label")}
-            placeholder={t("profile:formLabels.username.placeholder")}
-            {...form.getInputProps("username")}
-          />
-          <Textarea
-            label={t("profile:formLabels.bio.label")}
-            placeholder={t("profile:formLabels.bio.placeholder")}
-            {...form.getInputProps("bio")}
-          />
-          <Group>
-            <Button
-              disabled={!form.isValid() || !form.isTouched()}
-              leftSection={<IconUserEdit />}
-              onClick={handleEdit}
-            >
-              {t("profile:buttons.updateProfile")}
-            </Button>
-            <Button variant="default" onClick={() => void router.back()}>
-              {t("cancel")}
-            </Button>
-          </Group>
-        </Stack>
-      </DefaultLayout>
-    );
+  if (!defaultProfile) {
+    return <LoadingOverlay />;
   }
+
+  return (
+    <DefaultLayout withNavbarOpen>
+      <Stack gap="xl" mt="xl">
+        <Dropzone
+          onDrop={(files) => handleFileChange(files)}
+          onReject={(files) => handleImageRejection(files)}
+          maxSize={DEFAULT_AVATAR_FILE_SIZE}
+          accept={IMAGE_MIME_TYPE}
+          maxFiles={1}
+          multiple={false}
+        >
+          <ProfileAvatar profile={form.values} size="xl" mx="auto" />
+        </Dropzone>
+        <Button
+          disabled={!form.values.avatarImage}
+          onClick={() => form.setFieldValue("avatarImage", undefined)}
+        >
+          {t("profile:buttons.resetAvatarImage")}
+        </Button>
+        <Group mx="auto">{swatches}</Group>
+        <Group grow>
+          <TextInput
+            data-autofocus
+            label={t("profile:formLabels.firstName.label")}
+            placeholder={t("profile:formLabels.firstName.placeholder")}
+            {...form.getInputProps("name.firstName")}
+          />
+          <TextInput
+            label={t("profile:formLabels.lastName.label")}
+            placeholder={t("profile:formLabels.lastName.placeholder")}
+            {...form.getInputProps("name.lastName")}
+          />
+        </Group>
+        <TextInput
+          label={t("profile:formLabels.username.label")}
+          placeholder={t("profile:formLabels.username.placeholder")}
+          {...form.getInputProps("username")}
+        />
+        <Textarea
+          label={t("profile:formLabels.bio.label")}
+          placeholder={t("profile:formLabels.bio.placeholder")}
+          {...form.getInputProps("bio")}
+        />
+        <Group>
+          <Button
+            disabled={!form.isValid() || !form.isTouched()}
+            leftSection={<IconUserEdit />}
+            onClick={handleEdit}
+          >
+            {t("profile:buttons.updateProfile")}
+          </Button>
+          <Button variant="default" onClick={() => void router.back()}>
+            {t("cancel")}
+          </Button>
+        </Group>
+      </Stack>
+    </DefaultLayout>
+  );
 };
 
 export default EditProfilePage;

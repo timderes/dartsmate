@@ -23,6 +23,8 @@ import { notifications } from "@mantine/notifications";
 import { useSessionStorage } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import EmptyState from "@/components/content/EmptyState";
+import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
+import getMatchWinner from "@/lib/playing/getMatchWinner";
 
 const HistoryPage = () => {
   const {
@@ -51,17 +53,11 @@ const HistoryPage = () => {
   const handleDeleteMatch = (uuid: Match["uuid"]) => {
     modals.openConfirmModal({
       title: t("match:modals.deleteMatchTitle"),
-      centered: true,
       children: <Text size="sm">{t("match:modals.deleteMatchText")}</Text>,
       labels: {
         confirm: t("confirm"),
         cancel: t("cancel"),
       },
-      overlayProps: {
-        backgroundOpacity: 0.75,
-        blur: 3,
-      },
-      confirmProps: { color: "red" },
       onConfirm: () => {
         void deleteMatchFromDatabase(uuid).then(() => {
           setMatches((prev) => prev?.filter((match) => match.uuid !== uuid));
@@ -71,6 +67,7 @@ const HistoryPage = () => {
           });
         });
       },
+      ...SharedConfirmModalProps,
     });
   };
 
@@ -95,7 +92,13 @@ const HistoryPage = () => {
           ))}
         </AvatarGroup>
       </Table.Td>
-      <Table.Td>{t(`match:matchStatus.${match.matchStatus}`)}</Table.Td>
+      <Table.Td>
+        {match.matchStatus === "finished"
+          ? t("match:playerWon", {
+              PLAYER_NAME: getMatchWinner(match)?.name.firstName,
+            })
+          : t(`match:matchStatus.${match.matchStatus}`)}
+      </Table.Td>
       <Table.Td>
         <ActionIconGroup>
           <ActionIcon>

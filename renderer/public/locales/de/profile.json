@@ -56,7 +56,7 @@
   "webcam": "Webcam",
   "removePhotoUpload": "Bild entfernen",
   "exportProfile": "Profil exportieren",
-  "emptyBioPlaceholder": "{{FIRST_NAME}} hat keine Beschreibung hinzugefügt.",
+  "emptyBioPlaceholder": "{{FIRST_NAME}} hat noch keine Beschreibung hinzugefügt.",
   "notifications": {
     "updateProfileSuccess": {
       "title": "Profil erfolgreich aktualisiert!",
@@ -70,5 +70,12 @@
       "title": "Profil konnte nicht erstellt werden!",
       "text": "Bitte versuche es später erneut."
     }
+  },
+  "cancelProfileCreation": {
+    "title": "Profilerstellung abbrechen",
+    "text": "Möchten Sie die Profilerstellung wirklich abbrechen? Alle Änderungen gehen verloren."
+  },
+  "formError": {
+    "toShort": "{{FIELD_NAME}} ist zu kurz. Es werden mindestens {{CHARS}} Buchstaben benötigt."
   }
 }

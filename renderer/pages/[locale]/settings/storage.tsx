@@ -17,6 +17,7 @@ import deleteAllProfilesFromDatabase from "@/lib/db/profiles/deleteAllProfiles";
 import { useRouter } from "next/router";
 import formatLocalizedRoute from "utils/navigation/formatLocalizedRoute";
 import { useLocalStorage, useSessionStorage } from "@mantine/hooks";
+import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
 
 // TODO: Lazy code here. Refactor later
 const storagePage = () => {
@@ -61,13 +62,14 @@ const storagePage = () => {
             .push(
               formatLocalizedRoute({
                 locale,
-                route: "/welcome",
+                route: "/profileSetupIntro",
               })
             )
             .then(() => {
               window.ipc.removeDefaultProfileUUID();
             })
         ),
+      ...SharedConfirmModalProps,
     });
   };
 
@@ -92,6 +94,7 @@ const storagePage = () => {
             ),
           })
         ),
+      ...SharedConfirmModalProps,
     });
 
   const handleResetApp = () => {
@@ -119,10 +122,11 @@ const storagePage = () => {
         void router.push(
           formatLocalizedRoute({
             locale,
-            route: "/welcome",
+            route: "/profileSetupIntro",
           })
         );
       },
+      ...SharedConfirmModalProps,
     });
   };
 

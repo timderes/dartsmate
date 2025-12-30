@@ -6,7 +6,7 @@
 
 ## :sparkles: Features
 
-**Explore the Future:** Dive into our [project roadmap](https://github.com/derechtenap/dartsmate/wiki/Roadmap) to discover exciting upcoming features!
+**Explore the Future:** Dive into our [project roadmap](https://github.com/timderes/dartsmate/wiki/Roadmap) to discover exciting upcoming features!
 
 - **Create & Manage Profiles:** Easily create and manage player profiles for your matches.
 - **Create A Match:** Set up a game with and customize various game settings.
@@ -28,7 +28,8 @@
 | `npm run lint`        | Check the project for potential errors or issues                                    |
 | `npm run lint:fix`    | Check the project for errors or issues and attempt to automatically fix them        |
 | `npm run format`      | Format the project code                                                             |
+| `npm run test`        |                                                                                     |
 
 ## :construction_worker: Contributors
 
-- Tim Deres ([@derechtenap](https://github.com/derechtenap))
+- Tim Deres ([@timderes](https://github.com/timderes))

@@ -1,0 +1,30 @@
+{
+  "match": {
+    "text": "Spiele eine Partie 501 mit Freunden oder gegen Dart-Bots.",
+    "title": "501 Spiel"
+  },
+  "aroundTheClock": {
+    "text": "Treffe jede Nummer auf dem Dartboard von 1 bis zur 20 und anschließend das Bullseye.",
+    "title": "Around the Clock"
+  },
+  "bobs27": {
+    "text": "Teste deine Fähigkeiten im Darts, indem du Doubles triffst und Punkte sammelst. Starte mit 27 Punkten und versuche, keinen Punkt zu verlieren!",
+    "title": "Bob's 27"
+  },
+  "doublesTraining": {
+    "text": "Werfe deine Darts auf das angezeigte Double. Je besser du triffst, desto mehr Punkte bekommst du.",
+    "title": "Double Training"
+  },
+  "singlesTraining": {
+    "text": "Werfe deine Darts auf das angezeigte Feld des Dartboards. Getroffene Doubles or Triples geben Bonuspunkte.",
+    "title": "Singles Training"
+  },
+  "scoreTraining": {
+    "text": "Werfe mit einer vorgegeben Anzahl Darts einen möglichst hohen Score.",
+    "title": "Score Training"
+  },
+  "shanghai": {
+    "text": "Treffe in einer Runde nacheinander Single, Double und Triple eines bestimmten Feldes, um Punkte zu sammeln. Perfektioniere deine Wurftechnik!",
+    "title": "Shanghai"
+  }
+}

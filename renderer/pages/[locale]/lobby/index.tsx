@@ -34,7 +34,7 @@ import {
   DEFAULT_MATCH_SETTINGS,
   MATCH_SCORE,
 } from "utils/constants";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as getUUID } from "uuid";
 import getFormattedName from "utils/misc/getFormattedName";
 import EmptyState from "@/components/content/EmptyState";
 import getAllProfilesFromDatabase from "@/lib/db/profiles/getAllProfiles";
@@ -76,7 +76,7 @@ const NewGamePage = () => {
     void getAllProfiles();
   }, []);
 
-  const uuid = uuidv4();
+  const uuid = getUUID();
 
   const [, setMatchStorage] = useSessionStorage<Match>({
     key: "currentMatch",

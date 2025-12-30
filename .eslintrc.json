@@ -16,7 +16,13 @@
     "sourceType": "module",
     "project": ["./renderer/tsconfig.json"]
   },
-  "plugins": ["@typescript-eslint"],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "./renderer/tsconfig.json"
+      }
+    }
+  },
   "rules": {
     "@next/next/no-html-link-for-pages": ["error", "renderer/pages/"]
   },

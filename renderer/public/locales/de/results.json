@@ -1,4 +1,6 @@
 {
+  "title_one": "Spielergebnisse - {{playerAmount}} Spieler {{gameMode}}-Out",
+  "title_other": "Spielergebnisse - {{playerAmount}} Spieler {{gameMode}}-Out",
   "tabs": {
     "title": {
       "result": "Ergebnisse",
@@ -8,5 +10,6 @@
   },
   "chartTitle": {
     "gameProgression": "Spielverlauf"
-  }
+  },
+  "errorNoMatchData": "Es konnten keine Ergebnisse für dieses Spiel geladen werden."
 }
