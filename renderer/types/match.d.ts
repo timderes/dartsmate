@@ -1,10 +1,10 @@
 import type { Profile } from "./profile";
 
-interface Player extends Profile {
+type Player = Profile & {
   scoreLeft: number;
   isWinner: boolean;
   rounds: MatchRound[];
-}
+};
 
 declare type Checkout = "Any" | "Double" | "Single" | "Triple";
 declare type MatchStatus = "aborted" | "finished" | "started" | "undefined";

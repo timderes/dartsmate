@@ -12,6 +12,7 @@ import {
   SCORE_MISSED,
   SCORE_OUTER_BULL,
   THROWS_PER_ROUND,
+  APP_VERSION,
 } from "utils/constants";
 import { applyScoreMultiplier } from "utils/match/helper/applyScoreMultiplier";
 import isNonMultipleScore from "utils/match/helper/isNonMultipleScore";
@@ -24,7 +25,7 @@ import { useElapsedTime } from "use-elapsed-time";
 
 // --- Types ---
 
-interface GameState {
+type GameState = {
   players: Player[];
   currentPlayerIndex: number;
   matchRound: DartThrow[]; // Current throws in this turn (0-3)
@@ -36,7 +37,9 @@ interface GameState {
   initialScore: number;
   matchCheckout: Checkout;
   uuid: string;
-}
+  appVersion: string;
+  createdAt: number;
+};
 
 type GameAction =
   | { type: "INIT_GAME"; payload: Match }
@@ -85,6 +88,8 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
         initialScore: matchData.initialScore,
         matchCheckout: matchData.matchCheckout,
         uuid: matchData.uuid,
+        appVersion: matchData.appVersion || APP_VERSION,
+        createdAt: matchData.createdAt,
         currentPlayerIndex: 0, // Reset to 0 or logic to persist current turn could be added
       };
     }
@@ -244,6 +249,8 @@ export const useDartGame = () => {
     initialScore: 501,
     matchCheckout: "Double",
     uuid: "",
+    appVersion: APP_VERSION,
+    createdAt: Date.now(),
   });
 
   // 1. Hydrate state on load
@@ -257,8 +264,8 @@ export const useDartGame = () => {
   useEffect(() => {
     if (state.matchStatus !== "undefined" && state.players.length > 0) {
       const currentMatchData: Match = {
-        appVersion: matchSessionData?.appVersion || "0.0.0", // Fallback
-        createdAt: matchSessionData?.createdAt || Date.now(),
+        appVersion: state.appVersion,
+        createdAt: state.createdAt,
         initialScore: state.initialScore,
         matchCheckout: state.matchCheckout,
         matchStatus: state.matchStatus,

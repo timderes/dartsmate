@@ -108,12 +108,15 @@ const PlayingPage: NextPage = () => {
         actions.abortMatch();
         // Persist the aborted state
         void addMatchToDatabase({
-          ...state, // Use current state which includes players & UUID
+          appVersion: state.appVersion,
+          createdAt: state.createdAt,
+          initialScore: state.initialScore,
+          matchCheckout: state.matchCheckout,
           matchStatus: "aborted",
-          createdAt: Date.now(), // Ensure these exist if not in state, or rely on state
+          players: state.players,
           updatedAt: Date.now(),
-          appVersion: "1.0.0", // Fallback if not in state
-        } as any); // Casting because state might miss some top-level Match props if not careful, but hook manages most.
+          uuid: state.uuid,
+        });
 
         players.forEach((player) => {
           handleUpdatePlayerStatistics(player);
@@ -126,12 +129,15 @@ const PlayingPage: NextPage = () => {
 
   const handleFinishedMatch = (): void => {
     void addMatchToDatabase({
-      ...state,
+      appVersion: state.appVersion,
+      createdAt: state.createdAt,
+      initialScore: state.initialScore,
+      matchCheckout: state.matchCheckout,
       matchStatus: "finished",
-      createdAt: Date.now(),
+      players: state.players,
       updatedAt: Date.now(),
-      appVersion: "1.0.0",
-    } as any);
+      uuid: state.uuid,
+    });
 
     players.forEach((player) => {
       handleUpdatePlayerStatistics(player);
@@ -362,7 +368,16 @@ const PlayingPage: NextPage = () => {
               {t("match:nextPlayer")}
             </Button>
             <Divider />
-            {getMatchWinner({ players } as any) ? (
+            {getMatchWinner({
+              appVersion: state.appVersion,
+              createdAt: state.createdAt,
+              initialScore: state.initialScore,
+              matchCheckout: state.matchCheckout,
+              matchStatus: state.matchStatus,
+              players: state.players,
+              updatedAt: Date.now(),
+              uuid: state.uuid,
+            }) ? (
               <Button onClick={() => handleFinishedMatch()}>
                 {t("match:closeFinishedMatch")}
               </Button>
