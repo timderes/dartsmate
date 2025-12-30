@@ -5,7 +5,7 @@ import type {
   DartThrow,
   MatchRound,
   Checkout,
-} from "types/match";
+} from "@types/match";
 import { useSessionStorage } from "@mantine/hooks";
 import {
   SCORE_BULLSEYE,
@@ -16,7 +16,7 @@ import {
 } from "@utils/constants";
 import { applyScoreMultiplier } from "@utils/match/helper/applyScoreMultiplier";
 import isNonMultipleScore from "@utils/match/helper/isNonMultipleScore";
-import isBust from "@/lib/playing/stats/isBust";
+import isBust from "@lib/playing/stats/isBust";
 import {
   getScores,
   getTotalRoundScore,
@@ -39,6 +39,7 @@ type GameState = {
   uuid: string;
   appVersion: string;
   createdAt: number;
+  isHydrated: boolean;
 };
 
 type GameAction =
@@ -93,7 +94,8 @@ export const gameReducer = (
         uuid: matchData.uuid,
         appVersion: matchData.appVersion || APP_VERSION,
         createdAt: matchData.createdAt,
-        currentPlayerIndex: 0, // Reset to 0 or logic to persist current turn could be added
+        currentPlayerIndex: 0,
+        isHydrated: true,
       };
     }
 
@@ -228,7 +230,7 @@ export const gameReducer = (
 // --- Hook ---
 
 export const useDartGame = () => {
-  const [matchSessionData, setMatchSessionData] = useSessionStorage<Match>({
+  const [persistedMatchData, setPersistedMatchData] = useSessionStorage<Match>({
     key: "currentMatch",
     defaultValue: undefined,
   });
@@ -250,18 +252,19 @@ export const useDartGame = () => {
     uuid: "",
     appVersion: APP_VERSION,
     createdAt: Date.now(),
+    isHydrated: false,
   });
 
   // 1. Hydrate state on load
   useEffect(() => {
-    if (matchSessionData && state.matchStatus === "undefined") {
-      dispatch({ type: "INIT_GAME", payload: matchSessionData });
+    if (persistedMatchData && !state.isHydrated) {
+      dispatch({ type: "INIT_GAME", payload: persistedMatchData });
     }
-  }, [matchSessionData]);
+  }, [persistedMatchData, state.isHydrated]);
 
   // 2. Persist state to session storage on every change
   useEffect(() => {
-    if (state.matchStatus !== "undefined" && state.players.length > 0) {
+    if (state.isHydrated && state.matchStatus !== "undefined" && state.players.length > 0) {
       const currentMatchData: Match = {
         appVersion: state.appVersion,
         createdAt: state.createdAt,
@@ -272,9 +275,9 @@ export const useDartGame = () => {
         updatedAt: Date.now(),
         uuid: state.uuid,
       };
-      setMatchSessionData(currentMatchData);
+      setPersistedMatchData(currentMatchData);
     }
-  }, [state.players, state.matchStatus, state.currentPlayerIndex]);
+  }, [state.players, state.matchStatus, state.currentPlayerIndex, state.isHydrated]);
 
   // Exposed Actions
   const actions = {

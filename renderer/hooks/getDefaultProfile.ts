@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import getProfileFromDatabase from "@/lib/db/profiles/getProfile";
 
-import type { Profile } from "types/profile";
+import type { Profile } from "@types/profile";
 
 const useDefaultProfile = (): Profile | undefined => {
   const [defaultProfile, setDefaultProfile] = useState<Profile | undefined>(

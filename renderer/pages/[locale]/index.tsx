@@ -1,12 +1,12 @@
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
-import DefaultLayout from "@/components/layouts/Default";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
+import DefaultLayout from "@components/layouts/Default";
 import { Accordion, Container, SimpleGrid, Stack, Text } from "@mantine/core";
-import HeaderGreeting from "@/components/HeaderGreeting";
-import useDefaultProfile from "hooks/getDefaultProfile";
+import HeaderGreeting from "@components/HeaderGreeting";
+import useDefaultProfile from "@hooks/getDefaultProfile";
 import { useTranslation } from "next-i18next";
-import GameModeCard from "@/components/content/GameModeCard";
+import GameModeCard from "@components/content/GameModeCard";
 import { IconBarbell, IconTarget } from "@tabler/icons-react";
-import { MATCH_MODES, TRAINING_MODES } from "utils/content/gameModes";
+import { MATCH_MODES, TRAINING_MODES } from "@utils/content/gameModes";
 
 const IndexPage = () => {
   const defaultProfile = useDefaultProfile();

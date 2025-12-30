@@ -8,15 +8,15 @@ import { useSearchParams } from "next/navigation";
 import log from "electron-log/renderer";
 import addProfileToDatabase from "@/lib/db/profiles/addProfile";
 import { notifications } from "@mantine/notifications";
-import formatLocalizedRoute from "utils/navigation/formatLocalizedRoute";
+import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
 import OnlyControlsLayout from "@/components/layouts/OnlyControlsLayout";
-import useProfileForm from "hooks/useProfileForm";
+import useProfileForm from "@/hooks/useProfileForm";
 import StepOne from "@/components/content/profileCreation/StepOne";
 
 import { modals } from "@mantine/modals";
 import StepTwo from "@/components/content/profileCreation/StepTwo";
 import StepThree from "@/components/content/profileCreation/StepThree";
-import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
+import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
 import { headerHeight } from "@/components/layouts/Default";
 
 /**

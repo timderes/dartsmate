@@ -15,9 +15,9 @@ import {
 import { IconEdit } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import Stat from "@/components/content/Stat";
-import getFormattedName from "utils/misc/getFormattedName";
+import getFormattedName from "@utils/misc/getFormattedName";
 import ProfileAvatar from "@/components/content/ProfileAvatar";
-import useDefaultProfile from "hooks/getDefaultProfile";
+import useDefaultProfile from "@/hooks/getDefaultProfile";
 
 const ProfileIndexPage: NextPage = () => {
   const {

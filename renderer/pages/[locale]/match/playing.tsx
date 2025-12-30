@@ -21,34 +21,35 @@ import {
   rem,
   useMantineTheme,
 } from "@mantine/core";
-
 import { useTranslation } from "next-i18next";
-
-import OnlyControlsLayout from "@/components/layouts/OnlyControlsLayout";
-
-import type { Player } from "types/match";
 import { useLocalStorage } from "@mantine/hooks";
-import ProfileAvatar from "@/components/content/ProfileAvatar";
-import { DARTBOARD_ZONES, THROWS_PER_ROUND } from "utils/constants";
+import { useRouter } from "next/router";
+import { modals } from "@mantine/modals";
 import { IconCrown, IconEraser } from "@tabler/icons-react";
+import log from "electron-log/renderer";
+
+import type { Player } from "@types/match";
+
+import OnlyControlsLayout from "@components/layouts/OnlyControlsLayout";
+import ProfileAvatar from "@components/content/ProfileAvatar";
+import { useDartGame } from "@hooks/useDartGame";
+
+import addMatchToDatabase from "@lib/db/matches/addMatch";
+import updateProfileFromDatabase from "@lib/db/profiles/updateProfile";
+import getFirstNineAverage from "@lib/playing/stats/getFirstNineAverage";
+import getMatchWinner from "@lib/playing/getMatchWinner";
+
+import { DARTBOARD_ZONES, THROWS_PER_ROUND } from "@utils/constants";
 import {
   getScores,
   getTotalRoundScore,
-} from "utils/match/stats/getTotalRoundScore";
-import { getTotalMatchAvg } from "utils/match/stats/getTotalMatchAvg";
-import getFormattedName from "utils/misc/getFormattedName";
-import { useRouter } from "next/router";
-import { modals } from "@mantine/modals";
-import addMatchToDatabase from "@/lib/db/matches/addMatch";
-import getFirstNineAverage from "@/lib/playing/stats/getFirstNineAverage";
-import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
-import updateProfileFromDatabase from "@/lib/db/profiles/updateProfile";
-import log from "electron-log/renderer";
-import getNumberOfRoundsAboveThreshold from "utils/match/stats/getScoresAbove";
-import getMatchWinner from "@/lib/playing/getMatchWinner";
-import { useDartGame } from "hooks/useDartGame";
-import getTotalDartsThrown from "utils/match/stats/getTotalDartsThrown";
-import getHighestScore from "utils/match/stats/getHighestScore";
+} from "@utils/match/stats/getTotalRoundScore";
+import { getTotalMatchAvg } from "@utils/match/stats/getTotalMatchAvg";
+import getFormattedName from "@utils/misc/getFormattedName";
+import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
+import getNumberOfRoundsAboveThreshold from "@utils/match/stats/getScoresAbove";
+import getTotalDartsThrown from "@utils/match/stats/getTotalDartsThrown";
+import getHighestScore from "@utils/match/stats/getHighestScore";
 
 const PlayingPage: NextPage = () => {
   const theme = useMantineTheme();
@@ -66,6 +67,7 @@ const PlayingPage: NextPage = () => {
     multiplier: scoreMultiplier,
     matchStatus,
     initialScore,
+    isHydrated,
   } = state;
 
   const [colorScheme] = useLocalStorage<MantineColorScheme>({
@@ -76,7 +78,7 @@ const PlayingPage: NextPage = () => {
   const scores = getScores(matchRound);
   const totalRoundScore = getTotalRoundScore(scores);
 
-  if (!players || players.length === 0) {
+  if (!isHydrated) {
     return <LoadingOverlay />;
   }
 
@@ -180,7 +182,7 @@ const PlayingPage: NextPage = () => {
       <Grid gutter={0}>
         <Grid.Col span={{ md: 8, xl: 9 }}>
           <Grid gutter={0}>
-            {players.map((player, _idx) => {
+            {players.map((player, index) => {
               const progressValue = (player.scoreLeft / initialScore) * 100;
               return (
                 <Grid.Col
@@ -195,7 +197,7 @@ const PlayingPage: NextPage = () => {
                     px={0}
                     pb={0}
                     m="lg"
-                    bg={getCardBackgroundColor(player.color, _idx)}
+                    bg={getCardBackgroundColor(player.color, index)}
                   >
                     {player.isWinner ? (
                       <Tooltip
@@ -247,7 +249,7 @@ const PlayingPage: NextPage = () => {
                           >
                             <NumberFormatter
                               decimalScale={2}
-                              value={getTotalMatchAvg(players[_idx].rounds)}
+                              value={getTotalMatchAvg(players[index].rounds)}
                             />
                           </Text>
                         </Tooltip>
@@ -255,7 +257,7 @@ const PlayingPage: NextPage = () => {
                       <Divider
                         label={t("routes.statistics")}
                         color={
-                          _idx === currentPlayerIndex ? player.color : undefined
+                          index === currentPlayerIndex ? player.color : undefined
                         }
                       />
                       <Flex
@@ -274,20 +276,20 @@ const PlayingPage: NextPage = () => {
                           <NumberFormatter
                             decimalScale={2}
                             defaultValue={0}
-                            value={getFirstNineAverage(players[_idx].rounds)}
+                            value={getFirstNineAverage(players[index].rounds)}
                           />
                         </span>
                         <span>
                           {t("stats.highestScore")}:{" "}
                           <NumberFormatter
                             defaultValue={0}
-                            value={getHighestScore(players[_idx].rounds)}
+                            value={getHighestScore(players[index].rounds)}
                           />
                         </span>
                         <span>
                           {t("stats.dartsThrown")}:{" "}
                           {/* Fixed lazy calculation with proper utility */}
-                          {getTotalDartsThrown(players[_idx].rounds)}
+                          {getTotalDartsThrown(players[index].rounds)}
                         </span>
                       </Flex>
                       <Progress
@@ -328,14 +330,14 @@ const PlayingPage: NextPage = () => {
               <NumberFormatter value={totalRoundScore} />
             </Text>
             <Group justify="center" fz="h3" opacity={0.5}>
-              {Array.from({ length: THROWS_PER_ROUND }, (_, _idx) => (
-                <Text fz="xl" key={_idx}>
-                  {matchRound[_idx]?.isDouble
+              {Array.from({ length: THROWS_PER_ROUND }, (_, index) => (
+                <Text fz="xl" key={index}>
+                  {matchRound[index]?.isDouble
                     ? "D"
-                    : matchRound[_idx]?.isTriple
-                      ? "T"
-                      : undefined}
-                  {matchRound[_idx]?.dartboardZone ?? "-"}
+                    : matchRound[index]?.isTriple
+                    ? "T"
+                    : undefined}
+                  {matchRound[index]?.dartboardZone ?? "-"}
                 </Text>
               ))}
             </Group>
@@ -370,14 +372,7 @@ const PlayingPage: NextPage = () => {
             </Button>
             <Divider />
             {getMatchWinner({
-              appVersion: state.appVersion,
-              createdAt: state.createdAt,
-              initialScore: state.initialScore,
-              matchCheckout: state.matchCheckout,
-              matchStatus: state.matchStatus,
               players: state.players,
-              updatedAt: Date.now(),
-              uuid: state.uuid,
             }) ? (
               <Button onClick={() => handleFinishedMatch()}>
                 {t("match:closeFinishedMatch")}
