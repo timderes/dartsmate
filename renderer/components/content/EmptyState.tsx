@@ -21,8 +21,8 @@ const EmptyState = ({
   return (
     <Paper component={Stack} {...rest} withBorder p="lg">
       {icon}
-      <Title>{title || t("defaultEmptyState.title")}</Title>
-      <Text>{text || t("defaultEmptyState.text")}</Text>
+      <Title>{title ?? t("defaultEmptyState.title")}</Title>
+      <Text>{text ?? t("defaultEmptyState.text")}</Text>
     </Paper>
   );
 };

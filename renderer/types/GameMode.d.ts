@@ -1,6 +1,6 @@
-declare type GameModeType = "MATCH" | "TRAINING";
+export type GameModeType = "MATCH" | "TRAINING";
 
-declare type GameMode = {
+export type GameMode = {
   id: string;
   isActive?: boolean;
   setupRoute: string;
@@ -8,5 +8,3 @@ declare type GameMode = {
   title: string;
   type: GameModeType;
 };
-
-export default GameMode;

@@ -16,7 +16,7 @@ const IndexPage = () => {
     <DefaultLayout withNavbarOpen>
       <Container fluid>
         <Stack my="lg">
-          <HeaderGreeting firstName={defaultProfile?.name.firstName || ""} />
+          <HeaderGreeting firstName={defaultProfile?.name.firstName ?? ""} />
           <Accordion defaultValue="newMatch" variant="separated">
             <Accordion.Item value="newMatch">
               <Accordion.Control icon={<IconTarget size={20} />}>

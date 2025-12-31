@@ -46,7 +46,7 @@ const StepOne = ({
           leftSection={
             CountryAndCurrency.getCountriesBy(
               "iso2",
-              form.getValues().country || ""
+              form.getValues().country ?? ""
             )[0]?.currency.unicode
           }
           data={countries
@@ -58,7 +58,7 @@ const StepOne = ({
           searchable
           onChange={(value) =>
             form.setValues({
-              country: value || "",
+              country: value ?? "",
             })
           }
         />

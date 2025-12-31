@@ -36,7 +36,7 @@ export const makeStaticProperties =
     namespaces: string[] = []
   ): ((
     context: GetStaticPropsContext
-  ) => Promise<{ props: { [key: string]: unknown } }>) =>
+  ) => Promise<{ props: Record<string, unknown> }>) =>
   async (context: GetStaticPropsContext) => {
     return {
       props: await getI18nProperties(context, namespaces),

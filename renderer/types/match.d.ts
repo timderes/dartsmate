@@ -1,15 +1,15 @@
 import type { Profile } from "./profile";
 
-type Player = Profile & {
+export type Player = Profile & {
   scoreLeft: number;
   isWinner: boolean;
   rounds: MatchRound[];
 };
 
-declare type Checkout = "Any" | "Double" | "Single" | "Triple";
-declare type MatchStatus = "aborted" | "finished" | "started" | "undefined";
+export type Checkout = "Any" | "Double" | "Single" | "Triple";
+export type MatchStatus = "aborted" | "finished" | "started" | "undefined";
 
-declare type Match = {
+export type Match = {
   appVersion: string; // Semantic versioning string (e.g., "1.0.0")
   createdAt: number; // Timestamp when the match was created (UNIX timestamp)
   initialScore: number;
@@ -20,7 +20,7 @@ declare type Match = {
   updatedAt: number;
 };
 
-declare type MatchRound = {
+export type MatchRound = {
   elapsedTime: number;
   isBust: boolean;
   roundAverage: number;
@@ -28,9 +28,9 @@ declare type MatchRound = {
   throwDetails: DartThrow[];
 };
 
-declare type DartboardZone = "BULLSEYE" | "NUMBER" | "MISSED" | "OUTER_BULL";
+export type DartboardZone = "BULLSEYE" | "NUMBER" | "MISSED" | "OUTER_BULL";
 
-declare type DartThrow = {
+export type DartThrow = {
   isBullseye: boolean;
   isDouble: boolean;
   isMissed: boolean;

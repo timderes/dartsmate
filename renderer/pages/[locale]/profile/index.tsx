@@ -65,7 +65,7 @@ const ProfileIndexPage: NextPage = () => {
               fs={defaultProfile.bio ? "" : "italic"}
               c={defaultProfile.bio ? "" : "dimmed"}
             >
-              {defaultProfile.bio ||
+              {defaultProfile.bio ??
                 t("profile:emptyBioPlaceholder", {
                   FIRST_NAME: defaultProfile.name.firstName,
                 })}

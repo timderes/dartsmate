@@ -3,7 +3,7 @@ import { type ComboboxData, Select, Stack, Text, Title } from "@mantine/core";
 
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { useTranslation } from "next-i18next";
-import { i18n as _i18n } from "../../.././../next-i18next.config";
+import i18next from "../../../../next-i18next.config";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
@@ -14,7 +14,7 @@ const colorSchemePage = () => {
     i18n: { language: locale },
   } = useTranslation();
 
-  const locals: ComboboxData = _i18n.locales.map((locale) => ({
+  const locals: ComboboxData = i18next.i18n.locales.map((locale) => ({
     label: t(`settings:languages.${locale}`),
     value: locale,
   }));
@@ -39,7 +39,7 @@ const colorSchemePage = () => {
           defaultValue={locale}
           data={locals}
           onChange={(newLanguage) =>
-            handleChangeLanguage(newLanguage as string)
+            handleChangeLanguage(newLanguage!)
           }
         />
       </Stack>
