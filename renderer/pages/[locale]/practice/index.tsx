@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
-import DefaultLayout from "@/components/layouts/Default";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
+import DefaultLayout from "@components/layouts/Default";
 
 const PracticePage = () => {
   const {

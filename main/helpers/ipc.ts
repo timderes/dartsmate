@@ -37,3 +37,10 @@ ipcMain.on("minimize-app-window", () => {
 ipcMain.on("close-app", () => {
   app.quit();
 });
+
+ipcMain.on("reload-app", () => {
+  //! Note that this method does not quit the app when executed, you have to call
+  //! `app.quit` or `app.exit` after calling app.relaunch to make the app restart.
+  app.relaunch();
+  app.quit();
+});

@@ -62,12 +62,12 @@ void (async () => {
   if (!defaultProfile) {
     log.info(
       "No default profile detected. Redirecting user to the Profile Setup Intro route: %s",
-      profileSetupIntroRoute
+      profileSetupIntroRoute,
     );
     await mainWindow.loadURL(profileSetupIntroRoute);
   } else {
     log.info(
-      "Default profile found. Redirecting user to the main Index route."
+      "Default profile found. Redirecting user to the main Index route.",
     );
     if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
       await mainWindow.loadURL(`app://./${locale}/`);

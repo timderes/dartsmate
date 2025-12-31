@@ -33,3 +33,4 @@
 ## :construction_worker: Contributors
 
 - Tim Deres ([@timderes](https://github.com/timderes))
+- Benedict Homuth ([@BenedictHomuth](https://github.com/BenedictHomuth))

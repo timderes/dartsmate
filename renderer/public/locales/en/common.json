@@ -88,5 +88,7 @@
   "greetingText": "Hello, {{FIRST_NAME}}!",
   "greetingSubtext": "Let's play a game of darts.",
   "playGameMode": "Start {{GAME_MODE}}...",
-  "country": "Country"
+  "country": "Country",
+  "confirmCloseAppTitle": "Really quit {{APP_NAME}}?",
+  "confirmCloseAppText": "Do you really want to close the application? All unsaved data will be lost."
 }

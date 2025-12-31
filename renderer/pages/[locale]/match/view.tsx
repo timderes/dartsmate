@@ -1,32 +1,34 @@
-import ProfileAvatar from "@/components/content/ProfileAvatar";
-import DefaultLayout from "@/components/layouts/Default";
+import type { NextPage } from "next";
+import { useTranslation } from "next-i18next";
+import { DonutChart, type DonutChartCell } from "@mantine/charts";
+
+import type { Match } from "types/match";
+import ProfileAvatar from "@components/content/ProfileAvatar";
+import DefaultLayout from "@components/layouts/Default";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
+
+import getHighestScore from "@utils/match/stats/getHighestScore";
+import getNumberOfRoundsAboveThreshold from "@utils/match/stats/getScoresAbove";
+import { getTotalMatchAvg } from "@utils/match/stats/getTotalMatchAvg";
+import { getLocaleDate } from "@utils/misc/getLocalDate";
+import getCategorizedThrows from "@utils/match/stats/getCategorizedThrows";
+import { useSessionStorage } from "@mantine/hooks";
 import {
   Group,
   NumberFormatter,
   Stack,
   Table,
-  Tabs,
   Text,
+  Tabs,
   Title,
   Tooltip,
 } from "@mantine/core";
-import { useSessionStorage } from "@mantine/hooks";
 import {
   IconChartHistogram,
   IconCrown,
   IconListNumbers,
   IconUsers,
 } from "@tabler/icons-react";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
-import type { NextPage } from "next";
-import { useTranslation } from "next-i18next";
-import { Match } from "types/match";
-import getHighestScore from "utils/match/stats/getHighestScore";
-import getNumberOfRoundsAboveThreshold from "utils/match/stats/getScoresAbove";
-import { getTotalMatchAvg } from "utils/match/stats/getTotalMatchAvg";
-import { getLocaleDate } from "utils/misc/getLocalDate";
-import { DonutChart, type DonutChartCell } from "@mantine/charts";
-import getCategorizedThrows from "utils/match/stats/getCategorizedThrows";
 
 const ViewMatchPage: NextPage = () => {
   const {

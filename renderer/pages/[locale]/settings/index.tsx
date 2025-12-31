@@ -1,9 +1,9 @@
 import { useTranslation } from "next-i18next";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { Button, Group, Stack, Text, Title } from "@mantine/core";
-import SettingsLayout from "@/components/layouts/SettingsLayout";
+import SettingsLayout from "@components/layouts/SettingsLayout";
 
-import ProfileAvatar from "@/components/content/ProfileAvatar";
+import ProfileAvatar from "@components/content/ProfileAvatar";
 import getFormattedName from "utils/misc/getFormattedName";
 import { IconUserDown, IconUserEdit, IconUserMinus } from "@tabler/icons-react";
 import { modals } from "@mantine/modals";
@@ -13,7 +13,7 @@ import getDefaultIconSize from "utils/misc/getDefaultIconSize";
 // import { notifications } from "@mantine/notifications";
 // import log from "electron-log/renderer";
 import useDefaultProfile from "hooks/getDefaultProfile";
-import deleteProfileFromDatabase from "@/lib/db/profiles/deleteProfile";
+import deleteProfileFromDatabase from "@lib/db/profiles/deleteProfile";
 import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
 
 const SettingsPage = () => {

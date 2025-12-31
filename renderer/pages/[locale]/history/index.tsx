@@ -1,8 +1,8 @@
 import { useTranslation } from "next-i18next";
 
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
-import DefaultLayout, { headerHeight } from "@/components/layouts/Default";
-import getAllMatchesFromDatabase from "@/lib/db/matches/getAllMatches";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
+import DefaultLayout, { headerHeight } from "@components/layouts/Default";
+import getAllMatchesFromDatabase from "@lib/db/matches/getAllMatches";
 import { useEffect, useState } from "react";
 import type { Match } from "types/match";
 import {
@@ -14,17 +14,17 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import ProfileAvatar from "@/components/content/ProfileAvatar";
+import ProfileAvatar from "@components/content/ProfileAvatar";
 import { IconFileUnknown, IconSearch, IconTrash } from "@tabler/icons-react";
-import { getLocaleDate } from "utils/misc/getLocalDate";
+import { getLocaleDate } from "@utils/misc/getLocalDate";
 import { modals } from "@mantine/modals";
-import deleteMatchFromDatabase from "@/lib/db/matches/deleteMatch";
+import deleteMatchFromDatabase from "@lib/db/matches/deleteMatch";
 import { notifications } from "@mantine/notifications";
 import { useSessionStorage } from "@mantine/hooks";
 import { useRouter } from "next/router";
-import EmptyState from "@/components/content/EmptyState";
-import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
-import getMatchWinner from "@/lib/playing/getMatchWinner";
+import EmptyState from "@components/content/EmptyState";
+import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
+import getMatchWinner from "@lib/playing/getMatchWinner";
 
 const HistoryPage = () => {
   const {
