@@ -3,6 +3,8 @@ import { createTheme, MantineProvider } from "@mantine/core";
 import { appWithTranslation } from "next-i18next";
 import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
+import { useHotkeys } from "@mantine/hooks";
+import sendIPC from "@utils/ipc/send";
 import { NOTIFICATION_LIMIT } from "utils/constants";
 
 // All packages except `@mantine/hooks` require styles imports!
@@ -23,6 +25,13 @@ const appTheme = createTheme({
 });
 
 const App = ({ Component, pageProps }: AppProps) => {
+  /**
+   * Hotkeys that can be used throughout the app.
+   *
+   * @see https://mantine.dev/hooks/use-hotkeys/
+   */
+  useHotkeys([["CTRL+F1", () => sendIPC("reload-app")]], ["INPUT", "TEXTAREA"]);
+
   return (
     <MantineProvider defaultColorScheme="auto" theme={appTheme}>
       <Notifications position="top-right" limit={NOTIFICATION_LIMIT} />

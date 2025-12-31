@@ -1,7 +1,6 @@
 import { BrowserWindow, app, ipcMain } from "electron";
 import { appSettingsStore } from "./stores";
 import log from "electron-log";
-import { IS_APP_RUNNING_IN_PRODUCTION_MODE } from "../constants";
 
 ipcMain.handle("setLocale", (_, locale: { locale: string }) => {
   appSettingsStore.set("locale", locale);
@@ -36,10 +35,12 @@ ipcMain.on("minimize-app-window", () => {
 });
 
 ipcMain.on("close-app", () => {
-  // In development mode, relaunch the app for easier testing
-  if (!IS_APP_RUNNING_IN_PRODUCTION_MODE) {
-    app.relaunch();
-  }
+  app.quit();
+});
 
+ipcMain.on("reload-app", () => {
+  //! Note that this method does not quit the app when executed, you have to call
+  //! `app.quit` or `app.exit` after calling app.relaunch to make the app restart.
+  app.relaunch();
   app.quit();
 });
