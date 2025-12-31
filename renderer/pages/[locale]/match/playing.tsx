@@ -257,7 +257,9 @@ const PlayingPage: NextPage = () => {
                       <Divider
                         label={t("routes.statistics")}
                         color={
-                          index === currentPlayerIndex ? player.color : undefined
+                          index === currentPlayerIndex
+                            ? player.color
+                            : undefined
                         }
                       />
                       <Flex
@@ -335,8 +337,8 @@ const PlayingPage: NextPage = () => {
                   {matchRound[index]?.isDouble
                     ? "D"
                     : matchRound[index]?.isTriple
-                    ? "T"
-                    : undefined}
+                      ? "T"
+                      : undefined}
                   {matchRound[index]?.dartboardZone ?? "-"}
                 </Text>
               ))}
@@ -371,9 +373,7 @@ const PlayingPage: NextPage = () => {
               {t("match:nextPlayer")}
             </Button>
             <Divider />
-            {getMatchWinner({
-              players: state.players,
-            }) ? (
+            {getMatchWinner({ ...state, updatedAt: Date.now() }) ? (
               <Button onClick={() => handleFinishedMatch()}>
                 {t("match:closeFinishedMatch")}
               </Button>
