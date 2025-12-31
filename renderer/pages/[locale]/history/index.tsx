@@ -95,7 +95,7 @@ const HistoryPage = () => {
       <Table.Td>
         {match.matchStatus === "finished"
           ? t("match:playerWon", {
-              PLAYER_NAME: getMatchWinner(match.players)?.name.firstName,
+              PLAYER_NAME: getMatchWinner(match)?.name.firstName,
             })
           : t(`match:matchStatus.${match.matchStatus}`)}
       </Table.Td>
