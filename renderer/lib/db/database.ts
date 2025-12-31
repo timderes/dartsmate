@@ -11,7 +11,7 @@ class DartsMateDatabase extends Dexie {
 
   constructor() {
     super(lowerCasedAppName);
-    
+
     // & = Unique index
     this.version(1).stores({
       matches: "&uuid",
