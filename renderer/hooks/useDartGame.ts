@@ -26,22 +26,14 @@ import { useElapsedTime } from "use-elapsed-time";
 // --- Types ---
 
 type GameState = {
-  players: Player[];
   currentPlayerIndex: number;
   matchRound: DartThrow[]; // Current throws in this turn (0-3)
   multiplier: {
     double: boolean;
     triple: boolean;
   };
-  matchStatus: Match["matchStatus"];
-  initialScore: number;
-  matchCheckout: Checkout;
-  uuid: string;
-  appVersion: string;
-  createdAt: number;
-  updatedAt: number;
   isHydrated: boolean;
-};
+} & Match;
 
 type GameAction =
   | { type: "INIT_GAME"; payload: Match }
@@ -267,7 +259,11 @@ export const useDartGame = () => {
 
   // 2. Persist state to session storage on every change
   useEffect(() => {
-    if (state.isHydrated && state.matchStatus !== "undefined" && state.players.length > 0) {
+    if (
+      state.isHydrated &&
+      state.matchStatus !== "undefined" &&
+      state.players.length > 0
+    ) {
       const currentMatchData: Match = {
         appVersion: state.appVersion,
         createdAt: state.createdAt,
@@ -280,7 +276,12 @@ export const useDartGame = () => {
       };
       setPersistedMatchData(currentMatchData);
     }
-  }, [state.players, state.matchStatus, state.currentPlayerIndex, state.isHydrated]);
+  }, [
+    state.players,
+    state.matchStatus,
+    state.currentPlayerIndex,
+    state.isHydrated,
+  ]);
 
   // Exposed Actions
   const actions = {
