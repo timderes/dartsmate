@@ -17,7 +17,7 @@ type SettingsLayoutProps = {
 
 type SettingsLink = {
   activeRoute: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   href: string;
   label: string;
 };

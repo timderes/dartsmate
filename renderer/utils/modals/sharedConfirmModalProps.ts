@@ -1,5 +1,5 @@
 import type { ModalProps } from "@mantine/core";
-import type { ConfirmModalProps } from "@mantine/modals/lib/ConfirmModal";
+import type { ConfirmModalProps } from "@mantine/modals";
 
 type SharedConfirmModalPropsType = Partial<ModalProps> &
   Partial<ConfirmModalProps>;

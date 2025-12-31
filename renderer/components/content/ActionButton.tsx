@@ -1,9 +1,10 @@
 import type { ActionIconProps } from "@mantine/core";
 import { ActionIcon, Tooltip } from "@mantine/core";
+import type { ReactNode } from "react";
 
 interface ActionButtonProps extends ActionIconProps {
   action: () => void;
-  icon: JSX.Element;
+  icon: ReactNode;
   label: string;
 }
 

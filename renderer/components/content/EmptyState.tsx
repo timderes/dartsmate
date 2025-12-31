@@ -1,10 +1,11 @@
 import { Paper, Title, Text, Stack } from "@mantine/core";
 import type { PaperProps } from "@mantine/core";
 import { useTranslation } from "next-i18next";
+import type { ReactNode } from "react";
 
 type EmptyStateProps = {
-  children?: React.ReactNode;
-  icon: JSX.Element;
+  children?: ReactNode;
+  icon: ReactNode;
   title?: string;
   text?: string;
 } & PaperProps;
@@ -14,7 +15,7 @@ const EmptyState = ({
   title,
   text,
   ...rest
-}: EmptyStateProps): JSX.Element => {
+}: EmptyStateProps): ReactNode => {
   const { t } = useTranslation();
 
   return (
