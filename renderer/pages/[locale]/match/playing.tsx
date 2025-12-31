@@ -373,7 +373,7 @@ const PlayingPage: NextPage = () => {
               {t("match:nextPlayer")}
             </Button>
             <Divider />
-            {getMatchWinner({ ...state, updatedAt: Date.now() }) ? (
+            {getMatchWinner(state.players) ? (
               <Button onClick={() => handleFinishedMatch()}>
                 {t("match:closeFinishedMatch")}
               </Button>
