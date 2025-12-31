@@ -37,7 +37,7 @@ const resizeAvatarImage = ({
           reject(new Error("Failed to resize image"));
         }
       },
-      "base64"
+      "base64",
     );
   });
 };

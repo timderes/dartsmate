@@ -11,7 +11,7 @@ module.exports = {
     unoptimized: true,
   },
   webpack: (config) => {
-    return config
+    return config;
   },
   // transpilePackages: []
 };

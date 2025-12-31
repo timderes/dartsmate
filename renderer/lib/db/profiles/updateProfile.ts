@@ -7,7 +7,7 @@ type PartialProfile = Omit<Partial<Profile>, "uuid">;
 
 const updateProfileFromDatabase = async (
   updatedProfileData: PartialProfile,
-  uuid: Profile["uuid"]
+  uuid: Profile["uuid"],
 ) => {
   await database.profiles.where("uuid").equals(uuid).modify(updatedProfileData);
 };

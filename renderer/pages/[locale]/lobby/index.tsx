@@ -47,7 +47,7 @@ const NewGamePage = () => {
   } = useTranslation();
   const [selectedProfiles, selectedProfilesActions] = useListState<Profile>([]);
   const [availableProfiles, availableProfilesActions] = useListState<Profile>(
-    []
+    [],
   );
 
   const getAllProfiles = () =>
@@ -98,7 +98,7 @@ const NewGamePage = () => {
 
   const handleRemovePlayer = (uuid: Profile["uuid"]): void => {
     const updatedProfiles = selectedProfiles.filter(
-      (profile) => profile.uuid !== uuid
+      (profile) => profile.uuid !== uuid,
     );
     selectedProfilesActions.setState(updatedProfiles);
 

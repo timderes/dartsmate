@@ -22,7 +22,7 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 export const getI18nProperties = async (
   context: GetStaticPropsContext,
-  namespaces: string[] = ["common"]
+  namespaces: string[] = ["common"],
 ) => {
   const locale = (context?.params?.locale as string) ?? defaultLocale;
 
@@ -33,9 +33,9 @@ export const getI18nProperties = async (
 
 export const makeStaticProperties =
   (
-    namespaces: string[] = []
+    namespaces: string[] = [],
   ): ((
-    context: GetStaticPropsContext
+    context: GetStaticPropsContext,
   ) => Promise<{ props: { [key: string]: unknown } }>) =>
   async (context: GetStaticPropsContext) => {
     return {

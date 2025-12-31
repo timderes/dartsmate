@@ -20,13 +20,13 @@ const getPreferredLocale = (): string => {
 
   if (isSupportedLocale) {
     log.info(
-      `User's preferred locale is ${app.getLocale()}. This locale will be used unless the user has overwritten it in the app settings.`
+      `User's preferred locale is ${app.getLocale()}. This locale will be used unless the user has overwritten it in the app settings.`,
     );
     return appLocale;
   }
 
   log.warn(
-    `User's preferred locale is not included in the i18n locales config. Falling back to default locale: ${defaultLocale}!`
+    `User's preferred locale is not included in the i18n locales config. Falling back to default locale: ${defaultLocale}!`,
   );
 
   return defaultLocale;
