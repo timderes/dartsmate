@@ -17,6 +17,7 @@ import {
   useNetwork,
   useOs,
 } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
 import {
   IconMenu2,
   IconMinus,
@@ -24,6 +25,7 @@ import {
   IconSquareX,
   IconSquaresDiagonal,
 } from "@tabler/icons-react";
+import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { APP_NAME, APP_VERSION } from "utils/constants";
@@ -74,6 +76,15 @@ const DefaultLayout = ({
       currentRoute.startsWith(`${localizedRoute}/`)
     );
   };
+
+  const handleCloseApp = () =>
+    modals.openConfirmModal({
+      title: t("confirmCloseAppTitle", { APP_NAME }),
+      children: <Text>{t("confirmCloseAppText")}</Text>,
+      labels: { confirm: t("yes"), cancel: t("cancel") },
+      onConfirm: () => sendIPC("close-app"),
+      ...SharedConfirmModalProps,
+    });
 
   return (
     <AppShell
@@ -148,7 +159,7 @@ const DefaultLayout = ({
               <ActionIcon
                 c="dimmed"
                 size={navbarIconSize}
-                onClick={() => sendIPC("close-app")}
+                onClick={() => handleCloseApp()}
                 variant="transparent"
               >
                 <IconSquareX />
