@@ -8,6 +8,7 @@ import resizeAvatarImage from "utils/avatars/resizeAvatarImage";
 import log from "electron-log/renderer";
 import { UseFormReturnType } from "@mantine/form";
 import { Profile } from "types/profile";
+import { modals } from "@mantine/modals";
 
 const StepThree = ({
   form,
@@ -16,6 +17,21 @@ const StepThree = ({
 }) => {
   const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
+  const [webcam, setWebcam] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.info("Checking for webcam...");
+    window.navigator.mediaDevices
+      .getUserMedia({ audio: false, video: true })
+      .then(() => {
+        console.info("Webcam is available");
+        setWebcam(true);
+      })
+      .catch((err) => {
+        console.warn("Webcam is not available: ", err);
+        setWebcam(false);
+      });
+  }, []);
 
   const handleFileChange = (file: File | null) => {
     if (!file) return;
@@ -36,6 +52,32 @@ const StepThree = ({
     reader.readAsDataURL(file);
   };
 
+  const handleShowWebcamFeed = () =>
+    modals.open({
+      fullScreen: true,
+      title: t("profile:webcam"),
+      children: (
+        <video
+          autoPlay
+          playsInline
+          ref={(el) => {
+            if (el) {
+              navigator.mediaDevices
+                .getUserMedia({ video: true })
+                .then((stream) => {
+                  el.srcObject = stream;
+                })
+                .catch((err) => {
+                  log.error("Error accessing webcam:", err);
+                  setWebcam(false);
+                  modals.closeAll();
+                });
+            }
+          }}
+        />
+      ),
+    });
+
   useEffect(() => {
     handleFileChange(file);
   }, [file, setFile]);
@@ -49,9 +91,10 @@ const StepThree = ({
       <ProfileAvatar profile={form.values} size="xl" mt="lg" mx="auto" />
       <Group justify="center" mt="lg">
         <Button
-          disabled
+          disabled={!webcam}
           leftSection={<IconCamera stroke={1.5} />}
           variant="default"
+          onClick={() => handleShowWebcamFeed()}
         >
           {t("profile:webcam")}
         </Button>
