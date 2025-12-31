@@ -1,6 +1,7 @@
 import { BrowserWindow, app, ipcMain } from "electron";
 import { appSettingsStore } from "./stores";
 import log from "electron-log";
+import { IS_APP_RUNNING_IN_PRODUCTION_MODE } from "../constants";
 
 ipcMain.handle("setLocale", (_, locale: { locale: string }) => {
   appSettingsStore.set("locale", locale);
@@ -35,5 +36,10 @@ ipcMain.on("minimize-app-window", () => {
 });
 
 ipcMain.on("close-app", () => {
+  // In development mode, relaunch the app for easier testing
+  if (!IS_APP_RUNNING_IN_PRODUCTION_MODE) {
+    app.relaunch();
+  }
+
   app.quit();
 });
