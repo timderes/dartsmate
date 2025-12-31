@@ -39,6 +39,7 @@ type GameState = {
   uuid: string;
   appVersion: string;
   createdAt: number;
+  updatedAt: number;
   isHydrated: boolean;
 };
 
@@ -94,6 +95,7 @@ export const gameReducer = (
         uuid: matchData.uuid,
         appVersion: matchData.appVersion || APP_VERSION,
         createdAt: matchData.createdAt,
+        updatedAt: matchData.updatedAt,
         currentPlayerIndex: 0,
         isHydrated: true,
       };
@@ -252,6 +254,7 @@ export const useDartGame = () => {
     uuid: "",
     appVersion: APP_VERSION,
     createdAt: Date.now(),
+    updatedAt: Date.now(),
     isHydrated: false,
   });
 

@@ -35,6 +35,7 @@ describe("useDartGame Reducer", () => {
     uuid: "match-1",
     appVersion: "0.4.0",
     createdAt: 123456789,
+    updatedAt: 123456789,
     isHydrated: true,
   };
 
