@@ -10,7 +10,7 @@ import type { MatchRound } from "types/match";
 const getTotalDartsThrown = (rounds: MatchRound[]): number => {
   return rounds.reduce((total, round) => {
     // throwDetails contains the actual darts thrown in that round
-    return total + (round.throwDetails?.length || 0);
+    return total + (round.throwDetails?.length ?? 0);
   }, 0);
 };
 

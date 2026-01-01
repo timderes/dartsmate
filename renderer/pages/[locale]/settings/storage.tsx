@@ -51,10 +51,10 @@ const storagePage = () => {
           () =>
             notifications.show({
               title: t(
-                "settings:storage.notifications.successDeleteAllProfilesTitle"
+                "settings:storage.notifications.successDeleteAllProfilesTitle",
               ),
               message: t(
-                "settings:storage.notifications.successDeleteAllProfilesText"
+                "settings:storage.notifications.successDeleteAllProfilesText",
               ),
             }),
 
@@ -63,11 +63,11 @@ const storagePage = () => {
               formatLocalizedRoute({
                 locale,
                 route: "/profileSetupIntro",
-              })
+              }),
             )
             .then(() => {
               window.ipc.removeDefaultProfileUUID();
-            })
+            }),
         ),
       ...SharedConfirmModalProps,
     });
@@ -87,12 +87,12 @@ const storagePage = () => {
         void deleteAllMatchesFromDatabase().then(() =>
           notifications.show({
             title: t(
-              "settings:storage.notifications.successDeleteAllMatchesTitle"
+              "settings:storage.notifications.successDeleteAllMatchesTitle",
             ),
             message: t(
-              "settings:storage.notifications.successDeleteAllMatchesText"
+              "settings:storage.notifications.successDeleteAllMatchesText",
             ),
-          })
+          }),
         ),
       ...SharedConfirmModalProps,
     });
@@ -123,7 +123,7 @@ const storagePage = () => {
           formatLocalizedRoute({
             locale,
             route: "/profileSetupIntro",
-          })
+          }),
         );
       },
       ...SharedConfirmModalProps,

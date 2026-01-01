@@ -2,7 +2,7 @@ import type { MatchRound } from "types/match";
 
 const getNumberOfRoundsAboveThreshold = (
   rounds: MatchRound[],
-  n: number
+  n: number,
 ): number => {
   return rounds.filter((round) => round.roundTotal >= n).length;
 };

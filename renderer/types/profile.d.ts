@@ -1,7 +1,7 @@
 import type { DefaultMantineColor } from "@mantine/core";
 import type Country from "@workmate/country-and-currency/lib/resources/Country";
 
-declare type Profile = {
+export type Profile = {
   avatarImage?: string;
   bio: string;
   color: DefaultMantineColor;

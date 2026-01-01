@@ -1,7 +1,7 @@
 import type { MatchRound } from "types/match";
 
 const getCategorizedThrows = (
-  rounds: MatchRound[]
+  rounds: MatchRound[],
 ): {
   triples: number;
   doubles: number;

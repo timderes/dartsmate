@@ -9,7 +9,7 @@ import {
 import { IconArrowRight } from "@tabler/icons-react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import type GameMode from "types/GameMode";
+import type { GameMode } from "types/GameMode";
 import formatLocalizedRoute from "utils/navigation/formatLocalizedRoute";
 
 type GameModeCardProps = CardProps & {
@@ -42,7 +42,7 @@ const GameModeCard = ({ gameMode, ...props }: GameModeCardProps) => {
         w="fit-content"
         onClick={() =>
           void router.push(
-            formatLocalizedRoute({ locale, route: gameMode.setupRoute })
+            formatLocalizedRoute({ locale, route: gameMode.setupRoute }),
           )
         }
       >

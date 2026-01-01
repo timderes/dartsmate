@@ -45,6 +45,7 @@ type GameAction =
 
 // --- Helpers ---
 
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 const isWinningThrow = (
   checkoutType: Checkout,
   scoreLeft: number,
@@ -61,6 +62,7 @@ const isWinningThrow = (
 
   return true; // "Any" checkout
 };
+/* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
 
 // --- Reducer ---
 
@@ -85,7 +87,7 @@ export const gameReducer = (
         initialScore: matchData.initialScore,
         matchCheckout: matchData.matchCheckout,
         uuid: matchData.uuid,
-        appVersion: matchData.appVersion || APP_VERSION,
+        appVersion: matchData.appVersion ?? APP_VERSION,
         createdAt: matchData.createdAt,
         updatedAt: matchData.updatedAt,
         currentPlayerIndex: 0,

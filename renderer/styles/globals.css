@@ -30,5 +30,5 @@
 .draggable input,
 .draggable textarea,
 .draggable select {
-  -webkit-app-region: no-drag
+  -webkit-app-region: no-drag;
 }

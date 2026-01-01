@@ -25,8 +25,8 @@ const resizeAvatarImage = ({
   return new Promise((resolve, reject) => {
     Resizer.imageFileResizer(
       file,
-      height || DEFAULT_AVATAR_HEIGHT, // New height
-      width || DEFAULT_AVATAR_WIDTH, // New width
+      height ?? DEFAULT_AVATAR_HEIGHT, // New height
+      width ?? DEFAULT_AVATAR_WIDTH, // New width
       outputFormat,
       quality,
       rotation,
@@ -37,7 +37,7 @@ const resizeAvatarImage = ({
           reject(new Error("Failed to resize image"));
         }
       },
-      "base64"
+      "base64",
     );
   });
 };

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 import { useTranslation } from "next-i18next";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import DefaultLayout from "@components/layouts/Default";
@@ -47,7 +47,7 @@ const NewGamePage = () => {
   } = useTranslation();
   const [selectedProfiles, selectedProfilesActions] = useListState<Profile>([]);
   const [availableProfiles, availableProfilesActions] = useListState<Profile>(
-    []
+    [],
   );
 
   const getAllProfiles = () =>
@@ -98,7 +98,7 @@ const NewGamePage = () => {
 
   const handleRemovePlayer = (uuid: Profile["uuid"]): void => {
     const updatedProfiles = selectedProfiles.filter(
-      (profile) => profile.uuid !== uuid
+      (profile) => profile.uuid !== uuid,
     );
     selectedProfilesActions.setState(updatedProfiles);
 
@@ -133,7 +133,7 @@ const NewGamePage = () => {
     void router.push(`/${locale}/match/playing`);
   };
 
-  const renderPlayer = (profile: Profile): JSX.Element => {
+  const renderPlayer = (profile: Profile): ReactNode => {
     return (
       <Group justify="space-between">
         <Group>

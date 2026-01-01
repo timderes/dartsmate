@@ -8,7 +8,7 @@ const Document = () => {
   const defaultLocale = i18next.i18n.defaultLocale;
 
   return (
-    <Html lang={i18n?.resolvedLanguage || defaultLocale}>
+    <Html lang={i18n?.resolvedLanguage ?? defaultLocale}>
       <Head title={APP_NAME}>
         <ColorSchemeScript defaultColorScheme="auto" />
       </Head>

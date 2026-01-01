@@ -13,7 +13,7 @@ import isNonMultipleScore from "./isNonMultipleScore";
 export const applyScoreMultiplier = (
   isDouble: boolean,
   isTriple: boolean,
-  score: number
+  score: number,
 ): number => {
   if (isDouble && isTriple) {
     throw new Error("A score cannot be both double and triple!");

@@ -10,8 +10,9 @@ module.exports = {
   images: {
     unoptimized: true,
   },
+  turbopack: {},
   webpack: (config) => {
-    return config
+    return config;
   },
   // transpilePackages: []
 };

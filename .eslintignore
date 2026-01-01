@@ -1,5 +1,0 @@
-app/
-dist/
-node_modules/
-postcss.config.cjs
-vitest.config.js

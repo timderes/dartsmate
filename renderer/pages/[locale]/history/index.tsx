@@ -42,7 +42,7 @@ const HistoryPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const getMatches = async () =>
+    const getMatches = () =>
       getAllMatchesFromDatabase().then((matches) => {
         setMatches(matches);
       });

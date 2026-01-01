@@ -1,4 +1,4 @@
-import type GameMode from "types/GameMode";
+import type { GameMode } from "types/GameMode";
 
 // TODO: Routes are currently here hardcoded. They should match with the navbar routes
 // @see utils/content/navbarRoutes.tsx

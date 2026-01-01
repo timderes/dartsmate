@@ -1,10 +1,10 @@
 import { Box, Title, Text } from "@mantine/core";
 import type { SpaceProps } from "@mantine/core";
 
-interface PageHeaderProps extends SpaceProps {
+type PageHeaderProps = SpaceProps & {
   children: React.ReactNode;
   title: string;
-}
+};
 
 const PageHeader = ({ children, title }: PageHeaderProps) => {
   return (

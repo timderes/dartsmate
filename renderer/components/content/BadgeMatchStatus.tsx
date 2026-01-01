@@ -2,9 +2,9 @@ import { Badge } from "@mantine/core";
 import type { BadgeProps, MantineColor } from "@mantine/core";
 import type { MatchStatus } from "types/match";
 
-interface BadgeMatchStatusProps extends BadgeProps {
+type BadgeMatchStatusProps = BadgeProps & {
   matchStatus: MatchStatus;
-}
+};
 
 const BadgeMatchStatus = ({ matchStatus }: BadgeMatchStatusProps) => {
   const badgeColor: MantineColor = matchStatus === "finished" ? "blue" : "red";
