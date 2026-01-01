@@ -18,7 +18,7 @@ const getFirstNineAverage = (playerRounds: MatchRound[]): number => {
 
   const totalScore = firstThreeRounds.reduce(
     (sum, round) => sum + round.roundTotal,
-    0
+    0,
   );
 
   return totalScore / firstThreeRounds.length;

@@ -6,7 +6,7 @@ import type { Profile } from "types/profile";
 
 const useDefaultProfile = (): Profile | undefined => {
   const [defaultProfile, setDefaultProfile] = useState<Profile | undefined>(
-    undefined
+    undefined,
   );
 
   useEffect(() => {

@@ -46,7 +46,7 @@ const StepOne = ({
           leftSection={
             CountryAndCurrency.getCountriesBy(
               "iso2",
-              form.getValues().country ?? ""
+              form.getValues().country ?? "",
             )[0]?.currency.unicode
           }
           data={countries

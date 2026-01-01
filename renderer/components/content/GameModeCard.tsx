@@ -42,7 +42,7 @@ const GameModeCard = ({ gameMode, ...props }: GameModeCardProps) => {
         w="fit-content"
         onClick={() =>
           void router.push(
-            formatLocalizedRoute({ locale, route: gameMode.setupRoute })
+            formatLocalizedRoute({ locale, route: gameMode.setupRoute }),
           )
         }
       >

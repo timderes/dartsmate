@@ -18,7 +18,7 @@ import type { DartThrow } from "types/match";
 export const getTotalRoundScore = (scores: number[]): number => {
   return scores.reduce(
     (accumulator, currentValue) => accumulator + currentValue,
-    0 // Fallback to `0`, when the given array is empty
+    0, // Fallback to `0`, when the given array is empty
   );
 };
 

@@ -38,9 +38,7 @@ const colorSchemePage = () => {
           label={t("settings:language.title")}
           defaultValue={locale}
           data={locals}
-          onChange={(newLanguage) =>
-            handleChangeLanguage(newLanguage!)
-          }
+          onChange={(newLanguage) => handleChangeLanguage(newLanguage!)}
         />
       </Stack>
     </SettingsLayout>

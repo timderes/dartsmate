@@ -12,7 +12,7 @@ module.exports = {
   },
   turbopack: {},
   webpack: (config) => {
-    return config
+    return config;
   },
   // transpilePackages: []
 };
