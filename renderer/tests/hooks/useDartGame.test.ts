@@ -137,8 +137,8 @@ describe("useDartGame Reducer", () => {
     expect(winState.players[0].setsWon).toBe(1);
   });
 
-  it("should track legs won in a 3 legs match", () => {
-    // Setup a 3 legs, 1 set match
+  it("should track legs won in a match requiring 3 legs to win", () => {
+    // Setup a match where player must win all 3 legs to win the set
     const multiLegState = {
       ...initialState,
       legs: 3,
@@ -173,7 +173,7 @@ describe("useDartGame Reducer", () => {
   });
 
   it("should win match after winning enough legs in a set", () => {
-    // Setup where Alice has already won 2 legs (needs 3 total to win set)
+    // Setup where Alice has already won 2 legs (must win all 3 legs to win the set)
     const closeToSetWinState = {
       ...initialState,
       legs: 3,
@@ -185,7 +185,7 @@ describe("useDartGame Reducer", () => {
       ],
     };
 
-    // Alice wins third leg (3 out of 3 = set win)
+    // Alice wins third leg (winning all 3 required legs = set win)
     let state = gameReducer(closeToSetWinState, {
       type: "TOGGLE_MULTIPLIER",
       payload: "double",
@@ -244,7 +244,7 @@ describe("useDartGame Reducer", () => {
   });
 
   it("should win match after winning enough sets", () => {
-    // Setup where Alice has already won 2 sets and has 2 legs in the third set
+    // Setup where Alice has already won 2 sets and has 2 legs in the third set (must win all 3 sets to win match)
     const closeToMatchWinState = {
       ...initialState,
       legs: 3,
