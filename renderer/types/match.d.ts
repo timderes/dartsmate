@@ -18,6 +18,8 @@ export type Match = {
   matchStatus: MatchStatus;
   uuid: string; // Unique identifier for the match (UUID format: eg. 1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed)
   updatedAt: number;
+  legs: number;
+  sets: number;
 };
 
 export type MatchRound = {

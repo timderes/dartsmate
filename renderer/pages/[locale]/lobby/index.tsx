@@ -93,6 +93,8 @@ const NewGamePage = () => {
       uuid: uuid,
       players: [],
       updatedAt: Date.now(),
+      legs: 3,
+      sets: 1,
     },
   });
 
@@ -241,7 +243,7 @@ const NewGamePage = () => {
           </Stack>
         </Grid.Col>
         <Grid.Col span={4} px="xs" h="100%">
-          <Stack>
+          <Stack gap="xs">
             <Title>{t("lobby:title.matchSettings")}</Title>
             <NumberInput
               label={t("lobby:score")}
@@ -249,6 +251,18 @@ const NewGamePage = () => {
               max={MATCH_SCORE.MAX}
               {...matchSettings.getInputProps("initialScore")}
             />
+            <Group grow>
+              <NumberInput
+                label={t("set", { count: matchSettings.values.sets })}
+                min={1}
+                {...matchSettings.getInputProps("sets")}
+              />
+              <NumberInput
+                label={t("leg", { count: matchSettings.values.legs })}
+                min={1}
+                {...matchSettings.getInputProps("legs")}
+              />
+            </Group>
             <Select
               label={t("lobby:checkout")}
               {...matchSettings.getInputProps("matchCheckout")}
