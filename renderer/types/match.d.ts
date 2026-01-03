@@ -4,6 +4,8 @@ export type Player = Profile & {
   scoreLeft: number;
   isWinner: boolean;
   rounds: MatchRound[];
+  legsWon: number;
+  setsWon: number;
 };
 
 export type Checkout = "Any" | "Double" | "Single" | "Triple";

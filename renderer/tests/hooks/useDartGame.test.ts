@@ -9,6 +9,8 @@ const createMockPlayer = (id: string, name: string): Player => ({
   scoreLeft: 501,
   rounds: [],
   isWinner: false,
+  legsWon: 0,
+  setsWon: 0,
   color: "red",
   statistics: {
     average: 0,
@@ -27,6 +29,8 @@ describe("useDartGame Reducer", () => {
   const initialState = {
     players: [createMockPlayer("1", "Alice"), createMockPlayer("2", "Bob")],
     currentPlayerIndex: 0,
+    currentLegIndex: 0,
+    currentSetIndex: 0,
     matchRound: [],
     multiplier: { double: false, triple: false },
     matchStatus: "started" as const,
@@ -37,6 +41,8 @@ describe("useDartGame Reducer", () => {
     createdAt: 123456789,
     updatedAt: 123456789,
     isHydrated: true,
+    legs: 1,
+    sets: 1,
   };
 
   it("should handle THROW_DART correctly (Single 20)", () => {
@@ -127,5 +133,148 @@ describe("useDartGame Reducer", () => {
     expect(winState.matchStatus).toBe("finished");
     expect(winState.players[0].isWinner).toBe(true);
     expect(winState.players[0].scoreLeft).toBe(0);
+    expect(winState.players[0].legsWon).toBe(1);
+    expect(winState.players[0].setsWon).toBe(1);
+  });
+
+  it("should track legs won in a best of 3 legs match", () => {
+    // Setup a best of 3 legs, 1 set match
+    const multiLegState = {
+      ...initialState,
+      legs: 3,
+      sets: 1,
+      players: [
+        { ...initialState.players[0], scoreLeft: 40 },
+        initialState.players[1],
+      ],
+    };
+
+    // Alice wins first leg
+    let state = gameReducer(multiLegState, {
+      type: "TOGGLE_MULTIPLIER",
+      payload: "double",
+    });
+    state = gameReducer(state, {
+      type: "THROW_DART",
+      payload: { zone: 20 },
+    });
+    state = gameReducer(state, {
+      type: "NEXT_TURN",
+      payload: { elapsedTime: 10 },
+    });
+
+    // After first leg win
+    expect(state.players[0].legsWon).toBe(1);
+    expect(state.players[0].setsWon).toBe(0); // Haven't won set yet
+    expect(state.matchStatus).toBe("started"); // Match continues
+    expect(state.currentLegIndex).toBe(1); // Moved to next leg
+    expect(state.players[0].scoreLeft).toBe(501); // Score reset for new leg
+    expect(state.players[1].scoreLeft).toBe(501);
+  });
+
+  it("should win match after winning enough legs in a set", () => {
+    // Setup where Alice has already won 1 leg in best of 3
+    const closeToSetWinState = {
+      ...initialState,
+      legs: 3,
+      sets: 1,
+      currentLegIndex: 1,
+      players: [
+        { ...initialState.players[0], scoreLeft: 40, legsWon: 1 },
+        initialState.players[1],
+      ],
+    };
+
+    // Alice wins second leg (2 out of 3 = set win)
+    let state = gameReducer(closeToSetWinState, {
+      type: "TOGGLE_MULTIPLIER",
+      payload: "double",
+    });
+    state = gameReducer(state, {
+      type: "THROW_DART",
+      payload: { zone: 20 },
+    });
+    state = gameReducer(state, {
+      type: "NEXT_TURN",
+      payload: { elapsedTime: 10 },
+    });
+
+    // Should win the match (1 set, best of 3 legs)
+    expect(state.players[0].legsWon).toBe(2);
+    expect(state.players[0].setsWon).toBe(1);
+    expect(state.players[0].isWinner).toBe(true);
+    expect(state.matchStatus).toBe("finished");
+  });
+
+  it("should handle multi-set matches correctly", () => {
+    // Setup best of 3 sets, best of 3 legs
+    const multiSetState = {
+      ...initialState,
+      legs: 3,
+      sets: 3,
+      currentLegIndex: 1,
+      players: [
+        { ...initialState.players[0], scoreLeft: 40, legsWon: 1, setsWon: 0 },
+        initialState.players[1],
+      ],
+    };
+
+    // Alice wins second leg to win first set
+    let state = gameReducer(multiSetState, {
+      type: "TOGGLE_MULTIPLIER",
+      payload: "double",
+    });
+    state = gameReducer(state, {
+      type: "THROW_DART",
+      payload: { zone: 20 },
+    });
+    state = gameReducer(state, {
+      type: "NEXT_TURN",
+      payload: { elapsedTime: 10 },
+    });
+
+    // Should win the first set but not the match
+    expect(state.players[0].legsWon).toBe(0); // Reset for new set
+    expect(state.players[0].setsWon).toBe(1);
+    expect(state.players[0].isWinner).toBe(false);
+    expect(state.matchStatus).toBe("started");
+    expect(state.currentSetIndex).toBe(1); // Moved to next set
+    expect(state.currentLegIndex).toBe(0); // Reset to first leg of new set
+    expect(state.players[0].scoreLeft).toBe(501); // Score reset
+  });
+
+  it("should win match after winning enough sets", () => {
+    // Setup where Alice has already won 1 set and is about to win second
+    const closeToMatchWinState = {
+      ...initialState,
+      legs: 3,
+      sets: 3,
+      currentSetIndex: 1,
+      currentLegIndex: 1,
+      players: [
+        { ...initialState.players[0], scoreLeft: 40, legsWon: 1, setsWon: 1 },
+        initialState.players[1],
+      ],
+    };
+
+    // Alice wins second leg to win second set (2 out of 3 = match win)
+    let state = gameReducer(closeToMatchWinState, {
+      type: "TOGGLE_MULTIPLIER",
+      payload: "double",
+    });
+    state = gameReducer(state, {
+      type: "THROW_DART",
+      payload: { zone: 20 },
+    });
+    state = gameReducer(state, {
+      type: "NEXT_TURN",
+      payload: { elapsedTime: 10 },
+    });
+
+    // Should win the match
+    expect(state.players[0].legsWon).toBe(2);
+    expect(state.players[0].setsWon).toBe(2);
+    expect(state.players[0].isWinner).toBe(true);
+    expect(state.matchStatus).toBe("finished");
   });
 });
