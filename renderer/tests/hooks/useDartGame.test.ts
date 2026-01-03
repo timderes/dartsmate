@@ -137,8 +137,8 @@ describe("useDartGame Reducer", () => {
     expect(winState.players[0].setsWon).toBe(1);
   });
 
-  it("should track legs won in a best of 3 legs match", () => {
-    // Setup a best of 3 legs, 1 set match
+  it("should track legs won in a 3 legs match", () => {
+    // Setup a 3 legs, 1 set match
     const multiLegState = {
       ...initialState,
       legs: 3,
@@ -173,19 +173,19 @@ describe("useDartGame Reducer", () => {
   });
 
   it("should win match after winning enough legs in a set", () => {
-    // Setup where Alice has already won 1 leg in best of 3
+    // Setup where Alice has already won 2 legs (needs 3 total to win set)
     const closeToSetWinState = {
       ...initialState,
       legs: 3,
       sets: 1,
-      currentLegIndex: 1,
+      currentLegIndex: 2,
       players: [
-        { ...initialState.players[0], scoreLeft: 40, legsWon: 1 },
+        { ...initialState.players[0], scoreLeft: 40, legsWon: 2 },
         initialState.players[1],
       ],
     };
 
-    // Alice wins second leg (2 out of 3 = set win)
+    // Alice wins third leg (3 out of 3 = set win)
     let state = gameReducer(closeToSetWinState, {
       type: "TOGGLE_MULTIPLIER",
       payload: "double",
@@ -199,27 +199,27 @@ describe("useDartGame Reducer", () => {
       payload: { elapsedTime: 10 },
     });
 
-    // Should win the match (1 set, best of 3 legs)
-    expect(state.players[0].legsWon).toBe(2);
+    // Should win the match (1 set, 3 legs required)
+    expect(state.players[0].legsWon).toBe(3);
     expect(state.players[0].setsWon).toBe(1);
     expect(state.players[0].isWinner).toBe(true);
     expect(state.matchStatus).toBe("finished");
   });
 
   it("should handle multi-set matches correctly", () => {
-    // Setup best of 3 sets, best of 3 legs
+    // Setup: 3 legs per set, 3 sets total. Alice has won 2 legs already
     const multiSetState = {
       ...initialState,
       legs: 3,
       sets: 3,
-      currentLegIndex: 1,
+      currentLegIndex: 2,
       players: [
-        { ...initialState.players[0], scoreLeft: 40, legsWon: 1, setsWon: 0 },
+        { ...initialState.players[0], scoreLeft: 40, legsWon: 2, setsWon: 0 },
         initialState.players[1],
       ],
     };
 
-    // Alice wins second leg to win first set
+    // Alice wins third leg to win first set
     let state = gameReducer(multiSetState, {
       type: "TOGGLE_MULTIPLIER",
       payload: "double",
@@ -244,20 +244,20 @@ describe("useDartGame Reducer", () => {
   });
 
   it("should win match after winning enough sets", () => {
-    // Setup where Alice has already won 1 set and is about to win second
+    // Setup where Alice has already won 2 sets and has 2 legs in the third set
     const closeToMatchWinState = {
       ...initialState,
       legs: 3,
       sets: 3,
-      currentSetIndex: 1,
-      currentLegIndex: 1,
+      currentSetIndex: 2,
+      currentLegIndex: 2,
       players: [
-        { ...initialState.players[0], scoreLeft: 40, legsWon: 1, setsWon: 1 },
+        { ...initialState.players[0], scoreLeft: 40, legsWon: 2, setsWon: 2 },
         initialState.players[1],
       ],
     };
 
-    // Alice wins second leg to win second set (2 out of 3 = match win)
+    // Alice wins third leg to win third set (3 sets total = match win)
     let state = gameReducer(closeToMatchWinState, {
       type: "TOGGLE_MULTIPLIER",
       payload: "double",
@@ -272,8 +272,8 @@ describe("useDartGame Reducer", () => {
     });
 
     // Should win the match
-    expect(state.players[0].legsWon).toBe(2);
-    expect(state.players[0].setsWon).toBe(2);
+    expect(state.players[0].legsWon).toBe(3);
+    expect(state.players[0].setsWon).toBe(3);
     expect(state.players[0].isWinner).toBe(true);
     expect(state.matchStatus).toBe("finished");
   });

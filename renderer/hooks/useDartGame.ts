@@ -209,10 +209,9 @@ export const gameReducer = (
         );
 
         const currentPlayerUpdated = updatedPlayers[state.currentPlayerIndex];
-        const legsToWin = Math.ceil(state.legs / 2);
 
         // Check if player won the set
-        if (currentPlayerUpdated.legsWon >= legsToWin) {
+        if (currentPlayerUpdated.legsWon >= state.legs) {
           // Player won the set
           updatedPlayers = updatedPlayers.map((p, i) =>
             i === state.currentPlayerIndex
@@ -220,10 +219,8 @@ export const gameReducer = (
               : p,
           );
 
-          const setsToWin = Math.ceil(state.sets / 2);
-
           // Check if player won the match
-          if (updatedPlayers[state.currentPlayerIndex].setsWon >= setsToWin) {
+          if (updatedPlayers[state.currentPlayerIndex].setsWon >= state.sets) {
             // Player won the match
             updatedPlayers = updatedPlayers.map((p, i) =>
               i === state.currentPlayerIndex ? { ...p, isWinner: true } : p,
