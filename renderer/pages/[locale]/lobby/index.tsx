@@ -97,8 +97,8 @@ const NewGamePage = () => {
       uuid: uuid,
       players: [],
       updatedAt: Date.now(),
-      legs: 3,
-      sets: 1,
+      legs: DEFAULT_MATCH_SETTINGS.LEGS,
+      sets: DEFAULT_MATCH_SETTINGS.SETS,
     },
   });
 

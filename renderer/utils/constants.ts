@@ -29,10 +29,14 @@ export const DEFAULT_MATCH_SETTINGS: {
   CHECKOUT: Checkout;
   SCORE: number;
   STATUS: MatchStatus;
+  LEGS: number;
+  SETS: number;
 } = {
   CHECKOUT: "Double",
   SCORE: 501,
   STATUS: "started",
+  LEGS: 3,
+  SETS: 1,
 };
 
 // Define the range of valid scores for a match
