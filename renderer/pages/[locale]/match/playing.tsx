@@ -119,6 +119,8 @@ const PlayingPage: NextPage = () => {
           players: state.players,
           updatedAt: Date.now(),
           uuid: state.uuid,
+          legs: state.legs,
+          sets: state.sets,
         });
 
         players.forEach((player) => {
@@ -140,6 +142,8 @@ const PlayingPage: NextPage = () => {
       players: state.players,
       updatedAt: Date.now(),
       uuid: state.uuid,
+      legs: state.legs,
+      sets: state.sets,
     });
 
     players.forEach((player) => {
@@ -179,6 +183,7 @@ const PlayingPage: NextPage = () => {
 
   return (
     <OnlyControlsLayout>
+      DEBUG: {state.legs} legs, {state.sets} sets
       <Grid gutter={0}>
         <Grid.Col span={{ md: 8, xl: 9 }}>
           <Grid gutter={0}>

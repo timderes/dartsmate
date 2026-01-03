@@ -127,6 +127,9 @@ export const gameReducer = (
 
       // 1. Check Win Condition
       const lastThrow = state.matchRound[state.matchRound.length - 1];
+
+      // TODO Update game set and leg here
+
       const isWinner =
         lastThrow &&
         isWinningThrow(
@@ -221,6 +224,8 @@ export const useDartGame = () => {
   const [state, dispatch] = useReducer(gameReducer, {
     players: [],
     currentPlayerIndex: 0,
+    currentLegIndex: 0,
+    currentSetIndex: 0,
     matchRound: [],
     multiplier: { double: false, triple: false },
     matchStatus: "undefined",
@@ -231,6 +236,8 @@ export const useDartGame = () => {
     createdAt: Date.now(),
     updatedAt: Date.now(),
     isHydrated: false,
+    legs: 3,
+    sets: 1,
   });
 
   // 1. Hydrate state on load
@@ -256,6 +263,8 @@ export const useDartGame = () => {
         players: state.players,
         updatedAt: Date.now(),
         uuid: state.uuid,
+        legs: state.legs,
+        sets: state.sets,
       };
       setPersistedMatchData(currentMatchData);
     }
