@@ -183,7 +183,6 @@ const PlayingPage: NextPage = () => {
 
   return (
     <OnlyControlsLayout>
-      DEBUG: {state.legs} legs, {state.sets} sets
       <Grid gutter={0}>
         <Grid.Col span={{ md: 8, xl: 9 }}>
           <Grid gutter={0}>
