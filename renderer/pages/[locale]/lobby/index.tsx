@@ -34,7 +34,9 @@ import type { Match } from "types/match";
 import {
   APP_VERSION,
   DEFAULT_MATCH_SETTINGS,
+  LEGS,
   MATCH_SCORE,
+  SETS,
 } from "@utils/constants";
 import { v4 as getUUID } from "uuid";
 import getFormattedName from "@utils/misc/getFormattedName";
@@ -273,7 +275,8 @@ const NewGamePage = () => {
                     </Tooltip>
                   </Flex>
                 }
-                min={1}
+                min={SETS.MIN}
+                max={SETS.MAX}
                 {...matchSettings.getInputProps("sets")}
               />
               <NumberInput
@@ -290,7 +293,8 @@ const NewGamePage = () => {
                     </Tooltip>
                   </Flex>
                 }
-                min={1}
+                min={LEGS.MIN}
+                max={LEGS.MAX}
                 {...matchSettings.getInputProps("legs")}
               />
             </Group>

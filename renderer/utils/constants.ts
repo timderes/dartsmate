@@ -41,6 +41,16 @@ export const MATCH_SCORE = {
   MAX: 901,
 };
 
+// The maximum limits for legs and sets in a match
+export const LEGS = {
+  MIN: 1,
+  MAX: 99,
+};
+export const SETS = {
+  MIN: 1,
+  MAX: 49,
+};
+
 /*
  * Maximum number of notifications displayed at a time, other new notifications
  * will be added to queue.
