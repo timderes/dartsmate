@@ -253,12 +253,13 @@ const NewGamePage = () => {
             />
             <Group grow>
               <NumberInput
-                label={t("set", { count: matchSettings.values.sets })}
+                // `count = 2` to force pluralization
+                label={t("set", { count: 2 })}
                 min={1}
                 {...matchSettings.getInputProps("sets")}
               />
               <NumberInput
-                label={t("leg", { count: matchSettings.values.legs })}
+                label={t("leg", { count: 2 })}
                 min={1}
                 {...matchSettings.getInputProps("legs")}
               />
