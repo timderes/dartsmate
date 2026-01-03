@@ -59,6 +59,8 @@ export const gameReducer = (
         ...player,
         scoreLeft:
           player.scoreLeft === -1 ? matchData.initialScore : player.scoreLeft,
+        legsWon: player.legsWon ?? 0,
+        setsWon: player.setsWon ?? 0,
       }));
 
       return {
@@ -71,7 +73,11 @@ export const gameReducer = (
         appVersion: matchData.appVersion ?? APP_VERSION,
         createdAt: matchData.createdAt,
         updatedAt: matchData.updatedAt,
+        legs: matchData.legs,
+        sets: matchData.sets,
         currentPlayerIndex: 0,
+        currentLegIndex: 0,
+        currentSetIndex: 0,
         isHydrated: true,
       };
     }
@@ -125,9 +131,10 @@ export const gameReducer = (
       const scores = getScores(state.matchRound);
       const totalRoundScore = getTotalRoundScore(scores);
 
-      // 1. Check Win Condition
+      // 1. Check Win Condition for current leg
       const lastThrow = state.matchRound[state.matchRound.length - 1];
-      const isWinner =
+
+      const isLegWinner =
         lastThrow &&
         isWinningThrow(
           state.matchCheckout,
@@ -152,7 +159,7 @@ export const gameReducer = (
         score: 0,
       };
 
-      const finalRoundDetails = isWinner
+      const finalRoundDetails = isLegWinner
         ? state.matchRound
         : [
             ...state.matchRound,
@@ -173,22 +180,83 @@ export const gameReducer = (
         throwDetails: finalRoundDetails,
       };
 
-      // 4. Update Player
+      // 4. Update Player with round data
       const updatedPlayer: Player = {
         ...currentPlayer,
         rounds: [...currentPlayer.rounds, matchRoundData],
-        isWinner: isWinner,
-        scoreLeft: isWinner ? 0 : bust ? currentPlayer.scoreLeft : newScoreLeft,
+        scoreLeft: isLegWinner ? 0 : bust ? currentPlayer.scoreLeft : newScoreLeft,
+        legsWon: currentPlayer.legsWon,
+        setsWon: currentPlayer.setsWon,
+        isWinner: false, // Will be set below if match is won
       };
 
-      const updatedPlayers = state.players.map((p, i) =>
+      let updatedPlayers = state.players.map((p, i) =>
         i === state.currentPlayerIndex ? updatedPlayer : p,
       );
+
+      // 5. Handle leg win and determine if set/match is won
+      let newCurrentLegIndex = state.currentLegIndex;
+      let newCurrentSetIndex = state.currentSetIndex;
+      let newMatchStatus = state.matchStatus;
+      let shouldResetScores = false;
+
+      if (isLegWinner) {
+        // Increment legs won for the current player
+        updatedPlayers = updatedPlayers.map((p, i) =>
+          i === state.currentPlayerIndex
+            ? { ...p, legsWon: p.legsWon + 1 }
+            : p,
+        );
+
+        const currentPlayerUpdated = updatedPlayers[state.currentPlayerIndex];
+
+        // Check if player won the set
+        if (currentPlayerUpdated.legsWon >= state.legs) {
+          // Player won the set
+          updatedPlayers = updatedPlayers.map((p, i) =>
+            i === state.currentPlayerIndex
+              ? { ...p, setsWon: p.setsWon + 1 }
+              : p,
+          );
+
+          // Check if player won the match
+          if (updatedPlayers[state.currentPlayerIndex].setsWon >= state.sets) {
+            // Player won the match
+            updatedPlayers = updatedPlayers.map((p, i) =>
+              i === state.currentPlayerIndex ? { ...p, isWinner: true } : p,
+            );
+            newMatchStatus = "finished";
+          } else {
+            // Start new set - reset legs won and increment set index
+            updatedPlayers = updatedPlayers.map((p) => ({
+              ...p,
+              legsWon: 0,
+            }));
+            newCurrentSetIndex += 1;
+            newCurrentLegIndex = 0;
+            shouldResetScores = true;
+          }
+        } else {
+          // Start new leg - increment leg index
+          newCurrentLegIndex += 1;
+          shouldResetScores = true;
+        }
+      }
+
+      // 6. Reset scores if starting a new leg
+      if (shouldResetScores) {
+        updatedPlayers = updatedPlayers.map((p) => ({
+          ...p,
+          scoreLeft: state.initialScore,
+        }));
+      }
 
       return {
         ...state,
         players: updatedPlayers,
-        matchStatus: isWinner ? "finished" : "started",
+        matchStatus: newMatchStatus,
+        currentLegIndex: newCurrentLegIndex,
+        currentSetIndex: newCurrentSetIndex,
         currentPlayerIndex:
           (state.currentPlayerIndex + 1) % state.players.length,
         matchRound: [],
@@ -221,6 +289,8 @@ export const useDartGame = () => {
   const [state, dispatch] = useReducer(gameReducer, {
     players: [],
     currentPlayerIndex: 0,
+    currentLegIndex: 0,
+    currentSetIndex: 0,
     matchRound: [],
     multiplier: { double: false, triple: false },
     matchStatus: "undefined",
@@ -231,6 +301,8 @@ export const useDartGame = () => {
     createdAt: Date.now(),
     updatedAt: Date.now(),
     isHydrated: false,
+    legs: 3,
+    sets: 1,
   });
 
   // 1. Hydrate state on load
@@ -256,6 +328,8 @@ export const useDartGame = () => {
         players: state.players,
         updatedAt: Date.now(),
         uuid: state.uuid,
+        legs: state.legs,
+        sets: state.sets,
       };
       setPersistedMatchData(currentMatchData);
     }

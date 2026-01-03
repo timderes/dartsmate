@@ -2,6 +2,8 @@ import { Match, DartThrow } from "./match";
 
 export type GameState = {
   currentPlayerIndex: number;
+  currentLegIndex: number;
+  currentSetIndex: number;
   matchRound: DartThrow[];
   multiplier: {
     double: boolean;
