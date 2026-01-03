@@ -6,6 +6,7 @@ import type {
   MatchRound,
   Checkout,
 } from "types/match";
+import type { GameAction, GameState } from "types/GameState";
 import { useSessionStorage } from "@mantine/hooks";
 import {
   SCORE_BULLSEYE,
@@ -22,26 +23,6 @@ import {
   getTotalRoundScore,
 } from "@utils/match/stats/getTotalRoundScore";
 import { useElapsedTime } from "use-elapsed-time";
-
-// --- Types ---
-
-type GameState = {
-  currentPlayerIndex: number;
-  matchRound: DartThrow[]; // Current throws in this turn (0-3)
-  multiplier: {
-    double: boolean;
-    triple: boolean;
-  };
-  isHydrated: boolean;
-} & Match;
-
-type GameAction =
-  | { type: "INIT_GAME"; payload: Match }
-  | { type: "THROW_DART"; payload: { zone: number } }
-  | { type: "UNDO_THROW" }
-  | { type: "TOGGLE_MULTIPLIER"; payload: "double" | "triple" }
-  | { type: "NEXT_TURN"; payload: { elapsedTime: number } }
-  | { type: "ABORT_MATCH" };
 
 // --- Helpers ---
 
