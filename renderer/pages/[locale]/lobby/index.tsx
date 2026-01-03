@@ -110,6 +110,8 @@ const NewGamePage = () => {
         scoreLeft: -1,
         isWinner: false,
         rounds: [],
+        legsWon: 0,
+        setsWon: 0,
       })),
     });
   };
@@ -124,6 +126,8 @@ const NewGamePage = () => {
         scoreLeft: -1,
         isWinner: false,
         rounds: [],
+        legsWon: 0,
+        setsWon: 0,
       })),
     });
   };
