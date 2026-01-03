@@ -7,6 +7,7 @@ import {
   Button,
   Divider,
   Drawer,
+  Flex,
   Grid,
   Group,
   NumberInput,
@@ -22,6 +23,7 @@ import type { Profile } from "types/profile";
 import ProfileAvatar from "@components/content/ProfileAvatar";
 import { useDisclosure, useListState, useSessionStorage } from "@mantine/hooks";
 import {
+  IconHelpCircleFilled,
   IconUserMinus,
   IconUserPlus,
   IconUserQuestion,
@@ -258,12 +260,36 @@ const NewGamePage = () => {
             <Group grow>
               <NumberInput
                 // `count = 2` to force pluralization
-                label={t("set", { count: 2 })}
+                label={
+                  <Flex align="center" gap="xs">
+                    <span>{t("set", { count: 2 })}</span>
+                    <Tooltip label={t("lobby:setsHelpTooltip")} withArrow>
+                      <IconHelpCircleFilled
+                        size={20}
+                        style={{
+                          cursor: "help",
+                        }}
+                      />
+                    </Tooltip>
+                  </Flex>
+                }
                 min={1}
                 {...matchSettings.getInputProps("sets")}
               />
               <NumberInput
-                label={t("leg", { count: 2 })}
+                label={
+                  <Flex align="center" gap="xs">
+                    <span>{t("leg", { count: 2 })}</span>
+                    <Tooltip label={t("lobby:legsHelpTooltip")} withArrow>
+                      <IconHelpCircleFilled
+                        size={20}
+                        style={{
+                          cursor: "help",
+                        }}
+                      />
+                    </Tooltip>
+                  </Flex>
+                }
                 min={1}
                 {...matchSettings.getInputProps("legs")}
               />
