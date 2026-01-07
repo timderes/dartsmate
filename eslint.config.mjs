@@ -61,13 +61,6 @@ export default tseslint.config(
           format: ["PascalCase"],
         },
       ],
-      // This rule is usually too strict for mixed JS/TS projects or those with complex data flows
-      "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
-      "@typescript-eslint/no-unsafe-argument": "off",
-      "@typescript-eslint/restrict-template-expressions": "off",
-      "@typescript-eslint/no-redundant-type-constituents": "off", // Temporarily disable to reduce noise
     },
   },
 
