@@ -95,7 +95,7 @@ const NewGamePage = () => {
   useEffect(() => {
     if (lastReceivedAction?.type === "INIT_GAME") {
        const matchData = lastReceivedAction.payload;
-       setMatchStorage(matchData as Match);
+       setMatchStorage(matchData);
        void router.push(`/${locale}/match/playing`);
     }
   }, [lastReceivedAction, locale, router, setMatchStorage]);

@@ -52,60 +52,7 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const peerRef = useRef<Peer | null>(null);
   const peersRef = useRef<DataConnection[]>([]);
 
-  // Keep refs synced for callbacks
-  useEffect(() => {
-    peersRef.current = peers;
-  }, [peers]);
-
-  useEffect(() => {
-    peerRef.current = peer;
-  }, [peer]);
-
-  // Host Logic: Broadcast Lobby Updates
-  useEffect(() => {
-    if (isHost) {
-      const activePeers = peers.filter((p) => p.open);
-      const guestIds = activePeers.map((p) => p.peer);
-      
-      setConnectedGuestIds(guestIds);
-
-      activePeers.forEach((conn) => {
-        void conn.send({ type: "LOBBY_UPDATE", payload: guestIds });
-      });
-    }
-  }, [peers, isHost]);
-
-  // Guest Logic: Mesh Networking (Connect to other guests)
-  useEffect(() => {
-    if (!isHost && peer && connectedGuestIds.length > 0) {
-        connectedGuestIds.forEach(guestId => {
-            // If it's not me, and I'm not already connected, connect!
-            const isAlreadyConnected = peers.some(p => p.peer === guestId);
-            if (guestId !== peer.id && !isAlreadyConnected) {
-                connectToPeer(guestId);
-            }
-        });
-    }
-  }, [connectedGuestIds, isHost, peer, peers, connectToPeer]);
-
-
-  const setMyStream = (stream: MediaStream) => {
-    setMyStreamState(stream);
-    
-    // Initiate calls to all currently connected peers
-    peers.forEach((conn) => {
-      if (peer && conn.open) {
-        const call = peer.call(conn.peer, stream);
-        call.on('stream', (remoteStream) => {
-           setPeerStreams((prev) => ({
-             ...prev,
-             [call.peer]: remoteStream
-           }));
-        });
-      }
-    });
-  };
-
+  // 1. Core Helpers (Defined first to avoid hoisting issues)
   const handleData = useCallback((data: unknown) => {
     const payload = data as DataPayload;
     if (payload?.type === "GAME_ACTION") {
@@ -158,7 +105,42 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
       });
   }, [myStream, handleData]);
 
-  // Global Peer Event Listeners (Host & Guest)
+  // 2. Lifecycle Syncs
+  useEffect(() => {
+    peersRef.current = peers;
+  }, [peers]);
+
+  useEffect(() => {
+    peerRef.current = peer;
+  }, [peer]);
+
+  // 3. Host Logic: Broadcast Lobby Updates
+  useEffect(() => {
+    if (isHost) {
+      const activePeers = peers.filter((p) => p.open);
+      const guestIds = activePeers.map((p) => p.peer);
+      
+      setConnectedGuestIds(guestIds);
+
+      activePeers.forEach((conn) => {
+        void conn.send({ type: "LOBBY_UPDATE", payload: guestIds });
+      });
+    }
+  }, [peers, isHost]);
+
+  // 4. Guest Logic: Mesh Networking (Connect to other guests)
+  useEffect(() => {
+    if (!isHost && peer && connectedGuestIds.length > 0) {
+        connectedGuestIds.forEach(guestId => {
+            const isAlreadyConnected = peers.some(p => p.peer === guestId);
+            if (guestId !== peer.id && !isAlreadyConnected) {
+                connectToPeer(guestId);
+            }
+        });
+    }
+  }, [connectedGuestIds, isHost, peer, peers, connectToPeer]);
+
+  // 5. Global Peer Event Listeners (Host & Guest)
   useEffect(() => {
     if (!peer) return;
 
@@ -166,7 +148,6 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
         conn.on('open', () => {
             setPeers((prev) => [...prev, conn]);
             
-            // If we have a stream, call the new peer immediately
              if (myStream) {
               const call = peer.call(conn.peer, myStream);
               call.on('stream', (remoteStream) => {
@@ -189,14 +170,6 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
         conn.on('data', (data: unknown) => {
             handleData(data);
-            
-            // If I am Host, I might need to relay this to others (Star topology for game state)
-            // But for Mesh Video, direct connections handle themselves.
-            const payload = data as DataPayload;
-            if (isHost && payload?.type === 'GAME_ACTION') {
-                 // Optional: Re-broadcast to ensure consistency if we don't trust Mesh propagation
-                 // For now, let's assume clients broadcast to everyone in their list
-            }
         });
     };
 
@@ -209,19 +182,33 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
         peer.off("call", handleIncomingCall);
         peer.off("error");
     };
-  }, [peer, handleIncomingCall, handleData, myStream, isHost]);
+  }, [peer, handleIncomingCall, handleData, myStream]);
+
+  // 6. Action Methods
+  const setMyStream = (stream: MediaStream) => {
+    setMyStreamState(stream);
+    peers.forEach((conn) => {
+      if (peer && conn.open) {
+        const call = peer.call(conn.peer, stream);
+        call.on('stream', (remoteStream) => {
+           setPeerStreams((prev) => ({
+             ...prev,
+             [call.peer]: remoteStream
+           }));
+        });
+      }
+    });
+  };
 
   const hostGame = useCallback((): Promise<string> => {
     return new Promise((resolve, reject) => {
       const newPeer = new Peer(); 
-      
       newPeer.on("open", (id) => {
         setPeer(newPeer);
         setIsHost(true);
         setRoomId(id);
         resolve(id);
       });
-
       newPeer.on("error", (err) => reject(err));
     });
   }, []);
@@ -229,23 +216,18 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const joinGame = useCallback((hostId: string): Promise<void> => {
       return new Promise((resolve, reject) => {
           const newPeer = new Peer();
-          
           newPeer.on("open", () => {
               setPeer(newPeer);
               setIsHost(false);
               setRoomId(hostId);
               
-              // Initial connection to Host
-              // The Global Listener will handle the 'open' event and state update
               const conn = newPeer.connect(hostId);
               conn.on('open', () => {
                   setPeers(prev => [...prev, conn]);
                   conn.on('data', handleData);
               });
-              
               resolve();
           });
-
           newPeer.on("error", (err) => reject(err));
       });
   }, [handleData]);
@@ -261,7 +243,6 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const broadcastAction = useCallback((action: GameAction) => {
-    // Send to all connected peers
     peersRef.current.forEach(conn => {
         if (conn.open) {
             void conn.send({ type: "GAME_ACTION", payload: action });

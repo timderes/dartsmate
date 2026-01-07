@@ -70,28 +70,6 @@ describe('Multiplayer Game Logic Synchronization', () => {
     // Start from a synced state
     const initialState = gameReducer({} as GameState, { type: 'INIT_GAME', payload: matchData });
 
-    // Define a sequence of actions (simulating network traffic)
-    const actions: GameAction[] = [
-      // Player 1 throws 60 (T20)
-      { type: 'THROW_DART', payload: { zone: 20 } }, // Mocking logic: reducer handles multiplier state. 
-      // Wait, reducer needs TOGGLE_MULTIPLIER for Triple.
-      // Let's do simple throws first. 20.
-      { type: 'THROW_DART', payload: { zone: 20 } }, 
-      { type: 'THROW_DART', payload: { zone: 20 } }, 
-      { type: 'THROW_DART', payload: { zone: 20 } }, // 3x 20 = 60
-      
-      // End turn
-      { type: 'NEXT_TURN', payload: { elapsedTime: 5000 } },
-
-      // Player 2 throws Bullseye (50)
-      { type: 'THROW_DART', payload: { zone: 50 } },
-      { type: 'THROW_DART', payload: { zone: 50 } },
-      { type: 'THROW_DART', payload: { zone: 50 } },
-      
-      // End turn
-      { type: 'NEXT_TURN', payload: { elapsedTime: 5000 } }
-    ];
-
     // Note: In the actual app, 'THROW_DART' uses the internal multiplier state.
     // If we want to simulate T20, we must send TOGGLE_MULTIPLIER first.
     // Let's refine the sequence to be realistic.
