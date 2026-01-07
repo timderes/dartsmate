@@ -15,5 +15,32 @@
   "score": "Punktzahl",
   "checkout": "Checkout",
   "legsHelpTooltip": "Die Anzahl der Legs, die ein Spieler für ein Set braucht.",
-  "setsHelpTooltip": "Die Anzahl der Sets, die für den Spielsieg nötig sind."
+  "setsHelpTooltip": "Die Anzahl der Sets, die für den Spielsieg nötig sind.",
+  "modes": {
+    "local": "Lokal",
+    "online": "Online"
+  },
+  "online": {
+    "joinExisting": "Lobby beitreten",
+    "enterRoomId": "Raum-ID eingeben",
+    "join": "Beitreten",
+    "hostNew": "Neues Spiel hosten",
+    "lobbyCreated": "Lobby erstellt!",
+    "shareId": "Raum-ID teilen",
+    "connectedGuests": "Verbundene Gäste",
+    "waitingForGuests": "Warte auf Gäste...",
+    "guestBadge": "Gast",
+    "settings": "Online-Einstellungen",
+    "enforceVerification": "Bestätigung erzwingen (Gegner muss bestätigen)",
+    "enforceVerificationTooltip": "Wenn aktiviert, müssen Gegner jeden Wurf manuell bestätigen.",
+    "notifications": {
+      "createdTitle": "Online-Lobby erstellt",
+      "createdMessage": "Teile die Raum-ID mit deinen Freunden!",
+      "connectedTitle": "Verbunden!",
+      "connectedMessage": "Erfolgreich der Lobby beigetreten.",
+      "errorTitle": "Fehler",
+      "createError": "Online-Lobby konnte nicht erstellt werden.",
+      "joinError": "Beitritt fehlgeschlagen. Überprüfe die ID."
+    }
+  }
 }

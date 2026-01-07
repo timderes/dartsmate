@@ -67,6 +67,8 @@ export const gameReducer = (
         matchStatus: matchData.matchStatus,
         initialScore: matchData.initialScore,
         matchCheckout: matchData.matchCheckout,
+        matchMode: matchData.matchMode,
+        verificationMode: matchData.verificationMode,
         uuid: matchData.uuid,
         appVersion: matchData.appVersion ?? APP_VERSION,
         createdAt: matchData.createdAt,
@@ -76,6 +78,8 @@ export const gameReducer = (
         currentPlayerIndex: 0,
         currentLegIndex: 0,
         currentSetIndex: 0,
+        matchRound: [],
+        multiplier: { double: false, triple: false },
         isHydrated: true,
       };
     }
@@ -352,5 +356,5 @@ export const useDartGame = () => {
     abortMatch: () => dispatch({ type: "ABORT_MATCH" }),
   };
 
-  return { state, actions };
+  return { state, actions, dispatch };
 };

@@ -10,6 +10,8 @@ export type Player = Profile & {
 
 export type Checkout = "Any" | "Double" | "Single" | "Triple";
 export type MatchStatus = "aborted" | "finished" | "started" | "undefined";
+export type MatchMode = "local" | "online";
+export type VerificationMode = "social" | "enforced";
 
 export type Match = {
   appVersion: string; // Semantic versioning string (e.g., "1.0.0")
@@ -18,6 +20,8 @@ export type Match = {
   players: Player[];
   matchCheckout: Checkout;
   matchStatus: MatchStatus;
+  matchMode?: MatchMode;
+  verificationMode?: VerificationMode;
   uuid: string; // Unique identifier for the match (UUID format: eg. 1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed)
   updatedAt: number;
   legs: number;
