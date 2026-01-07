@@ -22,7 +22,7 @@ const logSystemInfo = (): void => {
   const systemInfo = {
     applicationName: app.getName(),
     applicationVersion: app.getVersion(),
-    environmentMode: process.env.NODE_ENV || "undefined",
+    environmentMode: process.env.NODE_ENV ?? "undefined",
     operatingSystem: process.platform,
     systemArchitecture: process.arch,
     osVersion: getSystemVersion(),
