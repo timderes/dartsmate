@@ -119,6 +119,8 @@ const PlayingPage: NextPage = () => {
           players: state.players,
           updatedAt: Date.now(),
           uuid: state.uuid,
+          legs: state.legs,
+          sets: state.sets,
         });
 
         players.forEach((player) => {
@@ -140,6 +142,8 @@ const PlayingPage: NextPage = () => {
       players: state.players,
       updatedAt: Date.now(),
       uuid: state.uuid,
+      legs: state.legs,
+      sets: state.sets,
     });
 
     players.forEach((player) => {

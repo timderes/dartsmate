@@ -29,16 +29,30 @@ export const DEFAULT_MATCH_SETTINGS: {
   CHECKOUT: Checkout;
   SCORE: number;
   STATUS: MatchStatus;
+  LEGS: number;
+  SETS: number;
 } = {
   CHECKOUT: "Double",
   SCORE: 501,
   STATUS: "started",
+  LEGS: 3,
+  SETS: 1,
 };
 
 // Define the range of valid scores for a match
 export const MATCH_SCORE = {
   MIN: 3,
   MAX: 901,
+};
+
+// The maximum limits for legs and sets in a match
+export const LEGS = {
+  MIN: 1,
+  MAX: 99,
+};
+export const SETS = {
+  MIN: 1,
+  MAX: 49,
 };
 
 /*

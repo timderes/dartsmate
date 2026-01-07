@@ -18,6 +18,10 @@
   "offline": "Offline",
   "loading": "Loading...",
   "closeApp": "Close",
+  "leg_one": "Leg",
+  "leg_other": "Legs",
+  "set_one": "Set",
+  "set_other": "Sets",
   "routes": {
     "home": "Home",
     "newMatch": "New Match",

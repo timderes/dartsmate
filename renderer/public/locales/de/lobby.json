@@ -13,5 +13,7 @@
     "text": "Aktuell sind keine Spieler in der Lobby. Füge einige Spieler hinzu, um das Spiel zu starten."
   },
   "score": "Punktzahl",
-  "checkout": "Checkout"
+  "checkout": "Checkout",
+  "legsHelpTooltip": "Die Anzahl der Legs, die ein Spieler für ein Set braucht.",
+  "setsHelpTooltip": "Die Anzahl der Sets, die für den Spielsieg nötig sind."
 }

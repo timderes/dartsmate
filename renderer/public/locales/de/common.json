@@ -18,6 +18,10 @@
   "offline": "Offline",
   "loading": "Lädt...",
   "closeApp": "Schließen",
+  "leg_one": "Leg",
+  "leg_other": "Legs",
+  "set_one": "Set",
+  "set_other": "Sets",
   "routes": {
     "home": "Startseite",
     "newMatch": "Neues Spiel",

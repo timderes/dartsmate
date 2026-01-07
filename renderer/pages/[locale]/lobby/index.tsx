@@ -7,6 +7,7 @@ import {
   Button,
   Divider,
   Drawer,
+  Flex,
   Grid,
   Group,
   NumberInput,
@@ -22,6 +23,7 @@ import type { Profile } from "types/profile";
 import ProfileAvatar from "@components/content/ProfileAvatar";
 import { useDisclosure, useListState, useSessionStorage } from "@mantine/hooks";
 import {
+  IconHelpCircleFilled,
   IconUserMinus,
   IconUserPlus,
   IconUserQuestion,
@@ -32,7 +34,9 @@ import type { Match } from "types/match";
 import {
   APP_VERSION,
   DEFAULT_MATCH_SETTINGS,
+  LEGS,
   MATCH_SCORE,
+  SETS,
 } from "@utils/constants";
 import { v4 as getUUID } from "uuid";
 import getFormattedName from "@utils/misc/getFormattedName";
@@ -93,6 +97,8 @@ const NewGamePage = () => {
       uuid: uuid,
       players: [],
       updatedAt: Date.now(),
+      legs: DEFAULT_MATCH_SETTINGS.LEGS,
+      sets: DEFAULT_MATCH_SETTINGS.SETS,
     },
   });
 
@@ -108,6 +114,8 @@ const NewGamePage = () => {
         scoreLeft: -1,
         isWinner: false,
         rounds: [],
+        legsWon: 0,
+        setsWon: 0,
       })),
     });
   };
@@ -122,6 +130,8 @@ const NewGamePage = () => {
         scoreLeft: -1,
         isWinner: false,
         rounds: [],
+        legsWon: 0,
+        setsWon: 0,
       })),
     });
   };
@@ -241,7 +251,7 @@ const NewGamePage = () => {
           </Stack>
         </Grid.Col>
         <Grid.Col span={4} px="xs" h="100%">
-          <Stack>
+          <Stack gap="xs">
             <Title>{t("lobby:title.matchSettings")}</Title>
             <NumberInput
               label={t("lobby:score")}
@@ -249,6 +259,45 @@ const NewGamePage = () => {
               max={MATCH_SCORE.MAX}
               {...matchSettings.getInputProps("initialScore")}
             />
+            <Group grow>
+              <NumberInput
+                // `count = 2` to force pluralization
+                label={
+                  <Flex align="center" gap="xs">
+                    <span>{t("set", { count: 2 })}</span>
+                    <Tooltip label={t("lobby:setsHelpTooltip")} withArrow>
+                      <IconHelpCircleFilled
+                        size={20}
+                        style={{
+                          cursor: "help",
+                        }}
+                      />
+                    </Tooltip>
+                  </Flex>
+                }
+                min={SETS.MIN}
+                max={SETS.MAX}
+                {...matchSettings.getInputProps("sets")}
+              />
+              <NumberInput
+                label={
+                  <Flex align="center" gap="xs">
+                    <span>{t("leg", { count: 2 })}</span>
+                    <Tooltip label={t("lobby:legsHelpTooltip")} withArrow>
+                      <IconHelpCircleFilled
+                        size={20}
+                        style={{
+                          cursor: "help",
+                        }}
+                      />
+                    </Tooltip>
+                  </Flex>
+                }
+                min={LEGS.MIN}
+                max={LEGS.MAX}
+                {...matchSettings.getInputProps("legs")}
+              />
+            </Group>
             <Select
               label={t("lobby:checkout")}
               {...matchSettings.getInputProps("matchCheckout")}

@@ -13,5 +13,7 @@
     "text": "No players are currently in the lobby. Add some players to get the match going."
   },
   "score": "Score",
-  "checkout": "Checkout"
+  "checkout": "Checkout",
+  "legsHelpTooltip": "The number of legs a player needs to win a set.",
+  "setsHelpTooltip": "The number of sets needed to win the match."
 }
