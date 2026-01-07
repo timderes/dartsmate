@@ -45,7 +45,6 @@ type GameAction =
 
 // --- Helpers ---
 
-/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 const isWinningThrow = (
   checkoutType: Checkout,
   scoreLeft: number,
@@ -62,7 +61,6 @@ const isWinningThrow = (
 
   return true; // "Any" checkout
 };
-/* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
 
 // --- Reducer ---
 

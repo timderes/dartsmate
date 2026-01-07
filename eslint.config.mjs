@@ -38,12 +38,6 @@ export default tseslint.config(
       ...tseslint.configs.recommendedTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
     ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.json", "./renderer/tsconfig.json"], // Both root and renderer tsconfigs
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
     rules: {
       // Enforce 'type' over 'interface'
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
@@ -72,15 +66,20 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
-      "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
       "@typescript-eslint/no-redundant-type-constituents": "off", // Temporarily disable to reduce noise
     },
   },
 
-  // 4. Configuration for Next.js files (applies to renderer TSX/TS files)
+  // 3a. Renderer Project Configuration (TypeScript + Next.js)
   {
     files: ["renderer/**/*.ts", "renderer/**/*.tsx"],
+    languageOptions: {
+      parserOptions: {
+        project: ["./renderer/tsconfig.json"],
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     plugins: {
       "@next/next": nextPlugin,
     },
@@ -88,6 +87,17 @@ export default tseslint.config(
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,
       "@next/next/no-html-link-for-pages": ["error", "renderer/pages/"],
+    },
+  },
+
+  // 3b. Main/Root Project Configuration
+  {
+    files: ["main/**/*.ts", "main/**/*.tsx", "*.ts", "*.mts", "*.cts"],
+    languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.json"],
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
   },
 

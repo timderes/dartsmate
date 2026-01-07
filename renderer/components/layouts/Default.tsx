@@ -28,10 +28,10 @@ import {
 import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { APP_NAME, APP_VERSION } from "utils/constants";
-import navbarRoutes from "utils/content/navbarRoutes";
-import sendIPC from "utils/ipc/send";
-import formatLocalizedRoute from "utils/navigation/formatLocalizedRoute";
+import { APP_NAME, APP_VERSION } from "@utils/constants";
+import navbarRoutes from "@utils/content/navbarRoutes";
+import sendIPC from "@utils/ipc/send";
+import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
 
 type DefaultLayoutProps = {
   children: React.ReactNode;
