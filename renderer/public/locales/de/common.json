@@ -25,6 +25,7 @@
   "routes": {
     "home": "Startseite",
     "newMatch": "Neues Spiel",
+    "multiplayer": "Online Multiplayer",
     "practice": "Übung",
     "history": "Spielverlauf",
     "profile": "Profil",

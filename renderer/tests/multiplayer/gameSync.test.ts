@@ -127,4 +127,18 @@ describe('Multiplayer Game Logic Synchronization', () => {
     // Note: INIT_GAME resets round to empty, UNDO to empty should be effectively similar regarding matchRound
     expect(state.matchRound).toEqual(expectedEmptyRoundState.matchRound);
   });
+
+  it('should ignore Lobby actions like PLAYER_READY', () => {
+    const matchData = createInitialMatchData();
+    const initialState = gameReducer({} as GameState, { type: 'INIT_GAME', payload: matchData });
+    
+    // Use a mock player as the profile payload
+    const playerProfile = matchData.players[0]; 
+    const action: GameAction = { type: 'PLAYER_READY', payload: playerProfile };
+
+    const newState = gameReducer(initialState, action);
+
+    // State should remain exactly the same
+    expect(newState).toEqual(initialState);
+  });
 });

@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import Peer, { MediaConnection, DataConnection } from "peerjs";
 import { GameAction } from "types/GameState";
+import { Match } from "types/match";
 
 type MultiplayerContextType = {
   isHost: boolean;
@@ -16,7 +17,9 @@ type MultiplayerContextType = {
   joinGame: (roomId: string) => Promise<void>;
   leaveGame: () => void;
   broadcastAction: (action: GameAction) => void;
+  broadcastSettings: (settings: Match) => void;
   lastReceivedAction: GameAction | null;
+  lastReceivedSettings: Match | null;
   peers: DataConnection[];
   connectedGuestIds: string[];
   myStream: MediaStream | null;
@@ -43,6 +46,9 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const [connectedGuestIds, setConnectedGuestIds] = useState<string[]>([]);
   const [lastReceivedAction, setLastReceivedAction] =
     useState<GameAction | null>(null);
+  const [lastReceivedSettings, setLastReceivedSettings] = useState<Match | null>(
+    null,
+  );
   
   const [myStream, setMyStreamState] = useState<MediaStream | null>(null);
   const [peerStreams, setPeerStreams] = useState<Record<string, MediaStream>>(
@@ -60,6 +66,9 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     if (payload?.type === "LOBBY_UPDATE") {
       setConnectedGuestIds(payload.payload as string[]);
+    }
+    if (payload?.type === "SETTINGS_UPDATE") {
+      setLastReceivedSettings(payload.payload as Match);
     }
   }, []);
 
@@ -250,6 +259,14 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   }, []);
 
+  const broadcastSettings = useCallback((settings: Match) => {
+    peersRef.current.forEach((conn) => {
+      if (conn.open) {
+        void conn.send({ type: "SETTINGS_UPDATE", payload: settings });
+      }
+    });
+  }, []);
+
   return (
     <MultiplayerContext.Provider
       value={{
@@ -259,7 +276,9 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
         joinGame,
         leaveGame,
         broadcastAction,
+        broadcastSettings,
         lastReceivedAction,
+        lastReceivedSettings,
         peers,
         connectedGuestIds,
         myStream,
