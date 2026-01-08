@@ -21,7 +21,6 @@ import {
   rem,
   useMantineTheme,
   Drawer,
-  Badge,
 } from "@mantine/core";
 import { useTranslation } from "next-i18next";
 import { useLocalStorage, useDisclosure } from "@mantine/hooks";
@@ -29,7 +28,7 @@ import { useRouter } from "next/router";
 import { modals } from "@mantine/modals";
 import { IconCrown, IconEraser, IconVideo } from "@tabler/icons-react";
 import log from "electron-log/renderer";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 import type { Player } from "types/match";
 
@@ -37,6 +36,8 @@ import OnlyControlsLayout from "@components/layouts/OnlyControlsLayout";
 import ProfileAvatar from "@components/content/ProfileAvatar";
 import { useDartGame } from "@hooks/useDartGame";
 import { useMultiplayer } from "../../../context/MultiplayerContext";
+
+import VideoStream from "@components/media/VideoStream";
 
 import addMatchToDatabase from "@lib/db/matches/addMatch";
 import updateProfileFromDatabase from "@lib/db/profiles/updateProfile";
@@ -54,37 +55,6 @@ import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
 import getNumberOfRoundsAboveThreshold from "@utils/match/stats/getScoresAbove";
 import getTotalDartsThrown from "@utils/match/stats/getTotalDartsThrown";
 import getHighestScore from "@utils/match/stats/getHighestScore";
-
-// Video Component
-const VideoStream = ({ stream, muted = false, label }: { stream: MediaStream; muted?: boolean; label?: string }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current && stream) {
-      videoRef.current.srcObject = stream;
-    }
-  }, [stream]);
-
-  return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '200px', backgroundColor: '#000' }}>
-      <video
-        ref={videoRef}
-        autoPlay
-        playsInline
-        muted={muted}
-        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-      />
-      {label && (
-        <Badge 
-          color="dark" 
-          style={{ position: 'absolute', bottom: 10, left: 10, opacity: 0.8 }}
-        >
-          {label}
-        </Badge>
-      )}
-    </div>
-  );
-};
 
 const PlayingPage: NextPage = () => {
   const theme = useMantineTheme();
