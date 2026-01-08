@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   useContext,
   useEffect,
@@ -46,10 +46,9 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
   const [connectedGuestIds, setConnectedGuestIds] = useState<string[]>([]);
   const [lastReceivedAction, setLastReceivedAction] =
     useState<GameAction | null>(null);
-  const [lastReceivedSettings, setLastReceivedSettings] = useState<Match | null>(
-    null,
-  );
-  
+  const [lastReceivedSettings, setLastReceivedSettings] =
+    useState<Match | null>(null);
+
   const [myStream, setMyStreamState] = useState<MediaStream | null>(null);
   const [peerStreams, setPeerStreams] = useState<Record<string, MediaStream>>(
     {},
@@ -72,47 +71,53 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-  const handleIncomingCall = useCallback((call: MediaConnection) => {
-     call.answer(myStream ?? undefined);
-     call.on('stream', (remoteStream) => {
-         setPeerStreams((prev) => ({
-             ...prev,
-             [call.peer]: remoteStream
-         }));
-     });
-  }, [myStream]);
+  const handleIncomingCall = useCallback(
+    (call: MediaConnection) => {
+      call.answer(myStream ?? undefined);
+      call.on("stream", (remoteStream) => {
+        setPeerStreams((prev) => ({
+          ...prev,
+          [call.peer]: remoteStream,
+        }));
+      });
+    },
+    [myStream],
+  );
 
-  const connectToPeer = useCallback((remotePeerId: string) => {
+  const connectToPeer = useCallback(
+    (remotePeerId: string) => {
       if (!peerRef.current) return;
-      
+
       const conn = peerRef.current.connect(remotePeerId);
-      
-      conn.on('open', () => {
-          setPeers((prev) => [...prev, conn]);
-          
-          // If we have a stream, call them
-          if (myStream) {
-              const call = peerRef.current!.call(remotePeerId, myStream);
-              call.on('stream', (remoteStream) => {
-                setPeerStreams((prev) => ({
-                    ...prev,
-                    [call.peer]: remoteStream
-                }));
-              });
-          }
+
+      conn.on("open", () => {
+        setPeers((prev) => [...prev, conn]);
+
+        // If we have a stream, call them
+        if (myStream) {
+          const call = peerRef.current!.call(remotePeerId, myStream);
+          call.on("stream", (remoteStream) => {
+            setPeerStreams((prev) => ({
+              ...prev,
+              [call.peer]: remoteStream,
+            }));
+          });
+        }
       });
 
-      conn.on('data', handleData);
-      
-      conn.on('close', () => {
-          setPeers((prev) => prev.filter(p => p.peer !== remotePeerId));
-          setPeerStreams((prev) => {
-              const newState = { ...prev };
-              delete newState[remotePeerId];
-              return newState;
-          });
+      conn.on("data", handleData);
+
+      conn.on("close", () => {
+        setPeers((prev) => prev.filter((p) => p.peer !== remotePeerId));
+        setPeerStreams((prev) => {
+          const newState = { ...prev };
+          delete newState[remotePeerId];
+          return newState;
+        });
       });
-  }, [myStream, handleData]);
+    },
+    [myStream, handleData],
+  );
 
   // 2. Lifecycle Syncs
   useEffect(() => {
@@ -128,7 +133,7 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
     if (isHost) {
       const activePeers = peers.filter((p) => p.open);
       const guestIds = activePeers.map((p) => p.peer);
-      
+
       setConnectedGuestIds(guestIds);
 
       activePeers.forEach((conn) => {
@@ -140,12 +145,12 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
   // 4. Guest Logic: Mesh Networking (Connect to other guests)
   useEffect(() => {
     if (!isHost && peer && connectedGuestIds.length > 0) {
-        connectedGuestIds.forEach(guestId => {
-            const isAlreadyConnected = peers.some(p => p.peer === guestId);
-            if (guestId !== peer.id && !isAlreadyConnected) {
-                connectToPeer(guestId);
-            }
-        });
+      connectedGuestIds.forEach((guestId) => {
+        const isAlreadyConnected = peers.some((p) => p.peer === guestId);
+        if (guestId !== peer.id && !isAlreadyConnected) {
+          connectToPeer(guestId);
+        }
+      });
     }
   }, [connectedGuestIds, isHost, peer, peers, connectToPeer]);
 
@@ -154,32 +159,32 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!peer) return;
 
     const handleConnection = (conn: DataConnection) => {
-        conn.on('open', () => {
-            setPeers((prev) => [...prev, conn]);
-            
-             if (myStream) {
-              const call = peer.call(conn.peer, myStream);
-              call.on('stream', (remoteStream) => {
-                setPeerStreams((prev) => ({
-                    ...prev,
-                    [call.peer]: remoteStream
-                }));
-              });
-            }
-        });
+      conn.on("open", () => {
+        setPeers((prev) => [...prev, conn]);
 
-        conn.on('close', () => {
-           setPeers((prev) => prev.filter((p) => p.peer !== conn.peer));
-           setPeerStreams((prev) => {
-               const newState = { ...prev };
-               delete newState[conn.peer];
-               return newState;
-           });
-        });
+        if (myStream) {
+          const call = peer.call(conn.peer, myStream);
+          call.on("stream", (remoteStream) => {
+            setPeerStreams((prev) => ({
+              ...prev,
+              [call.peer]: remoteStream,
+            }));
+          });
+        }
+      });
 
-        conn.on('data', (data: unknown) => {
-            handleData(data);
+      conn.on("close", () => {
+        setPeers((prev) => prev.filter((p) => p.peer !== conn.peer));
+        setPeerStreams((prev) => {
+          const newState = { ...prev };
+          delete newState[conn.peer];
+          return newState;
         });
+      });
+
+      conn.on("data", (data: unknown) => {
+        handleData(data);
+      });
     };
 
     peer.on("connection", handleConnection);
@@ -187,9 +192,9 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
     peer.on("error", (err) => console.error("Peer error:", err));
 
     return () => {
-        peer.off("connection", handleConnection);
-        peer.off("call", handleIncomingCall);
-        peer.off("error");
+      peer.off("connection", handleConnection);
+      peer.off("call", handleIncomingCall);
+      peer.off("error");
     };
   }, [peer, handleIncomingCall, handleData, myStream]);
 
@@ -199,11 +204,11 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
     peers.forEach((conn) => {
       if (peer && conn.open) {
         const call = peer.call(conn.peer, stream);
-        call.on('stream', (remoteStream) => {
-           setPeerStreams((prev) => ({
-             ...prev,
-             [call.peer]: remoteStream
-           }));
+        call.on("stream", (remoteStream) => {
+          setPeerStreams((prev) => ({
+            ...prev,
+            [call.peer]: remoteStream,
+          }));
         });
       }
     });
@@ -211,7 +216,7 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const hostGame = useCallback((): Promise<string> => {
     return new Promise((resolve, reject) => {
-      const newPeer = new Peer(); 
+      const newPeer = new Peer();
       newPeer.on("open", (id) => {
         setPeer(newPeer);
         setIsHost(true);
@@ -222,24 +227,27 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   }, []);
 
-  const joinGame = useCallback((hostId: string): Promise<void> => {
+  const joinGame = useCallback(
+    (hostId: string): Promise<void> => {
       return new Promise((resolve, reject) => {
-          const newPeer = new Peer();
-          newPeer.on("open", () => {
-              setPeer(newPeer);
-              setIsHost(false);
-              setRoomId(hostId);
-              
-              const conn = newPeer.connect(hostId);
-              conn.on('open', () => {
-                  setPeers(prev => [...prev, conn]);
-                  conn.on('data', handleData);
-              });
-              resolve();
+        const newPeer = new Peer();
+        newPeer.on("open", () => {
+          setPeer(newPeer);
+          setIsHost(false);
+          setRoomId(hostId);
+
+          const conn = newPeer.connect(hostId);
+          conn.on("open", () => {
+            setPeers((prev) => [...prev, conn]);
+            conn.on("data", handleData);
           });
-          newPeer.on("error", (err) => reject(err));
+          resolve();
+        });
+        newPeer.on("error", (err) => reject(err));
       });
-  }, [handleData]);
+    },
+    [handleData],
+  );
 
   const leaveGame = useCallback(() => {
     peerRef.current?.destroy();
@@ -252,10 +260,10 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const broadcastAction = useCallback((action: GameAction) => {
-    peersRef.current.forEach(conn => {
-        if (conn.open) {
-            void conn.send({ type: "GAME_ACTION", payload: action });
-        }
+    peersRef.current.forEach((conn) => {
+      if (conn.open) {
+        void conn.send({ type: "GAME_ACTION", payload: action });
+      }
     });
   }, []);
 
@@ -283,7 +291,7 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
         connectedGuestIds,
         myStream,
         peerStreams,
-        setMyStream
+        setMyStream,
       }}
     >
       {children}
