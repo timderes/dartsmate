@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "04:00"
+    open-pull-requests-limit: 10
+    groups:
+      # Group Mantine UI updates together to ensure consistency
+      mantine:
+        patterns:
+          - "@mantine/*"
+          - "postcss-preset-mantine"
+      # Group React and Next.js updates (often related)
+      framework:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "next"
+          - "next-i18next"
+          - "nextron"
+      # Group Electron related packages
+      electron:
+        patterns:
+          - "electron"
+          - "electron-*"
