@@ -234,7 +234,11 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
         const timeout = setTimeout(() => {
           newPeer.destroy();
-          reject(new Error("Connection timed out. Lobby not found or host is offline."));
+          reject(
+            new Error(
+              "Connection timed out. Lobby not found or host is offline.",
+            ),
+          );
         }, 5000);
 
         newPeer.on("open", () => {
