@@ -28,7 +28,7 @@ import { useRouter } from "next/router";
 import { modals } from "@mantine/modals";
 import { IconCrown, IconEraser, IconVideo } from "@tabler/icons-react";
 import log from "electron-log/renderer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import type { Player } from "types/match";
 
@@ -98,9 +98,13 @@ const PlayingPage: NextPage = () => {
 
   // --- Multiplayer Logic ---
 
+  const [cameraInitAttempted, setCameraInitAttempted] = useState(false);
+
   // 1. Initialize Camera if Online
   useEffect(() => {
-    if (state.matchMode === "online" && !myStream) {
+    if (state.matchMode === "online" && !myStream && !cameraInitAttempted) {
+      setCameraInitAttempted(true);
+
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
@@ -109,7 +113,14 @@ const PlayingPage: NextPage = () => {
         })
         .catch((err) => console.error("Failed to get camera:", err));
     }
-  }, [state.matchMode, myStream]);
+  }, [
+    state.matchMode,
+    myStream,
+    cameraInitAttempted,
+    cameraDrawerOpened,
+    toggleCameraDrawer,
+    setMyStream,
+  ]);
 
   // 2. Sync Incoming Actions
   useEffect(() => {
@@ -441,7 +452,12 @@ const PlayingPage: NextPage = () => {
               <Button
                 variant="outline"
                 leftSection={<IconVideo size={16} />}
-                onClick={toggleCameraDrawer}
+                onClick={() => {
+                  if (!cameraDrawerOpened && !myStream) {
+                    setCameraInitAttempted(false);
+                  }
+                  toggleCameraDrawer();
+                }}
               >
                 {cameraDrawerOpened
                   ? t("match:camera.hideCameras")
