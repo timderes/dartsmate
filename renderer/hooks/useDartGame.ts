@@ -186,7 +186,11 @@ export const gameReducer = (
       const updatedPlayer: Player = {
         ...currentPlayer,
         rounds: [...currentPlayer.rounds, matchRoundData],
-        scoreLeft: isLegWinner ? 0 : bust ? currentPlayer.scoreLeft : newScoreLeft,
+        scoreLeft: isLegWinner
+          ? 0
+          : bust
+            ? currentPlayer.scoreLeft
+            : newScoreLeft,
         legsWon: currentPlayer.legsWon,
         setsWon: currentPlayer.setsWon,
         isWinner: false, // Will be set below if match is won
@@ -205,9 +209,7 @@ export const gameReducer = (
       if (isLegWinner) {
         // Increment legs won for the current player
         updatedPlayers = updatedPlayers.map((p, i) =>
-          i === state.currentPlayerIndex
-            ? { ...p, legsWon: p.legsWon + 1 }
-            : p,
+          i === state.currentPlayerIndex ? { ...p, legsWon: p.legsWon + 1 } : p,
         );
 
         const currentPlayerUpdated = updatedPlayers[state.currentPlayerIndex];

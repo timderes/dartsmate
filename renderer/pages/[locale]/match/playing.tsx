@@ -65,8 +65,15 @@ const PlayingPage: NextPage = () => {
   const router = useRouter();
 
   const { state, actions, dispatch } = useDartGame();
-  const { broadcastAction, lastReceivedAction, myStream, peerStreams, setMyStream } = useMultiplayer();
-  const [cameraDrawerOpened, { toggle: toggleCameraDrawer }] = useDisclosure(false);
+  const {
+    broadcastAction,
+    lastReceivedAction,
+    myStream,
+    peerStreams,
+    setMyStream,
+  } = useMultiplayer();
+  const [cameraDrawerOpened, { toggle: toggleCameraDrawer }] =
+    useDisclosure(false);
 
   const {
     players,
@@ -81,7 +88,7 @@ const PlayingPage: NextPage = () => {
   // Automatic redirect if match is aborted remotely
   useEffect(() => {
     if (state.matchStatus === "aborted" && state.matchMode === "online") {
-        void router.push(`/${locale}/match/view`);
+      void router.push(`/${locale}/match/view`);
     }
   }, [state.matchStatus, state.matchMode, locale, router]);
 
@@ -93,13 +100,14 @@ const PlayingPage: NextPage = () => {
 
   // 1. Initialize Camera if Online
   useEffect(() => {
-    if (state.matchMode === 'online' && !myStream) {
-      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    if (state.matchMode === "online" && !myStream) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
         .then((stream) => {
           setMyStream(stream);
           if (!cameraDrawerOpened) toggleCameraDrawer(); // Auto open camera view
         })
-        .catch(err => console.error("Failed to get camera:", err));
+        .catch((err) => console.error("Failed to get camera:", err));
     }
   }, [state.matchMode, myStream]);
 
@@ -115,40 +123,39 @@ const PlayingPage: NextPage = () => {
   // 3. Wrapper for Outgoing Actions
   const handleThrowDart = (zone: number) => {
     actions.throwDart(zone);
-    if (state.matchMode === 'online') {
-       broadcastAction({ type: "THROW_DART", payload: { zone } });
+    if (state.matchMode === "online") {
+      broadcastAction({ type: "THROW_DART", payload: { zone } });
     }
   };
 
   const handleUndoThrow = () => {
     actions.undoThrow();
-    if (state.matchMode === 'online') {
-       broadcastAction({ type: "UNDO_THROW" });
+    if (state.matchMode === "online") {
+      broadcastAction({ type: "UNDO_THROW" });
     }
   };
 
   const handleNextTurn = () => {
     // If enforced verification is on, check logic here
     actions.nextTurn();
-    if (state.matchMode === 'online') {
+    if (state.matchMode === "online") {
       // Payload needs elapsedTime, which is handled inside useDartGame's action wrapper usually
-      // But we need to construct the raw action. 
+      // But we need to construct the raw action.
       // Current useDartGame `nextTurn` dispatch includes `elapsedTime`.
       // We need to mirror that. The `actions.nextTurn` handles dispatch locally.
       // We can assume the local reducer is deterministic or we should broadcast the *result*.
       // For simplicity, we just trigger the same action type.
       // Note: `elapsedTime` might desync slightly, but it's acceptable for now.
-       broadcastAction({ type: "NEXT_TURN", payload: { elapsedTime: 0 } }); 
+      broadcastAction({ type: "NEXT_TURN", payload: { elapsedTime: 0 } });
     }
   };
-  
-  const handleToggleMultiplier = (type: "double" | "triple") => {
-      actions.toggleMultiplier(type);
-      if (state.matchMode === 'online') {
-          broadcastAction({ type: "TOGGLE_MULTIPLIER", payload: type });
-      }
-  }
 
+  const handleToggleMultiplier = (type: "double" | "triple") => {
+    actions.toggleMultiplier(type);
+    if (state.matchMode === "online") {
+      broadcastAction({ type: "TOGGLE_MULTIPLIER", payload: type });
+    }
+  };
 
   // --- End Multiplayer Logic ---
 
@@ -187,7 +194,8 @@ const PlayingPage: NextPage = () => {
       },
       onConfirm: () => {
         actions.abortMatch();
-        if (state.matchMode === 'online') broadcastAction({ type: "ABORT_MATCH" });
+        if (state.matchMode === "online")
+          broadcastAction({ type: "ABORT_MATCH" });
 
         // Persist the aborted state
         void addMatchToDatabase({
@@ -271,23 +279,32 @@ const PlayingPage: NextPage = () => {
         overlayProps={{ opacity: 0 }}
         withOverlay={false}
         styles={{
-             content: { marginTop: '60px', height: 'calc(100% - 60px)' }
+          content: { marginTop: "60px", height: "calc(100% - 60px)" },
         }}
       >
         <Stack>
-            {myStream && (
-                <Card padding={0} radius="md" withBorder>
-                   <VideoStream stream={myStream} muted label={t("match:camera.me")} />
-                </Card>
-            )}
-            {Object.entries(peerStreams).map(([peerId, stream]) => (
-                 <Card key={peerId} padding={0} radius="md" withBorder>
-                    <VideoStream stream={stream} label={`${t("match:camera.peer")} ${peerId.substring(0,4)}`} />
-                 </Card>
-            ))}
-            {Object.keys(peerStreams).length === 0 && !myStream && (
-                <Text c="dimmed" ta="center">{t("match:camera.noFeeds")}</Text>
-            )}
+          {myStream && (
+            <Card padding={0} radius="md" withBorder>
+              <VideoStream
+                stream={myStream}
+                muted
+                label={t("match:camera.me")}
+              />
+            </Card>
+          )}
+          {Object.entries(peerStreams).map(([peerId, stream]) => (
+            <Card key={peerId} padding={0} radius="md" withBorder>
+              <VideoStream
+                stream={stream}
+                label={`${t("match:camera.peer")} ${peerId.substring(0, 4)}`}
+              />
+            </Card>
+          ))}
+          {Object.keys(peerStreams).length === 0 && !myStream && (
+            <Text c="dimmed" ta="center">
+              {t("match:camera.noFeeds")}
+            </Text>
+          )}
         </Stack>
       </Drawer>
 
@@ -420,10 +437,16 @@ const PlayingPage: NextPage = () => {
         </Grid.Col>
         <Grid.Col component="aside" span="auto" p="lg">
           <Stack gap="sm">
-            {state.matchMode === 'online' && (
-                 <Button variant="outline" leftSection={<IconVideo size={16} />} onClick={toggleCameraDrawer}>
-                    {cameraDrawerOpened ? t("match:camera.hideCameras") : t("match:camera.showCameras")}
-                 </Button>
+            {state.matchMode === "online" && (
+              <Button
+                variant="outline"
+                leftSection={<IconVideo size={16} />}
+                onClick={toggleCameraDrawer}
+              >
+                {cameraDrawerOpened
+                  ? t("match:camera.hideCameras")
+                  : t("match:camera.showCameras")}
+              </Button>
             )}
 
             <SimpleGrid

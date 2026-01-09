@@ -11,7 +11,11 @@ import {
   rem,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconUserMinus, IconUserPlus, IconUserQuestion } from "@tabler/icons-react";
+import {
+  IconUserMinus,
+  IconUserPlus,
+  IconUserQuestion,
+} from "@tabler/icons-react";
 import { useTranslation } from "next-i18next";
 import { Profile } from "types/profile";
 import ProfileAvatar from "@components/content/ProfileAvatar";
@@ -54,10 +58,7 @@ export const PlayerSelectionList = ({
           })}
           withArrow
         >
-          <ActionIcon
-            onClick={() => onRemove(profile.uuid)}
-            variant="default"
-          >
+          <ActionIcon onClick={() => onRemove(profile.uuid)} variant="default">
             <IconUserMinus style={{ height: rem(18), width: rem(18) }} />
           </ActionIcon>
         </Tooltip>
@@ -68,10 +69,7 @@ export const PlayerSelectionList = ({
           })}
           withArrow
         >
-          <ActionIcon
-            onClick={() => onAdd(profile)}
-            variant="default"
-          >
+          <ActionIcon onClick={() => onAdd(profile)} variant="default">
             <IconUserPlus style={{ height: rem(18), width: rem(18) }} />
           </ActionIcon>
         </Tooltip>
@@ -84,10 +82,17 @@ export const PlayerSelectionList = ({
       <Drawer opened={opened} onClose={close} title={t("lobby:addPlayer")}>
         <ScrollArea pr="xl" h="auto">
           <Stack>
-            <Button onClick={onCreateGuest}>{t("lobby:createGuestPlayer")}</Button>
+            <Button onClick={onCreateGuest}>
+              {t("lobby:createGuestPlayer")}
+            </Button>
             {availableProfiles.map((guestPlayer) => {
-              if (selectedProfiles.some(p => p.uuid === guestPlayer.uuid)) return null;
-              return <div key={guestPlayer.uuid}>{renderPlayer(guestPlayer, false)}</div>;
+              if (selectedProfiles.some((p) => p.uuid === guestPlayer.uuid))
+                return null;
+              return (
+                <div key={guestPlayer.uuid}>
+                  {renderPlayer(guestPlayer, false)}
+                </div>
+              );
             })}
           </Stack>
         </ScrollArea>
