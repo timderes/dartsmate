@@ -14,6 +14,12 @@
   },
   "score": "Punktzahl",
   "checkout": "Checkout",
+  "checkouts": {
+    "any": "Beliebig",
+    "single": "Single",
+    "double": "Double",
+    "triple": "Triple"
+  },
   "legsHelpTooltip": "Die Anzahl der Legs, die ein Spieler für ein Set braucht.",
   "setsHelpTooltip": "Die Anzahl der Sets, die für den Spielsieg nötig sind.",
   "modes": {

@@ -14,6 +14,12 @@
   },
   "score": "Score",
   "checkout": "Checkout",
+  "checkouts": {
+    "any": "Any",
+    "single": "Single",
+    "double": "Double",
+    "triple": "Triple"
+  },
   "legsHelpTooltip": "The number of legs a player needs to win a set.",
   "setsHelpTooltip": "The number of sets needed to win the match.",
   "modes": {
