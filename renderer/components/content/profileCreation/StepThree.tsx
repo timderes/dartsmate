@@ -10,6 +10,7 @@ import { UseFormReturnType } from "@mantine/form";
 import { Profile } from "types/profile";
 import VideoStream from "@components/media/VideoStream";
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 
 const StepThree = ({
   form,
@@ -33,6 +34,10 @@ const StepThree = ({
       open();
     } catch (err) {
       log.error("Error accessing webcam:", err);
+      notifications.show({
+        title: t("errors.webcam-not-found.title"),
+        message: t("errors.webcam-not-found.message"),
+      });
     }
   };
 
