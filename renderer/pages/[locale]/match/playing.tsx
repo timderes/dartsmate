@@ -71,9 +71,19 @@ const PlayingPage: NextPage = () => {
     myStream,
     peerStreams,
     setMyStream,
+    leaveGame,
   } = useMultiplayer();
   const [cameraDrawerOpened, { toggle: toggleCameraDrawer }] =
     useDisclosure(false);
+
+  // Cleanup hardware on unmount
+  useEffect(() => {
+    return () => {
+      if (state.matchMode === "online") {
+        leaveGame();
+      }
+    };
+  }, [state.matchMode, leaveGame]);
 
   const {
     players,

@@ -51,6 +51,7 @@ const MultiplayerPage = () => {
   const {
     hostGame,
     joinGame,
+    leaveGame,
     roomId,
     broadcastAction,
     broadcastSettings,
@@ -220,7 +221,13 @@ const MultiplayerPage = () => {
         </Card>
       </SimpleGrid>
       <Center mt="xl">
-        <Button variant="subtle" onClick={() => void router.back()}>
+        <Button
+          variant="subtle"
+          onClick={() => {
+            leaveGame();
+            void router.back();
+          }}
+        >
           {t("back")}
         </Button>
       </Center>

@@ -281,7 +281,13 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
     setPeers([]);
     setConnectedGuestIds([]);
     setPeerStreams({});
-  }, []);
+
+    // Stop local hardware (Webcam & Microphone)
+    if (myStream) {
+      myStream.getTracks().forEach((track) => track.stop());
+      setMyStreamState(null);
+    }
+  }, [myStream]);
 
   const broadcastAction = useCallback((action: GameAction) => {
     peersRef.current.forEach((conn) => {
