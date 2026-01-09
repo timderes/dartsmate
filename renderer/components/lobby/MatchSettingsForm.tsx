@@ -67,7 +67,12 @@ export const MatchSettingsForm = ({
       </Group>
       <Select
         label={t("lobby:checkout")}
-        data={["Any", "Single", "Double", "Triple"]}
+        data={[
+          { value: "Any", label: t("lobby:checkouts.any") },
+          { value: "Single", label: t("lobby:checkouts.single") },
+          { value: "Double", label: t("lobby:checkouts.double") },
+          { value: "Triple", label: t("lobby:checkouts.triple") },
+        ]}
         readOnly={readOnly}
         disabled={readOnly}
         {...form.getInputProps("matchCheckout")}
