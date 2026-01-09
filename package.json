@@ -24,6 +24,15 @@
     "release": "electron-builder --publish always",
     "test": "vitest"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix --max-warnings 0",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
+  },
   "dependencies": {
     "@mantine/charts": "^8.3.10",
     "@mantine/core": "^8.3.10",
@@ -60,6 +69,8 @@
     "eslint-plugin-prettier": "^5.5.4",
     "globals": "^16.5.0",
     "jsdom": "^27.4.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "next": "^16.1.1",
     "next-i18next": "^15.4.3",
     "nextron": "^9.5.0",
