@@ -190,7 +190,7 @@ const MultiplayerPage = () => {
             <IconDeviceGamepad2 size={50} color="var(--mantine-color-blue-6)" />
             <Title order={3}>{t("lobby:online.hostNew")}</Title>
             <Text c="dimmed" ta="center" size="sm">
-              Create a new room and invite your friends to play.
+              {t("lobby:online.hostNewDescription")}
             </Text>
             {isConnecting && <Loader size="sm" />}
           </Stack>
@@ -201,7 +201,7 @@ const MultiplayerPage = () => {
             <Title order={3}>{t("lobby:online.join")}</Title>
             <Group w="100%">
               <TextInput
-                placeholder="Room ID"
+                placeholder={t("lobby:online.joinPlaceholder")}
                 value={joinRoomIdInput}
                 onChange={(e) => setJoinRoomIdInput(e.currentTarget.value)}
                 style={{ flex: 1 }}
@@ -210,21 +210,18 @@ const MultiplayerPage = () => {
                 onClick={() => void handleJoinGame()}
                 loading={isConnecting}
               >
-                GO
+                {t("lobby:online.joinButton")}
               </Button>
             </Group>
             <Text c="dimmed" ta="center" size="sm">
-              Enter the code from your friend to join.
+              {t("lobby:online.joinDescription")}
             </Text>
           </Stack>
         </Card>
       </SimpleGrid>
       <Center mt="xl">
-        <Button
-          variant="subtle"
-          onClick={() => void router.push(`/${locale}/lobby`)}
-        >
-          Back to Local Game
+        <Button variant="subtle" onClick={() => void router.back()}>
+          {t("back")}
         </Button>
       </Center>
     </Container>

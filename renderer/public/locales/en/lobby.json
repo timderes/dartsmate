@@ -41,6 +41,10 @@
       "errorTitle": "Error",
       "createError": "Failed to create online lobby.",
       "joinError": "Failed to join lobby. Check the ID."
-    }
+    },
+    "hostNewDescription": "Create a new room and invite your friends to play.",
+    "joinPlaceholder": "Room ID",
+    "joinDescription": "Enter your friend's code to join.",
+    "joinButton": "Join"
   }
 }

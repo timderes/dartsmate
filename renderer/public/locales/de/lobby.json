@@ -41,6 +41,10 @@
       "errorTitle": "Fehler",
       "createError": "Online-Lobby konnte nicht erstellt werden.",
       "joinError": "Beitritt fehlgeschlagen. Überprüfe die ID."
-    }
+    },
+    "hostNewDescription": "Erstelle einen neuen Raum und lade deine Freunde zum Spielen ein.",
+    "joinPlaceholder": "Raum-ID",
+    "joinDescription": "Gib den Code von deinem Freund ein, um beizutreten.",
+    "joinButton": "Beitreten"
   }
 }
