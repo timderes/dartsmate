@@ -4,7 +4,6 @@ import {
   NumberInput,
   Select,
   Stack,
-  Title,
   Tooltip,
 } from "@mantine/core";
 import { UseFormReturnType } from "@mantine/form";
@@ -18,12 +17,14 @@ type MatchSettingsFormProps = {
   readOnly?: boolean;
 };
 
-export const MatchSettingsForm = ({ form, readOnly = false }: MatchSettingsFormProps) => {
+export const MatchSettingsForm = ({
+  form,
+  readOnly = false,
+}: MatchSettingsFormProps) => {
   const { t } = useTranslation();
 
   return (
     <Stack gap="xs">
-      <Title>{t("lobby:title.matchSettings")}</Title>
       <NumberInput
         label={t("lobby:score")}
         min={MATCH_SCORE.MIN}

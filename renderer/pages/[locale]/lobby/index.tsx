@@ -2,22 +2,13 @@ import { useEffect } from "react";
 import { useTranslation } from "next-i18next";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import DefaultLayout from "@components/layouts/Default";
-import {
-  Button,
-  Divider,
-  Grid,
-  Stack,
-  Title,
-} from "@mantine/core";
+import { Button, Divider, Grid, Stack, Title } from "@mantine/core";
 import type { Profile } from "types/profile";
 import { useListState, useSessionStorage } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
 import type { Match } from "types/match";
-import {
-  APP_VERSION,
-  DEFAULT_MATCH_SETTINGS,
-} from "@utils/constants";
+import { APP_VERSION, DEFAULT_MATCH_SETTINGS } from "@utils/constants";
 import { v4 as getUUID } from "uuid";
 import getAllProfilesFromDatabase from "@lib/db/profiles/getAllProfiles";
 import { notifications } from "@mantine/notifications";
@@ -141,14 +132,7 @@ const NewGamePage = () => {
         <Grid.Col span={4} px="xs" h="100%">
           <Stack gap="xs">
             <Title>{t("lobby:title.matchSettings")}</Title>
-            {/* The title is duplicated inside MatchSettingsForm if I'm not careful.
-                Let's check MatchSettingsForm content. It has a Title.
-                I should probably remove the Title here or there.
-                In MatchSettingsForm.tsx: <Title>{t("lobby:title.matchSettings")}</Title>
-                So I will remove it here.
-            */}
-             <MatchSettingsForm form={matchSettings} />
-            
+            <MatchSettingsForm form={matchSettings} />
             <Divider />
             <Button
               disabled={selectedProfiles.length === 0}
