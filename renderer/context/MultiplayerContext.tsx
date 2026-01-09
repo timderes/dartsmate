@@ -231,19 +231,43 @@ export const MultiplayerProvider: React.FC<{ children: React.ReactNode }> = ({
     (hostId: string): Promise<void> => {
       return new Promise((resolve, reject) => {
         const newPeer = new Peer();
-        newPeer.on("open", () => {
-          setPeer(newPeer);
-          setIsHost(false);
-          setRoomId(hostId);
 
+        const timeout = setTimeout(() => {
+          newPeer.destroy();
+          reject(new Error("Connection timed out. Lobby not found or host is offline."));
+        }, 5000);
+
+        newPeer.on("open", () => {
           const conn = newPeer.connect(hostId);
+
           conn.on("open", () => {
+            clearTimeout(timeout);
+            setPeer(newPeer);
+            setIsHost(false);
+            setRoomId(hostId);
+
             setPeers((prev) => [...prev, conn]);
             conn.on("data", handleData);
+            resolve();
           });
-          resolve();
+
+          conn.on("error", (err) => {
+            clearTimeout(timeout);
+            newPeer.destroy();
+            reject(err);
+          });
         });
-        newPeer.on("error", (err) => reject(err));
+
+        newPeer.on("error", (err) => {
+          clearTimeout(timeout);
+          newPeer.destroy();
+          // PeerJS specific error for missing peer
+          if (err.type === "peer-unavailable") {
+            reject(new Error("Lobby not found. Please check the Room ID."));
+          } else {
+            reject(err);
+          }
+        });
       });
     },
     [handleData],
