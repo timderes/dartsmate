@@ -235,7 +235,7 @@ const MultiplayerPage = () => {
             <Group justify="space-between">
               <Stack gap={0}>
                 <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
-                  Room ID
+                  {t("lobby:online.roomId")}
                 </Text>
                 <Title order={2} style={{ fontFamily: "monospace" }}>
                   {roomId}
@@ -250,7 +250,9 @@ const MultiplayerPage = () => {
                       copied ? <IconCheck size={16} /> : <IconCopy size={16} />
                     }
                   >
-                    {copied ? "Copied" : "Copy Code"}
+                    {copied
+                      ? t("lobby:online.copiedRoomId")
+                      : t("lobby:online.copyRoomId")}
                   </Button>
                 )}
               </CopyButton>
@@ -285,7 +287,7 @@ const MultiplayerPage = () => {
               onClick={handleStartMatch}
               disabled={selectedProfiles.length === 0}
             >
-              START MATCH
+              {t("lobby:startMatch")}
             </Button>
           </Card>
         </Stack>
@@ -296,11 +298,11 @@ const MultiplayerPage = () => {
   const renderGuestLobby = () => (
     <Container size="md">
       <Stack gap="xl">
-        <Title ta="center">Connected to Lobby</Title>
+        <Title ta="center">{t("lobby:online.connectedToLobby")}</Title>
 
         <Card withBorder radius="md" p="xl">
           <Title order={3} mb="md">
-            1. Select Your Profile
+            {t("lobby:online.selectProfile")}
           </Title>
           {!guestMyProfile ? (
             <ScrollArea h={200}>
@@ -317,7 +319,7 @@ const MultiplayerPage = () => {
                       <Text>{p.username}</Text>
                     </Group>
                     <Button variant="light" size="xs">
-                      Select
+                      {t("select")}
                     </Button>
                   </Group>
                 ))}
@@ -329,7 +331,7 @@ const MultiplayerPage = () => {
               <Stack gap={0}>
                 <Text fw={700}>{guestMyProfile.username}</Text>
                 <Text size="sm" c="green">
-                  Ready & Waiting for Host...
+                  {t("lobby:online.readyWaitingForHost")}
                 </Text>
               </Stack>
               <Button
@@ -338,7 +340,7 @@ const MultiplayerPage = () => {
                 ml="auto"
                 onClick={() => setGuestMyProfile(null)}
               >
-                Change
+                {t("lobby:online.changeProfile")}
               </Button>
             </Group>
           )}
@@ -346,12 +348,13 @@ const MultiplayerPage = () => {
 
         <Card withBorder radius="md" p="xl" style={{ opacity: 0.8 }}>
           <Title order={3} mb="md">
-            Match Settings (Host Controlled)
+            {t("lobby:title.matchSettings")} ({t("lobby:online.hostControlled")}
+            )
           </Title>
           <MatchSettingsForm form={matchSettings} readOnly />
           <Divider my="sm" />
           <Title order={4} mt="md">
-            Players ({selectedProfiles.length})
+            {t("lobby:title.players")} ({selectedProfiles.length})
           </Title>
           <Group mt="xs">
             {selectedProfiles.map((p) => (

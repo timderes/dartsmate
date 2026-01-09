@@ -23,6 +23,9 @@
   "online": {
     "joinExisting": "Join existing lobby",
     "enterRoomId": "Enter Room ID",
+    "roomId": "Room ID",
+    "copyRoomId": "Copy Room ID",
+    "copiedRoomId": "Room ID Copied",
     "join": "Join",
     "hostNew": "Host New Match",
     "lobbyCreated": "Lobby Created!",
@@ -45,6 +48,11 @@
     "hostNewDescription": "Create a new room and invite your friends to play.",
     "joinPlaceholder": "Room ID",
     "joinDescription": "Enter your friend's code to join.",
-    "joinButton": "Join"
+    "joinButton": "Join",
+    "connectedToLobby": "Connected to Lobby",
+    "selectProfile": "Select Your Profile",
+    "readyWaitingForHost": "Ready! Waiting for Host...",
+    "changeProfile": "Change Profile",
+    "hostControlled": "Host Controlled"
   }
 }
