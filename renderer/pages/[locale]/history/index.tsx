@@ -88,7 +88,7 @@ const HistoryPage = () => {
       <Table.Td>
         <AvatarGroup>
           {match.players.map((player) => (
-            <ProfileAvatar profile={player} />
+            <ProfileAvatar key={player.uuid} profile={player} />
           ))}
         </AvatarGroup>
       </Table.Td>
