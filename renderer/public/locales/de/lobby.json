@@ -14,6 +14,51 @@
   },
   "score": "Punktzahl",
   "checkout": "Checkout",
+  "checkouts": {
+    "any": "Beliebig",
+    "single": "Single",
+    "double": "Double",
+    "triple": "Triple"
+  },
   "legsHelpTooltip": "Die Anzahl der Legs, die ein Spieler für ein Set braucht.",
-  "setsHelpTooltip": "Die Anzahl der Sets, die für den Spielsieg nötig sind."
+  "setsHelpTooltip": "Die Anzahl der Sets, die für den Spielsieg nötig sind.",
+  "modes": {
+    "local": "Lokal",
+    "online": "Online"
+  },
+  "online": {
+    "joinExisting": "Lobby beitreten",
+    "enterRoomId": "Raum-ID eingeben",
+    "roomId": "Raum-ID",
+    "join": "Beitreten",
+    "copyRoomId": "Raum-ID kopieren",
+    "copiedRoomId": "Raum-ID kopiert",
+    "hostNew": "Neues Spiel hosten",
+    "lobbyCreated": "Lobby erstellt!",
+    "shareId": "Raum-ID teilen",
+    "connectedGuests": "Verbundene Gäste",
+    "waitingForGuests": "Warte auf Gäste...",
+    "guestBadge": "Gast",
+    "settings": "Online-Einstellungen",
+    "enforceVerification": "Bestätigung erzwingen (Gegner muss bestätigen)",
+    "enforceVerificationTooltip": "Wenn aktiviert, müssen Gegner jeden Wurf manuell bestätigen.",
+    "notifications": {
+      "createdTitle": "Online-Lobby erstellt",
+      "createdMessage": "Teile die Raum-ID mit deinen Freunden!",
+      "connectedTitle": "Verbunden!",
+      "connectedMessage": "Erfolgreich der Lobby beigetreten.",
+      "errorTitle": "Fehler",
+      "createError": "Online-Lobby konnte nicht erstellt werden.",
+      "joinError": "Beitritt fehlgeschlagen. Überprüfe die ID."
+    },
+    "hostNewDescription": "Erstelle einen neuen Raum und lade deine Freunde zum Spielen ein.",
+    "joinPlaceholder": "Raum-ID",
+    "joinDescription": "Gib den Code von deinem Freund ein, um beizutreten.",
+    "joinButton": "Beitreten",
+    "connectedToLobby": "Mit der Lobby verbunden",
+    "selectProfile": "Wähle dein Profil",
+    "readyWaitingForHost": "Bereit! Wartet auf den Host...",
+    "changeProfile": "Profil ändern",
+    "hostControlled": "Vom Host gesteuert"
+  }
 }

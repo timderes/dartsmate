@@ -6,6 +6,7 @@ import {
   IconSettings,
   IconTarget,
   IconUser,
+  IconWorld,
 } from "@tabler/icons-react";
 
 /**
@@ -25,6 +26,11 @@ const navbarRoutes = [
     icon: <IconTarget />,
     label: "routes.newMatch",
     route: "/lobby",
+  },
+  {
+    icon: <IconWorld />,
+    label: "routes.multiplayer",
+    route: "/multiplayer",
   },
   /*
   {

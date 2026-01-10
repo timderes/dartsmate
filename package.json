@@ -3,7 +3,7 @@
   "name": "dartsmate",
   "productName": "DartsMate",
   "description": "Analyze, track and compare your dart games.",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "author": "DartsMate Contributors",
   "main": "app/background.js",
   "repository": "https://github.com/timderes/dartsmate",
@@ -47,12 +47,15 @@
     "electron-store": "^11.0.2",
     "electron-updater": "^6.6.2",
     "embla-carousel": "^8.6.0",
-    "embla-carousel-react": "^8.6.0"
+    "embla-carousel-react": "^8.6.0",
+    "peerjs": "^1.5.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@next/eslint-plugin-next": "^16.1.1",
+    "@testing-library/react": "^16.3.1",
     "@types/node": "^25.0.3",
+    "@types/peerjs": "^0.0.30",
     "@types/react": "^19.0.0",
     "@types/uuid": "^10.0.0",
     "@workmate/country-and-currency": "^1.2.2",
@@ -65,6 +68,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "globals": "^16.5.0",
+    "jsdom": "^27.4.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "next": "^16.1.1",

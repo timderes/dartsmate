@@ -1,54 +1,27 @@
-import { useEffect, type ReactNode } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "next-i18next";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import DefaultLayout from "@components/layouts/Default";
-import {
-  ActionIcon,
-  Button,
-  Divider,
-  Drawer,
-  Flex,
-  Grid,
-  Group,
-  NumberInput,
-  ScrollArea,
-  Select,
-  Stack,
-  Text,
-  Title,
-  Tooltip,
-  rem,
-} from "@mantine/core";
+import { Button, Divider, Grid, Stack, Title } from "@mantine/core";
 import type { Profile } from "types/profile";
-import ProfileAvatar from "@components/content/ProfileAvatar";
-import { useDisclosure, useListState, useSessionStorage } from "@mantine/hooks";
-import {
-  IconHelpCircleFilled,
-  IconUserMinus,
-  IconUserPlus,
-  IconUserQuestion,
-} from "@tabler/icons-react";
+import { useListState, useSessionStorage } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
 import type { Match } from "types/match";
-import {
-  APP_VERSION,
-  DEFAULT_MATCH_SETTINGS,
-  LEGS,
-  MATCH_SCORE,
-  SETS,
-} from "@utils/constants";
+import { APP_VERSION, DEFAULT_MATCH_SETTINGS } from "@utils/constants";
 import { v4 as getUUID } from "uuid";
-import getFormattedName from "@utils/misc/getFormattedName";
-import EmptyState from "@components/content/EmptyState";
 import getAllProfilesFromDatabase from "@lib/db/profiles/getAllProfiles";
 import { notifications } from "@mantine/notifications";
+
+import { MatchSettingsForm } from "@components/lobby/MatchSettingsForm";
+import { PlayerSelectionList } from "@components/lobby/PlayerSelectionList";
 
 const NewGamePage = () => {
   const {
     t,
     i18n: { language: locale },
   } = useTranslation();
+
   const [selectedProfiles, selectedProfilesActions] = useListState<Profile>([]);
   const [availableProfiles, availableProfilesActions] = useListState<Profile>(
     [],
@@ -57,35 +30,29 @@ const NewGamePage = () => {
   const getAllProfiles = () =>
     getAllProfilesFromDatabase()
       .then((profiles) => {
-        profiles.forEach((profile) => {
-          availableProfilesActions.append(profile);
-        });
+        availableProfilesActions.setState(profiles);
       })
       .catch((e) => {
         notifications.show({
           title: "Error!",
-          message: e as string,
+          message: String(e),
         });
       });
 
-  const [opened, { open, close }] = useDisclosure(false);
-
   const router = useRouter();
-
-  useEffect(() => {
-    // Reset profiles since they will refetch each render
-    selectedProfilesActions.setState([]);
-    availableProfilesActions.setState([]);
-
-    void getAllProfiles();
-  }, []);
-
-  const uuid = getUUID();
 
   const [, setMatchStorage] = useSessionStorage<Match>({
     key: "currentMatch",
     defaultValue: undefined,
   });
+
+  useEffect(() => {
+    selectedProfilesActions.setState([]);
+    availableProfilesActions.setState([]);
+    void getAllProfiles();
+  }, []);
+
+  const uuid = getUUID();
 
   const matchSettings = useForm<Match>({
     initialValues: {
@@ -94,6 +61,8 @@ const NewGamePage = () => {
       initialScore: DEFAULT_MATCH_SETTINGS.SCORE,
       matchCheckout: DEFAULT_MATCH_SETTINGS.CHECKOUT,
       matchStatus: DEFAULT_MATCH_SETTINGS.STATUS,
+      matchMode: "local",
+      verificationMode: "social",
       uuid: uuid,
       players: [],
       updatedAt: Date.now(),
@@ -143,167 +112,27 @@ const NewGamePage = () => {
     void router.push(`/${locale}/match/playing`);
   };
 
-  const renderPlayer = (profile: Profile): ReactNode => {
-    return (
-      <Group justify="space-between">
-        <Group>
-          <ProfileAvatar
-            profile={profile}
-            src={profile.avatarImage}
-            size="lg"
-          />
-          <Text>
-            {getFormattedName(profile.name)}{" "}
-            <Text component="span" c="dimmed" display="block" size="xs">
-              {profile.username}
-            </Text>
-          </Text>
-        </Group>
-        {selectedProfiles.includes(profile) ? (
-          <Tooltip
-            label={t("lobby:removePlayerFromLobby", {
-              PLAYER_NAME: profile.username,
-            })}
-            withArrow
-          >
-            <ActionIcon
-              onClick={() => handleRemovePlayer(profile.uuid)}
-              disabled={false}
-              variant="default"
-            >
-              <IconUserMinus
-                style={{
-                  height: rem(18),
-                  width: rem(18),
-                }}
-              />
-            </ActionIcon>
-          </Tooltip>
-        ) : (
-          <Tooltip
-            label={t("lobby:addPlayerToLobby", {
-              PLAYER_NAME: profile.username,
-            })}
-            withArrow
-          >
-            <ActionIcon
-              onClick={() => handleAddPlayer(profile)}
-              disabled={false}
-              variant="default"
-            >
-              <IconUserPlus
-                style={{
-                  height: rem(18),
-                  width: rem(18),
-                }}
-              />
-            </ActionIcon>
-          </Tooltip>
-        )}
-      </Group>
-    );
-  };
-
   return (
     <DefaultLayout withNavbarOpen={false}>
-      <Drawer opened={opened} onClose={close} title={t("lobby:addPlayer")}>
-        <ScrollArea pr="xl" h="auto">
-          <Stack>
-            <Button
-              onClick={() =>
-                void router.push({
-                  pathname: `/${locale}/profile/create`,
-                  query: { isGuest: true },
-                })
-              }
-            >
-              {t("lobby:createGuestPlayer")}
-            </Button>
-            {availableProfiles.map((guestPlayer) => {
-              if (selectedProfiles.includes(guestPlayer)) return;
-
-              return (
-                <div key={guestPlayer.uuid}>{renderPlayer(guestPlayer)}</div>
-              );
-            })}
-          </Stack>
-        </ScrollArea>
-      </Drawer>
       <Grid gutter={0}>
         <Grid.Col span="auto" px="xs">
-          <Stack gap="lg">
-            <Group>
-              <Title>{t("lobby:title.players")}</Title>
-              <Button ml="auto" size="xs" onClick={open}>
-                {t("lobby:addPlayer")}
-              </Button>
-            </Group>
-            {selectedProfiles.map((player) => (
-              <div key={player.uuid}>{renderPlayer(player)}</div>
-            ))}
-            {selectedProfiles.length === 0 ? (
-              <EmptyState
-                icon={<IconUserQuestion size={64} opacity={0.6} />}
-                title={t("lobby:emptyLobbyState.title")}
-                text={t("lobby:emptyLobbyState.text")}
-              />
-            ) : undefined}
-          </Stack>
+          <PlayerSelectionList
+            selectedProfiles={selectedProfiles}
+            availableProfiles={availableProfiles}
+            onAdd={handleAddPlayer}
+            onRemove={handleRemovePlayer}
+            onCreateGuest={() =>
+              void router.push({
+                pathname: `/${locale}/profile/create`,
+                query: { isGuest: true },
+              })
+            }
+          />
         </Grid.Col>
         <Grid.Col span={4} px="xs" h="100%">
           <Stack gap="xs">
             <Title>{t("lobby:title.matchSettings")}</Title>
-            <NumberInput
-              label={t("lobby:score")}
-              min={MATCH_SCORE.MIN}
-              max={MATCH_SCORE.MAX}
-              {...matchSettings.getInputProps("initialScore")}
-            />
-            <Group grow>
-              <NumberInput
-                // `count = 2` to force pluralization
-                label={
-                  <Flex align="center" gap="xs">
-                    <span>{t("set", { count: 2 })}</span>
-                    <Tooltip label={t("lobby:setsHelpTooltip")} withArrow>
-                      <IconHelpCircleFilled
-                        size={20}
-                        style={{
-                          cursor: "help",
-                        }}
-                      />
-                    </Tooltip>
-                  </Flex>
-                }
-                min={SETS.MIN}
-                max={SETS.MAX}
-                {...matchSettings.getInputProps("sets")}
-              />
-              <NumberInput
-                label={
-                  <Flex align="center" gap="xs">
-                    <span>{t("leg", { count: 2 })}</span>
-                    <Tooltip label={t("lobby:legsHelpTooltip")} withArrow>
-                      <IconHelpCircleFilled
-                        size={20}
-                        style={{
-                          cursor: "help",
-                        }}
-                      />
-                    </Tooltip>
-                  </Flex>
-                }
-                min={LEGS.MIN}
-                max={LEGS.MAX}
-                {...matchSettings.getInputProps("legs")}
-              />
-            </Group>
-            <Select
-              label={t("lobby:checkout")}
-              {...matchSettings.getInputProps("matchCheckout")}
-              defaultValue={matchSettings.values.matchCheckout}
-              data={["Any", "Single", "Double", "Triple"]}
-            />
+            <MatchSettingsForm form={matchSettings} />
             <Divider />
             <Button
               disabled={selectedProfiles.length === 0}
