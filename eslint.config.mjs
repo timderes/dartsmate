@@ -30,6 +30,21 @@ export default tseslint.config(
 
   // 2. Base ESLint Recommended Rules (applies to all files initially)
   eslint.configs.recommended,
+  {
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["**/index"],
+              message: "Barrel imports are forbidden. Import directly from the file.",
+            },
+          ],
+        },
+      ],
+    },
+  },
 
   // 3. Configuration for TypeScript files
   {

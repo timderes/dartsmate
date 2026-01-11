@@ -1,6 +1,6 @@
 import Store from "electron-store";
 import pkg from "../../package.json";
-import { IS_APP_RUNNING_IN_PRODUCTION_MODE } from "../constants";
+import { IS_APP_RUNNING_IN_PRODUCTION_MODE } from "../constants/application";
 
 type AppSettingsStoreType = {
   defaultProfileUUID?: string;

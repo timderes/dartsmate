@@ -1,15 +1,17 @@
 import { app } from "electron";
 import serve from "electron-serve";
-import { createWindow } from "./helpers";
+import createWindow from "./helpers/create-window";
+import "./helpers/ipc";
 import path from "path";
 import log from "electron-log";
 import { autoUpdater } from "electron-updater";
 import { appSettingsStore } from "./helpers/stores";
-import { getPreferredLocale, logSystemInfo } from "./helpers/utils";
+import getPreferredLocale from "./helpers/utils/getPreferredLocale";
+import logSystemInfo from "./helpers/utils/logSystemInfo";
 import {
   IS_APP_RUNNING_IN_PRODUCTION_MODE,
   MINIMAL_WINDOW_SIZE,
-} from "./constants";
+} from "./constants/application";
 
 const sessionId = new Date().valueOf();
 
