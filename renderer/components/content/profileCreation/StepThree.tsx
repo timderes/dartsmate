@@ -129,13 +129,13 @@ const StepThree = ({
           </div>
           <Group>
             <Button onClick={stopCamera} variant="default">
-              {t("common:cancel")}
+              {t("cancel")}
             </Button>
             <Button
               onClick={() => captureImage()}
               leftSection={<IconCamera size={16} />}
             >
-              {t("common:save")}
+              {t("profile:takeScreenshot")}
             </Button>
           </Group>
         </Stack>

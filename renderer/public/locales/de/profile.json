@@ -55,6 +55,7 @@
   "photoUpload": "Bild auswählen",
   "webcam": "Webcam",
   "removePhotoUpload": "Bild entfernen",
+  "takeScreenshot": "Bild aufnehmen",
   "exportProfile": "Profil exportieren",
   "emptyBioPlaceholder": "{{FIRST_NAME}} hat noch keine Beschreibung hinzugefügt.",
   "notifications": {
