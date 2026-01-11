@@ -14,6 +14,51 @@
   },
   "score": "Score",
   "checkout": "Checkout",
+  "checkouts": {
+    "any": "Any",
+    "single": "Single",
+    "double": "Double",
+    "triple": "Triple"
+  },
   "legsHelpTooltip": "The number of legs a player needs to win a set.",
-  "setsHelpTooltip": "The number of sets needed to win the match."
+  "setsHelpTooltip": "The number of sets needed to win the match.",
+  "modes": {
+    "local": "Local",
+    "online": "Online"
+  },
+  "online": {
+    "joinExisting": "Join existing lobby",
+    "enterRoomId": "Enter Room ID",
+    "roomId": "Room ID",
+    "copyRoomId": "Copy Room ID",
+    "copiedRoomId": "Room ID Copied",
+    "join": "Join",
+    "hostNew": "Host New Match",
+    "lobbyCreated": "Lobby Created!",
+    "shareId": "Share this Room ID",
+    "connectedGuests": "Connected Guests",
+    "waitingForGuests": "Waiting for guests to join...",
+    "guestBadge": "Guest",
+    "settings": "Online Settings",
+    "enforceVerification": "Enforce Verification (Opponent must confirm)",
+    "enforceVerificationTooltip": "If checked, opponents must explicitly click a button to confirm your throws.",
+    "notifications": {
+      "createdTitle": "Online Lobby Created",
+      "createdMessage": "Share the Room ID with your friends!",
+      "connectedTitle": "Connected!",
+      "connectedMessage": "Joined the lobby successfully.",
+      "errorTitle": "Error",
+      "createError": "Failed to create online lobby.",
+      "joinError": "Failed to join lobby. Check the ID."
+    },
+    "hostNewDescription": "Create a new room and invite your friends to play.",
+    "joinPlaceholder": "Room ID",
+    "joinDescription": "Enter your friend's code to join.",
+    "joinButton": "Join",
+    "connectedToLobby": "Connected to Lobby",
+    "selectProfile": "Select Your Profile",
+    "readyWaitingForHost": "Ready! Waiting for Host...",
+    "changeProfile": "Change Profile",
+    "hostControlled": "Host Controlled"
+  }
 }

@@ -37,7 +37,7 @@ describe("useDartGame Reducer", () => {
     initialScore: 501,
     matchCheckout: "Double" as const,
     uuid: "match-1",
-    appVersion: "0.5.0",
+    appVersion: "0.6.0",
     createdAt: 123456789,
     updatedAt: 123456789,
     isHydrated: true,

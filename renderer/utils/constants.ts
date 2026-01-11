@@ -1,5 +1,10 @@
 import pkg from "../../package.json";
-import { Checkout, MatchStatus } from "types/match";
+import {
+  Checkout,
+  MatchMode,
+  MatchStatus,
+  VerificationMode,
+} from "types/match";
 
 export const APP_NAME = pkg.productName;
 export const APP_VERSION = pkg.version;
@@ -31,12 +36,16 @@ export const DEFAULT_MATCH_SETTINGS: {
   STATUS: MatchStatus;
   LEGS: number;
   SETS: number;
+  MATCH_MODE: MatchMode;
+  VERIFICATION_MODE: VerificationMode;
 } = {
   CHECKOUT: "Double",
   SCORE: 501,
   STATUS: "started",
   LEGS: 3,
   SETS: 1,
+  MATCH_MODE: "local",
+  VERIFICATION_MODE: "social",
 };
 
 // Define the range of valid scores for a match

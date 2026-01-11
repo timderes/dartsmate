@@ -18,4 +18,5 @@ export type GameAction =
   | { type: "UNDO_THROW" }
   | { type: "TOGGLE_MULTIPLIER"; payload: "double" | "triple" }
   | { type: "NEXT_TURN"; payload: { elapsedTime: number } }
-  | { type: "ABORT_MATCH" };
+  | { type: "ABORT_MATCH" }
+  | { type: "PLAYER_READY"; payload: import("./profile").Profile };

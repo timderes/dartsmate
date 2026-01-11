@@ -13,9 +13,11 @@ const useDefaultProfile = (): Profile | undefined => {
     const loadDefaultProfile = async () => {
       try {
         const uuid = (await window.ipc.getDefaultProfileUUID()) as string;
-        const profile = await getProfileFromDatabase(uuid);
 
-        setDefaultProfile(profile);
+        if (uuid) {
+          const profile = await getProfileFromDatabase(uuid);
+          setDefaultProfile(profile);
+        }
       } catch (err) {
         console.error("Error loading default profile:", err);
       }

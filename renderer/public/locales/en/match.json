@@ -32,5 +32,13 @@
   "notifications": {
     "successDeleteMatchTitle": "Match deleted",
     "successDeleteMatchText": "The match was successfully deleted."
+  },
+  "camera": {
+    "liveFeeds": "Live Feeds",
+    "me": "Me",
+    "peer": "Peer",
+    "showCameras": "Show Cameras",
+    "hideCameras": "Hide Cameras",
+    "noFeeds": "No active camera feeds."
   }
 }
