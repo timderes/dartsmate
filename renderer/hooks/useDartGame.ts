@@ -323,7 +323,7 @@ export const useDartGame = () => {
     isHydrated: false,
     legs: 3,
     sets: 1,
-    checkout: DEFAULT_CHECKOUTS[501],
+    checkout: undefined,
   });
 
   // 1. Hydrate state on load
