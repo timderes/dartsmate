@@ -24,7 +24,7 @@ import {
 } from "@utils/match/stats/getTotalRoundScore";
 import { useElapsedTime } from "use-elapsed-time";
 import { DEFAULT_CHECKOUTS } from "@/utils/match/checkouts/default";
-import type { CheckoutRoute } from "@/types/CheckoutTable";
+import isCheckoutPossible from "@/lib/playing/isCheckoutPossible";
 
 // --- Helpers ---
 
@@ -43,25 +43,6 @@ const isWinningThrow = (
   if (checkoutType === "Triple") return lastThrow.isTriple;
 
   return true; // "Any" checkout
-};
-
-const isCheckoutPossible = (state: GameState): CheckoutRoute => {
-  const remainingScore =
-    state.players[state.currentPlayerIndex].scoreLeft -
-    getTotalRoundScore(getScores(state.matchRound));
-
-  const remainingThrows = THROWS_PER_ROUND - state.matchRound.length;
-
-  // Select a checkout only if the suggested sequence fits the remaining throws
-  const checkout: CheckoutRoute = DEFAULT_CHECKOUTS[remainingScore];
-
-  if (!checkout) return undefined;
-
-  // If there aren't enough throws left to complete the suggested checkout,
-  // it's not possible this round.
-  if (checkout.length > remainingThrows) return undefined;
-
-  return checkout;
 };
 
 // --- Reducer ---
