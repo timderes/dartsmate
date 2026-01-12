@@ -337,34 +337,30 @@ const PlayingPage: NextPage = () => {
             >
               <NumberFormatter value={totalRoundScore} />
             </Text>
-            <Group justify="center" fz="h3">
+            <Group justify="center">
               {Array.from({ length: THROWS_PER_ROUND }, (_, index) => {
                 const thrownScore = scores[index];
-                const thrownBefore = scores
-                  .slice(0, index)
-                  .filter((v) => v != null).length;
-                const checkoutIndex = index - thrownBefore;
-                const checkoutThrow =
-                  checkout &&
-                  checkoutIndex >= 0 &&
-                  checkoutIndex < checkout.length
-                    ? checkout[checkoutIndex]
-                    : null;
+                const completedThrows = scores.length;
+
+                // Place the checkout options in the remaining slots
+                const checkoutIndex = index - completedThrows;
+                const checkoutOption = checkout?.[checkoutIndex] ?? undefined;
 
                 return (
-                  <div key={index}>
+                  <Flex align="center" h={60} key={index}>
                     {thrownScore ? (
                       <Text opacity={0.5}>{thrownScore}</Text>
-                    ) : checkoutThrow ? (
-                      <Badge size="xl">{checkoutThrow}</Badge>
+                    ) : checkoutOption ? (
+                      <Badge autoContrast size="xl" radius="xs">
+                        {checkoutOption}
+                      </Badge>
                     ) : (
-                      <Text>-</Text>
+                      <Text opacity={0.5}>-</Text>
                     )}
-                  </div>
+                  </Flex>
                 );
               })}
             </Group>
-            <span>DEBUG: {JSON.stringify(checkout)}</span>
             <SimpleGrid cols={3}>
               <Button
                 onClick={() => actions.toggleMultiplier("double")}
