@@ -345,11 +345,23 @@ const PlayingPage: NextPage = () => {
                 // Place the checkout options in the remaining slots
                 const checkoutIndex = index - completedThrows;
                 const checkoutOption = checkout?.[checkoutIndex] ?? undefined;
+                const {
+                  isTriple,
+                  isDouble,
+                  dartboardZone: scoreZone,
+                } = matchRound[index] ?? {};
+
+                // Format the displayed score based on multiplier
+                const displayScore = isTriple
+                  ? `T${scoreZone}`
+                  : isDouble
+                    ? `D${scoreZone}`
+                    : thrownScore;
 
                 return (
                   <Flex align="center" h={60} key={index}>
                     {thrownScore ? (
-                      <Text opacity={0.5}>{thrownScore}</Text>
+                      <Text opacity={0.5}>{displayScore}</Text>
                     ) : checkoutOption ? (
                       <Badge autoContrast size="xl" radius="xs">
                         {checkoutOption}
