@@ -61,6 +61,7 @@ const PlayingPage: NextPage = () => {
 
   const { state, actions } = useDartGame();
   const {
+    checkout,
     players,
     currentPlayerIndex,
     matchRound,
@@ -347,6 +348,7 @@ const PlayingPage: NextPage = () => {
                 </Text>
               ))}
             </Group>
+            <span>{JSON.stringify(checkout)}</span>
             <SimpleGrid cols={3}>
               <Button
                 onClick={() => actions.toggleMultiplier("double")}

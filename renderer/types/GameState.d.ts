@@ -1,4 +1,5 @@
-import { Match, DartThrow } from "./match";
+import type { CheckoutRoute } from "./CheckoutTable";
+import type { Match, DartThrow } from "./match";
 
 export type GameState = {
   currentPlayerIndex: number;
@@ -10,6 +11,7 @@ export type GameState = {
     triple: boolean;
   };
   isHydrated: boolean;
+  checkout: CheckoutRoute;
 } & Match;
 
 export type GameAction =
