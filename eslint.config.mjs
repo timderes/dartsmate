@@ -3,6 +3,7 @@ import tseslint from "typescript-eslint";
 import nextPlugin from "@next/eslint-plugin-next";
 import globals from "globals";
 import prettierConfig from "eslint-config-prettier";
+import noBarrelFiles from "eslint-plugin-no-barrel-files";
 
 export default tseslint.config(
   {
@@ -31,18 +32,11 @@ export default tseslint.config(
   // 2. Base ESLint Recommended Rules (applies to all files initially)
   eslint.configs.recommended,
   {
+    plugins: {
+      "no-barrel-files": noBarrelFiles,
+    },
     rules: {
-      "no-restricted-imports": [
-        "error",
-        {
-          patterns: [
-            {
-              group: ["**/index"],
-              message: "Barrel imports are forbidden. Import directly from the file.",
-            },
-          ],
-        },
-      ],
+      "no-barrel-files/no-barrel-files": "error",
     },
   },
 
@@ -95,6 +89,7 @@ export default tseslint.config(
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,
       "@next/next/no-html-link-for-pages": ["error", "renderer/pages/"],
+      "no-barrel-files/no-barrel-files": "off",
     },
   },
 
