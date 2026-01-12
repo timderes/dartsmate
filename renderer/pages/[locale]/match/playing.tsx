@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import {
+  Badge,
   Button,
   Card,
   Divider,
@@ -61,6 +62,7 @@ const PlayingPage: NextPage = () => {
 
   const { state, actions } = useDartGame();
   const {
+    checkout,
     players,
     currentPlayerIndex,
     matchRound,
@@ -335,17 +337,41 @@ const PlayingPage: NextPage = () => {
             >
               <NumberFormatter value={totalRoundScore} />
             </Text>
-            <Group justify="center" fz="h3" opacity={0.5}>
-              {Array.from({ length: THROWS_PER_ROUND }, (_, index) => (
-                <Text fz="xl" key={index}>
-                  {matchRound[index]?.isDouble
-                    ? "D"
-                    : matchRound[index]?.isTriple
-                      ? "T"
-                      : undefined}
-                  {matchRound[index]?.dartboardZone ?? "-"}
-                </Text>
-              ))}
+            <Group justify="center">
+              {Array.from({ length: THROWS_PER_ROUND }, (_, index) => {
+                const thrownScore = scores[index];
+                const completedThrows = scores.length;
+
+                // Place the checkout options in the remaining slots
+                const checkoutIndex = index - completedThrows;
+                const checkoutOption = checkout?.[checkoutIndex] ?? undefined;
+                const {
+                  isTriple,
+                  isDouble,
+                  dartboardZone: scoreZone,
+                } = matchRound[index] ?? {};
+
+                // Format the displayed score based on multiplier
+                const displayScore = isTriple
+                  ? `T${scoreZone}`
+                  : isDouble
+                    ? `D${scoreZone}`
+                    : thrownScore;
+
+                return (
+                  <Flex align="center" h={60} key={index}>
+                    {thrownScore ? (
+                      <Text opacity={0.5}>{displayScore}</Text>
+                    ) : checkoutOption ? (
+                      <Badge autoContrast size="xl" radius="xs">
+                        {checkoutOption}
+                      </Badge>
+                    ) : (
+                      <Text opacity={0.5}>-</Text>
+                    )}
+                  </Flex>
+                );
+              })}
             </Group>
             <SimpleGrid cols={3}>
               <Button

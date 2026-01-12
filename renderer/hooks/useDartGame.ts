@@ -23,6 +23,7 @@ import {
   getTotalRoundScore,
 } from "@utils/match/stats/getTotalRoundScore";
 import { useElapsedTime } from "use-elapsed-time";
+import isCheckoutPossible from "@/lib/playing/isCheckoutPossible";
 
 // --- Helpers ---
 
@@ -61,14 +62,14 @@ export const gameReducer = (
         setsWon: player.setsWon ?? 0,
       }));
 
-      return {
+      const newState = {
         ...state,
         players: initializedPlayers,
         matchStatus: matchData.matchStatus,
         initialScore: matchData.initialScore,
         matchCheckout: matchData.matchCheckout,
         uuid: matchData.uuid,
-        appVersion: matchData.appVersion ?? APP_VERSION,
+        appVersion: matchData.appVersion,
         createdAt: matchData.createdAt,
         updatedAt: matchData.updatedAt,
         legs: matchData.legs,
@@ -77,7 +78,12 @@ export const gameReducer = (
         currentLegIndex: 0,
         currentSetIndex: 0,
         isHydrated: true,
+        matchRound: [],
+        multiplier: { double: false, triple: false },
+        checkout: undefined,
       };
+
+      return { ...newState, checkout: isCheckoutPossible(newState) };
     }
 
     case "TOGGLE_MULTIPLIER": {
@@ -109,19 +115,28 @@ export const gameReducer = (
         isTriple: isNonMultipleScore(zone) ? false : triple,
       };
 
-      return {
+      const newMatchRound = [...state.matchRound, newThrow];
+
+      const newState: GameState = {
         ...state,
-        matchRound: [...state.matchRound, newThrow],
-        multiplier: { double: false, triple: false }, // Reset multipliers after throw
-      };
+        matchRound: newMatchRound,
+        multiplier: { double: false, triple: false },
+      } as GameState;
+
+      return { ...newState, checkout: isCheckoutPossible(newState) };
     }
 
     case "UNDO_THROW": {
       if (state.matchRound.length === 0) return state;
-      return {
+
+      const newMatchRound = state.matchRound.slice(0, -1);
+
+      const newState: GameState = {
         ...state,
-        matchRound: state.matchRound.slice(0, -1),
-      };
+        matchRound: newMatchRound,
+      } as GameState;
+
+      return { ...newState, checkout: isCheckoutPossible(newState) };
     }
 
     case "NEXT_TURN": {
@@ -251,17 +266,21 @@ export const gameReducer = (
         }));
       }
 
-      return {
+      const nextPlayerIndex =
+        (state.currentPlayerIndex + 1) % state.players.length;
+
+      const newState: GameState = {
         ...state,
         players: updatedPlayers,
         matchStatus: newMatchStatus,
         currentLegIndex: newCurrentLegIndex,
         currentSetIndex: newCurrentSetIndex,
-        currentPlayerIndex:
-          (state.currentPlayerIndex + 1) % state.players.length,
+        currentPlayerIndex: nextPlayerIndex,
         matchRound: [],
         multiplier: { double: false, triple: false },
-      };
+      } as GameState;
+
+      return { ...newState, checkout: isCheckoutPossible(newState) };
     }
 
     case "ABORT_MATCH":
@@ -303,6 +322,7 @@ export const useDartGame = () => {
     isHydrated: false,
     legs: 3,
     sets: 1,
+    checkout: undefined,
   });
 
   // 1. Hydrate state on load
