@@ -12,7 +12,7 @@ import log from "electron-log";
 import {
   IS_APP_RUNNING_IN_PRODUCTION_MODE,
   MINIMAL_WINDOW_SIZE,
-} from "../constants";
+} from "../constants/application";
 
 export default (
   windowName: string,

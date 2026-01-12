@@ -3,6 +3,7 @@ import tseslint from "typescript-eslint";
 import nextPlugin from "@next/eslint-plugin-next";
 import globals from "globals";
 import prettierConfig from "eslint-config-prettier";
+import noBarrelFiles from "eslint-plugin-no-barrel-files";
 
 export default tseslint.config(
   {
@@ -30,6 +31,14 @@ export default tseslint.config(
 
   // 2. Base ESLint Recommended Rules (applies to all files initially)
   eslint.configs.recommended,
+  {
+    plugins: {
+      "no-barrel-files": noBarrelFiles,
+    },
+    rules: {
+      "no-barrel-files/no-barrel-files": "error",
+    },
+  },
 
   // 3. Configuration for TypeScript files
   {
@@ -80,6 +89,7 @@ export default tseslint.config(
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,
       "@next/next/no-html-link-for-pages": ["error", "renderer/pages/"],
+      "no-barrel-files/no-barrel-files": "off",
     },
   },
 
