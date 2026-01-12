@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import {
+  Badge,
   Button,
   Card,
   Divider,
@@ -336,19 +337,34 @@ const PlayingPage: NextPage = () => {
             >
               <NumberFormatter value={totalRoundScore} />
             </Text>
-            <Group justify="center" fz="h3" opacity={0.5}>
-              {Array.from({ length: THROWS_PER_ROUND }, (_, index) => (
-                <Text fz="xl" key={index}>
-                  {matchRound[index]?.isDouble
-                    ? "D"
-                    : matchRound[index]?.isTriple
-                      ? "T"
-                      : undefined}
-                  {matchRound[index]?.dartboardZone ?? "-"}
-                </Text>
-              ))}
+            <Group justify="center" fz="h3">
+              {Array.from({ length: THROWS_PER_ROUND }, (_, index) => {
+                const thrownScore = scores[index];
+                const thrownBefore = scores
+                  .slice(0, index)
+                  .filter((v) => v != null).length;
+                const checkoutIndex = index - thrownBefore;
+                const checkoutThrow =
+                  checkout &&
+                  checkoutIndex >= 0 &&
+                  checkoutIndex < checkout.length
+                    ? checkout[checkoutIndex]
+                    : null;
+
+                return (
+                  <div key={index}>
+                    {thrownScore ? (
+                      <Text opacity={0.5}>{thrownScore}</Text>
+                    ) : checkoutThrow ? (
+                      <Badge size="xl">{checkoutThrow}</Badge>
+                    ) : (
+                      <Text>-</Text>
+                    )}
+                  </div>
+                );
+              })}
             </Group>
-            <span>{JSON.stringify(checkout)}</span>
+            <span>DEBUG: {JSON.stringify(checkout)}</span>
             <SimpleGrid cols={3}>
               <Button
                 onClick={() => actions.toggleMultiplier("double")}
