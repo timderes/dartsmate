@@ -43,7 +43,7 @@ describe("match.playing.isCheckoutPossible", () => {
   it("returns undefined when no checkout is possible (bogey number 179)", () => {
     const updatedState = {
       ...mockState,
-      matchRound: [{ score: 0, isDouble: false }],
+      matchRound: [{}],
       players: [{ scoreLeft: 179 }], // No checkout for 179 in default table
       // Omit other properties with the as GameState type assertion
     } as GameState;
