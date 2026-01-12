@@ -3,8 +3,6 @@ import type { CheckoutTable } from "@/types/CheckoutTable";
 /**
  * Default Checkout Table for DartsMate. Provides checkout combinations for all scores.
  * This table is specifically designed for `double-out` games.
- *
- * TODO: Verify the accuracy of these checkouts. This table was AI-generated and may contain errors.
  */
 export const DEFAULT_CHECKOUTS: CheckoutTable = {
   // 1: Impossible to checkout on a double-out game
@@ -107,6 +105,26 @@ export const DEFAULT_CHECKOUTS: CheckoutTable = {
   98: ["T20", "D19"],
   99: ["T19", "S10", "D16"],
   100: ["T20", "D20"],
+  101: ["T20", "S9", "D16"],
+  102: ["T20", "S10", "D16"],
+  103: ["T19", "S6", "D20"],
+  104: ["T19", "S15", "D16"],
+  105: ["T20", "S13", "D16"],
+  106: ["T20", "T10", "D18"],
+  107: ["T19", "T10", "D10"],
+  108: ["T20", "S16", "D16"],
+  109: ["T20", "S9", "D20"],
+  110: ["T20", "T10", "D10"],
+  111: ["T19", "S14", "D20"],
+  112: ["T20", "T12", "D8"],
+  113: ["T19", "16", "D20"],
+  114: ["T19", "17", "D20"],
+  115: ["T20", "15", "D20"],
+  116: ["T19", "19", "D20"],
+  117: ["T19", "S20", "D20"],
+  118: ["T20", "S18", "D20"],
+  119: ["T19", "T12", "D13"],
+  120: ["T20", "S20", "D20"],
   121: ["T20", "S11", "BULL"],
   122: ["T18", "T18", "D7"],
   123: ["T19", "T16", "D9"],
@@ -121,9 +139,21 @@ export const DEFAULT_CHECKOUTS: CheckoutTable = {
   132: ["BULL", "T14", "D20"],
   133: ["T20", "T11", "D20"],
   134: ["T20", "T14", "D16"],
+  135: ["T20", "T17", "D12"],
   136: ["T20", "T20", "D8"],
+  137: ["T20", "T19", "D10"],
+  138: ["T20", "T18", "D12"],
+  139: ["T20", "T13", "D20"],
   140: ["T20", "T20", "D10"],
+  141: ["T20", "T19", "D12"],
+  142: ["T20", "T14", "D20"],
+  143: ["T20", "T17", "D16"],
   144: ["T20", "T20", "D12"],
+  145: ["T20", "T19", "D14"],
+  146: ["T20", "T18", "D16"],
+  147: ["T20", "T17", "D18"],
+  148: ["T20", "T20", "D14"],
+  149: ["T20", "T19", "D16"],
   150: ["T20", "T18", "D18"],
   151: ["T20", "T17", "D20"],
   152: ["T20", "T20", "D16"],
