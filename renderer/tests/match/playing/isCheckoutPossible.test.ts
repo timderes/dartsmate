@@ -23,7 +23,7 @@ describe("match.playing.isCheckoutPossible", () => {
 
     expect(result).toEqual(["D10"]); // Example checkout for 20 remaining
   });
-  it("returns undefined the player has used all throws", () => {
+  it("returns undefined when the player has used all throws", () => {
     const updatedState = {
       ...mockState,
       matchRound: Array.from({ length: THROWS_PER_ROUND }, () => ({
