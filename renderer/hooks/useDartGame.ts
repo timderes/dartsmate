@@ -23,7 +23,6 @@ import {
   getTotalRoundScore,
 } from "@utils/match/stats/getTotalRoundScore";
 import { useElapsedTime } from "use-elapsed-time";
-import { DEFAULT_CHECKOUTS } from "@/utils/match/checkouts/default";
 import isCheckoutPossible from "@/lib/playing/isCheckoutPossible";
 
 // --- Helpers ---
