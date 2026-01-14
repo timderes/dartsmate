@@ -1,40 +1,8 @@
 import { describe, expect, it } from "vitest";
 import updatePlayerStatistics from "@/lib/playing/player/updatePlayerStatistics";
-import { Player, MatchRound } from "@/types/match";
+import { MatchRound } from "@/types/match";
 import { MOCK_THROW_DETAIL } from "@/tests/mocks/throwDetail.mock";
-
-// Helper function to create a mock player with custom statistics and rounds
-const createMockPlayer = (
-  statistics: Partial<Player["statistics"]> = {},
-  rounds: MatchRound[] = [],
-): Player => ({
-  avatarImage: undefined,
-  bio: "Test bio",
-  color: "blue",
-  country: undefined,
-  createdAt: Date.now(),
-  isGuestProfile: false,
-  name: {
-    firstName: "Test",
-    lastName: "Player",
-  },
-  username: "testplayer",
-  updatedAt: Date.now(),
-  uuid: "test-uuid-123",
-  statistics: {
-    average: 0,
-    playedMatches: 0,
-    playedTrainings: 0,
-    thrownDarts: 0,
-    thrownOneHundredAndEighty: 0,
-    ...statistics,
-  },
-  scoreLeft: 501,
-  isWinner: false,
-  rounds: rounds,
-  legsWon: 0,
-  setsWon: 0,
-});
+import { createMockPlayer } from "@/tests/mocks/player.mock";
 
 describe("player.updatePlayerStatistics", () => {
   describe("updatePlayedMatches", () => {
