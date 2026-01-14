@@ -1,9 +1,7 @@
 import type { MatchRound } from "@/types/match";
 
 const getMatchAverage = (playerRounds: MatchRound[]): number => {
-  // Player has no rounds played
   if (playerRounds.length === 0) return 0;
-  if (!playerRounds) return 0;
 
   // Calculate the sum of all round averages
   const sumAverage = playerRounds.reduce(
