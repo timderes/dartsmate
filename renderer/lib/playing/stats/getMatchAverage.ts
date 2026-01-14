@@ -5,7 +5,7 @@ const getMatchAverage = (playerRounds: MatchRound[]): number => {
 
   // Calculate the sum of all round averages
   const sumAverage = playerRounds.reduce(
-    (sum, round) => sum + round.roundAverage,
+    (sum, round) => sum + round.roundTotal,
     0,
   );
 

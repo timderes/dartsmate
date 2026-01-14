@@ -17,7 +17,7 @@ const getFirstNineAverage = (playerRounds: MatchRound[]): number => {
   const firstThreeRounds = playerRounds.slice(0, MaxRounds);
 
   const totalScore = firstThreeRounds.reduce(
-    (sum, round) => sum + round.roundAverage,
+    (sum, round) => sum + round.roundTotal,
     0,
   );
 

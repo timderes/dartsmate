@@ -10,7 +10,7 @@ describe("match.stats.getMatchAverage", () => {
     expect(matchAverage).toBe(0);
   });
 
-  it("returns 20 for 3x S20", () => {
+  it("returns 60 for 3x S20", () => {
     const roundData: MatchRound[] = [
       {
         elapsedTime: 1,
@@ -36,7 +36,7 @@ describe("match.stats.getMatchAverage", () => {
 
     const matchAverage = getMatchAverage(roundData);
 
-    expect(matchAverage).toBe(20);
+    expect(matchAverage).toBe(60);
   });
 
   it("returns correct average for multiple rounds", () => {
@@ -109,6 +109,6 @@ describe("match.stats.getMatchAverage", () => {
     ];
 
     const matchAverage = getMatchAverage(roundData);
-    expect(matchAverage).toBeCloseTo(20.3333, 4);
+    expect(matchAverage).toBeCloseTo(61, 2);
   });
 });
