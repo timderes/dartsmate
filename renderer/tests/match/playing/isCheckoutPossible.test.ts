@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import isCheckoutPossible from "@/lib/playing/isCheckoutPossible";
 import { GameState } from "@/types/GameState";
 import { THROWS_PER_ROUND } from "@/utils/constants";
+import { MOCK_THROW_DETAIL } from "@/tests/mocks/throwDetail.mock";
 
 describe("match.playing.isCheckoutPossible", () => {
   const mockState = {
@@ -12,8 +13,8 @@ describe("match.playing.isCheckoutPossible", () => {
     const updatedState = {
       ...mockState,
       matchRound: [
-        { score: 60, isDouble: false },
-        { score: 0, isDouble: false },
+        { ...MOCK_THROW_DETAIL, score: 60, isDouble: false },
+        { ...MOCK_THROW_DETAIL, score: 0, isDouble: false },
       ],
       players: [{ scoreLeft: 80 }],
       // Omit other properties with the as GameState type assertion
@@ -27,6 +28,7 @@ describe("match.playing.isCheckoutPossible", () => {
     const updatedState = {
       ...mockState,
       matchRound: Array.from({ length: THROWS_PER_ROUND }, () => ({
+        ...MOCK_THROW_DETAIL,
         score: 20,
         isDouble: false,
       })),
@@ -45,12 +47,7 @@ describe("match.playing.isCheckoutPossible", () => {
       ...mockState,
       matchRound: [
         {
-          score: 0,
-          isDouble: false,
-          isTriple: false,
-          isBullseye: false,
-          isMissed: true,
-          dartboardZone: 0,
+          ...MOCK_THROW_DETAIL,
         },
       ],
       players: [{ scoreLeft: 179 }], // No checkout for 179 in default table

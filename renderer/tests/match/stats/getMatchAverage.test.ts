@@ -1,17 +1,7 @@
 import { describe, expect, it } from "vitest";
 import getMatchAverage from "@/lib/playing/stats/getMatchAverage";
 import { MatchRound } from "@/types/match";
-
-const DUMMY_THROW_DETAILS = {
-  score: 0,
-  isBullseye: false,
-  isDouble: false,
-  isTriple: false,
-  isMissed: false,
-  isOuterBull: false,
-  dartboardZone: 0,
-};
-
+import { MOCK_THROW_DETAIL } from "@/tests/mocks/throwDetail.mock";
 describe("match.stats.getMatchAverage", () => {
   it("returns 0 when there are no match rounds", () => {
     const matchAverage = getMatchAverage([]);
@@ -28,15 +18,15 @@ describe("match.stats.getMatchAverage", () => {
         isBust: false,
         throwDetails: [
           {
-            ...DUMMY_THROW_DETAILS,
+            ...MOCK_THROW_DETAIL,
             score: 20,
           },
           {
-            ...DUMMY_THROW_DETAILS,
+            ...MOCK_THROW_DETAIL,
             score: 20,
           },
           {
-            ...DUMMY_THROW_DETAILS,
+            ...MOCK_THROW_DETAIL,
             score: 20,
           },
         ],
