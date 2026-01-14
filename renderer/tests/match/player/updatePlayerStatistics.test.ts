@@ -130,7 +130,7 @@ describe("player.updatePlayerStatistics", () => {
           roundAverage: 0,
           roundTotal: 0,
           isBust: false,
-          throwDetails: undefined as any,
+          throwDetails: undefined!,
         },
       ];
 
