@@ -123,16 +123,16 @@ describe("player.updatePlayerStatistics", () => {
       expect(updatedStats.thrownDarts).toBe(5);
     });
 
-    it("handles undefined throwDetails", () => {
-      const rounds: MatchRound[] = [
-        {
-          elapsedTime: 1,
-          roundAverage: 0,
-          roundTotal: 0,
-          isBust: false,
-          throwDetails: undefined!,
-        },
-      ];
+    it("handles rounds with undefined throwDetails", () => {
+      // Create a round without throwDetails to test edge case handling
+      const roundWithoutThrows = {
+        elapsedTime: 1,
+        roundAverage: 0,
+        roundTotal: 0,
+        isBust: false,
+      } as MatchRound;
+
+      const rounds: MatchRound[] = [roundWithoutThrows];
 
       const player = createMockPlayer({ thrownDarts: 5 }, rounds);
       const updatedStats = updatePlayerStatistics(player);
@@ -385,7 +385,7 @@ describe("player.updatePlayerStatistics", () => {
       const updatedStats = updatePlayerStatistics(player);
 
       // (50 * 2 + 90) / (2 + 1) = 190 / 3 = 63.333...
-      expect(updatedStats.average).toBeCloseTo(63.333, 2);
+      expect(updatedStats.average).toBeCloseTo((50 * 2 + 90) / 3, 2);
     });
 
     it("handles low average increasing over time", () => {
@@ -477,7 +477,7 @@ describe("player.updatePlayerStatistics", () => {
       expect(updatedStats.playedMatches).toBe(4); // 3 + 1
       expect(updatedStats.thrownDarts).toBe(56); // 50 + 6
       expect(updatedStats.thrownOneHundredAndEighty).toBe(3); // 2 + 1 (one 180 round)
-      expect(updatedStats.average).toBeCloseTo(93.75, 2); // (75 * 3 + 150) / 4 = 93.75
+      expect(updatedStats.average).toBeCloseTo((75 * 3 + 150) / 4, 2); // (75 * 3 + 150) / 4 = 93.75
       expect(updatedStats.playedTrainings).toBe(5); // unchanged
     });
 
