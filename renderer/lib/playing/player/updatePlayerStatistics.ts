@@ -8,7 +8,7 @@ import getMatchAverage from "../stats/getMatchAverage";
  * @param player - The player whose statistics need to be updated
  * @returns The updated player statistics
  */
-const updatePlayerStatistics = (player: Player) => {
+const updatePlayerStatistics = (player: Player): Player["statistics"] => {
   const currentStatistics = player.statistics;
 
   // Update statistics with new calculations
