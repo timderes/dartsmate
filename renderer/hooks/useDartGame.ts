@@ -18,10 +18,8 @@ import {
 import { applyScoreMultiplier } from "@utils/match/helper/applyScoreMultiplier";
 import isNonMultipleScore from "@utils/match/helper/isNonMultipleScore";
 import isBust from "@lib/playing/stats/isBust";
-import {
-  getScores,
-  getTotalRoundScore,
-} from "@utils/match/stats/getTotalRoundScore";
+import getScores from "@/lib/playing/stats/getScores";
+import getTotalRoundScore from "@/lib/playing/stats/getTotalRoundScore";
 import { useElapsedTime } from "use-elapsed-time";
 import isCheckoutPossible from "@/lib/playing/isCheckoutPossible";
 

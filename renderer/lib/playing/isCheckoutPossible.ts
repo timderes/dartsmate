@@ -3,8 +3,8 @@ import type { GameState } from "@/types/GameState";
 import { THROWS_PER_ROUND } from "@/utils/constants";
 import { DEFAULT_CHECKOUTS } from "@/utils/match/checkouts/default";
 
-import { getTotalRoundScore } from "@/utils/match/stats/getTotalRoundScore";
-import { getScores } from "@/utils/match/stats/getTotalRoundScore";
+import getScores from "./stats/getScores";
+import getTotalRoundScore from "./stats/getTotalRoundScore";
 
 /**
  * Returns the possible checkout route for the current player
