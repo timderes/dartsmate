@@ -13,7 +13,7 @@ describe("match.stats.getScores", () => {
     const thrownDarts = [
       { ...MOCK_THROW_DETAIL, score: 20 },
       { ...MOCK_THROW_DETAIL, score: 5 },
-      { ...MOCK_THROW_DETAIL, score: 60 },
+      { ...MOCK_THROW_DETAIL, score: 60, isTriple: true },
     ];
 
     const scores = getScores(thrownDarts);
