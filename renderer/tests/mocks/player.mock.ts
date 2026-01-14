@@ -1,4 +1,4 @@
-import { Player, MatchRound } from "@/types/match";
+import type { Player, MatchRound } from "@/types/match";
 
 /**
  * Helper function to create a mock player with custom statistics and rounds.
