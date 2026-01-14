@@ -37,20 +37,21 @@ import { useDartGame } from "@hooks/useDartGame";
 
 import addMatchToDatabase from "@lib/db/matches/addMatch";
 import updateProfileFromDatabase from "@lib/db/profiles/updateProfile";
-import getFirstNineAverage from "@lib/playing/stats/getFirstNineAverage";
+
 import getMatchWinner from "@lib/playing/getMatchWinner";
 
 import { DARTBOARD_ZONES, THROWS_PER_ROUND } from "@utils/constants";
-import {
-  getScores,
-  getTotalRoundScore,
-} from "@utils/match/stats/getTotalRoundScore";
-import { getTotalMatchAvg } from "@utils/match/stats/getTotalMatchAvg";
 import getFormattedName from "@utils/misc/getFormattedName";
 import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
-import getNumberOfRoundsAboveThreshold from "@utils/match/stats/getScoresAbove";
-import getTotalDartsThrown from "@utils/match/stats/getTotalDartsThrown";
-import getHighestScore from "@utils/match/stats/getHighestScore";
+
+// Statistics utilities
+import getFirstNineAverage from "@lib/playing/stats/getFirstNineAverage";
+import getHighestScore from "@/lib/playing/stats/getHighestScore";
+import getMatchAverage from "@/lib/playing/stats/getMatchAverage";
+import getNumberOfRoundsAboveThreshold from "@/lib/playing/stats/getScoresAbove";
+import getScores from "@/lib/playing/stats/getScores";
+import getTotalDartsThrown from "@/lib/playing/stats/getTotalDartsThrown";
+import getTotalRoundScore from "@/lib/playing/stats/getTotalRoundScore";
 
 const PlayingPage: NextPage = () => {
   const theme = useMantineTheme();
@@ -159,10 +160,17 @@ const PlayingPage: NextPage = () => {
     const oldStatistics = player.statistics;
 
     const newStatistics: Player["statistics"] = {
-      // TODO: Calculate the average needs more statistics. Add the these later
-      average: 0,
-      // Played trainings is not updated here, only matches
+      // Weighted average across matches: (oldAvg * oldMatches + currentMatchAvg) / (oldMatches + 1)
+      average: (() => {
+        const current = getMatchAverage(player.rounds);
+        const oldMatches = oldStatistics.playedMatches ?? 0;
+        if (oldMatches === 0) return current;
+        return (
+          (oldStatistics.average * oldMatches + current) / (oldMatches + 1)
+        );
+      })(),
       playedMatches: oldStatistics.playedMatches + 1,
+      // Played trainings is not updated here, only matches
       playedTrainings: oldStatistics.playedTrainings,
       thrownDarts:
         oldStatistics.thrownDarts + player.rounds.length * THROWS_PER_ROUND,
@@ -255,7 +263,7 @@ const PlayingPage: NextPage = () => {
                           >
                             <NumberFormatter
                               decimalScale={2}
-                              value={getTotalMatchAvg(players[index].rounds)}
+                              value={getMatchAverage(players[index].rounds)}
                             />
                           </Text>
                         </Tooltip>
