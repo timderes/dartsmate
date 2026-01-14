@@ -55,6 +55,9 @@ const CreateProfilePage: NextPage = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const { hasErrors } = form.validate();
+    if (hasErrors) return;
+
     if (!isGuestProfile) {
       window.ipc.setDefaultProfileUUID(form.values.uuid);
     }
@@ -90,9 +93,9 @@ const CreateProfilePage: NextPage = () => {
   };
 
   const validateAndGoToNextPage = () => {
-    form.validate();
+    const { hasErrors } = form.validate();
 
-    if (isFormValid) {
+    if (!hasErrors) {
       nextStep();
     }
   };
@@ -113,7 +116,7 @@ const CreateProfilePage: NextPage = () => {
             ))}
             <Stepper.Completed>
               <Group grow>
-                <Button type="submit" disabled={!isFormValid}>
+                <Button type="submit">
                   {t("profile:buttons.createProfile")}
                 </Button>
                 <Button
