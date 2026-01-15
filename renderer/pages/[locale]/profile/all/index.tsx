@@ -62,50 +62,51 @@ const ProfileAllPage = () => {
         <Grid.Col span={9}>
           <ScrollArea.Autosize mah={`calc(100dvh - ${headerHeight}px)`}>
             {profiles && activeProfile ? (
-              <Card component={Stack}>
+              <>
                 <Flex align="start" justify="end">
                   <ProfileSettingsMenu />
                 </Flex>
-                <Group>
-                  <ProfileAvatar profile={activeProfile} size="xl" />
-                  <div>
-                    <Title>{getFormattedName(activeProfile.name)} </Title>
-                    <Text opacity={0.7}>@{activeProfile.username}</Text>
-                  </div>
-                </Group>
-                <Text>
-                  {t("profile:playingWithAppSince", {
-                    APP_NAME,
-                    DATE: new Date(activeProfile.createdAt).toLocaleDateString(
-                      locale,
-                      DATE_OPTIONS,
-                    ),
-                  })}
-                </Text>
-                <Divider />
-                <Group grow>
-                  <Stat
-                    text={t("stats.matches")}
-                    value={activeProfile.statistics.playedMatches}
-                    decimalScale={2}
-                  />
-                  <Stat
-                    text={t("stats.avg")}
-                    value={activeProfile.statistics.average}
-                    decimalScale={2}
-                  />
-                  <Stat
-                    text={t("stats.dartsThrown")}
-                    value={activeProfile.statistics.thrownDarts}
-                    decimalScale={2}
-                  />
-                  <Stat
-                    text={t("stats.180s")}
-                    value={activeProfile.statistics.thrownOneHundredAndEighty}
-                    decimalScale={2}
-                  />
-                </Group>
-              </Card>
+                <Card component={Stack} radius={0}>
+                  <Group>
+                    <ProfileAvatar profile={activeProfile} size="xl" />
+                    <div>
+                      <Title>{getFormattedName(activeProfile.name)} </Title>
+                      <Text opacity={0.7}>@{activeProfile.username}</Text>
+                    </div>
+                  </Group>
+                  <Text>
+                    {t("profile:playingWithAppSince", {
+                      APP_NAME,
+                      DATE: new Date(
+                        activeProfile.createdAt,
+                      ).toLocaleDateString(locale, DATE_OPTIONS),
+                    })}
+                  </Text>
+                  <Divider />
+                  <Group grow>
+                    <Stat
+                      text={t("stats.matches")}
+                      value={activeProfile.statistics.playedMatches}
+                      decimalScale={2}
+                    />
+                    <Stat
+                      text={t("stats.avg")}
+                      value={activeProfile.statistics.average}
+                      decimalScale={2}
+                    />
+                    <Stat
+                      text={t("stats.dartsThrown")}
+                      value={activeProfile.statistics.thrownDarts}
+                      decimalScale={2}
+                    />
+                    <Stat
+                      text={t("stats.180s")}
+                      value={activeProfile.statistics.thrownOneHundredAndEighty}
+                      decimalScale={2}
+                    />
+                  </Group>
+                </Card>
+              </>
             ) : undefined}
           </ScrollArea.Autosize>
         </Grid.Col>
