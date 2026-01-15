@@ -12,6 +12,7 @@ import { UseFormReturnType } from "@mantine/form";
 import { useTranslation } from "next-i18next";
 import { Profile } from "types/profile";
 import CountryAndCurrency from "@workmate/country-and-currency";
+import { useMemo } from "react";
 
 const StepOne = ({
   form,
@@ -19,7 +20,23 @@ const StepOne = ({
   form: UseFormReturnType<Profile, (values: Profile) => Profile>;
 }) => {
   const { t } = useTranslation();
-  const countries = CountryAndCurrency.getCountries();
+
+  const countries = useMemo(() => {
+    return CountryAndCurrency.getCountries()
+      .map((country) => ({
+        label: t(`countries:countries.${country.iso2.toLowerCase()}`), // Translate the country name
+        value: country.iso2, // Use country.iso2 as the value
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }, [t]);
+
+  const selectedCountryCurrency = useMemo(() => {
+    const countryCode = form.values.country;
+    if (!countryCode) return undefined;
+
+    return CountryAndCurrency.getCountriesBy("iso2", countryCode)[0]?.currency
+      .unicode;
+  }, [form.values.country]);
 
   return (
     <Paper p="lg" withBorder>
@@ -43,18 +60,8 @@ const StepOne = ({
           label={t("country")}
           key={form.key("country")}
           clearable
-          leftSection={
-            CountryAndCurrency.getCountriesBy(
-              "iso2",
-              form.getValues().country ?? "",
-            )[0]?.currency.unicode
-          }
-          data={countries
-            .map((country) => ({
-              label: t(`countries:countries.${country.iso2.toLowerCase()}`), // Translate the country name
-              value: country.iso2, // Use country.iso2 as the value
-            }))
-            .sort((a, b) => a.label.localeCompare(b.label))} // Sort by label (country name)}
+          leftSection={selectedCountryCurrency}
+          data={countries}
           searchable
           onChange={(value) =>
             form.setValues({
