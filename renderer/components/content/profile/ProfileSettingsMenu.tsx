@@ -16,7 +16,7 @@ const ProfileSettingsMenu = () => {
   return (
     <Menu shadow="md" width={250} withArrow>
       <Menu.Target>
-        <ActionIcon variant="filled">
+        <ActionIcon variant="filled" radius={0}>
           <IconEdit />
         </ActionIcon>
       </Menu.Target>
