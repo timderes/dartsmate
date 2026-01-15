@@ -6,6 +6,7 @@ import {
   IconSettings,
   IconTarget,
   IconUser,
+  IconUsers,
 } from "@tabler/icons-react";
 
 /**
@@ -42,6 +43,11 @@ const navbarRoutes = [
     icon: <IconUser />,
     label: "routes.profile",
     route: "/profile",
+  },
+  {
+    icon: <IconUsers />,
+    label: "routes.profiles",
+    route: "/profile/all",
   },
   /*
   {
