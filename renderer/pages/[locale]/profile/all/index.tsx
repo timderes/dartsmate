@@ -26,7 +26,8 @@ import Stat from "@/components/content/Stat";
 import { APP_NAME, DATE_OPTIONS } from "@/utils/constants";
 import {
   IconChartBarOff,
-  IconSettings,
+  IconEdit,
+  IconFileExport,
   IconUserEdit,
   IconUserStar,
   IconUserX,
@@ -75,20 +76,19 @@ const ProfileAllPage = () => {
                   <Menu shadow="md" width={250} withArrow>
                     <Menu.Target>
                       <ActionIcon variant="filled">
-                        <IconSettings />
+                        <IconEdit />
                       </ActionIcon>
                     </Menu.Target>
                     <Menu.Dropdown>
                       <Menu.Item leftSection={<IconUserEdit size={14} />}>
                         {t("profile:editProfile")}
                       </Menu.Item>
-                      <Menu.Item leftSection={<IconUserEdit size={14} />}>
+                      <Menu.Item leftSection={<IconFileExport size={14} />}>
                         {t("profile:exportProfile")}
                       </Menu.Item>
                       <Menu.Item leftSection={<IconChartBarOff size={14} />}>
                         {t("profile:resetProfileStatistics")}
                       </Menu.Item>
-
                       <Menu.Divider />
                       <Menu.Item
                         color="red"
