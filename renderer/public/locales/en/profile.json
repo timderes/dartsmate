@@ -4,6 +4,9 @@
     "description": "Enter your personal details to create your profile."
   },
   "editProfile": "Edit Profile",
+  "deleteProfile": "Delete Profile",
+  "resetProfileStatistics": "Reset Profile Statistics",
+  "setAsDefaultProfile": "Set as Default Profile",
   "formLabels": {
     "bio": {
       "label": "Biography",

@@ -4,6 +4,9 @@
     "description": "Geben Sie Ihre persönlichen Angaben ein, um Ihr Profil zu erstellen."
   },
   "editProfile": "Profil bearbeiten",
+  "deleteProfile": "Profil löschen",
+  "resetProfileStatistics": "Statistiken zurücksetzen",
+  "setAsDefaultProfile": "Als Standardprofil festlegen",
   "formLabels": {
     "bio": {
       "label": "Biografie",
