@@ -57,6 +57,7 @@
   "removePhotoUpload": "Bild entfernen",
   "exportProfile": "Profil exportieren",
   "emptyBioPlaceholder": "{{FIRST_NAME}} hat noch keine Beschreibung hinzugefügt.",
+  "playingWithAppSince": "Spielt mit {{APP_NAME}} seit dem {{DATE}}.",
   "notifications": {
     "updateProfileSuccess": {
       "title": "Profil erfolgreich aktualisiert!",

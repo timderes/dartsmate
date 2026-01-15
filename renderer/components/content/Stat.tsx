@@ -4,17 +4,16 @@ import type { NumberFormatterProps } from "@mantine/core";
 type StatProps = {
   text: string;
   value: number;
-  numberProps?: NumberFormatterProps;
-};
+} & NumberFormatterProps;
 
-const Stat = ({ text, value, numberProps }: StatProps) => {
+const Stat = ({ text, value, ...props }: StatProps) => {
   return (
     <Stack gap="xs">
       <Text c="dimmed" fz="xs">
         {text}
       </Text>
       <Text fw="bold" ff="mono" fz="xl">
-        <NumberFormatter {...numberProps} value={value} />
+        <NumberFormatter value={value} {...props} />
       </Text>
     </Stack>
   );
