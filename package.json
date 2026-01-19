@@ -82,6 +82,6 @@
     "typescript-eslint": "^8.52.0",
     "use-elapsed-time": "^3.0.4",
     "uuid": "^13.0.0",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.17"
   }
 }
