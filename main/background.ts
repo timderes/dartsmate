@@ -39,6 +39,41 @@ void (async () => {
     }
   });
 
+  const port = process.argv[2];
+  const preferredLocale = getPreferredLocale();
+  const locale = appSettingsStore.get("locale", preferredLocale);
+  const defaultProfile = appSettingsStore.get("defaultProfileUUID");
+
+  const updaterWindow = createWindow("updater", {
+    height: 100,
+    width: 100,
+    resizable: IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
+    center: true,
+    closable: IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
+    maxHeight: 100,
+    maxWidth: 100,
+    minimizable: false,
+    skipTaskbar: true,
+    webPreferences: {
+      contextIsolation: true,
+      preload: path.join(__dirname, "preload.js"),
+    },
+  });
+
+  if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
+    await updaterWindow.loadURL(`app://./${locale}/splash/update`);
+  } else {
+    await updaterWindow.loadURL(
+      `http://localhost:${port}/${locale}/splash/update`,
+    );
+    updaterWindow.webContents.openDevTools({ mode: "detach" });
+  }
+
+  // Wait until the updater window is closed, then show the main window
+  await new Promise<void>((resolve) => {
+    updaterWindow.on("closed", () => resolve());
+  });
+
   const mainWindow = createWindow("main", {
     height: MINIMAL_WINDOW_SIZE.height,
     width: MINIMAL_WINDOW_SIZE.width,
@@ -51,12 +86,6 @@ void (async () => {
     },
   });
 
-  // Retrieve the stored locale from app settings, or use the client's preferred locale
-  const preferredLocale = getPreferredLocale();
-  const locale = appSettingsStore.get("locale", preferredLocale);
-  const defaultProfile = appSettingsStore.get("defaultProfileUUID");
-
-  const port = process.argv[2];
   const profileSetupIntroRoute = IS_APP_RUNNING_IN_PRODUCTION_MODE
     ? `app://./${locale}/profileSetupIntro`
     : `http://localhost:${port}/${locale}/profileSetupIntro`;
