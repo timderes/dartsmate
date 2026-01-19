@@ -65,6 +65,16 @@ ipcMain.on("destroy-updater-window", () => {
 
 ipcMain.handle("check-for-app-update", async () => {
   autoUpdater.allowPrerelease = false;
-  const result = await autoUpdater.checkForUpdatesAndNotify();
-  return result;
+  try {
+    const result = await autoUpdater.checkForUpdatesAndNotify();
+
+    // Stringify to fix the error: "an object could not be cloned"?!
+    return JSON.stringify(result);
+  } catch (err) {
+    log.error("check-for-app-update failed: %O", err);
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : String(err),
+    };
+  }
 });

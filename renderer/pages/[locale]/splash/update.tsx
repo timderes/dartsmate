@@ -10,9 +10,9 @@ import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import type { UpdateCheckResult } from "electron-updater";
 
 const SplashUpdatePage = () => {
-  const [status, setStatus] = useState<"idle" | "checking" | "done" | "error">(
-    "idle",
-  );
+  const [status, setStatus] = useState<
+    "idle" | "checking" | "downloading" | "done" | "error"
+  >("idle");
   const [result, setResult] = useState<UpdateCheckResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
@@ -30,6 +30,21 @@ const SplashUpdatePage = () => {
 
         if (!mounted) return;
         setResult(res);
+
+        if (res?.isUpdateAvailable) {
+          // Update is available, you can handle it here if needed
+          setStatus("downloading");
+
+          setProgress(res?.downloadPromise ? 0 : 100);
+
+          if (res?.downloadPromise) {
+            await res.downloadPromise.then(() => {
+              if (!mounted) return;
+              setProgress(100);
+            });
+          }
+        }
+
         setStatus("done");
         setProgress(100);
       } catch (err: unknown) {
@@ -45,10 +60,6 @@ const SplashUpdatePage = () => {
       setError((e as Error)?.message ?? String(e));
       setStatus("error");
     });
-
-    if (status === "done") {
-      window.ipc.destroyUpdaterWindow();
-    }
 
     return () => {
       mounted = false;
@@ -68,11 +79,35 @@ const SplashUpdatePage = () => {
         />
         <Text>{t(`lookingForUpdate.${status}`)}</Text>
         <Progress value={progress} />
-        <pre>
-          RESULT={JSON.stringify(result, null, 2)}
-          {""} ERROR={JSON.stringify(error, null, 2)} PROGRESS={progress}{" "}
-          STATUS={status}
+        <pre
+          style={{
+            display: "block",
+            whiteSpace: "pre-wrap",
+            textAlign: "left",
+            maxWidth: 600,
+            margin: "0 auto",
+            maxHeight: 200,
+            overflow: "auto",
+          }}
+        >
+          {JSON.stringify(result, null, 2)}
         </pre>
+
+        <pre
+          style={{
+            display: "block",
+            whiteSpace: "pre-wrap",
+            textAlign: "left",
+            maxWidth: 600,
+            margin: "0 auto",
+            color: "red",
+          }}
+        >
+          ERROR={error}
+        </pre>
+
+        <pre>STATUS={status}</pre>
+        <pre>PROGRESS={progress}</pre>
         <button onClick={() => window.ipc.destroyUpdaterWindow()}>
           DESTORY
         </button>

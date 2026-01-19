@@ -45,11 +45,11 @@ void (async () => {
   const defaultProfile = appSettingsStore.get("defaultProfileUUID");
 
   const updaterWindow = createWindow("updater", {
-    resizable: IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
+    resizable: false,
     center: true,
     closable: IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
     minimizable: false,
-    skipTaskbar: true,
+    // skipTaskbar: true,
     frame: IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
     webPreferences: {
       contextIsolation: true,
