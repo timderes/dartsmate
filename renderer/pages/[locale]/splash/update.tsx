@@ -10,18 +10,20 @@ import {
   Divider,
   ButtonGroup,
   Button,
+  Box,
 } from "@mantine/core";
 
 import AnimatedLoaderIcon from "@/components/content/AnimatedLoaderIcon";
 
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { UpdateCheckResult } from "electron-updater";
-import { APP_VERSION } from "@/utils/constants";
+import { APP_NAME, APP_VERSION } from "@/utils/constants";
 
 // result shape is forwarded from main; keep it untyped here
 
 const SplashUpdatePage = () => {
   const [status, setStatus] = useState<
+    | "appIsUpToDate"
     | "idle"
     | "checking"
     | "available"
@@ -92,7 +94,7 @@ const SplashUpdatePage = () => {
               setStatus("available");
               setDownloaded(false);
             } else {
-              setStatus("done");
+              setStatus("appIsUpToDate");
               setProgress(100);
             }
           } else {
@@ -146,7 +148,7 @@ const SplashUpdatePage = () => {
           width={92}
           height={92}
         />
-        <Text>{t(`lookingForUpdate.${status}`)}</Text>
+        <Text>{t(`lookingForUpdate.${status}`, { APP_NAME })}</Text>
         {status === "downloading" && <Progress value={progress} />}
         {status === "available" ? (
           <ButtonGroup>
@@ -162,7 +164,10 @@ const SplashUpdatePage = () => {
             >
               {t("downloadUpdate")}
             </Button>
-            <Button onClick={() => void window.ipc.destroyUpdaterWindow()}>
+            <Button
+              variant="outline"
+              onClick={() => window.ipc.destroyUpdaterWindow()}
+            >
               {t("skip")}
             </Button>
           </ButtonGroup>
@@ -178,11 +183,15 @@ const SplashUpdatePage = () => {
               }
             }}
           >
-            {downloaded ? t("installUpdate") : undefined}
+            {downloaded ? t("installUpdate") : t("closeApp")}
           </Button>
         )}
-        <Divider />
-        <Text component="small">{APP_VERSION}</Text>
+        <Box pos="absolute" bottom={10} left={0} ta="center" w="100%">
+          <Divider my="sm" />
+          <Text component="small" fz="xs" c="dimmed">
+            {APP_VERSION}
+          </Text>
+        </Box>
       </Stack>
     </Center>
   );

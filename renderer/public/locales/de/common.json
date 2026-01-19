@@ -97,6 +97,7 @@
   "confirmCloseAppTitle": "{{APP_NAME}} wirklich beenden?",
   "confirmCloseAppText": "Möchten Sie die Anwendung wirklich schließen? Alle nicht gespeicherten Daten gehen verloren.",
   "lookingForUpdate": {
+    "appIsUpToDate": "{{APP_NAME}} ist auf dem neuesten Stand.",
     "available": "Update verfügbar!",
     "idle": "Suche nach Updates...",
     "checking": "Suche nach Updates...",

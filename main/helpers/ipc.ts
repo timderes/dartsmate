@@ -57,7 +57,7 @@ ipcMain.on("destroy-updater-window", () => {
     return;
   }
   try {
-    if (updater) updater.close();
+    updater.close();
   } catch (err) {
     log.error("Failed to destroy updater window: %O", err);
   }
