@@ -36,6 +36,12 @@ const handler = {
   destroyUpdaterWindow() {
     ipcRenderer.send("destroy-updater-window");
   },
+  quitAndInstall() {
+    ipcRenderer.send("quit-and-install");
+  },
+  startDownload() {
+    return ipcRenderer.invoke("start-download");
+  },
 };
 
 contextBridge.exposeInMainWorld("ipc", handler);

@@ -6,16 +6,19 @@ import { Center, useMantineTheme, Stack, Text, Progress } from "@mantine/core";
 import AnimatedLoaderIcon from "@/components/content/AnimatedLoaderIcon";
 
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
+import { UpdateCheckResult } from "electron-updater";
+import { APP_VERSION } from "@/utils/constants";
 
-import type { UpdateCheckResult } from "electron-updater";
+// result shape is forwarded from main; keep it untyped here
 
 const SplashUpdatePage = () => {
   const [status, setStatus] = useState<
-    "idle" | "checking" | "downloading" | "done" | "error"
+    "idle" | "checking" | "available" | "downloading" | "done" | "error"
   >("idle");
   const [result, setResult] = useState<UpdateCheckResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [downloaded, setDownloaded] = useState(false);
 
   const theme = useMantineTheme();
   const { t } = useTranslation();
@@ -23,46 +26,97 @@ const SplashUpdatePage = () => {
   useEffect(() => {
     let mounted = true;
 
-    async function check() {
+    setStatus("checking");
+
+    const unsubProgress = window.ipc.on(
+      "update-download-progress",
+      (p: any) => {
+        if (!mounted) return;
+        setStatus("downloading");
+        setProgress(Math.round(p?.percent ?? 0));
+      },
+    );
+
+    const unsubAvailable = window.ipc.on("update-available", (info: any) => {
+      if (!mounted) return;
+      // new flow: ask user to download or skip
+      setStatus("available");
+      setResult(info ?? null);
+      setDownloaded(false);
+    });
+
+    const unsubDownloaded = window.ipc.on("update-downloaded", (info: any) => {
+      if (!mounted) return;
+      setStatus("done");
+      setProgress(100);
+      setResult(info ?? null);
+      setDownloaded(true);
+    });
+
+    const unsubChecking = window.ipc.on("update-checking", () => {
+      if (!mounted) return;
       setStatus("checking");
+    });
+
+    const unsubError = window.ipc.on("update-error", (e: any) => {
+      if (!mounted) return;
+      setStatus("error");
+      setError(e?.message ?? String(e));
+    });
+
+    (async () => {
       try {
         const res = await window.ipc.checkForAppUpdate();
-
         if (!mounted) return;
-        setResult(res);
-
-        if (res?.isUpdateAvailable) {
-          // Update is available, you can handle it here if needed
-          setStatus("downloading");
-
-          setProgress(res?.downloadPromise ? 0 : 100);
-
-          if (res?.downloadPromise) {
-            await res.downloadPromise.then(() => {
-              if (!mounted) return;
+        // Handler returns { success: boolean, result: { isUpdateAvailable, updateInfo } }.
+        if (res && typeof res === "object" && "success" in res) {
+          if (res.success) {
+            const payload = (res as any).result ?? null;
+            setResult(payload);
+            if (payload?.isUpdateAvailable) {
+              setStatus("available");
+              setDownloaded(false);
+            } else {
+              setStatus("done");
               setProgress(100);
-            });
+            }
+          } else {
+            setStatus("error");
+            setError((res as any).error ?? "Update check failed");
           }
+        } else {
+          // Fallback: treat as no update
+          setResult(res ?? null);
+          setStatus("done");
+          setProgress(100);
         }
-
-        setStatus("done");
-        setProgress(100);
+        /*
+        if (!res.) {
+          setStatus("error");
+          setError(res?.error ?? "Update check failed");
+        }*/
       } catch (err: unknown) {
         if (!mounted) return;
         setError((err as Error)?.message ?? String(err));
         setStatus("error");
       }
-    }
-
-    check().catch((e) => {
+    })().catch((e) => {
       if (!mounted) return;
-
       setError((e as Error)?.message ?? String(e));
       setStatus("error");
     });
 
     return () => {
       mounted = false;
+      try {
+        unsubProgress();
+        unsubAvailable();
+        unsubDownloaded();
+        unsubChecking();
+        unsubError();
+      } catch {
+        /* ignore */
+      }
     };
   }, []);
 
@@ -108,9 +162,40 @@ const SplashUpdatePage = () => {
 
         <pre>STATUS={status}</pre>
         <pre>PROGRESS={progress}</pre>
-        <button onClick={() => window.ipc.destroyUpdaterWindow()}>
-          DESTORY
-        </button>
+        {status === "available" ? (
+          <div>
+            <button
+              onClick={async () => {
+                setStatus("downloading");
+                const res = await window.ipc.startDownload();
+                if (!res?.success) {
+                  setError(res?.error ?? "Failed to start download");
+                  setStatus("error");
+                }
+              }}
+            >
+              Download
+            </button>
+            <button onClick={() => window.ipc.destroyUpdaterWindow()}>
+              Skip
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => {
+              if (downloaded) {
+                // install and restart
+                if (window.ipc.quitAndInstall) window.ipc.quitAndInstall();
+                else window.ipc.send("quit-and-install", null);
+              } else {
+                window.ipc.destroyUpdaterWindow();
+              }
+            }}
+          >
+            {downloaded ? "Install and restart" : "CLOSE"}
+          </button>
+        )}
+        <small>VERSION={APP_VERSION}</small>
       </Stack>
     </Center>
   );
