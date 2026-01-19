@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 
-import { Center, useMantineTheme, Stack, Text, Progress } from "@mantine/core";
+import {
+  Center,
+  useMantineTheme,
+  Stack,
+  Text,
+  Progress,
+  Divider,
+  ButtonGroup,
+  Button,
+} from "@mantine/core";
 
 import AnimatedLoaderIcon from "@/components/content/AnimatedLoaderIcon";
 
@@ -13,7 +22,13 @@ import { APP_VERSION } from "@/utils/constants";
 
 const SplashUpdatePage = () => {
   const [status, setStatus] = useState<
-    "idle" | "checking" | "available" | "downloading" | "done" | "error"
+    | "idle"
+    | "checking"
+    | "available"
+    | "downloading"
+    | "downloadComplete"
+    | "done"
+    | "error"
   >("idle");
   const [result, setResult] = useState<UpdateCheckResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -47,7 +62,7 @@ const SplashUpdatePage = () => {
 
     const unsubDownloaded = window.ipc.on("update-downloaded", (info: any) => {
       if (!mounted) return;
-      setStatus("done");
+      setStatus("downloadComplete");
       setProgress(100);
       setResult(info ?? null);
       setDownloaded(true);
@@ -132,39 +147,10 @@ const SplashUpdatePage = () => {
           height={92}
         />
         <Text>{t(`lookingForUpdate.${status}`)}</Text>
-        <Progress value={progress} />
-        <pre
-          style={{
-            display: "block",
-            whiteSpace: "pre-wrap",
-            textAlign: "left",
-            maxWidth: 600,
-            margin: "0 auto",
-            maxHeight: 200,
-            overflow: "auto",
-          }}
-        >
-          {JSON.stringify(result, null, 2)}
-        </pre>
-
-        <pre
-          style={{
-            display: "block",
-            whiteSpace: "pre-wrap",
-            textAlign: "left",
-            maxWidth: 600,
-            margin: "0 auto",
-            color: "red",
-          }}
-        >
-          ERROR={error}
-        </pre>
-
-        <pre>STATUS={status}</pre>
-        <pre>PROGRESS={progress}</pre>
+        {status === "downloading" && <Progress value={progress} />}
         {status === "available" ? (
-          <div>
-            <button
+          <ButtonGroup>
+            <Button
               onClick={async () => {
                 setStatus("downloading");
                 const res = await window.ipc.startDownload();
@@ -174,14 +160,14 @@ const SplashUpdatePage = () => {
                 }
               }}
             >
-              Download
-            </button>
-            <button onClick={() => window.ipc.destroyUpdaterWindow()}>
-              Skip
-            </button>
-          </div>
+              {t("downloadUpdate")}
+            </Button>
+            <Button onClick={() => void window.ipc.destroyUpdaterWindow()}>
+              {t("skip")}
+            </Button>
+          </ButtonGroup>
         ) : (
-          <button
+          <Button
             onClick={() => {
               if (downloaded) {
                 // install and restart
@@ -192,10 +178,11 @@ const SplashUpdatePage = () => {
               }
             }}
           >
-            {downloaded ? "Install and restart" : "CLOSE"}
-          </button>
+            {downloaded ? t("installUpdate") : undefined}
+          </Button>
         )}
-        <small>VERSION={APP_VERSION}</small>
+        <Divider />
+        <Text component="small">{APP_VERSION}</Text>
       </Stack>
     </Center>
   );

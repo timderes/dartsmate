@@ -9,6 +9,7 @@
   "minimizeApp": "Minimize",
   "fullscreenMode": "Fullscreen",
   "windowedMode": "Windowed Mode",
+  "skip": "Skip",
   "player": "Player",
   "player_plural": "Players",
   "date": "Date",
@@ -96,9 +97,14 @@
   "confirmCloseAppTitle": "Really quit {{APP_NAME}}?",
   "confirmCloseAppText": "Do you really want to close the application? All unsaved data will be lost.",
   "lookingForUpdate": {
+    "available": "Update available!",
     "idle": "Looking for updates...",
     "checking": "Looking for updates...",
     "done": "Done!",
-    "error": "Error while looking for updates!"
-  }
+    "error": "Error while looking for updates!",
+    "downloading": "Downloading the update...",
+    "downloadComplete": "Download complete!"
+  },
+  "installUpdate": "Install Update",
+  "downloadUpdate": "Download Update"
 }

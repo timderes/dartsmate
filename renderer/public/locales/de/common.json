@@ -9,6 +9,7 @@
   "minimizeApp": "Minimieren",
   "fullscreenMode": "Vollbild",
   "windowedMode": "Fenstermodus",
+  "skip": "Überspringen",
   "player": "Spieler",
   "player_plural": "Spieler",
   "date": "Datum",
@@ -96,9 +97,14 @@
   "confirmCloseAppTitle": "{{APP_NAME}} wirklich beenden?",
   "confirmCloseAppText": "Möchten Sie die Anwendung wirklich schließen? Alle nicht gespeicherten Daten gehen verloren.",
   "lookingForUpdate": {
+    "available": "Update verfügbar!",
     "idle": "Suche nach Updates...",
     "checking": "Suche nach Updates...",
     "done": "Fertig!",
-    "error": "Fehler bei der Update-Suche!"
-  }
+    "error": "Fehler bei der Update-Suche!",
+    "downloading": "Lade das Update herunter...",
+    "downloadComplete": "Download abgeschlossen!"
+  },
+  "installUpdate": "Update installieren",
+  "downloadUpdate": "Update herunterladen"
 }
