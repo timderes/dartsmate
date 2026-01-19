@@ -94,5 +94,6 @@
   "playGameMode": "Start {{GAME_MODE}}...",
   "country": "Country",
   "confirmCloseAppTitle": "Really quit {{APP_NAME}}?",
-  "confirmCloseAppText": "Do you really want to close the application? All unsaved data will be lost."
+  "confirmCloseAppText": "Do you really want to close the application? All unsaved data will be lost.",
+  "lookingForUpdate": "Looking for updates..."
 }
