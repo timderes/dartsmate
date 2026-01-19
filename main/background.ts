@@ -31,13 +31,6 @@ void (async () => {
     logSystemInfo();
     log.initialize(); // Initialize the logger for renderer process
     autoUpdater.logger = log;
-
-    if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
-      // autoUpdater.allowPrerelease = false;
-      // void autoUpdater.checkForUpdatesAndNotify();
-    } else {
-      // log.info("Skipping auto-updater in development mode.");
-    }
   });
 
   const port = process.argv[2];
