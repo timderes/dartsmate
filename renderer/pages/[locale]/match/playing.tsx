@@ -26,7 +26,7 @@ import { useTranslation } from "next-i18next";
 import { useLocalStorage } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import { modals } from "@mantine/modals";
-import { IconCrown, IconEraser } from "@tabler/icons-react";
+import { IconCrown, IconEraser, IconPlayerPlay } from "@tabler/icons-react";
 import log from "electron-log/renderer";
 
 import type { Player } from "types/match";
@@ -66,6 +66,7 @@ const PlayingPage: NextPage = () => {
     checkout,
     players,
     currentPlayerIndex,
+    currentLegStartingPlayerIndex,
     matchRound,
     multiplier: scoreMultiplier,
     matchStatus,
@@ -194,6 +195,27 @@ const PlayingPage: NextPage = () => {
                     m="lg"
                     bg={getCardBackgroundColor(player.color, index)}
                   >
+                    {index === currentLegStartingPlayerIndex ? (
+                      <Tooltip
+                        label={t("match:startingPlayer", {
+                          defaultValue: "Leg starter",
+                        })}
+                        withArrow
+                      >
+                        <Badge
+                          color="teal"
+                          size="sm"
+                          style={{
+                            position: "absolute",
+                            right: 16,
+                            top: player.isWinner ? 56 : 16,
+                          }}
+                          leftSection={<IconPlayerPlay size={14} />}
+                        >
+                          {t("match:startingPlayer", { defaultValue: "Leg starter" })}
+                        </Badge>
+                      </Tooltip>
+                    ) : undefined}
                     {player.isWinner ? (
                       <Tooltip
                         label={t("match:playerWon", {
