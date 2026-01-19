@@ -54,6 +54,7 @@ void (async () => {
     maxWidth: 100,
     minimizable: false,
     skipTaskbar: true,
+    frame: IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
     webPreferences: {
       contextIsolation: true,
       preload: path.join(__dirname, "preload.js"),
