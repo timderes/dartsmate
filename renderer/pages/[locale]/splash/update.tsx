@@ -11,6 +11,7 @@ import {
   ButtonGroup,
   Button,
   Box,
+  Title,
 } from "@mantine/core";
 
 import AnimatedLoaderIcon from "@/components/content/AnimatedLoaderIcon";
@@ -140,6 +141,7 @@ const SplashUpdatePage = () => {
   return (
     <Center h="100dvh" w="100dvw">
       <Stack ta="center">
+        <Title>{APP_NAME}</Title>
         <AnimatedLoaderIcon
           color={theme.colors.red[7]}
           style={{
@@ -165,7 +167,7 @@ const SplashUpdatePage = () => {
               {t("downloadUpdate")}
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => window.ipc.destroyUpdaterWindow()}
             >
               {t("skip")}

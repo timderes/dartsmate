@@ -57,7 +57,27 @@ ipcMain.on("destroy-updater-window", () => {
     return;
   }
   try {
-    updater.close();
+    if (updater && !updater.isDestroyed()) {
+      // Try to make the window closable (production may set it non-closable)
+      try {
+        if (typeof updater.setClosable === "function") {
+          updater.setClosable(true);
+        }
+      } catch (e) {
+        log.warn("Failed to set updater window closable before destroy. %0", e);
+      }
+
+      try {
+        updater.close();
+      } catch (e) {
+        log.warn("Updater close() failed, attempting destroy(): %O", e);
+        try {
+          if (!updater.isDestroyed()) updater.destroy();
+        } catch (dErr) {
+          log.error("Failed to destroy updater window: %O", dErr);
+        }
+      }
+    }
   } catch (err) {
     log.error("Failed to destroy updater window: %O", err);
   }
