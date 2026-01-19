@@ -1,6 +1,8 @@
 import { BrowserWindow, app, ipcMain } from "electron";
 import { appSettingsStore } from "./stores";
 import log from "electron-log";
+import { autoUpdater } from "electron-updater";
+import { getWindow } from "./window-registry";
 
 ipcMain.handle("setLocale", (_, locale: { locale: string }) => {
   appSettingsStore.set("locale", locale);
@@ -43,4 +45,26 @@ ipcMain.on("reload-app", () => {
   //! `app.quit` or `app.exit` after calling app.relaunch to make the app restart.
   app.relaunch();
   app.quit();
+});
+
+ipcMain.on("destroy-updater-window", () => {
+  const updater = getWindow("updater");
+
+  if (!updater) {
+    log.error(
+      "Attempted to destroy updater window, but no updater window found in registry.",
+    );
+    return;
+  }
+  try {
+    if (updater) updater.close();
+  } catch (err) {
+    log.error("Failed to destroy updater window: %O", err);
+  }
+});
+
+ipcMain.handle("check-for-app-update", async () => {
+  autoUpdater.allowPrerelease = false;
+  const result = await autoUpdater.checkForUpdatesAndNotify();
+  return result;
 });

@@ -1,5 +1,6 @@
 import type { IpcRendererEvent } from "electron";
 import { contextBridge, ipcRenderer } from "electron";
+import type { UpdateCheckResult } from "electron-updater";
 
 const handler = {
   send(channel: string, value: unknown) {
@@ -28,6 +29,12 @@ const handler = {
   },
   removeAppSettings() {
     void ipcRenderer.invoke("removeAppSettings");
+  },
+  checkForAppUpdate(): Promise<UpdateCheckResult | null> {
+    return ipcRenderer.invoke("check-for-app-update");
+  },
+  destroyUpdaterWindow() {
+    ipcRenderer.send("destroy-updater-window");
   },
 };
 

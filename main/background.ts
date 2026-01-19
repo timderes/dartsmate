@@ -32,10 +32,10 @@ void (async () => {
     autoUpdater.logger = log;
 
     if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
-      autoUpdater.allowPrerelease = false;
-      void autoUpdater.checkForUpdatesAndNotify();
+      // autoUpdater.allowPrerelease = false;
+      // void autoUpdater.checkForUpdatesAndNotify();
     } else {
-      log.info("Skipping auto-updater in development mode.");
+      // log.info("Skipping auto-updater in development mode.");
     }
   });
 
@@ -111,32 +111,4 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
-});
-
-// TODO: Add more meaningful code to these functions :)
-autoUpdater.on("checking-for-update", () => {
-  log.info("Checking for update...");
-});
-
-autoUpdater.on("update-available", () => {
-  log.info("Update available.");
-});
-
-autoUpdater.on("update-not-available", () => {
-  log.info("Update not available.");
-});
-
-autoUpdater.on("error", (error) => {
-  log.error(`Error in auto-updater: ${error.message}`);
-});
-
-autoUpdater.on("update-downloaded", () => {
-  log.info("Download completed.");
-
-  //TODO: Let the user decide if he wants to update after download
-  autoUpdater.quitAndInstall();
-});
-
-autoUpdater.on("download-progress", (info) => {
-  log.info("Download running", info);
 });

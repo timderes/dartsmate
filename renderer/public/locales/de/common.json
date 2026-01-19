@@ -95,5 +95,10 @@
   "country": "Land",
   "confirmCloseAppTitle": "{{APP_NAME}} wirklich beenden?",
   "confirmCloseAppText": "Möchten Sie die Anwendung wirklich schließen? Alle nicht gespeicherten Daten gehen verloren.",
-  "lookingForUpdate": "Suche nach Updates..."
+  "lookingForUpdate": {
+    "idle": "Suche nach Updates...",
+    "checking": "Suche nach Updates...",
+    "done": "Fertig!",
+    "error": "Fehler bei der Update-Suche!"
+  }
 }

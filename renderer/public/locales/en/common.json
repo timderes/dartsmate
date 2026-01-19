@@ -95,5 +95,10 @@
   "country": "Country",
   "confirmCloseAppTitle": "Really quit {{APP_NAME}}?",
   "confirmCloseAppText": "Do you really want to close the application? All unsaved data will be lost.",
-  "lookingForUpdate": "Looking for updates..."
+  "lookingForUpdate": {
+    "idle": "Looking for updates...",
+    "checking": "Looking for updates...",
+    "done": "Done!",
+    "error": "Error while looking for updates!"
+  }
 }
