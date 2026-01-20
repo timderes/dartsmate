@@ -34,3 +34,4 @@
 
 - Tim Deres ([@timderes](https://github.com/timderes))
 - Benedict Homuth ([@BenedictHomuth](https://github.com/BenedictHomuth))
+- Wejdene Mekki ([@wejdenemk](https://github.com/wejdenemk))

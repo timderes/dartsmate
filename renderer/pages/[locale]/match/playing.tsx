@@ -196,23 +196,16 @@ const PlayingPage: NextPage = () => {
                     bg={getCardBackgroundColor(player.color, index)}
                   >
                     {index === currentLegStartingPlayerIndex ? (
-                      <Tooltip
-                        label={t("match:startingPlayer", {
-                          defaultValue: "Leg starter",
-                        })}
-                        withArrow
-                      >
+                      <Tooltip label={t("match:startingPlayer")} withArrow>
                         <Badge
                           color="teal"
                           size="sm"
-                          style={{
-                            position: "absolute",
-                            right: 16,
-                            top: player.isWinner ? 56 : 16,
-                          }}
+                          pos="absolute"
+                          right={16}
+                          top={player.isWinner ? 56 : 16}
                           leftSection={<IconPlayerPlay size={14} />}
                         >
-                          {t("match:startingPlayer", { defaultValue: "Leg starter" })}
+                          {t("match:startingPlayer")}
                         </Badge>
                       </Tooltip>
                     ) : undefined}
