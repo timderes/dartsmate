@@ -14,7 +14,7 @@ import { upperFirst, useNetwork, useOs } from "@mantine/hooks";
 
 import navbarRoutes from "@utils/content/navbarRoutes";
 import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
-import { APP_VERSION } from "@/utils/constants";
+import { APP_VERSION } from "@utils/constants";
 
 /**
  * The navigation sidebar displaying the app routes.
