@@ -2,21 +2,12 @@ import {
   ActionIcon,
   AppShell,
   Container,
-  Divider,
   Flex,
   Group,
-  NavLink,
-  ScrollAreaAutosize,
   Text,
   Tooltip,
 } from "@mantine/core";
-import {
-  upperFirst,
-  useDisclosure,
-  useFullscreen,
-  useNetwork,
-  useOs,
-} from "@mantine/hooks";
+import { useDisclosure, useFullscreen } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import {
   IconMenu2,
@@ -27,11 +18,10 @@ import {
 } from "@tabler/icons-react";
 import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import { APP_NAME, APP_VERSION } from "@utils/constants";
-import navbarRoutes from "@utils/content/navbarRoutes";
+import { APP_NAME } from "@utils/constants";
 import sendIPC from "@utils/ipc/send";
-import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
+
+import Navbar from "./shared/Navbar";
 
 type DefaultLayoutProps = {
   children: React.ReactNode;
@@ -51,33 +41,7 @@ const DefaultLayout = ({
   const { toggle: toggleFullscreen, fullscreen } = useFullscreen();
   const [isNavbarOpened, { toggle: toggleNavbar }] =
     useDisclosure(withNavbarOpen);
-  const CLIENT_OS = useOs();
-  const { online: NETWORK_STATUS } = useNetwork();
-
-  const router = useRouter();
-
-  const {
-    t,
-    i18n: { language: locale },
-  } = useTranslation(["common"]);
-
-  const isActiveRoute = (route: string) => {
-    const currentRoute = router.asPath;
-    const localizedRoute = formatLocalizedRoute({
-      locale,
-      route,
-    });
-
-    /*
-     * Check if the current route is exactly equal to the localized one.
-     * Or handle the case case where the current route is sub-route of
-     * the base route.
-     */
-    return (
-      currentRoute === localizedRoute ||
-      currentRoute.startsWith(`${localizedRoute}/`)
-    );
-  };
+  const { t } = useTranslation();
 
   const handleCloseApp = () =>
     modals.openConfirmModal({
@@ -170,41 +134,7 @@ const DefaultLayout = ({
           </Group>
         </Flex>
       </AppShell.Header>
-      <AppShell.Navbar>
-        <AppShell.Section component={ScrollAreaAutosize} grow>
-          {navbarRoutes.map((route) => (
-            <NavLink
-              active={isActiveRoute(route.route)}
-              key={route.route}
-              label={t(route.label)}
-              leftSection={route.icon}
-              variant="filled"
-              onClick={() =>
-                void router.push(
-                  formatLocalizedRoute({
-                    locale,
-                    route: route.route,
-                  }),
-                )
-              }
-            />
-          ))}
-        </AppShell.Section>
-        <Divider />
-        <AppShell.Section p="lg">
-          <Text c="dimmed" ta="center">
-            <Text component="span" fz="xs" display="block">
-              {APP_VERSION}
-            </Text>
-            <Text component="span" fz="xs" display="block">
-              {upperFirst(CLIENT_OS)}
-            </Text>
-            <Text component="span" fz="xs" display="block">
-              {NETWORK_STATUS ? t("online") : t("offline")}
-            </Text>
-          </Text>
-        </AppShell.Section>
-      </AppShell.Navbar>
+      <Navbar />
       <AppShell.Main>
         <Container
           px={{
