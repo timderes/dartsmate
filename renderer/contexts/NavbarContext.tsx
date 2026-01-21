@@ -4,14 +4,14 @@ type NavbarContextType = {
   toggleNavbar: () => void; // Is this the best type?
 };
 
-type NavbarProvideProps = NavbarContextType & PropsWithChildren;
+type NavbarProviderProps = NavbarContextType & PropsWithChildren;
 
 const NavbarContext = createContext<NavbarContextType | undefined>(undefined);
 
 export const NavbarProvider = ({
   children,
   toggleNavbar,
-}: NavbarProvideProps) => {
+}: NavbarProviderProps) => {
   return (
     <NavbarContext.Provider value={{ toggleNavbar }}>
       {children}
