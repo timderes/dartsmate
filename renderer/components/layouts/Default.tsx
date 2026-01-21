@@ -35,6 +35,10 @@ const AppNavbarSettings: AppShellNavbarConfiguration = {
   breakpoint: "xs",
 };
 
+/**
+ * The app structure with a header for app controls and a sidebar
+ * navbar for navigation. Wraps content in a container.
+ */
 const DefaultLayout = ({
   children,
   withNavbarOpen = true,
