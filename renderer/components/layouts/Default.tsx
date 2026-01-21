@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from "react";
 import {
   ActionIcon,
   AppShell,
@@ -24,10 +25,9 @@ import sendIPC from "@utils/ipc/send";
 import Navbar from "./shared/Navbar";
 
 type DefaultLayoutProps = {
-  children: React.ReactNode;
   fluid?: boolean;
   withNavbarOpen: boolean;
-};
+} & PropsWithChildren;
 
 export const headerHeight = 32; // px
 export const navbarWidth = 200; // px

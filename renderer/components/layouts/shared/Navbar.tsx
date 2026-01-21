@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 
 import {
   AppShell,
+  type AppShellNavbarProps,
   Divider,
   NavLink,
   ScrollAreaAutosize,
@@ -15,10 +16,12 @@ import navbarRoutes from "@utils/content/navbarRoutes";
 import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
 import { APP_VERSION } from "@/utils/constants";
 
+type NavbarProps = AppShellNavbarProps;
+
 /**
  * The navigation sidebar displaying the app routes.
  */
-const Navbar = () => {
+const Navbar = ({ ...props }: NavbarProps) => {
   const router = useRouter();
   const {
     t,
@@ -43,7 +46,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppShell.Navbar>
+    <AppShell.Navbar {...props}>
       <AppShell.Section component={ScrollAreaAutosize} grow>
         {navbarRoutes.map(({ icon, label, route }) => (
           <NavLink
