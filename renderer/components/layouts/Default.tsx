@@ -10,27 +10,24 @@ import { useDisclosure } from "@mantine/hooks";
 import AppHeader from "./shared/AppHeader";
 import AppNavbar from "./shared/AppNavbar";
 import { NavbarProvider } from "@/contexts/NavbarContext";
+import { APP_SHELL } from "@/utils/constants";
 
 type DefaultLayoutProps = {
   fluid?: boolean;
   withNavbarOpen: boolean;
 } & PropsWithChildren;
 
-export const headerHeight = 32; // px
-export const navbarWidth = 200; // px
-export const navbarIconSize = 24; // px
-
 const AppHeaderSettings: AppShellHeaderConfiguration = {
-  height: headerHeight,
+  height: APP_SHELL.HEADER_HEIGHT,
 };
 
 const AppNavbarSettings: AppShellNavbarConfiguration = {
   width: {
     // `md` is the smallest used breakpoint since the
     // app requires 1024x768 pixels
-    md: navbarWidth,
-    lg: navbarWidth,
-    xl: navbarWidth,
+    md: APP_SHELL.NAVBAR_WIDTH,
+    lg: APP_SHELL.NAVBAR_WIDTH,
+    xl: APP_SHELL.NAVBAR_WIDTH,
   },
   breakpoint: "xs",
 };
