@@ -24,10 +24,10 @@ export const NavbarProvider = ({
 };
 
 /**
- * Context type for the Navbar, providing a method to toggle the
- * navbar's open/closed state.
+ * Hook to access the Navbar context.
  *
- * @property toggleNavbar - Function to toggle the visibility of the navbar.
+ * Must be used within a {@link NavbarProvider}. Returns the Navbar context
+ * value, including the {@link NavbarContextType.toggleNavbar} function.
  */
 export const useNavbar = () => {
   const context = useContext(NavbarContext);
