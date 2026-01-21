@@ -27,7 +27,7 @@ const AppNavbar = ({ ...props }: AppNavbarProps) => {
     t,
     i18n: { language: locale },
   } = useTranslation();
-  const CLIENT_OS = useOs();
+  const clientOs = useOs();
   const networkStatus = useNetwork();
 
   const isActiveRoute = (route: string) => {
@@ -73,7 +73,7 @@ const AppNavbar = ({ ...props }: AppNavbarProps) => {
             {APP_VERSION}
           </Text>
           <Text component="span" fz="xs">
-            {upperFirst(CLIENT_OS)}
+            {upperFirst(clientOs)}
           </Text>
           <Text component="span" fz="xs">
             {networkStatus.online ? t("online") : t("offline")}
