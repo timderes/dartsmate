@@ -17,7 +17,7 @@ import { modals } from "@mantine/modals";
 import StepTwo from "@components/content/profileCreation/StepTwo";
 import StepThree from "@components/content/profileCreation/StepThree";
 import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
-import { headerHeight } from "@components/layouts/Default";
+import { APP_SHELL } from "@/utils/constants";
 
 /**
  *
@@ -33,7 +33,7 @@ const CreateProfilePage: NextPage = () => {
   const isGuestProfile = params.get("isGuest") ? true : false;
   const { form } = useProfileForm(isGuestProfile);
 
-  const pageHeight = `calc(100vh - ${headerHeight}px)`;
+  const pageHeight = `calc(100vh - ${APP_SHELL.HEADER_HEIGHT}px)`;
 
   const steps = [
     { label: t("profile:step.label.profile"), step: StepOne },
