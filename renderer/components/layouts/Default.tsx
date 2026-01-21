@@ -35,16 +35,18 @@ import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
 
 type DefaultLayoutProps = {
   children: React.ReactNode;
+  fluid?: boolean;
   withNavbarOpen: boolean;
 };
 
 export const headerHeight = 32; // px
 export const navbarWidth = 200; // px
-export const navbarIconSize = 24;
+export const navbarIconSize = 24; // px
 
 const DefaultLayout = ({
   children,
   withNavbarOpen = true,
+  fluid = true,
 }: DefaultLayoutProps) => {
   const { toggle: toggleFullscreen, fullscreen } = useFullscreen();
   const [isNavbarOpened, { toggle: toggleNavbar }] =
@@ -208,6 +210,7 @@ const DefaultLayout = ({
           px={{
             xs: 0,
           }}
+          fluid={fluid}
         >
           {children}
         </Container>
