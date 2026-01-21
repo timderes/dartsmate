@@ -16,12 +16,12 @@ import navbarRoutes from "@utils/content/navbarRoutes";
 import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
 import { APP_VERSION } from "@/utils/constants";
 
-type NavbarProps = AppShellNavbarProps;
+type AppNavbarProps = AppShellNavbarProps;
 
 /**
  * The navigation sidebar displaying the app routes.
  */
-const Navbar = ({ ...props }: NavbarProps) => {
+const AppNavbar = ({ ...props }: AppNavbarProps) => {
   const router = useRouter();
   const {
     t,
@@ -84,4 +84,4 @@ const Navbar = ({ ...props }: NavbarProps) => {
   );
 };
 
-export default Navbar;
+export default AppNavbar;
