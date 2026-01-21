@@ -97,8 +97,8 @@ const DefaultLayout = ({
         width: {
           // `md` is the smallest used breakpoint since the app requires 1024x768 pixels
           md: navbarWidth,
-          lg: navbarWidth * 1.25,
-          xl: navbarWidth * 1.4,
+          lg: navbarWidth,
+          xl: navbarWidth,
         },
         breakpoint: "xs",
         collapsed: {
