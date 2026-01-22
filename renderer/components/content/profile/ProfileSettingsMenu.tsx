@@ -15,6 +15,7 @@ import { modals } from "@mantine/modals";
 import SharedConfirmModalProps from "@/utils/modals/sharedConfirmModalProps";
 import updateProfileFromDatabase from "@/lib/db/profiles/updateProfile";
 import deleteProfileFromDatabase from "@/lib/db/profiles/deleteProfile";
+import Logger from "electron-log";
 
 type ProfileSettingsMenuProps = {
   profile: Profile;
@@ -68,10 +69,15 @@ const ProfileSettingsMenu = ({
           profile.uuid,
         )
           .then(() => {
+            Logger.info(
+              "Statistics for profile with UUID `",
+              profile.uuid,
+              "` have been reset successfully.",
+            );
             void router.reload();
           })
           .catch((err) => {
-            console.error("Failed to reset profile statistics. Error:", err);
+            Logger.error("Failed to reset profile statistics. Error:", err);
           });
       },
     });
@@ -91,10 +97,15 @@ const ProfileSettingsMenu = ({
       onConfirm: () => {
         deleteProfileFromDatabase(profile.uuid)
           .then(() => {
+            Logger.info(
+              "Profile with UUID `",
+              profile.uuid,
+              "` deleted successfully.",
+            );
             void router.reload();
           })
           .catch((err) => {
-            console.error("Failed to delete profile. Error:", err);
+            Logger.error("Failed to delete profile. Error:", err);
           });
       },
     });
