@@ -124,6 +124,8 @@ const ProfileSettingsMenu = ({
       );
     } catch (error) {
       Logger.error("Failed to set a new default profile. Error:", error);
+    } finally {
+      void router.reload();
     }
   };
 
