@@ -65,7 +65,11 @@ const SettingsPage = () => {
             </Group>
             <Button.Group mt="lg">
               <Button
-                onClick={() => void router.push(`/${locale}/profile/edit`)}
+                onClick={() =>
+                  void router.push(
+                    `/${locale}/profile/edit?uuid=${defaultProfile.uuid}`,
+                  )
+                }
                 variant="default"
                 leftSection={<IconUserEdit style={getDefaultIconSize()} />}
               >
