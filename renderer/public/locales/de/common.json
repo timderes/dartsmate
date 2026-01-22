@@ -94,5 +94,6 @@
   "playGameMode": "{{GAME_MODE}} starten...",
   "country": "Land",
   "confirmCloseAppTitle": "{{APP_NAME}} wirklich beenden?",
-  "confirmCloseAppText": "Möchten Sie die Anwendung wirklich schließen? Alle nicht gespeicherten Daten gehen verloren."
+  "confirmCloseAppText": "Möchten Sie die Anwendung wirklich schließen? Alle nicht gespeicherten Daten gehen verloren.",
+  "searchInputPlaceholder": "Suche nach einem Spieler..."
 }

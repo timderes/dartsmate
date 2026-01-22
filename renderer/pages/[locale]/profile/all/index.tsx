@@ -14,6 +14,7 @@ import {
   ScrollArea,
   Stack,
   Text,
+  TextInput,
   Title,
 } from "@mantine/core";
 import ProfileAvatar from "@/components/content/ProfileAvatar";
@@ -23,21 +24,51 @@ import getFormattedName from "@/utils/misc/getFormattedName";
 import Stat from "@/components/content/Stat";
 import { APP_NAME, DATE_OPTIONS } from "@/utils/constants";
 import ProfileSettingsMenu from "@/components/content/profile/ProfileSettingsMenu";
+import { IconSearch } from "@tabler/icons-react";
+import { useDebouncedCallback } from "@mantine/hooks";
+import useDefaultProfile from "@/hooks/getDefaultProfile";
+import { useField } from "@mantine/form";
 
 const ProfileAllPage = () => {
   const {
     t,
     i18n: { language: locale },
   } = useTranslation();
-  const profiles = useGetAllProfiles();
+  const allProfiles = useGetAllProfiles();
+  const [filteredProfiles, setFilteredProfiles] = useState<
+    Profile[] | undefined
+  >(undefined);
+  const defaultProfile = useDefaultProfile();
   const [activeProfile, setActiveProfile] = useState<Profile | undefined>(
     undefined,
   );
 
+  const search = useField({
+    initialValue: "",
+    onValueChange: (value) => handleSearch(value),
+  });
   useEffect(() => {
-    setActiveProfile(profiles ? profiles[0] : undefined);
-  }, [profiles]);
+    setFilteredProfiles(allProfiles);
+    setActiveProfile(defaultProfile ?? undefined);
+  }, [allProfiles, defaultProfile]);
 
+  const handleSearch = useDebouncedCallback((query: string) => {
+    if (!query.trim()) {
+      setFilteredProfiles(allProfiles);
+      return;
+    }
+    const filtered = allProfiles?.filter((profile) =>
+      profile.username.toLowerCase().includes(query.toLowerCase()),
+    );
+    setFilteredProfiles(filtered);
+  }, 500);
+
+  const handleSetActiveProfile = (profile: Profile) => {
+    setActiveProfile(profile);
+    // Reset query
+    setFilteredProfiles(allProfiles);
+    search.setValue("");
+  };
   return (
     <DefaultLayout withNavbarOpen>
       <Grid gutter={0}>
@@ -46,14 +77,25 @@ const ProfileAllPage = () => {
             mih={`calc(100dvh - ${headerHeight}px)`}
             mah={`calc(100dvh - ${headerHeight}px)`}
           >
-            {profiles?.map((profile) => (
+            <NavLink
+              autoContrast
+              leftSection={<IconSearch />}
+              label={
+                <TextInput
+                  placeholder={t("searchInputPlaceholder")}
+                  variant="unstyled"
+                  {...search.getInputProps()}
+                />
+              }
+            />
+            {filteredProfiles?.map((profile) => (
               <NavLink
                 autoContrast
                 active={activeProfile?.uuid === profile.uuid}
                 key={profile.uuid}
                 leftSection={<ProfileAvatar profile={profile} size="sm" />}
                 label={profile.username}
-                onClick={() => setActiveProfile(profile)}
+                onClick={() => handleSetActiveProfile(profile)}
                 variant="filled"
               />
             ))}
@@ -61,7 +103,7 @@ const ProfileAllPage = () => {
         </Grid.Col>
         <Grid.Col span={9}>
           <ScrollArea.Autosize mah={`calc(100dvh - ${headerHeight}px)`}>
-            {profiles && activeProfile ? (
+            {filteredProfiles && activeProfile ? (
               <>
                 <Flex align="start" justify="end">
                   <ProfileSettingsMenu profile={activeProfile} />
