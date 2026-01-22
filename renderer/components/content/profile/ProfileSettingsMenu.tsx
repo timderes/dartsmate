@@ -16,6 +16,7 @@ import SharedConfirmModalProps from "@/utils/modals/sharedConfirmModalProps";
 import updateProfileFromDatabase from "@/lib/db/profiles/updateProfile";
 import deleteProfileFromDatabase from "@/lib/db/profiles/deleteProfile";
 import Logger from "electron-log";
+import useDefaultProfile from "@/hooks/getDefaultProfile";
 
 type ProfileSettingsMenuProps = {
   profile: Profile;
@@ -30,6 +31,7 @@ const ProfileSettingsMenu = ({
     i18n: { language: locale },
   } = useTranslation(["common", "profile"]);
   const router = useRouter();
+  const defaultProfile = useDefaultProfile();
 
   const handleEditProfile = (uuid: Profile["uuid"]) => {
     void router.push(`/${locale}/profile/edit?uuid=${uuid}`);
@@ -111,6 +113,20 @@ const ProfileSettingsMenu = ({
     });
   };
 
+  const handleSetProfileAsDefault = (profile: Profile) => {
+    try {
+      window.ipc.setDefaultProfileUUID(profile.uuid);
+
+      Logger.info(
+        "Profile with UUID `",
+        profile.uuid,
+        "` set as default profile.",
+      );
+    } catch (error) {
+      Logger.error("Failed to set a new default profile. Error:", error);
+    }
+  };
+
   return (
     <Menu shadow="md" width={250} withArrow {...props}>
       <Menu.Target>
@@ -138,8 +154,9 @@ const ProfileSettingsMenu = ({
         <Menu.Divider />
         <Menu.Item
           color="red"
-          // disabled={!activeProfile.isGuestProfile}
+          disabled={profile.uuid === defaultProfile?.uuid}
           leftSection={<IconUserStar size={14} />}
+          onClick={() => handleSetProfileAsDefault(profile)}
         >
           {t("profile:setAsDefaultProfile")}
         </Menu.Item>
