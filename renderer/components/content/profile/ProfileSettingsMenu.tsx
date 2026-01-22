@@ -155,7 +155,6 @@ const ProfileSettingsMenu = ({
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item
-          color="red"
           disabled={profile.uuid === defaultProfile?.uuid}
           leftSection={<IconUserStar size={14} />}
           onClick={() => handleSetProfileAsDefault(profile)}
