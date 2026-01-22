@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 
-import { ActionIcon, Menu } from "@mantine/core";
+import { ActionIcon, Menu, type MenuProps } from "@mantine/core";
 import {
   IconChartBarOff,
   IconEdit,
@@ -9,19 +9,39 @@ import {
   IconUserStar,
   IconUserX,
 } from "@tabler/icons-react";
+import type { Profile } from "@/types/profile";
+import { useRouter } from "next/router";
 
-const ProfileSettingsMenu = () => {
-  const { t } = useTranslation(["profile"]);
+type ProfileSettingsMenuProps = {
+  profile: Profile;
+} & MenuProps;
+
+const ProfileSettingsMenu = ({
+  profile,
+  ...props
+}: ProfileSettingsMenuProps) => {
+  const {
+    t,
+    i18n: { language: locale },
+  } = useTranslation(["profile"]);
+  const router = useRouter();
+
+  const handleEditProfile = (uuid: Profile["uuid"]) => {
+    void router.push(`/${locale}/profile/edit?uuid=${uuid}`);
+  };
 
   return (
-    <Menu shadow="md" width={250} withArrow>
+    <Menu shadow="md" width={250} withArrow {...props}>
       <Menu.Target>
         <ActionIcon variant="filled" radius={0}>
           <IconEdit />
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item leftSection={<IconUserEdit size={14} />}>
+        <Menu.Item
+          leftSection={<IconUserEdit size={14} />}
+          onClick={() => handleEditProfile(profile.uuid)}
+        >
           {t("profile:editProfile")}
         </Menu.Item>
         <Menu.Item leftSection={<IconFileExport size={14} />}>

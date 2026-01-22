@@ -64,7 +64,7 @@ const ProfileAllPage = () => {
             {profiles && activeProfile ? (
               <>
                 <Flex align="start" justify="end">
-                  <ProfileSettingsMenu />
+                  <ProfileSettingsMenu profile={activeProfile} />
                 </Flex>
                 <Card component={Stack} radius={0}>
                   <Group>
