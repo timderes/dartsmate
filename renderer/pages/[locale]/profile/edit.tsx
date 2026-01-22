@@ -40,8 +40,6 @@ const EditProfilePage: NextPage = () => {
   const router = useRouter();
   const query = router.query;
 
-  console.info("QUERY:", query);
-
   const [profile, setProfile] = useState<Profile | null>(null);
   const [avatarColor, setAvatarColor] = useState<
     DefaultMantineColor | undefined
