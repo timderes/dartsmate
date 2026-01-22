@@ -36,6 +36,7 @@ import {
   DEFAULT_MATCH_SETTINGS,
   LEGS,
   MATCH_SCORE,
+  MIN_PLAYERS_PER_MATCH,
   SETS,
 } from "@utils/constants";
 import { v4 as getUUID } from "uuid";
@@ -306,7 +307,7 @@ const NewGamePage = () => {
             />
             <Divider />
             <Button
-              disabled={selectedProfiles.length === 0}
+              disabled={selectedProfiles.length < MIN_PLAYERS_PER_MATCH}
               onClick={() => handleStartMatch()}
               mt="auto"
             >

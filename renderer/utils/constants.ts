@@ -69,3 +69,9 @@ export const APP_SHELL = {
   HEADER_HEIGHT: 32, // px
   NAVBAR_WIDTH: 200, // px
 };
+
+/**
+ * Minimum number of players required to start a match.
+ * Don't use this for the training or party modes!
+ */
+export const MIN_PLAYERS_PER_MATCH = 2;
