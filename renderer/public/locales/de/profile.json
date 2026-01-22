@@ -86,5 +86,9 @@
     "title": "Statistiken von {{FIRST_NAME}} zurücksetzen?",
     "text_one": "Dieser Vorgang kann nicht rückgängig gemacht werden und entfernt alle Statistiken von einem Spiel.",
     "text_other": "Dieser Vorgang kann nicht rückgängig gemacht werden und entfernt alle Statistiken von {{NUMBER_OF_MATCHES}} Spielen."
+  },
+  "deleteProfileConfirmModal": {
+    "title": "Profil von {{FIRST_NAME}} löschen?",
+    "text": "Dieser Vorgang kann nicht rückgängig gemacht werden. Alle mit diesem Profil verbundenen Daten werden dauerhaft gelöscht."
   }
 }

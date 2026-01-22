@@ -83,5 +83,9 @@
     "title": "Reset statistics for {{FIRST_NAME}}?",
     "text_one": "This action cannot be undone and will remove all statistics from one match.",
     "text_other": "This action cannot be undone and will remove all statistics from {{NUMBER_OF_MATCHES}} matches."
+  },
+  "deleteProfileConfirmModal": {
+    "title": "Delete {{FIRST_NAME}}'s profile?",
+    "text": "This action cannot be undone. All data associated with this profile will be permanently deleted."
   }
 }

@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { modals } from "@mantine/modals";
 import SharedConfirmModalProps from "@/utils/modals/sharedConfirmModalProps";
 import updateProfileFromDatabase from "@/lib/db/profiles/updateProfile";
+import deleteProfileFromDatabase from "@/lib/db/profiles/deleteProfile";
 
 type ProfileSettingsMenuProps = {
   profile: Profile;
@@ -76,6 +77,29 @@ const ProfileSettingsMenu = ({
     });
   };
 
+  const handleDeleteProfile = (profile: Profile) => {
+    modals.openConfirmModal({
+      ...SharedConfirmModalProps,
+      title: t("profile:deleteProfileConfirmModal.title", {
+        FIRST_NAME: profile.name.firstName,
+      }),
+      children: <Text>{t("profile:deleteProfileConfirmModal.text")}</Text>,
+      labels: {
+        confirm: t("yes"),
+        cancel: t("cancel"),
+      },
+      onConfirm: () => {
+        deleteProfileFromDatabase(profile.uuid)
+          .then(() => {
+            void router.reload();
+          })
+          .catch((err) => {
+            console.error("Failed to delete profile. Error:", err);
+          });
+      },
+    });
+  };
+
   return (
     <Menu shadow="md" width={250} withArrow {...props}>
       <Menu.Target>
@@ -108,7 +132,11 @@ const ProfileSettingsMenu = ({
         >
           {t("profile:setAsDefaultProfile")}
         </Menu.Item>
-        <Menu.Item color="red" leftSection={<IconUserX size={14} />}>
+        <Menu.Item
+          color="red"
+          leftSection={<IconUserX size={14} />}
+          onClick={() => handleDeleteProfile(profile)}
+        >
           {t("profile:deleteProfile")}
         </Menu.Item>
       </Menu.Dropdown>
