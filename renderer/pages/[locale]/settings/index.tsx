@@ -52,7 +52,7 @@ const SettingsPage = () => {
       <Stack>
         {defaultProfile ? (
           <>
-            <Title>{t("routes.profile")}</Title>
+            <Title>{t("profile:step.label.profile")}</Title>
             <Text>{t("settings:profile.text")}</Text>
             <Group>
               <ProfileAvatar size="lg" profile={defaultProfile} />
