@@ -134,7 +134,6 @@ const ProfileAllPage = () => {
                     <Stat
                       text={t("stats.matches")}
                       value={activeProfile.statistics.playedMatches}
-                      decimalScale={2}
                     />
                     <Stat
                       text={t("stats.avg")}
@@ -144,12 +143,10 @@ const ProfileAllPage = () => {
                     <Stat
                       text={t("stats.dartsThrown")}
                       value={activeProfile.statistics.thrownDarts}
-                      decimalScale={2}
                     />
                     <Stat
                       text={t("stats.180s")}
                       value={activeProfile.statistics.thrownOneHundredAndEighty}
-                      decimalScale={2}
                     />
                   </Group>
                 </Card>
