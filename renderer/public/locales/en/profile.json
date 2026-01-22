@@ -78,5 +78,10 @@
   "cancelProfileCreation": {
     "title": "Cancel Profile Creation",
     "text": "Are you sure you want to cancel profile creation? All changes will be lost."
+  },
+  "resetProfileStatisticsConfirmModal": {
+    "title": "Reset statistics for {{FIRST_NAME}}?",
+    "text_one": "This action cannot be undone and will remove all statistics from one match.",
+    "text_other": "This action cannot be undone and will remove all statistics from {{NUMBER_OF_MATCHES}} matches."
   }
 }

@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 
-import { ActionIcon, Menu, type MenuProps } from "@mantine/core";
+import { ActionIcon, Menu, type MenuProps, Text } from "@mantine/core";
 import {
   IconChartBarOff,
   IconEdit,
@@ -11,6 +11,9 @@ import {
 } from "@tabler/icons-react";
 import type { Profile } from "@/types/profile";
 import { useRouter } from "next/router";
+import { modals } from "@mantine/modals";
+import SharedConfirmModalProps from "@/utils/modals/sharedConfirmModalProps";
+import updateProfileFromDatabase from "@/lib/db/profiles/updateProfile";
 
 type ProfileSettingsMenuProps = {
   profile: Profile;
@@ -23,11 +26,54 @@ const ProfileSettingsMenu = ({
   const {
     t,
     i18n: { language: locale },
-  } = useTranslation(["profile"]);
+  } = useTranslation(["common", "profile"]);
   const router = useRouter();
 
   const handleEditProfile = (uuid: Profile["uuid"]) => {
     void router.push(`/${locale}/profile/edit?uuid=${uuid}`);
+  };
+
+  const handleResetProfileStatistics = (profile: Profile) => {
+    modals.openConfirmModal({
+      ...SharedConfirmModalProps,
+      title: t("profile:resetProfileStatisticsConfirmModal.title", {
+        FIRST_NAME: profile.name.firstName,
+      }),
+      children: (
+        <Text>
+          {t("profile:resetProfileStatisticsConfirmModal.text", {
+            NUMBER_OF_MATCHES: profile.statistics.playedMatches,
+            count: profile.statistics.playedMatches,
+          })}
+        </Text>
+      ),
+      labels: {
+        confirm: t("yes"),
+        cancel: t("cancel"),
+      },
+      onConfirm: () => {
+        updateProfileFromDatabase(
+          {
+            ...profile,
+            statistics: {
+              playedMatches: 0,
+              playedTrainings: 0,
+              thrownDarts: 0,
+              thrownOneHundredAndEighty: 0,
+              average: 0,
+            },
+            updatedAt: Date.now(),
+          },
+          profile.uuid,
+        )
+          .then(() => {
+            void router.reload();
+          })
+          .catch((err) => {
+            console.error("Failed to reset profile statistics. Error:", err);
+          });
+      },
+    });
   };
 
   return (
@@ -44,10 +90,14 @@ const ProfileSettingsMenu = ({
         >
           {t("profile:editProfile")}
         </Menu.Item>
-        <Menu.Item leftSection={<IconFileExport size={14} />}>
+        {/* TODO: Add exporting profiles with a future update */}
+        <Menu.Item leftSection={<IconFileExport size={14} />} disabled>
           {t("profile:exportProfile")}
         </Menu.Item>
-        <Menu.Item leftSection={<IconChartBarOff size={14} />}>
+        <Menu.Item
+          leftSection={<IconChartBarOff size={14} />}
+          onClick={() => handleResetProfileStatistics(profile)}
+        >
           {t("profile:resetProfileStatistics")}
         </Menu.Item>
         <Menu.Divider />

@@ -81,5 +81,10 @@
   },
   "formError": {
     "toShort": "{{FIELD_NAME}} ist zu kurz. Es werden mindestens {{CHARS}} Buchstaben benötigt."
+  },
+  "resetProfileStatisticsConfirmModal": {
+    "title": "Statistiken von {{FIRST_NAME}} zurücksetzen?",
+    "text_one": "Dieser Vorgang kann nicht rückgängig gemacht werden und entfernt alle Statistiken von einem Spiel.",
+    "text_other": "Dieser Vorgang kann nicht rückgängig gemacht werden und entfernt alle Statistiken von {{NUMBER_OF_MATCHES}} Spielen."
   }
 }
