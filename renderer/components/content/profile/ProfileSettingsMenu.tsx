@@ -3,8 +3,8 @@ import { useTranslation } from "next-i18next";
 import { ActionIcon, Menu, type MenuProps, Text } from "@mantine/core";
 import {
   IconChartBarOff,
-  IconEdit,
   IconFileExport,
+  IconUserCog,
   IconUserEdit,
   IconUserStar,
   IconUserX,
@@ -132,8 +132,8 @@ const ProfileSettingsMenu = ({
   return (
     <Menu shadow="md" width={250} withArrow {...props}>
       <Menu.Target>
-        <ActionIcon variant="filled" radius={0}>
-          <IconEdit />
+        <ActionIcon>
+          <IconUserCog />
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>

@@ -24,7 +24,7 @@ import getFormattedName from "@/utils/misc/getFormattedName";
 import Stat from "@/components/content/Stat";
 import { APP_NAME, DATE_OPTIONS } from "@/utils/constants";
 import ProfileSettingsMenu from "@/components/content/profile/ProfileSettingsMenu";
-import { IconSearch } from "@tabler/icons-react";
+import { IconSearch, IconX } from "@tabler/icons-react";
 import { useDebouncedCallback } from "@mantine/hooks";
 import useDefaultProfile from "@/hooks/getDefaultProfile";
 import { useField } from "@mantine/form";
@@ -65,7 +65,7 @@ const ProfileAllPage = () => {
 
   const handleSetActiveProfile = (profile: Profile) => {
     setActiveProfile(profile);
-    // Reset query
+
     setFilteredProfiles(allProfiles);
     search.setValue("");
   };
@@ -80,6 +80,11 @@ const ProfileAllPage = () => {
             <NavLink
               autoContrast
               leftSection={<IconSearch />}
+              rightSection={
+                search.getValue() ? (
+                  <IconX onClick={() => search.setValue("")} />
+                ) : undefined
+              }
               label={
                 <TextInput
                   placeholder={t("searchInputPlaceholder")}
@@ -105,17 +110,17 @@ const ProfileAllPage = () => {
           <ScrollArea.Autosize mah={`calc(100dvh - ${headerHeight}px)`}>
             {filteredProfiles && activeProfile ? (
               <>
-                <Flex align="start" justify="end">
-                  <ProfileSettingsMenu profile={activeProfile} />
-                </Flex>
                 <Card component={Stack} radius={0}>
-                  <Group>
-                    <ProfileAvatar profile={activeProfile} size="xl" />
-                    <div>
-                      <Title>{getFormattedName(activeProfile.name)} </Title>
-                      <Text opacity={0.7}>@{activeProfile.username}</Text>
-                    </div>
-                  </Group>
+                  <Flex justify="space-between">
+                    <Group>
+                      <ProfileAvatar profile={activeProfile} size="xl" />
+                      <Stack gap={0}>
+                        <Title>{getFormattedName(activeProfile.name)} </Title>
+                        <Text opacity={0.7}>@{activeProfile.username}</Text>
+                      </Stack>
+                    </Group>
+                    <ProfileSettingsMenu profile={activeProfile} />
+                  </Flex>
                   <Text>
                     {t("profile:playingWithAppSince", {
                       APP_NAME,
