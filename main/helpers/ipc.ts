@@ -162,7 +162,6 @@ ipcMain.handle("check-for-app-update", async () => {
       serializable.updateInfo = result.updateInfo
         ? {
             version: result.updateInfo.version ?? null,
-            // path: (result.updateInfo).path ?? null,
             files: result.updateInfo.files ?? null,
           }
         : null;
