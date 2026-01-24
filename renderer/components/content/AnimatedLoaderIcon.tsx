@@ -1,3 +1,9 @@
+import type { SVGProps } from "react";
+
+type AnimatedLoaderIconProps = {
+  animationDuration?: number;
+} & SVGProps<SVGSVGElement>;
+
 /**
  * Returns an animated loader icon as an SVG element.
  *
@@ -13,7 +19,8 @@ const AnimatedLoaderIcon = ({
   className = "",
   style = {},
   animationDuration = 3000, // in ms
-}) => {
+  ...props
+}: AnimatedLoaderIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -27,6 +34,7 @@ const AnimatedLoaderIcon = ({
       strokeLinejoin="round"
       className={`icon icon-tabler icons-tabler-outline icon-tabler-target-arrow ${className}`}
       style={style}
+      {...props}
     >
       <path
         stroke="none"
