@@ -33,10 +33,10 @@ const handler = {
   checkForAppUpdate(): Promise<UpdateCheckResult | null> {
     return ipcRenderer.invoke("check-for-app-update");
   },
-  destroyUpdaterWindow() {
+  destroyUpdaterWindow(): void {
     ipcRenderer.send("destroy-updater-window");
   },
-  quitAndInstall() {
+  quitAndInstall(): void {
     ipcRenderer.send("quit-and-install");
   },
   startDownload() {
