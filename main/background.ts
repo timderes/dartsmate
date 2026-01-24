@@ -43,7 +43,6 @@ void (async () => {
     center: true,
     closable: IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
     minimizable: false,
-    // skipTaskbar: true,
     frame: IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
     webPreferences: {
       contextIsolation: true,
