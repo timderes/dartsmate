@@ -16,17 +16,7 @@ import {
 import AnimatedLoaderIcon from "@/components/content/AnimatedLoaderIcon";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { ProgressInfo, UpdateInfo } from "electron-updater";
-import { UpdaterProvider } from "@/contexts/useUpdater";
-
-type UpdateStatus =
-  | "appIsUpToDate"
-  | "idle"
-  | "checking"
-  | "available"
-  | "downloading"
-  | "downloadComplete"
-  | "done"
-  | "error";
+import { UpdaterProvider, type UpdateStatus } from "@/contexts/UpdaterContext";
 
 const SplashUpdatePage = () => {
   const [status, setStatus] = useState<UpdateStatus>("idle");
@@ -116,7 +106,14 @@ const SplashUpdatePage = () => {
   };
 
   return (
-    <UpdaterProvider>
+    <UpdaterProvider
+      downloaded={downloaded}
+      error={error}
+      progress={progress}
+      showModal={showModal}
+      status={status}
+      updateInfo={updateInfo}
+    >
       {/* Release Notes Modal */}
       <Modal
         opened={showModal}
