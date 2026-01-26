@@ -2,10 +2,8 @@ import { app } from "electron";
 import serve from "electron-serve";
 import createWindow from "./helpers/create-window";
 import "./helpers/ipc";
-import { getWindow } from "./helpers/window-registry";
 import path from "path";
 import log from "electron-log";
-import { autoUpdater } from "electron-updater";
 import { appSettingsStore } from "./helpers/stores";
 import getPreferredLocale from "./helpers/utils/getPreferredLocale";
 import logSystemInfo from "./helpers/utils/logSystemInfo";
@@ -13,6 +11,7 @@ import {
   IS_APP_RUNNING_IN_PRODUCTION_MODE,
   MINIMAL_WINDOW_SIZE,
 } from "./constants/application";
+import registerUpdater from "./helpers/updater";
 
 const sessionId = new Date().valueOf();
 
@@ -30,7 +29,7 @@ void (async () => {
   await app.whenReady().then(() => {
     logSystemInfo();
     log.initialize(); // Initialize the logger for renderer process
-    autoUpdater.logger = log;
+    registerUpdater();
   });
 
   const port = process.argv[2];
@@ -58,75 +57,6 @@ void (async () => {
     );
     updaterWindow.webContents.openDevTools({ mode: "detach" });
   }
-
-  // Forward auto-updater events to the updater window using the window registry.
-  // Only send JSON-serializable payloads to avoid IPC cloning errors.
-  autoUpdater.on("checking-for-update", () => {
-    const w = getWindow("updater");
-    if (!w || w.isDestroyed()) return;
-    try {
-      w.webContents.send("update-checking");
-    } catch (err) {
-      log.error("Failed to forward checking-for-update: %O", err);
-    }
-  });
-
-  autoUpdater.on("update-available", (info) => {
-    const w = getWindow("updater");
-    if (!w || w.isDestroyed()) return;
-    try {
-      w.webContents.send("update-available", {
-        version: info?.version ?? null,
-        releaseName: info?.releaseName ?? null,
-      });
-    } catch (err) {
-      log.error("Failed to forward update-available: %O", err);
-    }
-  });
-
-  autoUpdater.on("download-progress", (progress) => {
-    const w = getWindow("updater");
-    if (!w || w.isDestroyed()) return;
-    try {
-      w.webContents.send("update-download-progress", {
-        percent: progress.percent ?? 0,
-        bytesPerSecond: progress.bytesPerSecond ?? 0,
-        transferred: progress.transferred ?? 0,
-        total: progress.total ?? 0,
-      });
-    } catch (err) {
-      log.error("Failed to forward download-progress: %O", err);
-    }
-  });
-
-  autoUpdater.on("update-downloaded", (info) => {
-    const w = getWindow("updater");
-    if (!w || w.isDestroyed()) return;
-    try {
-      w.webContents.send("update-downloaded", {
-        version: info?.version ?? null,
-      });
-    } catch (err) {
-      log.error("Failed to forward update-downloaded: %O", err);
-    }
-  });
-
-  autoUpdater.on("error", (err) => {
-    const w = getWindow("updater");
-    if (!w || w.isDestroyed()) return;
-    try {
-      w.webContents.send("update-error", {
-        message: err.message,
-      });
-    } catch (e) {
-      log.error("Failed to forward update error: %O", e);
-    }
-  });
-
-  // Wait until the updater window is closed, then show the main window
-  await new Promise<void>((resolve) => {
-    updaterWindow.on("closed", () => resolve());
-  });
 
   const mainWindow = createWindow("main", {
     height: MINIMAL_WINDOW_SIZE.height,

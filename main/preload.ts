@@ -1,6 +1,10 @@
 import type { IpcRendererEvent } from "electron";
 import { contextBridge, ipcRenderer } from "electron";
-import type { UpdateCheckResult } from "electron-updater";
+import type {
+  ProgressInfo,
+  UpdateCheckResult,
+  UpdateInfo,
+} from "electron-updater";
 
 const handler = {
   send(channel: string, value: unknown) {
@@ -41,6 +45,19 @@ const handler = {
   },
   startDownload() {
     return ipcRenderer.invoke("start-download");
+  },
+  onUpdateMessage(
+    callback: (event: string, data?: UpdateInfo | ProgressInfo | Error) => void,
+  ) {
+    const sub = (
+      _: IpcRendererEvent,
+      {
+        event,
+        data,
+      }: { event: string; data?: UpdateInfo | ProgressInfo | Error },
+    ) => callback(event, data);
+    ipcRenderer.on("update-message", sub);
+    return () => ipcRenderer.removeListener("update-message", sub);
   },
 };
 

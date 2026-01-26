@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
-
 import {
   Center,
   useMantineTheme,
@@ -11,196 +10,226 @@ import {
   ButtonGroup,
   Button,
   Box,
-  Title,
+  Modal,
+  ScrollArea,
 } from "@mantine/core";
-
 import AnimatedLoaderIcon from "@/components/content/AnimatedLoaderIcon";
-
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
-import { UpdateCheckResult } from "electron-updater";
-import { APP_NAME, APP_VERSION } from "@/utils/constants";
+import { ProgressInfo, UpdateInfo } from "electron-updater";
+import { APP_VERSION } from "@/utils/constants";
 
-// result shape is forwarded from main; keep it untyped here
+type UpdateStatus =
+  | "appIsUpToDate"
+  | "idle"
+  | "checking"
+  | "available"
+  | "downloading"
+  | "downloadComplete"
+  | "done"
+  | "error";
 
 const SplashUpdatePage = () => {
-  const [status, setStatus] = useState<
-    | "appIsUpToDate"
-    | "idle"
-    | "checking"
-    | "available"
-    | "downloading"
-    | "downloadComplete"
-    | "done"
-    | "error"
-  >("idle");
-  const [result, setResult] = useState<UpdateCheckResult | null>(null);
+  const [status, setStatus] = useState<UpdateStatus>("idle");
+  const [updateInfo, setUpdateInfo] = useState<UpdateInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const [downloaded, setDownloaded] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const theme = useMantineTheme();
   const { t } = useTranslation();
 
+  // Handle update IPC events
   useEffect(() => {
-    let mounted = true;
+    const unsubscribe = window.ipc.onUpdateMessage((event, data) => {
+      console.log("Update event:", event, data);
 
-    setStatus("checking");
+      switch (event) {
+        case "checking":
+          setStatus("checking");
+          break;
 
-    const unsubProgress = window.ipc.on(
-      "update-download-progress",
-      (p: any) => {
-        if (!mounted) return;
-        setStatus("downloading");
-        setProgress(Math.round(p?.percent ?? 0));
-      },
-    );
-
-    const unsubAvailable = window.ipc.on("update-available", (info: any) => {
-      if (!mounted) return;
-      // new flow: ask user to download or skip
-      setStatus("available");
-      setResult(info ?? null);
-      setDownloaded(false);
-    });
-
-    const unsubDownloaded = window.ipc.on("update-downloaded", (info: any) => {
-      if (!mounted) return;
-      setStatus("downloadComplete");
-      setProgress(100);
-      setResult(info ?? null);
-      setDownloaded(true);
-    });
-
-    const unsubChecking = window.ipc.on("update-checking", () => {
-      if (!mounted) return;
-      setStatus("checking");
-    });
-
-    const unsubError = window.ipc.on("update-error", (e: any) => {
-      if (!mounted) return;
-      setStatus("error");
-      setError(e?.message ?? String(e));
-    });
-
-    (async () => {
-      try {
-        const res = await window.ipc.checkForAppUpdate();
-        if (!mounted) return;
-        // Handler returns { success: boolean, result: { isUpdateAvailable, updateInfo } }.
-        if (res && typeof res === "object" && "success" in res) {
-          if (res.success) {
-            const payload = (res as any).result ?? null;
-            setResult(payload);
-            if (payload?.isUpdateAvailable) {
-              setStatus("available");
-              setDownloaded(false);
-            } else {
-              setStatus("appIsUpToDate");
-              setProgress(100);
-            }
-          } else {
-            setStatus("error");
-            setError((res as any).error ?? "Update check failed");
+        case "available":
+          setStatus("available");
+          if (data) {
+            const info = data as UpdateInfo;
+            setUpdateInfo(info);
+            setShowModal(true);
           }
-        } else {
-          // Fallback: treat as no update
-          setResult(res ?? null);
-          setStatus("done");
-          setProgress(100);
-        }
-        /*
-        if (!res.) {
+          break;
+
+        case "not-available":
+          setStatus("appIsUpToDate");
+          break;
+
+        case "progress":
+          setStatus("downloading");
+          if (data) setProgress((data as ProgressInfo).percent ?? 0);
+          break;
+
+        case "downloaded":
+          setStatus("downloadComplete");
+          setDownloaded(true);
+          break;
+
+        case "error":
           setStatus("error");
-          setError(res?.error ?? "Update check failed");
-        }*/
-      } catch (err: unknown) {
-        if (!mounted) return;
-        setError((err as Error)?.message ?? String(err));
-        setStatus("error");
+          setError(data ? JSON.stringify(data, null, 2) : "Unknown error");
+          break;
+
+        default:
+          console.log(`Unhandled update event: ${event}`, data);
       }
-    })().catch((e) => {
-      if (!mounted) return;
-      setError((e as Error)?.message ?? String(e));
-      setStatus("error");
     });
+
+    // Trigger initial check
+    window.ipc.checkForAppUpdate().catch(console.error);
 
     return () => {
-      mounted = false;
-      try {
-        unsubProgress();
-        unsubAvailable();
-        unsubDownloaded();
-        unsubChecking();
-        unsubError();
-      } catch {
-        /* ignore */
-      }
+      unsubscribe?.();
     };
   }, []);
 
+  // Format bytes into human-readable size
+  const formatBytes = (bytes?: number) => {
+    if (!bytes) return "Unknown size";
+    const sizes = ["B", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${sizes[i]}`;
+  };
+
+  // UI text based on state
+  const getStatusLabel = () => {
+    switch (status) {
+      case "checking":
+        return t("updateStatus.checking", "Checking for updates…");
+      case "available":
+        return t("updateStatus.available", "Update available!");
+      case "downloading":
+        return t("updateStatus.downloading", "Downloading update…");
+      case "downloadComplete":
+        return t("updateStatus.downloadComplete", "Download complete!");
+      case "appIsUpToDate":
+        return t("updateStatus.upToDate", "App is up to date!");
+      case "error":
+        return t("updateStatus.error", "Update error");
+      default:
+        return t("updateStatus.idle", "Idle");
+    }
+  };
+
   return (
-    <Center h="100dvh" w="100dvw">
-      <Stack ta="center">
-        <Title>{APP_NAME}</Title>
-        <AnimatedLoaderIcon
-          color={theme.colors.red[7]}
-          style={{
-            margin: "auto",
-          }}
-          width={92}
-          height={92}
-        />
-        <Text>{t(`lookingForUpdate.${status}`, { APP_NAME })}</Text>
-        {status === "downloading" && <Progress value={progress} />}
-        {status === "available" ? (
+    <>
+      {/* Release Notes Modal */}
+      <Modal
+        opened={showModal}
+        onClose={() => setShowModal(false)}
+        title={t("releaseNotes", "Release Notes")}
+        centered
+        size="lg"
+      >
+        <Stack>
+          <Text fw={500}>
+            {t("newVersionAvailable", "A new version is available!")}
+          </Text>
+          {updateInfo && (
+            <>
+              <Text>
+                <b>{t("version", "Version")}:</b> {updateInfo.version}
+              </Text>
+              <Text>
+                <b>{t("size", "Size")}:</b>{" "}
+                {formatBytes(updateInfo.files?.[0]?.size)}
+              </Text>
+              <Divider my="xs" />
+              <ScrollArea h={240}>
+                <Box
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      (updateInfo.releaseNotes as string) ||
+                      t("noReleaseNotes", "No release notes provided."),
+                  }}
+                />
+              </ScrollArea>
+            </>
+          )}
           <ButtonGroup>
             <Button
-              onClick={async () => {
+              onClick={() => {
+                void window.ipc.startDownload();
+                setShowModal(false);
                 setStatus("downloading");
-                const res = await window.ipc.startDownload();
-                if (!res?.success) {
-                  setError(res?.error ?? "Failed to start download");
-                  setStatus("error");
-                }
               }}
             >
-              {t("downloadUpdate")}
+              {t("downloadUpdate", "Download update")}
             </Button>
             <Button
               variant="default"
-              onClick={() => window.ipc.destroyUpdaterWindow()}
+              onClick={() => {
+                setShowModal(false);
+                window.ipc.destroyUpdaterWindow();
+              }}
             >
-              {t("skip")}
+              {t("skip", "Skip")}
             </Button>
           </ButtonGroup>
-        ) : (
-          <Button
-            onClick={() => {
-              if (downloaded) {
-                // install and restart
-                if (window.ipc.quitAndInstall) window.ipc.quitAndInstall();
-                else window.ipc.send("quit-and-install", null);
-              } else {
-                window.ipc.destroyUpdaterWindow();
-              }
-            }}
-          >
-            {downloaded ? t("installUpdate") : t("closeApp")}
-          </Button>
-        )}
-        <Box pos="absolute" bottom={10} left={0} ta="center" w="100%">
-          <Divider my="sm" />
-          <Text component="small" fz="xs" c="dimmed">
-            {APP_VERSION}
-          </Text>
-        </Box>
-      </Stack>
-    </Center>
+        </Stack>
+      </Modal>
+
+      {/* Main content */}
+      <Center h="100dvh" w="100dvw">
+        <Stack ta="center">
+          <AnimatedLoaderIcon
+            color={theme.colors.red[7]}
+            style={{ margin: "auto" }}
+            width={92}
+            height={92}
+          />
+
+          <Text>{getStatusLabel()}</Text>
+
+          {status === "downloading" && (
+            <Progress value={progress} w={240} mx="auto" />
+          )}
+
+          {(status === "downloadComplete" ||
+            status === "error" ||
+            status === "appIsUpToDate") && (
+            <Button
+              onClick={() => {
+                if (downloaded) {
+                  window.ipc.send("quit-and-install", null);
+                } else {
+                  window.ipc.destroyUpdaterWindow();
+                }
+              }}
+            >
+              {downloaded
+                ? t("installUpdate", "Install update")
+                : t("closeApp", "Close")}
+            </Button>
+          )}
+
+          {/* Debug info */}
+          <Box pos="absolute" bottom={10} left={0} ta="center" w="100%">
+            <Divider my="sm" />
+            <Text component="small" fz="xs" c="dimmed">
+              {APP_VERSION}
+            </Text>
+            <Box component="pre">
+              STATUS={status} <br />
+              ERROR={JSON.stringify(error, null, 2)} <br />
+              PROGRESS={JSON.stringify(progress, null, 2)} <br />
+              DOWNLOADED={JSON.stringify(downloaded, null, 2)}
+            </Box>
+          </Box>
+        </Stack>
+      </Center>
+    </>
   );
 };
 
 export default SplashUpdatePage;
 
 export const getStaticProps = makeStaticProperties(["common"]);
-
 export { getStaticPaths };
