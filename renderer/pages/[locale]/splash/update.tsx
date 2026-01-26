@@ -5,7 +5,6 @@ import {
   useMantineTheme,
   Stack,
   Text,
-  Progress,
   Divider,
   ButtonGroup,
   Button,
@@ -17,6 +16,7 @@ import AnimatedLoaderIcon from "@/components/content/AnimatedLoaderIcon";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { ProgressInfo, UpdateInfo } from "electron-updater";
 import { UpdaterProvider, type UpdateStatus } from "@/contexts/UpdaterContext";
+import UpdateProgressBar from "@/components/updater/UpdateProgressBar";
 
 const SplashUpdatePage = () => {
   const [status, setStatus] = useState<UpdateStatus>("idle");
@@ -182,9 +182,7 @@ const SplashUpdatePage = () => {
 
           <Text>{getStatusLabel()}</Text>
 
-          {status === "downloading" && (
-            <Progress value={progress} w={240} mx="auto" />
-          )}
+          <UpdateProgressBar />
 
           {(status === "downloadComplete" ||
             status === "error" ||
