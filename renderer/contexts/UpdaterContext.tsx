@@ -17,7 +17,6 @@ type UpdaterContextType = {
   error: string | null;
   progress: number;
   downloaded: boolean;
-  showModal: boolean;
 };
 
 type UpdaterProviderProps = UpdaterContextType & PropsWithChildren;
@@ -32,7 +31,6 @@ export const UpdaterProvider = ({
   downloaded,
   error,
   progress,
-  showModal,
   status,
   updateInfo,
 }: UpdaterProviderProps) => {
@@ -42,7 +40,6 @@ export const UpdaterProvider = ({
         downloaded,
         error,
         progress,
-        showModal,
         status,
         updateInfo,
       }}

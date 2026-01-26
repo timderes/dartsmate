@@ -38,17 +38,17 @@ void (async () => {
   const defaultProfile = appSettingsStore.get("defaultProfileUUID");
 
   const updaterWindow = createWindow("updater", {
-    alwaysOnTop: true,
+    // alwaysOnTop: true,
     resizable: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
     center: true,
     closable: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
     minimizable: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
-    height: 300,
-    minHeight: 300,
-    minWidth: 300,
-    width: 300,
-    maxHeight: 300,
-    maxWidth: 300,
+    height: 500,
+    minHeight: 500,
+    minWidth: 500,
+    width: 500,
+    maxHeight: 500,
+    maxWidth: 500,
     frame: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
     webPreferences: {
       contextIsolation: true,
