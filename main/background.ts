@@ -38,11 +38,17 @@ void (async () => {
   const defaultProfile = appSettingsStore.get("defaultProfileUUID");
 
   const updaterWindow = createWindow("updater", {
-    resizable: false,
+    resizable: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
     center: true,
-    closable: IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
-    minimizable: false,
-    frame: IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
+    closable: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
+    minimizable: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
+    height: 300,
+    minHeight: 300,
+    minWidth: 300,
+    width: 300,
+    maxHeight: 300,
+    maxWidth: 300,
+    frame: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
     webPreferences: {
       contextIsolation: true,
       preload: path.join(__dirname, "preload.js"),
@@ -57,6 +63,13 @@ void (async () => {
     );
     updaterWindow.webContents.openDevTools({ mode: "detach" });
   }
+
+  // Wait for the updater process to finish before loading the main window
+  await new Promise<void>((resolve) => {
+    updaterWindow.on("closed", () => {
+      resolve();
+    });
+  });
 
   const mainWindow = createWindow("main", {
     height: MINIMAL_WINDOW_SIZE.height,

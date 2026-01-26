@@ -16,7 +16,6 @@ import {
 import AnimatedLoaderIcon from "@/components/content/AnimatedLoaderIcon";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { ProgressInfo, UpdateInfo } from "electron-updater";
-import { APP_VERSION } from "@/utils/constants";
 
 type UpdateStatus =
   | "appIsUpToDate"
@@ -81,9 +80,6 @@ const SplashUpdatePage = () => {
           console.log(`Unhandled update event: ${event}`, data);
       }
     });
-
-    // Trigger initial check
-    window.ipc.checkForAppUpdate().catch(console.error);
 
     return () => {
       unsubscribe?.();
@@ -209,20 +205,6 @@ const SplashUpdatePage = () => {
                 : t("closeApp", "Close")}
             </Button>
           )}
-
-          {/* Debug info */}
-          <Box pos="absolute" bottom={10} left={0} ta="center" w="100%">
-            <Divider my="sm" />
-            <Text component="small" fz="xs" c="dimmed">
-              {APP_VERSION}
-            </Text>
-            <Box component="pre">
-              STATUS={status} <br />
-              ERROR={JSON.stringify(error, null, 2)} <br />
-              PROGRESS={JSON.stringify(progress, null, 2)} <br />
-              DOWNLOADED={JSON.stringify(downloaded, null, 2)}
-            </Box>
-          </Box>
         </Stack>
       </Center>
     </>
