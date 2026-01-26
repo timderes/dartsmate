@@ -16,6 +16,7 @@ import {
 import AnimatedLoaderIcon from "@/components/content/AnimatedLoaderIcon";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { ProgressInfo, UpdateInfo } from "electron-updater";
+import { UpdaterProvider } from "@/contexts/useUpdater";
 
 type UpdateStatus =
   | "appIsUpToDate"
@@ -115,7 +116,7 @@ const SplashUpdatePage = () => {
   };
 
   return (
-    <>
+    <UpdaterProvider>
       {/* Release Notes Modal */}
       <Modal
         opened={showModal}
@@ -207,7 +208,7 @@ const SplashUpdatePage = () => {
           )}
         </Stack>
       </Center>
-    </>
+    </UpdaterProvider>
   );
 };
 
