@@ -1,27 +1,28 @@
 import { Text } from "@mantine/core";
 import { useUpdater } from "@/contexts/UpdaterContext";
 import { useTranslation } from "next-i18next";
+import { APP_NAME } from "@/utils/constants";
 
 const UpdaterStatusText = () => {
   const { t } = useTranslation();
-  const { status } = useUpdater();
+  const { error, status } = useUpdater();
 
   const getStatusLabel = () => {
     switch (status) {
-      case "checking":
-        return t("updateStatus.checking");
-      case "available":
-        return t("updateStatus.available");
-      case "downloading":
-        return t("updateStatus.downloading");
-      case "downloadComplete":
-        return t("updateStatus.downloadComplete");
       case "appIsUpToDate":
-        return t("updateStatus.upToDate");
+        return t("updater:status.appIsUpToDate", { APP_NAME });
+      case "available":
+        return t("updater:status.available");
+      case "checking":
+        return t("updater:status.checking");
+      case "downloadComplete":
+        return t("updater:status.downloadComplete");
+      case "downloading":
+        return t("updater:status.downloading");
       case "error":
-        return t("updateStatus.error");
+        return t("updater:status.error", { APP_NAME, ERROR_MESSAGE: error });
       default:
-        return t("updateStatus.idle");
+        return t("updater:status.idle");
     }
   };
 

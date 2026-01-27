@@ -45,5 +45,5 @@ const SplashUpdatePage = () => {
 
 export default SplashUpdatePage;
 
-export const getStaticProps = makeStaticProperties(["common"]);
+export const getStaticProps = makeStaticProperties(["common", "updater"]);
 export { getStaticPaths };

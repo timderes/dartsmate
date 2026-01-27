@@ -95,17 +95,5 @@
   "playGameMode": "Start {{GAME_MODE}}...",
   "country": "Country",
   "confirmCloseAppTitle": "Really quit {{APP_NAME}}?",
-  "confirmCloseAppText": "Do you really want to close the application? All unsaved data will be lost.",
-  "lookingForUpdate": {
-    "appIsUpToDate": "{{APP_NAME}} is up to date.",
-    "available": "Update available!",
-    "idle": "Looking for updates...",
-    "checking": "Looking for updates...",
-    "done": "Done!",
-    "error": "Error while looking for updates!",
-    "downloading": "Downloading the update...",
-    "downloadComplete": "Download complete!"
-  },
-  "installUpdate": "Install Update",
-  "downloadUpdate": "Download Update"
+  "confirmCloseAppText": "Do you really want to close the application? All unsaved data will be lost."
 }

@@ -12,12 +12,11 @@ const UpdaterActionButtons = () => {
       <Button
         onClick={() => {
           window.ipc.startDownload().catch((err) => {
-            console.error("Failed to start update download:", err);
             log.error("Failed to start update download:", err);
           });
         }}
       >
-        {t("downloadUpdate", "Download update")}
+        {t("updater:downloadUpdate")}
       </Button>
     );
   }
@@ -36,9 +35,7 @@ const UpdaterActionButtons = () => {
           }
         }}
       >
-        {downloaded
-          ? t("installUpdate", "Install update")
-          : t("closeApp", "Close")}
+        {downloaded ? t("updater:installUpdate") : t("common:closeApp")}
       </Button>
     );
   }
