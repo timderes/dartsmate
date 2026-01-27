@@ -4,10 +4,18 @@ import AnimatedLoaderIcon from "@/components/content/AnimatedLoaderIcon";
 import { UpdaterProvider } from "@/contexts/UpdaterContext";
 import useUpdater from "@/hooks/useUpdater";
 import UpdaterActionButtons from "@/components/updater/UpdaterActionButtons";
-import UpdaterContainer from "@/components/updater/UpdaterContainer";
 import UpdaterProgressBar from "@/components/updater/UpdaterProgressBar";
 import UpdaterStatusText from "@/components/updater/UpdaterStatusText";
+import UpdaterLayout from "@/components/layouts/UpdaterLayout";
 
+/*
+ * Size of the animated loader icon
+ */
+const iconSize = 92; // px
+
+/**
+ * Splash page displayed during the update process.
+ */
 const SplashUpdatePage = () => {
   const theme = useMantineTheme();
   const { status, updateInfo, error, progress, downloaded } = useUpdater();
@@ -20,17 +28,17 @@ const SplashUpdatePage = () => {
       status={status}
       updateInfo={updateInfo}
     >
-      <UpdaterContainer>
+      <UpdaterLayout>
         <AnimatedLoaderIcon
           color={theme.colors.red[7]}
           style={{ margin: "auto" }}
-          width={92}
-          height={92}
+          width={iconSize}
+          height={iconSize}
         />
         <UpdaterStatusText />
         <UpdaterProgressBar />
         <UpdaterActionButtons />
-      </UpdaterContainer>
+      </UpdaterLayout>
     </UpdaterProvider>
   );
 };
