@@ -7,6 +7,13 @@ import { ipcMain, app, BrowserWindow } from "electron";
 import log from "electron-log";
 import { getWindow } from "./window-registry";
 
+/**
+ * Registers the application updater and sets up IPC handlers for update events.
+ * This is used to stop the main window from loading until the update process is
+ * complete.
+ */
+let isUpdateInstalling = false;
+
 const registerUpdater = () => {
   // Skipping auto-updater in development mode
   if (!app.isPackaged) {
@@ -57,6 +64,7 @@ const registerUpdater = () => {
   });
 
   ipcMain.on("quit-and-install", () => {
+    isUpdateInstalling = true;
     autoUpdater.quitAndInstall();
   });
 
@@ -69,4 +77,5 @@ const registerUpdater = () => {
   });
 };
 
+export { isUpdateInstalling };
 export default registerUpdater;

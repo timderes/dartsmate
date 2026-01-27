@@ -11,7 +11,7 @@ import {
   IS_APP_RUNNING_IN_PRODUCTION_MODE,
   MINIMAL_WINDOW_SIZE,
 } from "./constants/application";
-import registerUpdater from "./helpers/updater";
+import registerUpdater, { isUpdateInstalling } from "./helpers/updater";
 
 const sessionId = new Date().valueOf();
 
@@ -68,7 +68,9 @@ void (async () => {
   // Wait for the updater process to finish before loading the main window
   await new Promise<void>((resolve) => {
     updaterWindow.on("closed", () => {
-      resolve();
+      if (!isUpdateInstalling) {
+        resolve();
+      }
     });
   });
 
