@@ -4,7 +4,7 @@ import { Progress, type ProgressProps } from "@mantine/core";
 /**
  * Displays a progress bar during the update download process.
  */
-const UpdateProgressBar = ({ ...props }: Omit<ProgressProps, "value">) => {
+const UpdaterProgressBar = ({ ...props }: Omit<ProgressProps, "value">) => {
   const { progress, status } = useUpdater();
 
   if (status === "downloading") {
@@ -14,4 +14,4 @@ const UpdateProgressBar = ({ ...props }: Omit<ProgressProps, "value">) => {
   return undefined;
 };
 
-export default UpdateProgressBar;
+export default UpdaterProgressBar;

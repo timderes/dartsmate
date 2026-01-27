@@ -3,10 +3,10 @@ import { useMantineTheme, Text } from "@mantine/core";
 import AnimatedLoaderIcon from "@/components/content/AnimatedLoaderIcon";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { UpdaterProvider } from "@/contexts/UpdaterContext";
-import UpdateProgressBar from "@/components/updater/UpdateProgressBar";
+import UpdaterProgressBar from "@/components/updater/UpdaterProgressBar";
 import useUpdater from "@/hooks/useUpdater";
-import UpdateActionButtons from "@/components/updater/UpdateActionButtons";
-import UpdateContainer from "@/components/updater/UpdateContainer";
+import UpdaterActionButtons from "@/components/updater/UpdaterActionButtons";
+import UpdaterContainer from "@/components/updater/UpdaterContainer";
 
 const SplashUpdatePage = () => {
   const theme = useMantineTheme();
@@ -40,7 +40,7 @@ const SplashUpdatePage = () => {
       status={status}
       updateInfo={updateInfo}
     >
-      <UpdateContainer>
+      <UpdaterContainer>
         <AnimatedLoaderIcon
           color={theme.colors.red[7]}
           style={{ margin: "auto" }}
@@ -48,9 +48,9 @@ const SplashUpdatePage = () => {
           height={92}
         />
         <Text>{getStatusLabel()}</Text>
-        <UpdateProgressBar />
-        <UpdateActionButtons />
-      </UpdateContainer>
+        <UpdaterProgressBar />
+        <UpdaterActionButtons />
+      </UpdaterContainer>
     </UpdaterProvider>
   );
 };

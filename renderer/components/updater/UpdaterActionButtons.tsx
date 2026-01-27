@@ -3,7 +3,7 @@ import { Button } from "@mantine/core";
 import log from "electron-log/renderer";
 import { useTranslation } from "next-i18next";
 
-const UpdateActionButtons = () => {
+const UpdaterActionButtons = () => {
   const { status, downloaded } = useUpdater();
   const { t } = useTranslation();
 
@@ -46,4 +46,4 @@ const UpdateActionButtons = () => {
   return null;
 };
 
-export default UpdateActionButtons;
+export default UpdaterActionButtons;
