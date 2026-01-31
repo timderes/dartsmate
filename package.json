@@ -79,7 +79,7 @@
     "react-image-file-resizer": "^0.4.8",
     "recharts": "^3.6.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.52.0",
+    "typescript-eslint": "^8.54.0",
     "use-elapsed-time": "^3.0.4",
     "uuid": "^13.0.0",
     "vitest": "^4.0.18"
