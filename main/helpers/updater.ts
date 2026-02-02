@@ -17,9 +17,10 @@ let isUpdateInstalling = false;
 const registerUpdater = () => {
   // Skipping auto-updater in development mode
   if (!app.isPackaged) {
-    console.log("[Updater] Skipping in development mode");
-    // Simulate an update event to test the bridge
-    // TODO: Remove later
+    return;
+
+    // Use this to simulate an update event to test the bridge
+    /*
     setTimeout(() => {
       BrowserWindow.getAllWindows().forEach((window) => {
         log.info("[Updater] Sending fake update-message");
@@ -30,6 +31,7 @@ const registerUpdater = () => {
       });
     }, 2000);
     return;
+    */
   }
 
   autoUpdater.autoDownload = false;
