@@ -43,6 +43,8 @@ const registerUpdater = () => {
     if (!IS_APP_RUNNING_IN_PRODUCTION_MODE) {
       broadcast(
         "not-available",
+        // Not really an error since this the expected behavior in development mode
+        // But this way we can see in the electron log that update checks were attempted
         new Error("Updates are disabled in development mode!"),
       );
       return;
