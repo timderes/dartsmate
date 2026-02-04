@@ -38,7 +38,6 @@ void (async () => {
   const defaultProfile = appSettingsStore.get("defaultProfileUUID");
 
   const updaterWindow = createWindow("updater", {
-    alwaysOnTop: true,
     center: true,
     height: 500,
     minHeight: 500,
@@ -46,7 +45,7 @@ void (async () => {
     width: 500,
     maxHeight: 500,
     maxWidth: 500,
-    frame: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
+    frame: !IS_APP_RUNNING_IN_PRODUCTION_MODE,
     webPreferences: {
       contextIsolation: true,
       preload: path.join(__dirname, "preload.js"),
