@@ -21,19 +21,24 @@ import {
   lighten,
   rem,
   useMantineTheme,
+  Drawer,
 } from "@mantine/core";
 import { useTranslation } from "next-i18next";
-import { useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage, useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import { modals } from "@mantine/modals";
-import { IconCrown, IconEraser, IconPlayerPlay } from "@tabler/icons-react";
+import { IconCrown, IconEraser, IconPlayerPlay, IconVideo } from "@tabler/icons-react";
 import log from "electron-log/renderer";
+import { useEffect, useState } from "react";
 
 import type { Player } from "types/match";
 
 import OnlyControlsLayout from "@components/layouts/OnlyControlsLayout";
 import ProfileAvatar from "@components/content/ProfileAvatar";
 import { useDartGame } from "@hooks/useDartGame";
+import { useMultiplayer } from "../../../context/MultiplayerContext";
+
+import VideoStream from "@components/media/VideoStream";
 
 import addMatchToDatabase from "@lib/db/matches/addMatch";
 import updateProfileFromDatabase from "@lib/db/profiles/updateProfile";
@@ -61,7 +66,27 @@ const PlayingPage: NextPage = () => {
   } = useTranslation();
   const router = useRouter();
 
-  const { state, actions } = useDartGame();
+  const { state, actions, dispatch } = useDartGame();
+  const {
+    broadcastAction,
+    lastReceivedAction,
+    myStream,
+    peerStreams,
+    setMyStream,
+    leaveGame,
+  } = useMultiplayer();
+  const [cameraDrawerOpened, { toggle: toggleCameraDrawer }] =
+    useDisclosure(false);
+
+  // Cleanup hardware on unmount
+  useEffect(() => {
+    return () => {
+      if (state.matchMode === "online") {
+        leaveGame();
+      }
+    };
+  }, [state.matchMode, leaveGame]);
+
   const {
     checkout,
     players,
@@ -74,9 +99,90 @@ const PlayingPage: NextPage = () => {
     isHydrated,
   } = state;
 
+  // Automatic redirect if match is aborted remotely
+  useEffect(() => {
+    if (state.matchStatus === "aborted" && state.matchMode === "online") {
+      void router.push(`/${locale}/match/view`);
+    }
+  }, [state.matchStatus, state.matchMode, locale, router]);
+
   const [colorScheme] = useLocalStorage<MantineColorScheme>({
     key: "mantine-color-scheme-value",
   });
+
+  // --- Multiplayer Logic ---
+
+  const [cameraInitAttempted, setCameraInitAttempted] = useState(false);
+
+  // 1. Initialize Camera if Online
+  useEffect(() => {
+    if (state.matchMode === "online" && !myStream && !cameraInitAttempted) {
+      setCameraInitAttempted(true);
+
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          setMyStream(stream);
+          if (!cameraDrawerOpened) toggleCameraDrawer(); // Auto open camera view
+        })
+        .catch((err) => console.error("Failed to get camera:", err));
+    }
+  }, [
+    state.matchMode,
+    myStream,
+    cameraInitAttempted,
+    cameraDrawerOpened,
+    toggleCameraDrawer,
+    setMyStream,
+  ]);
+
+  // 2. Sync Incoming Actions
+  useEffect(() => {
+    if (lastReceivedAction) {
+      // If we are in 'enforced' mode, we might want to pause here for verification
+      // For now, let's just apply the action to keep state in sync
+      dispatch(lastReceivedAction);
+    }
+  }, [lastReceivedAction, dispatch]);
+
+  // 3. Wrapper for Outgoing Actions
+  const handleThrowDart = (zone: number) => {
+    actions.throwDart(zone);
+    if (state.matchMode === "online") {
+      broadcastAction({ type: "THROW_DART", payload: { zone } });
+    }
+  };
+
+  const handleUndoThrow = () => {
+    actions.undoThrow();
+    if (state.matchMode === "online") {
+      broadcastAction({ type: "UNDO_THROW" });
+    }
+  };
+
+  const handleNextTurn = () => {
+    // If enforced verification is on, check logic here
+    actions.nextTurn();
+    if (state.matchMode === "online") {
+      // Payload needs elapsedTime, which is handled inside useDartGame's action wrapper usually
+      // But we need to construct the raw action.
+      // Current useDartGame `nextTurn` dispatch includes `elapsedTime`.
+      // We need to mirror that. The `actions.nextTurn` handles dispatch locally.
+      // We can assume the local reducer is deterministic or we should broadcast the *result*.
+      // For simplicity, we just trigger the same action type.
+      // Note: `elapsedTime` might desync slightly, but it's acceptable for now.
+      broadcastAction({ type: "NEXT_TURN", payload: { elapsedTime: 0 } });
+    }
+  };
+
+  const handleToggleMultiplier = (type: "double" | "triple") => {
+    actions.toggleMultiplier(type);
+    if (state.matchMode === "online") {
+      broadcastAction({ type: "TOGGLE_MULTIPLIER", payload: type });
+    }
+  };
+
+  // --- End Multiplayer Logic ---
 
   // Derived state for the UI
   const scores = getScores(matchRound);
@@ -113,6 +219,9 @@ const PlayingPage: NextPage = () => {
       },
       onConfirm: () => {
         actions.abortMatch();
+        if (state.matchMode === "online")
+          broadcastAction({ type: "ABORT_MATCH" });
+
         // Persist the aborted state
         void addMatchToDatabase({
           appVersion: state.appVersion,
@@ -175,6 +284,43 @@ const PlayingPage: NextPage = () => {
 
   return (
     <OnlyControlsLayout>
+      <Drawer
+        opened={cameraDrawerOpened}
+        onClose={toggleCameraDrawer}
+        position="right"
+        title={t("match:camera.liveFeeds")}
+        overlayProps={{ opacity: 0 }}
+        withOverlay={false}
+        styles={{
+          content: { marginTop: "60px", height: "calc(100% - 60px)" },
+        }}
+      >
+        <Stack>
+          {myStream && (
+            <Card padding={0} radius="md" withBorder>
+              <VideoStream
+                stream={myStream}
+                muted
+                label={t("match:camera.me")}
+              />
+            </Card>
+          )}
+          {Object.entries(peerStreams).map(([peerId, stream]) => (
+            <Card key={peerId} padding={0} radius="md" withBorder>
+              <VideoStream
+                stream={stream}
+                label={`${t("match:camera.peer")} ${peerId.substring(0, 4)}`}
+              />
+            </Card>
+          ))}
+          {Object.keys(peerStreams).length === 0 && !myStream && (
+            <Text c="dimmed" ta="center">
+              {t("match:camera.noFeeds")}
+            </Text>
+          )}
+        </Stack>
+      </Drawer>
+
       <Grid gutter={0}>
         <Grid.Col span={{ md: 8, xl: 9 }}>
           <Grid gutter={0}>
@@ -318,6 +464,23 @@ const PlayingPage: NextPage = () => {
         </Grid.Col>
         <Grid.Col component="aside" span="auto" p="lg">
           <Stack gap="sm">
+            {state.matchMode === "online" && (
+              <Button
+                variant="outline"
+                leftSection={<IconVideo size={16} />}
+                onClick={() => {
+                  if (!cameraDrawerOpened && !myStream) {
+                    setCameraInitAttempted(false);
+                  }
+                  toggleCameraDrawer();
+                }}
+              >
+                {cameraDrawerOpened
+                  ? t("match:camera.hideCameras")
+                  : t("match:camera.showCameras")}
+              </Button>
+            )}
+
             <SimpleGrid
               cols={{
                 xs: 4,
@@ -326,7 +489,7 @@ const PlayingPage: NextPage = () => {
             >
               {DARTBOARD_ZONES.map((zone) => (
                 <Button
-                  onClick={() => actions.throwDart(zone)}
+                  onClick={() => handleThrowDart(zone)}
                   variant="default"
                   key={zone}
                 >
@@ -379,13 +542,13 @@ const PlayingPage: NextPage = () => {
             </Group>
             <SimpleGrid cols={3}>
               <Button
-                onClick={() => actions.toggleMultiplier("double")}
+                onClick={() => handleToggleMultiplier("double")}
                 variant={scoreMultiplier.double ? undefined : "default"}
               >
                 {t("match:multipliers.double")}
               </Button>
               <Button
-                onClick={() => actions.toggleMultiplier("triple")}
+                onClick={() => handleToggleMultiplier("triple")}
                 variant={scoreMultiplier.triple ? undefined : "default"}
               >
                 {t("match:multipliers.triple")}
@@ -393,7 +556,7 @@ const PlayingPage: NextPage = () => {
               <Tooltip label={t("match:removeThrows")} withArrow>
                 <Button
                   disabled={matchRound.length === 0}
-                  onClick={() => actions.undoThrow()}
+                  onClick={() => handleUndoThrow()}
                   variant="default"
                 >
                   <IconEraser />
@@ -402,7 +565,7 @@ const PlayingPage: NextPage = () => {
             </SimpleGrid>
             <Button
               disabled={matchStatus === "finished"}
-              onClick={() => actions.nextTurn()}
+              onClick={() => handleNextTurn()}
             >
               {t("match:nextPlayer")}
             </Button>

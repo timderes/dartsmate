@@ -33,5 +33,13 @@
   "notifications": {
     "successDeleteMatchTitle": "Spiel gelöscht",
     "successDeleteMatchText": "Das Spiel wurde erfolgreich gelöscht."
+  },
+  "camera": {
+    "liveFeeds": "Live-Übertragung",
+    "me": "Ich",
+    "peer": "Gegner",
+    "showCameras": "Kameras anzeigen",
+    "hideCameras": "Kameras verbergen",
+    "noFeeds": "Keine aktiven Kameras."
   }
 }

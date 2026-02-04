@@ -5,6 +5,7 @@
   "back": "Zurück",
   "next": "Weiter",
   "confirm": "Bestätigen",
+  "select": "Auswählen",
   "toggleNavigation": "Navigation umschalten",
   "minimizeApp": "Minimieren",
   "fullscreenMode": "Vollbild",
@@ -26,6 +27,7 @@
   "routes": {
     "home": "Startseite",
     "newMatch": "Neues Spiel",
+    "multiplayer": "Online Multiplayer",
     "practice": "Übung",
     "history": "Spielverlauf",
     "profile": "Profil",
@@ -84,6 +86,10 @@
     "too-many-files": {
       "title": "Zu viele Dateien",
       "message": "Sie haben die maximale Anzahl von Dateien, die hochgeladen werden dürfen, überschritten. Bitte reduzieren Sie die Anzahl der Dateien und versuchen Sie es erneut."
+    },
+    "webcam-not-found": {
+      "title": "Webcam nicht gefunden",
+      "message": "Es wurde kein Webcam-Gerät erkannt. Bitte stellen Sie sicher, dass Ihre Webcam ordnungsgemäß angeschlossen ist, und versuchen Sie es erneut."
     }
   },
   "defaultEmptyState": {
