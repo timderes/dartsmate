@@ -18,11 +18,10 @@ import {
 import { applyScoreMultiplier } from "@utils/match/helper/applyScoreMultiplier";
 import isNonMultipleScore from "@utils/match/helper/isNonMultipleScore";
 import isBust from "@lib/playing/stats/isBust";
-import {
-  getScores,
-  getTotalRoundScore,
-} from "@utils/match/stats/getTotalRoundScore";
+import getScores from "@/lib/playing/stats/getScores";
+import getTotalRoundScore from "@/lib/playing/stats/getTotalRoundScore";
 import { useElapsedTime } from "use-elapsed-time";
+import isCheckoutPossible from "@/lib/playing/isCheckoutPossible";
 
 // --- Helpers ---
 
@@ -61,7 +60,7 @@ export const gameReducer = (
         setsWon: player.setsWon ?? 0,
       }));
 
-      return {
+      const newState = {
         ...state,
         players: initializedPlayers,
         matchStatus: matchData.matchStatus,
@@ -70,7 +69,7 @@ export const gameReducer = (
         matchMode: matchData.matchMode,
         verificationMode: matchData.verificationMode,
         uuid: matchData.uuid,
-        appVersion: matchData.appVersion ?? APP_VERSION,
+        appVersion: matchData.appVersion,
         createdAt: matchData.createdAt,
         updatedAt: matchData.updatedAt,
         legs: matchData.legs,
@@ -78,10 +77,14 @@ export const gameReducer = (
         currentPlayerIndex: 0,
         currentLegIndex: 0,
         currentSetIndex: 0,
+        currentLegStartingPlayerIndex: 0,
+        isHydrated: true,
         matchRound: [],
         multiplier: { double: false, triple: false },
-        isHydrated: true,
+        checkout: undefined,
       };
+
+      return { ...newState, checkout: isCheckoutPossible(newState) };
     }
 
     case "TOGGLE_MULTIPLIER": {
@@ -113,19 +116,28 @@ export const gameReducer = (
         isTriple: isNonMultipleScore(zone) ? false : triple,
       };
 
-      return {
+      const newMatchRound = [...state.matchRound, newThrow];
+
+      const newState: GameState = {
         ...state,
-        matchRound: [...state.matchRound, newThrow],
-        multiplier: { double: false, triple: false }, // Reset multipliers after throw
-      };
+        matchRound: newMatchRound,
+        multiplier: { double: false, triple: false },
+      } as GameState;
+
+      return { ...newState, checkout: isCheckoutPossible(newState) };
     }
 
     case "UNDO_THROW": {
       if (state.matchRound.length === 0) return state;
-      return {
+
+      const newMatchRound = state.matchRound.slice(0, -1);
+
+      const newState: GameState = {
         ...state,
-        matchRound: state.matchRound.slice(0, -1),
-      };
+        matchRound: newMatchRound,
+      } as GameState;
+
+      return { ...newState, checkout: isCheckoutPossible(newState) };
     }
 
     case "NEXT_TURN": {
@@ -255,17 +267,25 @@ export const gameReducer = (
         }));
       }
 
-      return {
+      const nextPlayerIndex =
+        (state.currentPlayerIndex + 1) % state.players.length;
+      const nextLegStarterIndex = shouldResetScores
+        ? nextPlayerIndex
+        : state.currentLegStartingPlayerIndex;
+
+      const newState: GameState = {
         ...state,
         players: updatedPlayers,
         matchStatus: newMatchStatus,
         currentLegIndex: newCurrentLegIndex,
         currentSetIndex: newCurrentSetIndex,
-        currentPlayerIndex:
-          (state.currentPlayerIndex + 1) % state.players.length,
+        currentPlayerIndex: nextPlayerIndex,
+        currentLegStartingPlayerIndex: nextLegStarterIndex,
         matchRound: [],
         multiplier: { double: false, triple: false },
-      };
+      } as GameState;
+
+      return { ...newState, checkout: isCheckoutPossible(newState) };
     }
 
     case "ABORT_MATCH":
@@ -295,6 +315,7 @@ export const useDartGame = () => {
     currentPlayerIndex: 0,
     currentLegIndex: 0,
     currentSetIndex: 0,
+    currentLegStartingPlayerIndex: 0,
     matchRound: [],
     multiplier: { double: false, triple: false },
     matchStatus: "undefined",
@@ -307,6 +328,7 @@ export const useDartGame = () => {
     isHydrated: false,
     legs: 3,
     sets: 1,
+    checkout: undefined,
   });
 
   // 1. Hydrate state on load

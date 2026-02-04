@@ -13,7 +13,7 @@ const getFirstNineAverage = (playerRounds: MatchRound[]): number => {
 
   const MaxRounds = Math.floor(9 / THROWS_PER_ROUND);
 
-  // Take the rounds needed for nine darts  and calculate the average of the scores
+  // Take the rounds needed for nine darts and calculate the average of the scores
   const firstThreeRounds = playerRounds.slice(0, MaxRounds);
 
   const totalScore = firstThreeRounds.reduce(

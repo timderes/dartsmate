@@ -7,11 +7,11 @@ import ProfileAvatar from "@components/content/ProfileAvatar";
 import DefaultLayout from "@components/layouts/Default";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 
-import getHighestScore from "@utils/match/stats/getHighestScore";
-import getNumberOfRoundsAboveThreshold from "@utils/match/stats/getScoresAbove";
-import { getTotalMatchAvg } from "@utils/match/stats/getTotalMatchAvg";
+import getHighestScore from "@/lib/playing/stats/getHighestScore";
+import getNumberOfRoundsAboveThreshold from "@/lib/playing/stats/getScoresAbove";
+import getMatchAverage from "@/lib/playing/stats/getMatchAverage";
 import { getLocaleDate } from "@utils/misc/getLocalDate";
-import getCategorizedThrows from "@utils/match/stats/getCategorizedThrows";
+import getCategorizedThrows from "@/lib/playing/stats/getCategorizedThrows";
 import { useSessionStorage } from "@mantine/hooks";
 import {
   Group,
@@ -76,7 +76,7 @@ const ViewMatchPage: NextPage = () => {
         <Table.Td>{player.scoreLeft}</Table.Td>
         <Table.Td>
           <NumberFormatter
-            value={getTotalMatchAvg(player.rounds)}
+            value={getMatchAverage(player.rounds)}
             decimalScale={2}
             decimalSeparator={Intl.NumberFormat(locale).format(1.1).charAt(1)}
           />

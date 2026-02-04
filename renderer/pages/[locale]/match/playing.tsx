@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import {
+  Badge,
   Button,
   Card,
   Divider,
@@ -26,7 +27,7 @@ import { useTranslation } from "next-i18next";
 import { useLocalStorage, useDisclosure } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import { modals } from "@mantine/modals";
-import { IconCrown, IconEraser, IconVideo } from "@tabler/icons-react";
+import { IconCrown, IconEraser, IconPlayerPlay, IconVideo } from "@tabler/icons-react";
 import log from "electron-log/renderer";
 import { useEffect, useState } from "react";
 
@@ -41,20 +42,21 @@ import VideoStream from "@components/media/VideoStream";
 
 import addMatchToDatabase from "@lib/db/matches/addMatch";
 import updateProfileFromDatabase from "@lib/db/profiles/updateProfile";
-import getFirstNineAverage from "@lib/playing/stats/getFirstNineAverage";
+
 import getMatchWinner from "@lib/playing/getMatchWinner";
+import updatePlayerStatistics from "@/lib/playing/player/updatePlayerStatistics";
 
 import { DARTBOARD_ZONES, THROWS_PER_ROUND } from "@utils/constants";
-import {
-  getScores,
-  getTotalRoundScore,
-} from "@utils/match/stats/getTotalRoundScore";
-import { getTotalMatchAvg } from "@utils/match/stats/getTotalMatchAvg";
 import getFormattedName from "@utils/misc/getFormattedName";
 import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
-import getNumberOfRoundsAboveThreshold from "@utils/match/stats/getScoresAbove";
-import getTotalDartsThrown from "@utils/match/stats/getTotalDartsThrown";
-import getHighestScore from "@utils/match/stats/getHighestScore";
+
+// Statistics utilities
+import getFirstNineAverage from "@lib/playing/stats/getFirstNineAverage";
+import getHighestScore from "@/lib/playing/stats/getHighestScore";
+import getMatchAverage from "@/lib/playing/stats/getMatchAverage";
+import getScores from "@/lib/playing/stats/getScores";
+import getTotalDartsThrown from "@/lib/playing/stats/getTotalDartsThrown";
+import getTotalRoundScore from "@/lib/playing/stats/getTotalRoundScore";
 
 const PlayingPage: NextPage = () => {
   const theme = useMantineTheme();
@@ -86,8 +88,10 @@ const PlayingPage: NextPage = () => {
   }, [state.matchMode, leaveGame]);
 
   const {
+    checkout,
     players,
     currentPlayerIndex,
+    currentLegStartingPlayerIndex,
     matchRound,
     multiplier: scoreMultiplier,
     matchStatus,
@@ -263,25 +267,13 @@ const PlayingPage: NextPage = () => {
   };
 
   const handleUpdatePlayerStatistics = (player: Player): void => {
-    const oldStatistics = player.statistics;
-
-    const newStatistics: Player["statistics"] = {
-      // TODO: Calculate the average needs more statistics. Add the these later
-      average: 0,
-      // Played trainings is not updated here, only matches
-      playedMatches: oldStatistics.playedMatches + 1,
-      playedTrainings: oldStatistics.playedTrainings,
-      thrownDarts:
-        oldStatistics.thrownDarts + player.rounds.length * THROWS_PER_ROUND,
-      thrownOneHundredAndEighty:
-        oldStatistics.thrownOneHundredAndEighty +
-        getNumberOfRoundsAboveThreshold(player.rounds, 180),
-    };
+    const updatedStatistics: Player["statistics"] =
+      updatePlayerStatistics(player);
 
     updateProfileFromDatabase(
       {
         statistics: {
-          ...newStatistics,
+          ...updatedStatistics,
         },
       },
       player.uuid,
@@ -349,6 +341,20 @@ const PlayingPage: NextPage = () => {
                     m="lg"
                     bg={getCardBackgroundColor(player.color, index)}
                   >
+                    {index === currentLegStartingPlayerIndex ? (
+                      <Tooltip label={t("match:startingPlayer")} withArrow>
+                        <Badge
+                          color="teal"
+                          size="sm"
+                          pos="absolute"
+                          right={16}
+                          top={player.isWinner ? 56 : 16}
+                          leftSection={<IconPlayerPlay size={14} />}
+                        >
+                          {t("match:startingPlayer")}
+                        </Badge>
+                      </Tooltip>
+                    ) : undefined}
                     {player.isWinner ? (
                       <Tooltip
                         label={t("match:playerWon", {
@@ -399,7 +405,7 @@ const PlayingPage: NextPage = () => {
                           >
                             <NumberFormatter
                               decimalScale={2}
-                              value={getTotalMatchAvg(players[index].rounds)}
+                              value={getMatchAverage(players[index].rounds)}
                             />
                           </Text>
                         </Tooltip>
@@ -498,17 +504,41 @@ const PlayingPage: NextPage = () => {
             >
               <NumberFormatter value={totalRoundScore} />
             </Text>
-            <Group justify="center" fz="h3" opacity={0.5}>
-              {Array.from({ length: THROWS_PER_ROUND }, (_, index) => (
-                <Text fz="xl" key={index}>
-                  {matchRound[index]?.isDouble
-                    ? "D"
-                    : matchRound[index]?.isTriple
-                      ? "T"
-                      : undefined}
-                  {matchRound[index]?.dartboardZone ?? "-"}
-                </Text>
-              ))}
+            <Group justify="center">
+              {Array.from({ length: THROWS_PER_ROUND }, (_, index) => {
+                const thrownScore = scores[index];
+                const completedThrows = scores.length;
+
+                // Place the checkout options in the remaining slots
+                const checkoutIndex = index - completedThrows;
+                const checkoutOption = checkout?.[checkoutIndex] ?? undefined;
+                const {
+                  isTriple,
+                  isDouble,
+                  dartboardZone: scoreZone,
+                } = matchRound[index] ?? {};
+
+                // Format the displayed score based on multiplier
+                const displayScore = isTriple
+                  ? `T${scoreZone}`
+                  : isDouble
+                    ? `D${scoreZone}`
+                    : thrownScore;
+
+                return (
+                  <Flex align="center" h={60} key={index}>
+                    {thrownScore ? (
+                      <Text opacity={0.5}>{displayScore}</Text>
+                    ) : checkoutOption ? (
+                      <Badge autoContrast size="xl" radius="xs">
+                        {checkoutOption}
+                      </Badge>
+                    ) : (
+                      <Text opacity={0.5}>-</Text>
+                    )}
+                  </Flex>
+                );
+              })}
             </Group>
             <SimpleGrid cols={3}>
               <Button

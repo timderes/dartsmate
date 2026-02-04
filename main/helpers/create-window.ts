@@ -8,11 +8,12 @@ import {
 import Store from "electron-store";
 
 import log from "electron-log";
+import { registerWindow, unregisterWindow } from "./window-registry";
 
 import {
   IS_APP_RUNNING_IN_PRODUCTION_MODE,
   MINIMAL_WINDOW_SIZE,
-} from "../constants";
+} from "../constants/application";
 
 export default (
   windowName: string,
@@ -97,6 +98,13 @@ export default (
   };
   win = new BrowserWindow(browserOptions);
 
+  // Register window in the central registry so other modules can access it by name
+  try {
+    registerWindow(windowName, win);
+  } catch (err) {
+    log.error("Failed to register window %s: %O", windowName, err);
+  }
+
   // Remove application menu, when the app runs in production mode
   if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
     win.setMenu(null);
@@ -129,6 +137,15 @@ export default (
 
   win.webContents.on("dom-ready", () => {
     void disableMouseNavigation();
+  });
+
+  // Ensure registry cleanup after window is closed
+  win.on("closed", () => {
+    try {
+      unregisterWindow(windowName);
+    } catch (err) {
+      log.error("Failed to unregister window %s: %O", windowName, err);
+    }
   });
 
   return win;

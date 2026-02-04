@@ -1,15 +1,17 @@
 import { app } from "electron";
 import serve from "electron-serve";
-import { createWindow } from "./helpers";
+import createWindow from "./helpers/create-window";
+import "./helpers/ipc";
 import path from "path";
 import log from "electron-log";
-import { autoUpdater } from "electron-updater";
 import { appSettingsStore } from "./helpers/stores";
-import { getPreferredLocale, logSystemInfo } from "./helpers/utils";
+import getPreferredLocale from "./helpers/utils/getPreferredLocale";
+import logSystemInfo from "./helpers/utils/logSystemInfo";
 import {
   IS_APP_RUNNING_IN_PRODUCTION_MODE,
   MINIMAL_WINDOW_SIZE,
-} from "./constants";
+} from "./constants/application";
+import registerUpdater, { isUpdateInstalling } from "./helpers/updater";
 
 const sessionId = new Date().valueOf();
 
@@ -27,14 +29,49 @@ void (async () => {
   await app.whenReady().then(() => {
     logSystemInfo();
     log.initialize(); // Initialize the logger for renderer process
-    autoUpdater.logger = log;
+    registerUpdater();
+  });
 
-    if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
-      autoUpdater.allowPrerelease = false;
-      void autoUpdater.checkForUpdatesAndNotify();
-    } else {
-      log.info("Skipping auto-updater in development mode.");
-    }
+  const port = process.argv[2];
+  const preferredLocale = getPreferredLocale();
+  const locale = appSettingsStore.get("locale", preferredLocale);
+  const defaultProfile = appSettingsStore.get("defaultProfileUUID");
+
+  const updaterWindow = createWindow("updater", {
+    // alwaysOnTop: true,
+    resizable: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
+    center: true,
+    closable: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
+    minimizable: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
+    height: 500,
+    minHeight: 500,
+    minWidth: 500,
+    width: 500,
+    maxHeight: 500,
+    maxWidth: 500,
+    frame: !IS_APP_RUNNING_IN_PRODUCTION_MODE ? false : true,
+    webPreferences: {
+      contextIsolation: true,
+      preload: path.join(__dirname, "preload.js"),
+    },
+  });
+
+  if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
+    await updaterWindow.loadURL(`app://./${locale}/splash/update`);
+  } else {
+    await updaterWindow.loadURL(
+      `http://localhost:${port}/${locale}/splash/update`,
+    );
+    updaterWindow.webContents.openDevTools({ mode: "detach" });
+  }
+
+  // Wait for the updater process to finish before loading the main window
+  await new Promise<void>((resolve) => {
+    updaterWindow.on("closed", () => {
+      if (!isUpdateInstalling) {
+        resolve();
+      }
+    });
   });
 
   const mainWindow = createWindow("main", {
@@ -49,12 +86,6 @@ void (async () => {
     },
   });
 
-  // Retrieve the stored locale from app settings, or use the client's preferred locale
-  const preferredLocale = getPreferredLocale();
-  const locale = appSettingsStore.get("locale", preferredLocale);
-  const defaultProfile = appSettingsStore.get("defaultProfileUUID");
-
-  const port = process.argv[2];
   const profileSetupIntroRoute = IS_APP_RUNNING_IN_PRODUCTION_MODE
     ? `app://./${locale}/profileSetupIntro`
     : `http://localhost:${port}/${locale}/profileSetupIntro`;
@@ -83,32 +114,4 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
-});
-
-// TODO: Add more meaningful code to these functions :)
-autoUpdater.on("checking-for-update", () => {
-  log.info("Checking for update...");
-});
-
-autoUpdater.on("update-available", () => {
-  log.info("Update available.");
-});
-
-autoUpdater.on("update-not-available", () => {
-  log.info("Update not available.");
-});
-
-autoUpdater.on("error", (error) => {
-  log.error(`Error in auto-updater: ${error.message}`);
-});
-
-autoUpdater.on("update-downloaded", () => {
-  log.info("Download completed.");
-
-  //TODO: Let the user decide if he wants to update after download
-  autoUpdater.quitAndInstall();
-});
-
-autoUpdater.on("download-progress", (info) => {
-  log.info("Download running", info);
 });

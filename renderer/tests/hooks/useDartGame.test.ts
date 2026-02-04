@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { gameReducer } from "@hooks/useDartGame";
+import { DEFAULT_CHECKOUTS } from "@/utils/match/checkouts/default";
 import type { Player } from "types/match";
 
 const createMockPlayer = (id: string, name: string): Player => ({
@@ -43,6 +44,7 @@ describe("useDartGame Reducer", () => {
     isHydrated: true,
     legs: 1,
     sets: 1,
+    checkout: undefined,
   };
 
   it("should handle THROW_DART correctly (Single 20)", () => {
@@ -54,6 +56,32 @@ describe("useDartGame Reducer", () => {
     expect(newState.matchRound).toHaveLength(1);
     expect(newState.matchRound[0].score).toBe(20);
     expect(newState.matchRound[0].isDouble).toBe(false);
+  });
+
+  it("should update checkout when score changes after a throw", () => {
+    // Setup a state where Alice has 99 left (common checkout available)
+    const closeState = {
+      ...initialState,
+      players: [
+        { ...initialState.players[0], scoreLeft: 99 },
+        initialState.players[1],
+      ],
+    };
+
+    // 1. Set triple multiplier and throw a T20 (60)
+    const multState = gameReducer(closeState, {
+      type: "TOGGLE_MULTIPLIER",
+      payload: "triple",
+    });
+
+    const afterThrow = gameReducer(multState, {
+      type: "THROW_DART",
+      payload: { zone: 20 },
+    });
+
+    // Remaining score should be 39 (99 - 60) and checkout should be present
+    const expectedCheckout = DEFAULT_CHECKOUTS[39];
+    expect(afterThrow.checkout).toEqual(expectedCheckout);
   });
 
   it("should handle THROW_DART with Triple Multiplier", () => {

@@ -10,6 +10,7 @@
   "minimizeApp": "Minimize",
   "fullscreenMode": "Fullscreen",
   "windowedMode": "Windowed Mode",
+  "skip": "Skip",
   "player": "Player",
   "player_plural": "Players",
   "date": "Date",

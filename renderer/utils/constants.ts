@@ -64,8 +64,17 @@ export const SETS = {
   MAX: 49,
 };
 
-/*
+/**
  * Maximum number of notifications displayed at a time, other new notifications
  * will be added to queue.
  */
 export const NOTIFICATION_LIMIT = 3;
+
+/**
+ * Constants related to the AppShell layout components.
+ */
+export const APP_SHELL = {
+  ICON_SIZE: 24, // px
+  HEADER_HEIGHT: 32, // px
+  NAVBAR_WIDTH: 200, // px
+};
