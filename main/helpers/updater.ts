@@ -17,8 +17,6 @@ let isUpdateInstalling = false;
 const registerUpdater = () => {
   // Skipping auto-updater in development mode
   if (!app.isPackaged) {
-    return;
-
     // Use this to simulate an update event to test the bridge
     /*
     setTimeout(() => {
@@ -30,7 +28,6 @@ const registerUpdater = () => {
         });
       });
     }, 2000);
-    return;
     */
   }
 
