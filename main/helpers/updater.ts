@@ -6,6 +6,7 @@ import {
 import { ipcMain, app, BrowserWindow } from "electron";
 import log from "electron-log";
 import { getWindow } from "./window-registry";
+import { IS_APP_RUNNING_IN_PRODUCTION_MODE } from "../constants/application";
 
 /**
  * Registers the application updater and sets up IPC handlers for update events.
@@ -15,22 +16,6 @@ import { getWindow } from "./window-registry";
 let isUpdateInstalling = false;
 
 const registerUpdater = () => {
-  // Skipping auto-updater in development mode
-  if (!app.isPackaged) {
-    // Use this to simulate an update event to test the bridge
-    /*
-    setTimeout(() => {
-      BrowserWindow.getAllWindows().forEach((window) => {
-        log.info("[Updater] Sending fake update-message");
-        window.webContents.send("update-message", {
-          event: "available",
-          data: { version: "9.9.9" },
-        });
-      });
-    }, 2000);
-    */
-  }
-
   autoUpdater.autoDownload = false;
   autoUpdater.logger = log;
 
@@ -55,6 +40,13 @@ const registerUpdater = () => {
   autoUpdater.on("error", (err) => broadcast("error", err));
 
   ipcMain.handle("check-for-app-update", async () => {
+    if (!IS_APP_RUNNING_IN_PRODUCTION_MODE) {
+      broadcast(
+        "not-available",
+        new Error("Updates are disabled in development mode!"),
+      );
+      return;
+    }
     return await autoUpdater.checkForUpdates();
   });
 
