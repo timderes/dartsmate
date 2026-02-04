@@ -1,0 +1,13 @@
+{
+  "status": {
+    "appIsUpToDate": "{{APP_NAME}} ist auf dem neuesten Stand.",
+    "available": "Update verfügbar!",
+    "checking": "Suche nach Updates...",
+    "downloadComplete": "Download abgeschlossen! Sie können das Update jetzt installieren.",
+    "downloading": "Lade das Update herunter...",
+    "error": "Fehler beim Aktualisieren von {{APP_NAME}}! ({{ERROR_MESSAGE}})",
+    "idle": "Suche nach Updates..."
+  },
+  "downloadUpdate": "Update herunterladen",
+  "installUpdate": "Update installieren"
+}
