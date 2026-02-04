@@ -3,7 +3,7 @@ import {
   type ProgressInfo,
   type UpdateInfo,
 } from "electron-updater";
-import { ipcMain, app, BrowserWindow } from "electron";
+import { ipcMain, BrowserWindow } from "electron";
 import log from "electron-log";
 import { getWindow } from "./window-registry";
 import { IS_APP_RUNNING_IN_PRODUCTION_MODE } from "../constants/application";
