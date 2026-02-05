@@ -4,6 +4,9 @@
     "description": "Enter your personal details to create your profile."
   },
   "editProfile": "Edit Profile",
+  "deleteProfile": "Delete Profile",
+  "resetProfileStatistics": "Reset Profile Statistics",
+  "setAsDefaultProfile": "Set as Default Profile",
   "formLabels": {
     "bio": {
       "label": "Biography",
@@ -57,6 +60,7 @@
   "removePhotoUpload": "Remove Photo",
   "exportProfile": "Export Profile",
   "emptyBioPlaceholder": "{{FIRST_NAME}} has not added a description yet.",
+  "playingWithAppSince": "Playing with {{APP_NAME}} since {{DATE}}.",
   "notifications": {
     "updateProfileSuccess": {
       "title": "Profile successfully updated!",
@@ -74,5 +78,14 @@
   "cancelProfileCreation": {
     "title": "Cancel Profile Creation",
     "text": "Are you sure you want to cancel profile creation? All changes will be lost."
+  },
+  "resetProfileStatisticsConfirmModal": {
+    "title": "Reset statistics for {{FIRST_NAME}}?",
+    "text_one": "This action cannot be undone and will remove all statistics from one match.",
+    "text_other": "This action cannot be undone and will remove all statistics from {{NUMBER_OF_MATCHES}} matches."
+  },
+  "deleteProfileConfirmModal": {
+    "title": "Delete {{FIRST_NAME}}'s profile?",
+    "text": "This action cannot be undone. All data associated with this profile will be permanently deleted."
   }
 }
