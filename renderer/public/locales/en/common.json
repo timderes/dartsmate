@@ -5,6 +5,7 @@
   "back": "Back",
   "next": "Next",
   "confirm": "Confirm",
+  "select": "Select",
   "toggleNavigation": "Toggle Navigation",
   "minimizeApp": "Minimize",
   "fullscreenMode": "Fullscreen",
@@ -26,6 +27,7 @@
   "routes": {
     "home": "Home",
     "newMatch": "New Match",
+    "multiplayer": "Online Multiplayer",
     "practice": "Practice",
     "history": "Match History",
     "profile": "Profile",
@@ -84,6 +86,10 @@
     "too-many-files": {
       "title": "Too Many Files",
       "message": "You have exceeded the limit of maximum files allowed to upload. Please reduce the number of files and try again."
+    },
+    "webcam-not-found": {
+      "title": "Webcam Not Found",
+      "message": "No webcam device was detected. Please ensure your webcam is properly connected and try again."
     }
   },
   "defaultEmptyState": {

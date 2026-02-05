@@ -6,6 +6,7 @@ import { ModalsProvider } from "@mantine/modals";
 import { useHotkeys } from "@mantine/hooks";
 import sendIPC from "@utils/ipc/send";
 import { NOTIFICATION_LIMIT } from "utils/constants";
+import { MultiplayerProvider } from "../context/MultiplayerContext";
 
 // All packages except `@mantine/hooks` require styles imports!
 import "@mantine/core/styles.css";
@@ -37,7 +38,9 @@ const App = ({ Component, pageProps }: AppProps) => {
     <MantineProvider defaultColorScheme="auto" theme={appTheme}>
       <Notifications position="top-right" limit={NOTIFICATION_LIMIT} />
       <ModalsProvider>
-        <Component {...pageProps} />
+        <MultiplayerProvider>
+          <Component {...pageProps} />
+        </MultiplayerProvider>
       </ModalsProvider>
     </MantineProvider>
   );
