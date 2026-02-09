@@ -31,6 +31,7 @@ const UpdaterActionButtons = () => {
     };
   }, [autoCloseSeconds, status]);
 
+  // If an update is available, show a button to start downloading the update
   if (status === "available") {
     return (
       <Button
@@ -44,29 +45,26 @@ const UpdaterActionButtons = () => {
       </Button>
     );
   }
-  if (
-    status === "downloadComplete" ||
-    status === "error" ||
-    status === "appIsUpToDate"
-  ) {
+
+  // If the update has been downloaded, show a button to install the update
+  if (downloaded) {
     return (
-      <Button
-        onClick={() => {
-          if (downloaded) {
-            window.ipc.send("quit-and-install", null);
-          } else {
-            window.ipc.destroyUpdaterWindow();
-          }
-        }}
-      >
-        {downloaded
-          ? t("updater:installUpdate")
-          : t("updater:closeUpdaterWithSeconds", { SECONDS: autoCloseSeconds })}
+      <Button onClick={void window.ipc.quitAndInstall()}>
+        {t("updater:installUpdate")}
       </Button>
     );
   }
 
-  return null;
+  // If the app is up to date, show a button to close the updater window with a countdown
+  return (
+    <Button
+      onClick={() => {
+        window.ipc.destroyUpdaterWindow();
+      }}
+    >
+      {t("updater:closeUpdaterWithSeconds", { SECONDS: autoCloseSeconds })}
+    </Button>
+  );
 };
 
 export default UpdaterActionButtons;
