@@ -57,7 +57,11 @@ const UpdaterActionButtons = () => {
   // If the update has been downloaded, show a button to install the update
   if (downloaded) {
     return (
-      <Button onClick={void window.ipc.quitAndInstall()}>
+      <Button
+        onClick={() => {
+          window.ipc.quitAndInstall();
+        }}
+      >
         {t("updater:installUpdate")}
       </Button>
     );
