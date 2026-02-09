@@ -4,9 +4,17 @@ import log from "electron-log/renderer";
 import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 
+/**
+ * Seconds to wait before automatically closing the updater
+ * window when the app is up to date.
+ */
+const AUTO_CLOSE_COUNTDOWN_SECONDS = 10;
+
 const UpdaterActionButtons = () => {
   const { status, downloaded } = useUpdater();
-  const [autoCloseSeconds, setAutoCloseSeconds] = useState(10);
+  const [autoCloseSeconds, setAutoCloseSeconds] = useState(
+    AUTO_CLOSE_COUNTDOWN_SECONDS,
+  );
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -15,10 +23,10 @@ const UpdaterActionButtons = () => {
     // If the app is up to date, start a countdown to auto-close the updater window
     if (status === "appIsUpToDate") {
       timer = setInterval(() => {
-        setAutoCloseSeconds((prev) => Math.max(prev - 1, 0));
+        setAutoCloseSeconds((prev) => prev - 1);
       }, 1000);
     } else {
-      setAutoCloseSeconds(10);
+      setAutoCloseSeconds(AUTO_CLOSE_COUNTDOWN_SECONDS);
     }
 
     // When the countdown reaches 0, close the updater window
