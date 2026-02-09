@@ -18,11 +18,11 @@ const UpdaterActionButtons = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    let timer: ReturnType<typeof setInterval> | null = null;
+    let interval = null;
 
     // If the app is up to date, start a countdown to auto-close the updater window
     if (status === "appIsUpToDate") {
-      timer = setInterval(() => {
+      interval = setInterval(() => {
         setAutoCloseSeconds((prev) => prev - 1);
       }, 1000);
     } else {
@@ -35,7 +35,7 @@ const UpdaterActionButtons = () => {
     }
 
     return () => {
-      if (timer) clearInterval(timer);
+      if (interval) clearInterval(interval);
     };
   }, [autoCloseSeconds, status]);
 
