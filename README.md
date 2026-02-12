@@ -1,6 +1,6 @@
 # :dart: DartsMate
 
-[DartsMate 0.6.2 preview](resources/github-preview.jpg)
+<img src="resources/github-preview.jpg"  style="height: auto; width: 100%;" />
 
 **Analyze, compare and track your dart games with DartsMate - Build with [nextron](https://github.com/saltyshiomix/nextron), [Next.js](https://github.com/vercel/next.js) & [Mantine](https://github.com/mantinedev/mantine)**
 
