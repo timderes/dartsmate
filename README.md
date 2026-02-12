@@ -28,8 +28,6 @@
 | `npm run format`      | Format the project code                                                             |
 | `npm run test`        |                                                                                     |
 
-## :construction_worker: Contributors
+## Contributors
 
-- Tim Deres ([@timderes](https://github.com/timderes))
-- Benedict Homuth ([@BenedictHomuth](https://github.com/BenedictHomuth))
-- Wejdene Mekki ([@wejdenemk](https://github.com/wejdenemk))
+[List of Contributors](CONTRIBUTORS.md)
