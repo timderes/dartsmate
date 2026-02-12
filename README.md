@@ -30,4 +30,4 @@
 
 ## Contributors
 
-[List of Contributors](CONTRIBUTORS.md)
+See the full list of contributors [here](CONTRIBUTORS.md).
