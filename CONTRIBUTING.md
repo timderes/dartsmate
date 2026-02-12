@@ -14,6 +14,20 @@ You can also take a look at the [Projects](https://github.com/timderes/dartsmate
 
 - <span style="color: #008672">**help wanted**</span>: Issues that need support or haven’t been assigned yet
 
+### How to start the app in development mode
+
+To start the app in development mode, you can use the following command:
+
+**NOTE: The development and production builds don't share the profiles, match history and app settings!**
+
+```bash
+# 1. install dependencies
+npm i
+
+# 2. start the app in development mode
+npm run dev
+```
+
 ## How to Contribute
 
 Before reporting a bug or suggest a feature, please check the [Issues](https://github.com/timderes/dartsmate/issues) to see if it has already been reported or suggested. If it has, you can add any additional information or support to the existing issue.
