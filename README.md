@@ -4,6 +4,25 @@
 
 :warning: The project is currently still a work in progress. Many functions and ideas are not implemented yet!
 
+---
+
+### Project Status
+
+![GitHub Release](https://img.shields.io/github/v/release/timderes/dartsmate)
+![GitHub License](https://img.shields.io/github/license/timderes/dartsmate)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/timderes/dartsmate/total)
+![GitHub Repo stars](https://img.shields.io/github/stars/timderes/dartsmate)
+
+### Repository Status
+
+![Last Commit](https://img.shields.io/github/last-commit/timderes/dartsmate)
+![GitHub Issues](https://img.shields.io/github/issues/timderes/dartsmate)
+![GitHub Pull Requests](https://img.shields.io/github/issues-pr/timderes/dartsmate)
+![GitHub Discussions](https://img.shields.io/github/discussions/timderes/dartsmate)
+
+![GitHub top language](https://img.shields.io/github/languages/top/timderes/dartsmate)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/timderes/dartsmate)
+
 ## :sparkles: Features
 
 - **Create & Manage Profiles:** Easily create and manage player profiles for your matches.
