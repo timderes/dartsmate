@@ -52,7 +52,11 @@ const ProfileIndexPage: NextPage = () => {
             <Group ml="auto">
               <Tooltip label={t("profile:editProfile")} withArrow>
                 <ActionIcon
-                  onClick={() => void router.push(`/${locale}/profile/edit`)}
+                  onClick={() =>
+                    void router.push(
+                      `/${locale}/profile/edit?uuid=${defaultProfile.uuid}`,
+                    )
+                  }
                   variant="filled"
                 >
                   <IconEdit />
@@ -82,10 +86,8 @@ const ProfileIndexPage: NextPage = () => {
             <Stat text={t("stats.trainings")} value={stats.playedTrainings} />
             <Stat
               text={t("stats.avg")}
+              decimalScale={2}
               value={stats.average}
-              numberProps={{
-                decimalScale: 2,
-              }}
             />
           </Group>
           <Divider />
