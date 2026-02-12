@@ -1,5 +1,7 @@
 # :dart: DartsMate
 
+[DartsMate 0.6.2 preview](resources/github-preview.jpg)
+
 **Analyze, compare and track your dart games with DartsMate - Build with [nextron](https://github.com/saltyshiomix/nextron), [Next.js](https://github.com/vercel/next.js) & [Mantine](https://github.com/mantinedev/mantine)**
 
 :warning: The project is currently still a work in progress. Many functions and ideas are not implemented yet!
