@@ -6,8 +6,6 @@
 
 ## :sparkles: Features
 
-**Explore the Future:** Dive into our [project roadmap](https://github.com/timderes/dartsmate/wiki/Roadmap) to discover exciting upcoming features!
-
 - **Create & Manage Profiles:** Easily create and manage player profiles for your matches.
 - **Create A Match:** Set up a game with and customize various game settings.
 - **Analyze Your Latest Matches:** Gain valuable insights into your performance and track your progress.
