@@ -7,139 +7,151 @@
  */
 
 :root {
-    --animated-icon-duration: 3000ms;
+  --animated-icon-duration: 3000ms;
 }
 
 .path_0 {
-    stroke-dasharray: 96 98;
-    stroke-dashoffset: 97;
-    animation: path_draw_0 var(--animated-icon-duration, 3000ms) ease-in-out infinite, path_fade var(--animated-icon-duration, 1400ms) linear infinite;
+  stroke-dasharray: 96 98;
+  stroke-dashoffset: 97;
+  animation:
+    path_draw_0 var(--animated-icon-duration, 3000ms) ease-in-out infinite,
+    path_fade var(--animated-icon-duration, 1400ms) linear infinite;
 }
 
 .path_1 {
-    stroke-dasharray: 7 9;
-    stroke-dashoffset: 8;
-    animation: path_draw_1 var(--animated-icon-duration, 3000ms) ease-in-out infinite, path_fade var(--animated-icon-duration, 1400ms) linear infinite;
+  stroke-dasharray: 7 9;
+  stroke-dashoffset: 8;
+  animation:
+    path_draw_1 var(--animated-icon-duration, 3000ms) ease-in-out infinite,
+    path_fade var(--animated-icon-duration, 1400ms) linear infinite;
 }
 
 .path_2 {
-    stroke-dasharray: 24 26;
-    stroke-dashoffset: 25;
-    animation: path_draw_2 var(--animated-icon-duration, 3000ms) ease-in-out infinite, path_fade var(--animated-icon-duration, 1400ms) linear infinite;
+  stroke-dasharray: 24 26;
+  stroke-dashoffset: 25;
+  animation:
+    path_draw_2 var(--animated-icon-duration, 3000ms) ease-in-out infinite,
+    path_fade var(--animated-icon-duration, 1400ms) linear infinite;
 }
 
 .path_3 {
-    stroke-dasharray: 45 47;
-    stroke-dashoffset: 46;
-    animation: path_draw_3 var(--animated-icon-duration, 3000ms) ease-in-out infinite, path_fade var(--animated-icon-duration, 1400ms) linear infinite;
+  stroke-dasharray: 45 47;
+  stroke-dashoffset: 46;
+  animation:
+    path_draw_3 var(--animated-icon-duration, 3000ms) ease-in-out infinite,
+    path_fade var(--animated-icon-duration, 1400ms) linear infinite;
 }
 
 .path_4 {
-    stroke-dasharray: 21 23;
-    stroke-dashoffset: 22;
-    animation: path_draw_4 var(--animated-icon-duration, 3000ms) ease-in-out infinite, path_fade var(--animated-icon-duration, 1400ms) linear infinite;
+  stroke-dasharray: 21 23;
+  stroke-dashoffset: 22;
+  animation:
+    path_draw_4 var(--animated-icon-duration, 3000ms) ease-in-out infinite,
+    path_fade var(--animated-icon-duration, 1400ms) linear infinite;
 }
 
 .path_5 {
-    stroke-dasharray: 5 7;
-    stroke-dashoffset: 6;
-    animation: path_draw_5 var(--animated-icon-duration, 3000ms) ease-in-out infinite, path_fade var(--animated-icon-duration, 1400ms) linear infinite;
+  stroke-dasharray: 5 7;
+  stroke-dashoffset: 6;
+  animation:
+    path_draw_5 var(--animated-icon-duration, 3000ms) ease-in-out infinite,
+    path_fade var(--animated-icon-duration, 1400ms) linear infinite;
 }
 
 @keyframes path_fade {
-    0% {
-        stroke-opacity: 1;
-    }
+  0% {
+    stroke-opacity: 1;
+  }
 
-    81.8% {
-        stroke-opacity: 1;
-    }
+  81.8% {
+    stroke-opacity: 1;
+  }
 
-    100% {
-        stroke-opacity: 0;
-    }
+  100% {
+    stroke-opacity: 0;
+  }
 }
 
 @keyframes path_draw_0 {
-    18.18% {
-        stroke-dashoffset: 97;
-    }
+  18.18% {
+    stroke-dashoffset: 97;
+  }
 
-    39.79% {
-        stroke-dashoffset: 0;
-    }
+  39.79% {
+    stroke-dashoffset: 0;
+  }
 
-    100% {
-        stroke-dashoffset: 0;
-    }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes path_draw_1 {
-    39.79% {
-        stroke-dashoffset: 8;
-    }
+  39.79% {
+    stroke-dashoffset: 8;
+  }
 
-    41.57% {
-        stroke-dashoffset: 0;
-    }
+  41.57% {
+    stroke-dashoffset: 0;
+  }
 
-    100% {
-        stroke-dashoffset: 0;
-    }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes path_draw_2 {
-    41.57% {
-        stroke-dashoffset: 25;
-    }
+  41.57% {
+    stroke-dashoffset: 25;
+  }
 
-    47.14% {
-        stroke-dashoffset: 0;
-    }
+  47.14% {
+    stroke-dashoffset: 0;
+  }
 
-    100% {
-        stroke-dashoffset: 0;
-    }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes path_draw_3 {
-    47.14% {
-        stroke-dashoffset: 46;
-    }
+  47.14% {
+    stroke-dashoffset: 46;
+  }
 
-    57.39% {
-        stroke-dashoffset: 0;
-    }
+  57.39% {
+    stroke-dashoffset: 0;
+  }
 
-    100% {
-        stroke-dashoffset: 0;
-    }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes path_draw_4 {
-    57.39% {
-        stroke-dashoffset: 22;
-    }
+  57.39% {
+    stroke-dashoffset: 22;
+  }
 
-    62.29% {
-        stroke-dashoffset: 0;
-    }
+  62.29% {
+    stroke-dashoffset: 0;
+  }
 
-    100% {
-        stroke-dashoffset: 0;
-    }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes path_draw_5 {
-    62.29% {
-        stroke-dashoffset: 6;
-    }
+  62.29% {
+    stroke-dashoffset: 6;
+  }
 
-    63.63% {
-        stroke-dashoffset: 0;
-    }
+  63.63% {
+    stroke-dashoffset: 0;
+  }
 
-    100% {
-        stroke-dashoffset: 0;
-    }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
