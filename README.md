@@ -1,8 +1,29 @@
 # :dart: DartsMate
 
+<img src="resources/github-preview.jpg"  style="height: auto; width: 100%;" />
+
 **Analyze, compare and track your dart games with DartsMate - Build with [nextron](https://github.com/saltyshiomix/nextron), [Next.js](https://github.com/vercel/next.js) & [Mantine](https://github.com/mantinedev/mantine)**
 
 :warning: The project is currently still a work in progress. Many functions and ideas are not implemented yet!
+
+---
+
+### Project Status
+
+![GitHub Release](https://img.shields.io/github/v/release/timderes/dartsmate)
+![GitHub License](https://img.shields.io/github/license/timderes/dartsmate)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/timderes/dartsmate/total)
+![GitHub Repo stars](https://img.shields.io/github/stars/timderes/dartsmate)
+
+### Repository Status
+
+![Last Commit](https://img.shields.io/github/last-commit/timderes/dartsmate)
+![GitHub Issues](https://img.shields.io/github/issues/timderes/dartsmate)
+![GitHub Pull Requests](https://img.shields.io/github/issues-pr/timderes/dartsmate)
+![GitHub Discussions](https://img.shields.io/github/discussions/timderes/dartsmate)
+
+![GitHub top language](https://img.shields.io/github/languages/top/timderes/dartsmate)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/timderes/dartsmate)
 
 ## :sparkles: Features
 
@@ -28,8 +49,6 @@
 | `npm run format`      | Format the project code                                                             |
 | `npm run test`        |                                                                                     |
 
-## :construction_worker: Contributors
+## Contributors
 
-- Tim Deres ([@timderes](https://github.com/timderes))
-- Benedict Homuth ([@BenedictHomuth](https://github.com/BenedictHomuth))
-- Wejdene Mekki ([@wejdenemk](https://github.com/wejdenemk))
+See the full list of contributors [here](CONTRIBUTORS.md).
