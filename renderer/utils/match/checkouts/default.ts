@@ -54,7 +54,7 @@ export const DEFAULT_CHECKOUTS: CheckoutTable = {
   47: ["S15", "D16"], // ["S7", "D20"]
   48: ["S16", "D16"], // ["S8", "D20"]
   49: ["S17", "D16"], // ["S9", "D20"]
-  50: ["S18", "D16"], // ["S10", "D20"] or less common ["OUTER BULL"]
+  50: ["S18", "D16"], // ["S10", "D20"] or less common ["BULL"]
   51: ["S19", "D16"], // ["S11", "D20"]
   52: ["S20", "D16"], // ["S12", "D20"]
   53: ["S13", "D20"],
