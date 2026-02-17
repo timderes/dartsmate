@@ -171,7 +171,7 @@ export const DEFAULT_CHECKOUTS: CheckoutTable = {
   //
   // 162 - 163: Bogey score - no checkout available
   //
-  164: ["T20", "T18", "BULL"], // ["T19", "T19", "BULL"]]
+  164: ["T20", "T18", "BULL"], // ["T19", "T19", "BULL"]
   //
   // 165 - 166: Bogey score - no checkout available
   //
