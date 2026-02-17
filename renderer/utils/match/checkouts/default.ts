@@ -163,13 +163,21 @@ export const DEFAULT_CHECKOUTS: CheckoutTable = {
   156: ["T20", "T20", "D18"],
   157: ["T20", "T19", "D20"],
   158: ["T20", "T20", "D19"],
+  //
   // 159: Bogey score - no checkout available
+  //
   160: ["T20", "T20", "D20"], // Only available checkout!
   161: ["T20", "T17", "BULL"], // ["T19", "T18", "BULL"]
+  //
   // 162 - 163: Bogey score - no checkout available
+  //
   164: ["T20", "T18", "BULL"], // ["T19", "T19", "BULL"]]
+  //
   // 165 - 166: Bogey score - no checkout available
+  //
   167: ["T20", "T19", "BULL"], // Only available checkout!
+  //
   // 168 - 169: Bogey score - no checkout available
+  //
   170: ["T20", "T20", "BULL"], // Only available checkout!
 };
