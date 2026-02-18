@@ -30,7 +30,7 @@ const getScoreOfThrow = (dart: string): number => {
  * Test if the checkouts in the DEFAULT_CHECKOUTS table sum to their keys and end with a double or bullseye,
  * which is required to finish a leg in a double-out game.
  */
-describe("DEFAULT_CHECKOUTS sums to their keys", () => {
+describe("match.checkouts.default", () => {
   for (const [scoreStr, tokens] of Object.entries(DEFAULT_CHECKOUTS)) {
     const score = Number(scoreStr);
 
