@@ -45,7 +45,7 @@ describe("match.checkouts.default", () => {
 
       const last = tokens[tokens.length - 1];
 
-      // Last should a double or bullseye, which is required
+      // Last should be a double or bullseye, which is required
       // to finish a leg in a double-out game
       expect(last).toMatch(/^(D\d+|BULL)$/);
     });
