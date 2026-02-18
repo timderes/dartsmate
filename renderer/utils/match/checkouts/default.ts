@@ -4,14 +4,14 @@ import type { CheckoutTable } from "@/types/CheckoutTable";
  * Default Checkout Table for DartsMate. Provides checkout combinations for all scores.
  * This table is specifically designed for `double-out` games.
  *
- * There are often more combinations available for a given score. The used one are
+ * There are often more combinations available for a given score. The used ones are
  * the most common ones for beginners and the majority of players.
  *
- * For some out-commented checkouts, there are alternative combinations that can be
- * used, when the app is updated to support user preferences (eg. avoid "D20" or
+ * For some commented-out checkouts, there are alternative combinations that can be
+ * used, when the app is updated to support user preferences (e.g. avoid "D20" or
  * "D3" checkouts).
  *
- * Parts of this table is based on this resource: https://www.dartcoach.de/dart-checkout#checkout-charts
+ * Parts of this table are based on this resource: https://www.dartcoach.de/dart-checkout#checkout-charts
  */
 export const DEFAULT_CHECKOUTS: CheckoutTable = {
   //
