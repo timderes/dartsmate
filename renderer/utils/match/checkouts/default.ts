@@ -10,6 +10,8 @@ import type { CheckoutTable } from "@/types/CheckoutTable";
  * For some out-commented checkouts, there are alternative combinations that can be
  * used, when the app is updated to support user preferences (eg. avoid "D20" or
  * "D3" checkouts).
+ *
+ * Parts of this table is based on this resource: https://www.dartcoach.de/dart-checkout#checkout-charts
  */
 export const DEFAULT_CHECKOUTS: CheckoutTable = {
   //
@@ -74,39 +76,36 @@ export const DEFAULT_CHECKOUTS: CheckoutTable = {
   58: ["S18", "D20"],
   59: ["S19", "D20"],
   60: ["S20", "D20"], // Less common --> ["D20" ,"D10"]
-  // --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
   61: ["T15", "D8"],
   62: ["T10", "D16"],
   63: ["T13", "D12"],
   64: ["T16", "D8"],
-  65: ["T19", "D4"],
-  66: ["T14", "D12"],
+  65: ["T11", "D16"],
+  66: ["T10", "D18"],
   67: ["T17", "D8"],
   68: ["T20", "D4"],
-  69: ["T19", "D6"],
+  69: ["T15", "D12"],
   70: ["T18", "D8"],
   71: ["T13", "D16"],
   72: ["T16", "D12"],
-  73: ["T19", "D8"],
+  73: ["T17", "D11"],
   74: ["T14", "D16"],
   75: ["T17", "D12"],
   76: ["T20", "D8"],
   77: ["T19", "D10"],
   78: ["T18", "D12"],
-  79: ["T19", "D11"],
-  80: ["T20", "D10"],
-  // --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-  81: ["T19", "D12"],
-  82: ["BULL", "D16"],
+  79: ["T19", "D11"], // ["S19", "S20", "D20"]
+  80: ["T20", "D10"], // ["S20", "S20", "D20"]
+  81: ["T19", "D12"], // ["T15", "D18"]
+  82: ["BULL", "D16"], // Without BULL --> ["T14", "D20"]
   83: ["T17", "D16"],
-  84: ["T20", "D12"],
+  84: ["T20", "D12"], // ["T16", "D18"]
   85: ["T15", "D20"],
   86: ["T18", "D16"],
   87: ["T17", "D18"],
-  88: ["T20", "D14"],
-  89: ["T19", "D16"],
-  90: ["T20", "D15"],
-  // --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+  88: ["T20", "D14"], // Popular finish --> ["T16", "D20"]
+  89: ["T19", "D16"], // ["S19", "T20", "D5"]
+  90: ["T20", "D15"], // ["S20", "T20", "D5"]
   91: ["T17", "D20"],
   92: ["T20", "D16"],
   93: ["T19", "D18"],
@@ -115,7 +114,7 @@ export const DEFAULT_CHECKOUTS: CheckoutTable = {
   96: ["T20", "D18"],
   97: ["T19", "D20"],
   98: ["T20", "D19"],
-  99: ["T19", "S10", "D16"],
+  99: ["T19", "S10", "D16"], // Only two number checkout that needs three darts
   100: ["T20", "D20"],
   101: ["T20", "S9", "D16"],
   102: ["T20", "S10", "D16"],
