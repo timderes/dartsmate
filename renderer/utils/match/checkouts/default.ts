@@ -114,7 +114,7 @@ export const DEFAULT_CHECKOUTS: CheckoutTable = {
   96: ["T20", "D18"],
   97: ["T19", "D20"],
   98: ["T20", "D19"],
-  99: ["T19", "S10", "D16"], // Only two number checkout that needs three darts
+  99: ["T19", "S10", "D16"], // Only two-number checkout that requires three darts
   100: ["T20", "D20"],
   101: ["T20", "S9", "D16"],
   102: ["T20", "S10", "D16"],
