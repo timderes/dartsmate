@@ -1,6 +1,6 @@
 # :dart: DartsMate
 
-<img src="resources/github-preview.jpg"  style="height: auto; width: 100%;" />
+<img alt="DartsMate app screenshot showing a live dart match between players 'nap' and 'musti', with scores, statistics, and buttons." src="resources/github-preview.jpg"  style="height: auto; width: 100%;" />
 
 **Analyze, compare and track your dart games with DartsMate - Built with [nextron](https://github.com/saltyshiomix/nextron), [Next.js](https://github.com/vercel/next.js) & [Mantine](https://github.com/mantinedev/mantine)**
 
