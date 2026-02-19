@@ -21,6 +21,7 @@
     "lint:renderer": "eslint renderer --max-warnings 0",
     "lint:fix": "npm run lint:main -- --fix && npm run lint:renderer -- --fix",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "release": "electron-builder --publish always",
     "test": "vitest"
   },
