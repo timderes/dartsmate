@@ -34,6 +34,38 @@
 - **Analyze Your Latest Matches:** Gain valuable insights into your performance and track your progress.
 - **Multi-Language Support:** DartsMate supports multiple languages, allowing users to enjoy the app in their preferred language.
 
+## Getting Started
+
+```bash
+# Clone the repository
+git clone https://github.com/timderes/dartsmate.git
+
+# Install dependencies
+npm install
+
+# Start the development environment
+npm run dev
+```
+
+### Tech Stack
+
+- [Nextron](https://github.com/saltyshiomix/nextron) – Framework combining Electron + Next.js
+- [Next.js](https://github.com/vercel/next.js) – React-based frontend framework
+- [Mantine](https://github.com/mantinedev/mantine) – UI component library
+- [Electron Builder](https://github.com/electron-userland/electron-builder) – Packaging and release tool
+- [Dexie](https://github.com/dexie/Dexie.js) – IndexedDB wrapper
+- [Vitest](https://github.com/vitest-dev/vitest) – Testing framework
+
+## Contributing
+
+**Contributions to DartsMate are welcome! If you have ideas for new features, improvements, or bug fixes, please feel free to open an issue and submit a pull request.**
+
+For more details on contributing, please refer to the [CONTRIBUTING file](CONTRIBUTING.md).
+
+### Contributors
+
+See the full list of contributors [here](CONTRIBUTORS.md).
+
 ## Scripts
 
 | Script                  | Description                                                                                  |
@@ -54,7 +86,3 @@
 | `npm run format:check`  | Checks code formatting without applying fixes                                                |
 | `npm run release`       | Builds and publishes a new release using electron-builder                                    |
 | `npm run test`          | Runs tests using Vitest                                                                      |
-
-## Contributors
-
-See the full list of contributors [here](CONTRIBUTORS.md).
