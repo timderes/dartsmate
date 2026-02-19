@@ -25,29 +25,35 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/timderes/dartsmate)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/timderes/dartsmate)
 
-## :sparkles: Features
+---
+
+## Features
 
 - **Create & Manage Profiles:** Easily create and manage player profiles for your matches.
 - **Create A Match:** Set up a game with and customize various game settings.
 - **Analyze Your Latest Matches:** Gain valuable insights into your performance and track your progress.
 - **Multi-Language Support:** DartsMate supports multiple languages, allowing users to enjoy the app in their preferred language.
 
-## :robot: Scripts
+## Scripts
 
-| Script                | Description                                                                         |
-| --------------------- | ----------------------------------------------------------------------------------- |
-| `npm run dev`         | Starts a local development server                                                   |
-| `npm run build`       |                                                                                     |
-| `npm run build:all`   | Build a production-ready version for all platforms                                  |
-| `npm run build:win32` | Build a Windows-32 bit executable                                                   |
-| `npm run build:win64` | Build a Windows-64 bit executable                                                   |
-| `npm run build:mac`   | :warning: To successfully build for macOS, the host computer must be running macOS! |
-| `npm run build:linux` | Build a Linux executable                                                            |
-| `npm run postinstall` |                                                                                     |
-| `npm run lint`        | Check the project for potential errors or issues                                    |
-| `npm run lint:fix`    | Check the project for errors or issues and attempt to automatically fix them        |
-| `npm run format`      | Format the project code                                                             |
-| `npm run test`        |                                                                                     |
+| Script                  | Description                                                                                  |
+| ----------------------- | -------------------------------------------------------------------------------------------- |
+| `npm run dev`           | Starts the Nextron development environment with hot reloading                                |
+| `npm run build`         | Builds a production-ready app for the current platform                                       |
+| `npm run build:all`     | Builds production-ready versions for **all** supported platforms (Windows, macOS, and Linux) |
+| `npm run build:win32`   | Builds a **Windows 32-bit** executable                                                       |
+| `npm run build:win64`   | Builds a **Windows 64-bit** executable                                                       |
+| `npm run build:mac`     | Builds a **macOS** application<br>⚠️ Requires building on a macOS machine                    |
+| `npm run build:linux`   | Builds a **Linux** executable                                                                |
+| `npm run postinstall`   | Installs required native dependencies via electron-builder                                   |
+| `npm run lint`          | Runs ESLint on both the main and renderer processes to check for code issues                 |
+| `npm run lint:main`     | Lints only the **main process** code                                                         |
+| `npm run lint:renderer` | Lints only the **renderer process** code                                                     |
+| `npm run lint:fix`      | Runs ESLint on both processes and automatically fixes simple issues                          |
+| `npm run format`        | Formats all source files using Prettier                                                      |
+| `npm run format:check`  | Checks code formatting without applying fixes                                                |
+| `npm run release`       | Builds and publishes a new release using electron-builder                                    |
+| `npm run test`          | Runs tests using Vitest                                                                      |
 
 ## Contributors
 
