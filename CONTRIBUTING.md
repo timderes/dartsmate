@@ -1,6 +1,6 @@
 # Contributing
 
-**First off all, thank you for considering contributing to DartsMate! We welcome contributions from everyone. Whether it's a bug fix, a new feature, or improving documentation, your help is greatly appreciated!**
+**First of all, thank you for considering contributing to DartsMate! We welcome contributions from everyone. Whether it's a bug fix, a new feature, or improving documentation, your help is greatly appreciated!**
 
 ## Where to Start
 
