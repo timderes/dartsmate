@@ -23,7 +23,7 @@ export const findWindow = (
   return undefined;
 };
 
-export const listWindows = (): Array<{ name: string; win: BrowserWindow }> => {
+export const listWindows = (): { name: string; win: BrowserWindow }[] => {
   return Array.from(registry.entries()).map(([name, win]) => ({ name, win }));
 };
 
