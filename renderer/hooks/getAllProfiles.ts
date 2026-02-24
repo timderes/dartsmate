@@ -15,9 +15,7 @@ const useGetAllProfiles = (): Profile[] | undefined => {
         console.error("Error loading profiles:", err);
       }
     };
-    loadProfiles().catch((err) => {
-      console.error(err);
-    });
+    void loadProfiles();
   }, []);
   return profiles;
 };
