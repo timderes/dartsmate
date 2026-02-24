@@ -1,5 +1,6 @@
 {
   "playerWon": "{{PLAYER_NAME}} hat das Spiel gewonnen!",
+  "startingPlayer": "Startspieler",
   "multipliers": {
     "double": "Double",
     "triple": "Triple"

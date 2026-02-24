@@ -125,10 +125,7 @@ describe("player.updatePlayerStatistics", () => {
         },
       ];
 
-      const player = createMockPlayer(
-        { thrownOneHundredAndEighty: 0 },
-        rounds,
-      );
+      const player = createMockPlayer({ thrownOneHundredAndEighty: 0 }, rounds);
       const updatedStats = updatePlayerStatistics(player);
 
       expect(updatedStats.thrownOneHundredAndEighty).toBe(1);
@@ -160,10 +157,7 @@ describe("player.updatePlayerStatistics", () => {
         },
       ];
 
-      const player = createMockPlayer(
-        { thrownOneHundredAndEighty: 3 },
-        rounds,
-      );
+      const player = createMockPlayer({ thrownOneHundredAndEighty: 3 }, rounds);
       const updatedStats = updatePlayerStatistics(player);
 
       expect(updatedStats.thrownOneHundredAndEighty).toBe(5); // 3 + 2
@@ -184,10 +178,7 @@ describe("player.updatePlayerStatistics", () => {
         },
       ];
 
-      const player = createMockPlayer(
-        { thrownOneHundredAndEighty: 2 },
-        rounds,
-      );
+      const player = createMockPlayer({ thrownOneHundredAndEighty: 2 }, rounds);
       const updatedStats = updatePlayerStatistics(player);
 
       expect(updatedStats.thrownOneHundredAndEighty).toBe(2);
@@ -208,10 +199,7 @@ describe("player.updatePlayerStatistics", () => {
         },
       ];
 
-      const player = createMockPlayer(
-        { thrownOneHundredAndEighty: 0 },
-        rounds,
-      );
+      const player = createMockPlayer({ thrownOneHundredAndEighty: 0 }, rounds);
       const updatedStats = updatePlayerStatistics(player);
 
       expect(updatedStats.thrownOneHundredAndEighty).toBe(1);
@@ -234,10 +222,7 @@ describe("player.updatePlayerStatistics", () => {
         },
       ];
 
-      const player = createMockPlayer(
-        { average: 0, playedMatches: 0 },
-        rounds,
-      );
+      const player = createMockPlayer({ average: 0, playedMatches: 0 }, rounds);
       const updatedStats = updatePlayerStatistics(player);
 
       expect(updatedStats.average).toBe(60);
@@ -258,10 +243,7 @@ describe("player.updatePlayerStatistics", () => {
         },
       ];
 
-      const player = createMockPlayer(
-        { average: 0, playedMatches: 5 },
-        rounds,
-      );
+      const player = createMockPlayer({ average: 0, playedMatches: 5 }, rounds);
       const updatedStats = updatePlayerStatistics(player);
 
       expect(updatedStats.average).toBe(80);
@@ -371,7 +353,10 @@ describe("player.updatePlayerStatistics", () => {
         },
       ];
 
-      const player = createMockPlayer({ average: 30, playedMatches: 1 }, rounds);
+      const player = createMockPlayer(
+        { average: 30, playedMatches: 1 },
+        rounds,
+      );
       const updatedStats = updatePlayerStatistics(player);
 
       // (30 * 1 + 100) / (1 + 1) = 130 / 2 = 65
@@ -393,7 +378,10 @@ describe("player.updatePlayerStatistics", () => {
         },
       ];
 
-      const player = createMockPlayer({ average: 80, playedMatches: 1 }, rounds);
+      const player = createMockPlayer(
+        { average: 80, playedMatches: 1 },
+        rounds,
+      );
       const updatedStats = updatePlayerStatistics(player);
 
       // (80 * 1 + 30) / (1 + 1) = 110 / 2 = 55
@@ -464,10 +452,7 @@ describe("player.updatePlayerStatistics", () => {
         },
       ];
 
-      const player = createMockPlayer(
-        { playedTrainings: 10 },
-        rounds,
-      );
+      const player = createMockPlayer({ playedTrainings: 10 }, rounds);
       const updatedStats = updatePlayerStatistics(player);
 
       expect(updatedStats.playedTrainings).toBe(10);
