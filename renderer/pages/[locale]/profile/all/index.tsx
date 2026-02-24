@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import useGetAllProfiles from "@/hooks/getAllProfiles";
 
-import DefaultLayout, { headerHeight } from "@components/layouts/Default";
+import DefaultLayout from "@components/layouts/Default";
 import {
   Card,
   Divider,
@@ -22,7 +22,7 @@ import { useEffect, useState } from "react";
 import type { Profile } from "@/types/profile";
 import getFormattedName from "@/utils/misc/getFormattedName";
 import Stat from "@/components/content/Stat";
-import { APP_NAME, DATE_OPTIONS } from "@/utils/constants";
+import { APP_NAME, APP_SHELL, DATE_OPTIONS } from "@/utils/constants";
 import ProfileSettingsMenu from "@/components/content/profile/ProfileSettingsMenu";
 import { IconSearch, IconX } from "@tabler/icons-react";
 import { useDebouncedCallback } from "@mantine/hooks";
@@ -74,8 +74,8 @@ const ProfileAllPage = () => {
       <Grid gutter={0}>
         <Grid.Col span={3}>
           <ScrollArea.Autosize
-            mih={`calc(100dvh - ${headerHeight}px)`}
-            mah={`calc(100dvh - ${headerHeight}px)`}
+            mih={`calc(100dvh - ${APP_SHELL.HEADER_HEIGHT}px)`}
+            mah={`calc(100dvh - ${APP_SHELL.HEADER_HEIGHT}px)`}
           >
             <NavLink
               autoContrast
@@ -107,7 +107,9 @@ const ProfileAllPage = () => {
           </ScrollArea.Autosize>
         </Grid.Col>
         <Grid.Col span={9}>
-          <ScrollArea.Autosize mah={`calc(100dvh - ${headerHeight}px)`}>
+          <ScrollArea.Autosize
+            mah={`calc(100dvh - ${APP_SHELL.HEADER_HEIGHT}px)`}
+          >
             {filteredProfiles && activeProfile ? (
               <>
                 <Card component={Stack} radius={0}>
