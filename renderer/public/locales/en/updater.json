@@ -9,5 +9,6 @@
     "idle": "Looking for updates..."
   },
   "downloadUpdate": "Download Update",
-  "installUpdate": "Install Update"
+  "installUpdate": "Install Update",
+  "closeUpdaterWithSeconds": "Close ({{SECONDS}})"
 }
