@@ -4,6 +4,9 @@
     "description": "Geben Sie Ihre persönlichen Angaben ein, um Ihr Profil zu erstellen."
   },
   "editProfile": "Profil bearbeiten",
+  "deleteProfile": "Profil löschen",
+  "resetProfileStatistics": "Statistiken zurücksetzen",
+  "setAsDefaultProfile": "Als Standardprofil festlegen",
   "formLabels": {
     "bio": {
       "label": "Biografie",
@@ -57,6 +60,7 @@
   "removePhotoUpload": "Bild entfernen",
   "exportProfile": "Profil exportieren",
   "emptyBioPlaceholder": "{{FIRST_NAME}} hat noch keine Beschreibung hinzugefügt.",
+  "playingWithAppSince": "Spielt mit {{APP_NAME}} seit dem {{DATE}}.",
   "notifications": {
     "updateProfileSuccess": {
       "title": "Profil erfolgreich aktualisiert!",
@@ -77,5 +81,14 @@
   },
   "formError": {
     "toShort": "{{FIELD_NAME}} ist zu kurz. Es werden mindestens {{CHARS}} Buchstaben benötigt."
+  },
+  "resetProfileStatisticsConfirmModal": {
+    "title": "Statistiken von {{FIRST_NAME}} zurücksetzen?",
+    "text_one": "Dieser Vorgang kann nicht rückgängig gemacht werden und entfernt alle Statistiken von einem Spiel.",
+    "text_other": "Dieser Vorgang kann nicht rückgängig gemacht werden und entfernt alle Statistiken von {{NUMBER_OF_MATCHES}} Spielen."
+  },
+  "deleteProfileConfirmModal": {
+    "title": "Profil von {{FIRST_NAME}} löschen?",
+    "text": "Dieser Vorgang kann nicht rückgängig gemacht werden. Alle mit diesem Profil verbundenen Daten werden dauerhaft gelöscht."
   }
 }
