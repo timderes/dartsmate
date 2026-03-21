@@ -1,5 +1,9 @@
 name: Run all Tests
 
+# Remove the write permissions, see CodeQL `actions/missing-workflow-permissions`
+permissions:
+  contents: read
+
 on:
   push:
     branches: [main]
