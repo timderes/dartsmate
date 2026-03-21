@@ -57,8 +57,17 @@ const ProfileAllPage = () => {
       setFilteredProfiles(allProfiles);
       return;
     }
-    const filtered = allProfiles?.filter((profile) =>
-      profile.username.toLowerCase().includes(query.toLowerCase()),
+
+    // Get profiles that match first name, last name or username match the query
+    const filtered = allProfiles?.filter(
+      (profile) =>
+        profile.username.toLowerCase().includes(query.toLowerCase()) ||
+        profile.name.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        profile.name.lastName.toLowerCase().includes(query.toLowerCase()) ||
+        // Combined first and last name (e.g. "John Doe" should match "John" and "Doe")
+        `${profile.name.firstName} ${profile.name.lastName}`
+          .toLowerCase()
+          .includes(query.toLowerCase()),
     );
     setFilteredProfiles(filtered);
   }, 500);
