@@ -90,5 +90,6 @@
   "deleteProfileConfirmModal": {
     "title": "Profil von {{FIRST_NAME}} löschen?",
     "text": "Dieser Vorgang kann nicht rückgängig gemacht werden. Alle mit diesem Profil verbundenen Daten werden dauerhaft gelöscht."
-  }
+  },
+  "createProfileText": "Möchten Sie ein Profil erstellen?"
 }

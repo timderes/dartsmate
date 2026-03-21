@@ -1,8 +1,6 @@
 import { useTranslation } from "next-i18next";
-
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import useGetAllProfiles from "@/hooks/getAllProfiles";
-
 import DefaultLayout from "@components/layouts/Default";
 import {
   Card,
@@ -24,16 +22,20 @@ import getFormattedName from "@/utils/misc/getFormattedName";
 import Stat from "@/components/content/Stat";
 import { APP_NAME, APP_SHELL, DATE_OPTIONS } from "@/utils/constants";
 import ProfileSettingsMenu from "@/components/content/profile/ProfileSettingsMenu";
-import { IconSearch, IconX } from "@tabler/icons-react";
+import { IconSearch, IconUserPlus, IconX } from "@tabler/icons-react";
 import { useDebouncedCallback } from "@mantine/hooks";
 import useDefaultProfile from "@/hooks/getDefaultProfile";
 import { useField } from "@mantine/form";
+import { modals } from "@mantine/modals";
+import SharedConfirmModalProps from "@/utils/modals/sharedConfirmModalProps";
+import { useRouter } from "next/router";
 
 const ProfileAllPage = () => {
   const {
     t,
     i18n: { language: locale },
   } = useTranslation();
+  const router = useRouter();
   const allProfiles = useGetAllProfiles();
   const [filteredProfiles, setFilteredProfiles] = useState<
     Profile[] | undefined
@@ -78,6 +80,25 @@ const ProfileAllPage = () => {
     setFilteredProfiles(allProfiles);
     search.setValue("");
   };
+
+  const handleCreateProfile = () => {
+    modals.openConfirmModal({
+      title: t("profile:buttons.createProfile"),
+      children: <Text>{t("profile:createProfileText")}</Text>,
+      labels: {
+        confirm: t("profile:buttons.createProfile"),
+        cancel: t("cancel"),
+      },
+      onConfirm: () => {
+        void router.push({
+          pathname: `/${locale}/profile/create`,
+          query: { isGuest: true },
+        });
+      },
+      ...SharedConfirmModalProps,
+    });
+  };
+
   return (
     <DefaultLayout withNavbarOpen>
       <Grid gutter={0}>
@@ -101,6 +122,12 @@ const ProfileAllPage = () => {
                   {...search.getInputProps()}
                 />
               }
+            />
+            <NavLink
+              autoContrast
+              leftSection={<IconUserPlus />}
+              label={t("profile:buttons.createProfile")}
+              onClick={() => handleCreateProfile()}
             />
             {filteredProfiles?.map((profile) => (
               <NavLink
