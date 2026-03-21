@@ -2,6 +2,7 @@ name: Run all Tests
 
 # Remove the write permissions, see CodeQL `actions/missing-workflow-permissions`
 permissions:
+  actions: write # Needed for caching npm dependencies
   contents: read
 
 on:
