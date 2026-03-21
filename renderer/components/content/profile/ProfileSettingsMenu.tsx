@@ -118,14 +118,13 @@ const ProfileSettingsMenu = ({
       window.ipc.setDefaultProfileUUID(profile.uuid);
 
       Logger.info(
-        "Profile with UUID `",
+        "The user updated the default profile to the profile with UUID %s.",
         profile.uuid,
-        "` set as default profile.",
       );
+
+      void router.reload();
     } catch (error) {
       Logger.error("Failed to set a new default profile. Error:", error);
-    } finally {
-      void router.reload();
     }
   };
 
