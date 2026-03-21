@@ -68,15 +68,17 @@ const UpdaterActionButtons = () => {
   }
 
   // If the app is up to date, show a button to close the updater window with a countdown
-  return (
-    <Button
-      onClick={() => {
-        window.ipc.destroyUpdaterWindow();
-      }}
-    >
-      {t("updater:closeUpdaterWithSeconds", { SECONDS: autoCloseSeconds })}
-    </Button>
-  );
+  if (status === "appIsUpToDate") {
+    return (
+      <Button
+        onClick={() => {
+          window.ipc.destroyUpdaterWindow();
+        }}
+      >
+        {t("updater:closeUpdaterWithSeconds", { SECONDS: autoCloseSeconds })}
+      </Button>
+    );
+  }
 };
 
 export default UpdaterActionButtons;
