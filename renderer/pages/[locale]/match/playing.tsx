@@ -45,6 +45,8 @@ import { DARTBOARD_ZONES, THROWS_PER_ROUND } from "@utils/constants";
 import getFormattedName from "@utils/misc/getFormattedName";
 import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
 
+import { useProfile } from "@/contexts/ProfileContext";
+
 // Statistics utilities
 import getFirstNineAverage from "@lib/playing/stats/getFirstNineAverage";
 import getHighestScore from "@/lib/playing/stats/getHighestScore";
@@ -60,6 +62,7 @@ const PlayingPage: NextPage = () => {
     i18n: { language: locale },
   } = useTranslation();
   const router = useRouter();
+  const { refreshProfile, profile: defaultProfile } = useProfile();
 
   const { state, actions } = useDartGame();
   const {
@@ -168,7 +171,11 @@ const PlayingPage: NextPage = () => {
         },
       },
       player.uuid,
-    ).catch((err) => {
+    ).then(() => {
+      if (player.uuid === defaultProfile?.uuid) {
+        void refreshProfile();
+      }
+    }).catch((err) => {
       log.error("Failed to update player statistics. Error:", err);
     });
   };

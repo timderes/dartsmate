@@ -12,6 +12,7 @@ import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
 import OnlyControlsLayout from "@components/layouts/OnlyControlsLayout";
 import useProfileForm from "@hooks/useProfileForm";
 import StepOne from "@components/content/profileCreation/StepOne";
+import { useProfile } from "@/contexts/ProfileContext";
 
 import { modals } from "@mantine/modals";
 import StepTwo from "@components/content/profileCreation/StepTwo";
@@ -32,6 +33,7 @@ const CreateProfilePage: NextPage = () => {
   const router = useRouter();
   const isGuestProfile = params.get("isGuest") ? true : false;
   const { form } = useProfileForm(isGuestProfile);
+  const { refreshProfile } = useProfile();
 
   const pageHeight = `calc(100vh - ${APP_SHELL.HEADER_HEIGHT}px)`;
 
@@ -40,8 +42,6 @@ const CreateProfilePage: NextPage = () => {
     { label: t("profile:step.label.misc"), step: StepTwo },
     { label: t("profile:step.label.avatar"), step: StepThree },
   ];
-
-  const isFormValid = form.isValid();
 
   const [active, setActive] = useState(0);
   const isFirstPage = active === 0;
@@ -63,8 +63,9 @@ const CreateProfilePage: NextPage = () => {
     }
 
     addProfileToDatabase(form.values)
-      .then(() => {
+      .then(async () => {
         log.info("Successfully added a new profile to the database.");
+        await refreshProfile();
         void router.push(formatLocalizedRoute({ locale, route: "/" }));
       })
       .catch((err) => {

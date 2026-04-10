@@ -25,6 +25,8 @@ const appTheme = createTheme({
   primaryColor: "red",
 });
 
+import { ProfileProvider } from "@/contexts/ProfileContext";
+
 const App = ({ Component, pageProps }: AppProps) => {
   /**
    * Hotkeys that can be used throughout the app.
@@ -37,7 +39,9 @@ const App = ({ Component, pageProps }: AppProps) => {
     <MantineProvider defaultColorScheme="auto" theme={appTheme}>
       <Notifications position="top-right" limit={NOTIFICATION_LIMIT} />
       <ModalsProvider>
-        <Component {...pageProps} />
+        <ProfileProvider>
+          <Component {...pageProps} />
+        </ProfileProvider>
       </ModalsProvider>
     </MantineProvider>
   );
