@@ -1,4 +1,10 @@
-import { createContext, type PropsWithChildren, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  type PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import getProfileFromDatabase from "@/lib/db/profiles/getProfile";
 import type { Profile } from "types/profile";
 
@@ -37,7 +43,9 @@ export const ProfileProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   return (
-    <ProfileContext.Provider value={{ profile, isLoading, refreshProfile: loadProfile }}>
+    <ProfileContext.Provider
+      value={{ profile, isLoading, refreshProfile: loadProfile }}
+    >
       {children}
     </ProfileContext.Provider>
   );

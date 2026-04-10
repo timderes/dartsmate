@@ -171,13 +171,15 @@ const PlayingPage: NextPage = () => {
         },
       },
       player.uuid,
-    ).then(() => {
-      if (player.uuid === defaultProfile?.uuid) {
-        void refreshProfile();
-      }
-    }).catch((err) => {
-      log.error("Failed to update player statistics. Error:", err);
-    });
+    )
+      .then(() => {
+        if (player.uuid === defaultProfile?.uuid) {
+          void refreshProfile();
+        }
+      })
+      .catch((err) => {
+        log.error("Failed to update player statistics. Error:", err);
+      });
   };
 
   return (

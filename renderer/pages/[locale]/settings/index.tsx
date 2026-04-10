@@ -38,13 +38,15 @@ const SettingsPage = () => {
       onConfirm: () => {
         if (!defaultProfile) throw new Error("Unable to delete the profile!");
 
-        deleteProfileFromDatabase(defaultProfile.uuid).then(async () => {
-          window.ipc.removeDefaultProfileUUID();
-          await refreshProfile();
-          void router.push(`/${locale}/profileSetupIntro`);
-        }).catch((e) => {
-          console.error(e);
-        });
+        deleteProfileFromDatabase(defaultProfile.uuid)
+          .then(async () => {
+            window.ipc.removeDefaultProfileUUID();
+            await refreshProfile();
+            void router.push(`/${locale}/profileSetupIntro`);
+          })
+          .catch((e) => {
+            console.error(e);
+          });
       },
       ...SharedConfirmModalProps,
     });
