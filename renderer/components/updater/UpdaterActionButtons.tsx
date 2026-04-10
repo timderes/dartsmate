@@ -1,0 +1,84 @@
+import { useUpdater } from "@/contexts/UpdaterContext";
+import { Button } from "@mantine/core";
+import log from "electron-log/renderer";
+import { useTranslation } from "next-i18next";
+import { useEffect, useState } from "react";
+
+/**
+ * Seconds to wait before automatically closing the updater
+ * window when the app is up to date.
+ */
+const AUTO_CLOSE_COUNTDOWN_SECONDS = 10;
+
+const UpdaterActionButtons = () => {
+  const { status, downloaded } = useUpdater();
+  const [autoCloseSeconds, setAutoCloseSeconds] = useState(
+    AUTO_CLOSE_COUNTDOWN_SECONDS,
+  );
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    let interval = null;
+
+    // If the app is up to date, start a countdown to auto-close the updater window
+    if (status === "appIsUpToDate") {
+      interval = setInterval(() => {
+        setAutoCloseSeconds((prev) => prev - 1);
+      }, 1000);
+    } else {
+      setAutoCloseSeconds(AUTO_CLOSE_COUNTDOWN_SECONDS);
+    }
+
+    // When the countdown reaches 0, close the updater window
+    if (autoCloseSeconds === 0) {
+      window.ipc.destroyUpdaterWindow();
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [autoCloseSeconds, status]);
+
+  // If an update is available, show a button to start downloading the update
+  if (status === "available") {
+    return (
+      <Button
+        onClick={() => {
+          window.ipc.startDownload().catch((err) => {
+            log.error("Failed to start update download:", err);
+          });
+        }}
+      >
+        {t("updater:downloadUpdate")}
+      </Button>
+    );
+  }
+
+  // If the update has been downloaded, show a button to install the update
+  if (downloaded) {
+    return (
+      <Button
+        onClick={() => {
+          window.ipc.quitAndInstall();
+        }}
+      >
+        {t("updater:installUpdate")}
+      </Button>
+    );
+  }
+
+  // If the app is up to date, show a button to close the updater window with a countdown
+  if (status === "appIsUpToDate") {
+    return (
+      <Button
+        onClick={() => {
+          window.ipc.destroyUpdaterWindow();
+        }}
+      >
+        {t("updater:closeUpdaterWithSeconds", { SECONDS: autoCloseSeconds })}
+      </Button>
+    );
+  }
+};
+
+export default UpdaterActionButtons;

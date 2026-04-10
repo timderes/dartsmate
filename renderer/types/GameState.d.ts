@@ -5,6 +5,7 @@ export type GameState = {
   currentPlayerIndex: number;
   currentLegIndex: number;
   currentSetIndex: number;
+  currentLegStartingPlayerIndex: number;
   matchRound: DartThrow[];
   multiplier: {
     double: boolean;

@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
-import DefaultLayout, { headerHeight } from "@components/layouts/Default";
+import DefaultLayout from "@components/layouts/Default";
 import getAllMatchesFromDatabase from "@lib/db/matches/getAllMatches";
 import { useEffect, useState } from "react";
 import type { Match } from "types/match";
@@ -25,6 +25,7 @@ import { useRouter } from "next/router";
 import EmptyState from "@components/content/EmptyState";
 import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
 import getMatchWinner from "@lib/playing/getMatchWinner";
+import { APP_SHELL } from "@/utils/constants";
 
 const HistoryPage = () => {
   const {
@@ -121,7 +122,7 @@ const HistoryPage = () => {
             horizontalSpacing="sm"
             highlightOnHover
             stickyHeader
-            stickyHeaderOffset={headerHeight}
+            stickyHeaderOffset={APP_SHELL.HEADER_HEIGHT}
             withTableBorder
           >
             <Table.Thead>

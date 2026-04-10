@@ -16,6 +16,7 @@ import "@mantine/charts/styles.css";
 // Put overrides with custom stylesheets here
 import "../styles/globals.css";
 import "../styles/scrollbar.css";
+import "../styles/animatedIcon.css";
 
 /*
  * @see https://mantine.dev/theming/mantine-provider/#theme

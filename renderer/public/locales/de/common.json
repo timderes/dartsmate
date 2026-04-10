@@ -9,6 +9,7 @@
   "minimizeApp": "Minimieren",
   "fullscreenMode": "Vollbild",
   "windowedMode": "Fenstermodus",
+  "skip": "Überspringen",
   "player": "Spieler",
   "player_plural": "Spieler",
   "date": "Datum",
@@ -46,6 +47,12 @@
     "triples": "Triples",
     "missed": "Nicht getroffen",
     "rounds": "Runden"
+  },
+  "checkouts": {
+    "any": "Beliebig",
+    "single": "Single-Out",
+    "double": "Double-Out",
+    "triple": "Master-Out"
   },
   "color": {
     "blue": "Blau",

@@ -75,6 +75,7 @@ export const gameReducer = (
         currentPlayerIndex: 0,
         currentLegIndex: 0,
         currentSetIndex: 0,
+        currentLegStartingPlayerIndex: 0,
         isHydrated: true,
         matchRound: [],
         multiplier: { double: false, triple: false },
@@ -266,6 +267,9 @@ export const gameReducer = (
 
       const nextPlayerIndex =
         (state.currentPlayerIndex + 1) % state.players.length;
+      const nextLegStarterIndex = shouldResetScores
+        ? nextPlayerIndex
+        : state.currentLegStartingPlayerIndex;
 
       const newState: GameState = {
         ...state,
@@ -274,6 +278,7 @@ export const gameReducer = (
         currentLegIndex: newCurrentLegIndex,
         currentSetIndex: newCurrentSetIndex,
         currentPlayerIndex: nextPlayerIndex,
+        currentLegStartingPlayerIndex: nextLegStarterIndex,
         matchRound: [],
         multiplier: { double: false, triple: false },
       } as GameState;
@@ -308,6 +313,7 @@ export const useDartGame = () => {
     currentPlayerIndex: 0,
     currentLegIndex: 0,
     currentSetIndex: 0,
+    currentLegStartingPlayerIndex: 0,
     matchRound: [],
     multiplier: { double: false, triple: false },
     matchStatus: "undefined",
