@@ -48,6 +48,12 @@
     "missed": "Missed",
     "rounds": "Rounds"
   },
+  "checkouts": {
+    "any": "Any",
+    "single": "Single-Out",
+    "double": "Double-Out",
+    "triple": "Master-Out"
+  },
   "color": {
     "blue": "Blue",
     "cyan": "Cyan",

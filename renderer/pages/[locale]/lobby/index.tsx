@@ -302,7 +302,24 @@ const NewGamePage = () => {
               label={t("lobby:checkout")}
               {...matchSettings.getInputProps("matchCheckout")}
               defaultValue={matchSettings.values.matchCheckout}
-              data={["Any", "Single", "Double", "Triple"]}
+              data={[
+                {
+                  label: t("checkouts.any"),
+                  value: "Any",
+                },
+                {
+                  label: t("checkouts.single"),
+                  value: "Single",
+                },
+                {
+                  label: t("checkouts.double"),
+                  value: "Double",
+                },
+                {
+                  label: t("checkouts.triple"),
+                  value: "Triple",
+                },
+              ]}
             />
             <Divider />
             <Button

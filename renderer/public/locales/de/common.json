@@ -48,6 +48,12 @@
     "missed": "Nicht getroffen",
     "rounds": "Runden"
   },
+  "checkouts": {
+    "any": "Beliebig",
+    "single": "Single-Out",
+    "double": "Double-Out",
+    "triple": "Master-Out"
+  },
   "color": {
     "blue": "Blau",
     "cyan": "Türkis",
