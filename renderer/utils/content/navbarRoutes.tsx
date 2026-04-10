@@ -1,4 +1,5 @@
 import {
+  IconDeviceGamepad2,
   // IconBarbell,
   // IconChartBar,
   IconHistory,
@@ -25,6 +26,13 @@ const navbarRoutes = [
     icon: <IconTarget />,
     label: "routes.newMatch",
     route: "/lobby",
+  },
+  {
+    // Not really an ideal icon but couldn't find a better one in the Tabler Icons library...
+    // If someone has a better suggestion, please change this icon :)
+    icon: <IconDeviceGamepad2 />,
+    label: "routes.partyGames",
+    route: "/partyGame",
   },
   /*
   {
