@@ -12,7 +12,6 @@ import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
 import OnlyControlsLayout from "@components/layouts/OnlyControlsLayout";
 import useProfileForm from "@hooks/useProfileForm";
 import StepOne from "@components/content/profileCreation/StepOne";
-
 import { modals } from "@mantine/modals";
 import StepTwo from "@components/content/profileCreation/StepTwo";
 import StepThree from "@components/content/profileCreation/StepThree";
@@ -20,8 +19,8 @@ import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
 import { APP_SHELL } from "@/utils/constants";
 
 /**
- *
- *
+ * The profile creation page, which is a multi-step form that allows users to create a new profile.
+ * Can be used to create a guest profile, when `isGuest` is passed as a query parameter.
  */
 const CreateProfilePage: NextPage = () => {
   const params = useSearchParams();
