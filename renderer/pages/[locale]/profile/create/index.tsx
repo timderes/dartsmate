@@ -12,7 +12,6 @@ import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
 import OnlyControlsLayout from "@components/layouts/OnlyControlsLayout";
 import useProfileForm from "@hooks/useProfileForm";
 import StepOne from "@components/content/profileCreation/StepOne";
-
 import { modals } from "@mantine/modals";
 import StepTwo from "@components/content/profileCreation/StepTwo";
 import StepThree from "@components/content/profileCreation/StepThree";
@@ -20,8 +19,8 @@ import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
 import { APP_SHELL } from "@/utils/constants";
 
 /**
- *
- *
+ * The profile creation page, which is a multi-step form that allows users to create a new profile.
+ * Can be used to create a guest profile, when `isGuest` is passed as a query parameter.
  */
 const CreateProfilePage: NextPage = () => {
   const params = useSearchParams();
@@ -41,8 +40,6 @@ const CreateProfilePage: NextPage = () => {
     { label: t("profile:step.label.avatar"), step: StepThree },
   ];
 
-  const isFormValid = form.isValid();
-
   const [active, setActive] = useState(0);
   const isFirstPage = active === 0;
   const isLastPage = active === steps.length;
@@ -54,6 +51,9 @@ const CreateProfilePage: NextPage = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const { hasErrors } = form.validate();
+    if (hasErrors) return;
 
     if (!isGuestProfile) {
       window.ipc.setDefaultProfileUUID(form.values.uuid);
@@ -90,9 +90,9 @@ const CreateProfilePage: NextPage = () => {
   };
 
   const validateAndGoToNextPage = () => {
-    form.validate();
+    const { hasErrors } = form.validate();
 
-    if (isFormValid) {
+    if (!hasErrors) {
       nextStep();
     }
   };
@@ -113,7 +113,7 @@ const CreateProfilePage: NextPage = () => {
             ))}
             <Stepper.Completed>
               <Group grow>
-                <Button type="submit" disabled={!isFormValid}>
+                <Button type="submit">
                   {t("profile:buttons.createProfile")}
                 </Button>
                 <Button
