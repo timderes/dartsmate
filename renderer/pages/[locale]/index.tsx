@@ -1,12 +1,6 @@
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import DefaultLayout from "@components/layouts/Default";
-import {
-  Accordion,
-  Container,
-  SimpleGrid,
-  Stack,
-  Text,
-} from "@mantine/core";
+import { Accordion, Container, SimpleGrid, Stack, Text } from "@mantine/core";
 import HeaderGreeting from "@components/HeaderGreeting";
 import useDefaultProfile from "@hooks/getDefaultProfile";
 import { useTranslation } from "next-i18next";
@@ -92,6 +86,10 @@ const IndexPage = () => {
 
 export default IndexPage;
 
-export const getStaticProps = makeStaticProperties(["common", "gameModes", "changelog"]);
+export const getStaticProps = makeStaticProperties([
+  "common",
+  "gameModes",
+  "changelog",
+]);
 
 export { getStaticPaths };
