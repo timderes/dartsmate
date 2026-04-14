@@ -9,7 +9,6 @@ import {
   ScrollAreaAutosize,
   Stack,
   Text,
-  Tooltip,
 } from "@mantine/core";
 import { upperFirst, useNetwork, useOs } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
@@ -95,17 +94,15 @@ const AppNavbar = ({ ...props }: AppShellNavbarProps) => {
             {networkStatus.online ? t("online") : t("offline")}
           </Text>
           {isIndexRoute && (
-            <Tooltip label={t("openChangelog")} withArrow>
-              <Text
-                component="span"
-                fz="xs"
-                mt="xs"
-                style={{ cursor: "pointer" }}
-                onClick={openChangelogModal}
-              >
-                {t("openChangelog")}
-              </Text>
-            </Tooltip>
+            <Text
+              component="span"
+              fz="xs"
+              mt="xs"
+              style={{ cursor: "pointer" }}
+              onClick={openChangelogModal}
+            >
+              {t("openChangelog")}
+            </Text>
           )}
         </Stack>
       </AppShell.Section>
