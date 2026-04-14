@@ -12,6 +12,7 @@ import { APP_VERSION } from "@/utils/constants";
 import { modals } from "@mantine/modals";
 import log from "electron-log/renderer";
 import ChangelogModal from "@/components/updater/ChangelogModal";
+import sharedChangelogModalProps from "@/utils/modals/sharedChangelogModalProps";
 
 const IndexPage = () => {
   const defaultProfile = useDefaultProfile();
@@ -26,16 +27,12 @@ const IndexPage = () => {
       .then((latestSeenVersion) => {
         if (latestSeenVersion !== APP_VERSION) {
           modals.open({
-            modalId: "changelog-modal",
-            fullScreen: true,
-            // Only close with next button
-            withCloseButton: false,
-            closeOnEscape: false,
             title: t("changelogTitle", { VERSION: APP_VERSION }),
             children: <ChangelogModal />,
             onClose: () => {
               window.ipc.setLatestSeenChangelogVersion(APP_VERSION);
             },
+            ...sharedChangelogModalProps,
           });
         }
       })

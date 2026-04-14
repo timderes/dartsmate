@@ -18,6 +18,7 @@ import { APP_VERSION } from "@utils/constants";
 
 import navbarRoutes from "@utils/content/navbarRoutes";
 import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
+import sharedChangelogModalProps from "@/utils/modals/sharedChangelogModalProps";
 
 /**
  * The navigation sidebar displaying the app routes.
@@ -50,15 +51,12 @@ const AppNavbar = ({ ...props }: AppShellNavbarProps) => {
 
   const openChangelogModal = () => {
     modals.open({
-      modalId: "changelog-modal",
-      fullScreen: true,
-      withCloseButton: false,
-      closeOnEscape: false,
       title: t("changelogTitle", { VERSION: APP_VERSION }),
       children: <ChangelogModal />,
       onClose: () => {
         window.ipc.setLatestSeenChangelogVersion(APP_VERSION);
       },
+      ...sharedChangelogModalProps,
     });
   };
 
