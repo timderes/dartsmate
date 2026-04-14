@@ -4,6 +4,7 @@ import { useTranslation } from "next-i18next";
 import {
   AppShell,
   type AppShellNavbarProps,
+  Button,
   Divider,
   NavLink,
   ScrollAreaAutosize,
@@ -94,15 +95,9 @@ const AppNavbar = ({ ...props }: AppShellNavbarProps) => {
             {networkStatus.online ? t("online") : t("offline")}
           </Text>
           {isIndexRoute && (
-            <Text
-              component="span"
-              fz="xs"
-              mt="xs"
-              style={{ cursor: "pointer" }}
-              onClick={openChangelogModal}
-            >
+            <Button fz="xs" variant="transparent" onClick={openChangelogModal}>
               {t("openChangelog")}
-            </Text>
+            </Button>
           )}
         </Stack>
       </AppShell.Section>
