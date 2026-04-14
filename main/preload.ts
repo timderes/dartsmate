@@ -22,6 +22,12 @@ const handler = {
   setLocale(locale: string) {
     void ipcRenderer.invoke("setLocale", locale);
   },
+  getLatestSeenChangelogVersion() {
+    return ipcRenderer.invoke("getLatestSeenChangelogVersion");
+  },
+  setLatestSeenChangeLogVersion(version: string) {
+    void ipcRenderer.invoke("setLatestSeenChangelogVersion", version);
+  },
   setDefaultProfileUUID(uuid: string) {
     void ipcRenderer.invoke("setDefaultProfileUUID", uuid);
   },
