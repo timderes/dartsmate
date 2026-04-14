@@ -25,8 +25,8 @@ const ChangelogModal = () => {
                 {t("features")}
               </Title>
               <List>
-                {(features as string[]).map((feature) => (
-                  <List.Item key={feature}>{feature}</List.Item>
+                {(features as string[]).map((feature, index) => (
+                  <List.Item key={index}>{feature}</List.Item>
                 ))}
               </List>
             </div>
@@ -37,8 +37,8 @@ const ChangelogModal = () => {
                 {t("fixes")}
               </Title>
               <List>
-                {(fixes as string[]).map((fix) => (
-                  <List.Item key={fix}>{fix}</List.Item>
+                {(fixes as string[]).map((fix, index) => (
+                  <List.Item key={index}>{fix}</List.Item>
                 ))}
               </List>
             </div>
