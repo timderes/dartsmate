@@ -105,5 +105,5 @@
   "openChangelog": "What's New?",
   "changelogTitle": "New features in version {{VERSION}}",
   "changelogNoInfo": "No update details available...",
-  "versionLabel": "Version {{VERSION}}\n"
+  "versionLabel": "Version {{VERSION}}"
 }
