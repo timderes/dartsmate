@@ -47,7 +47,7 @@ const ChangelogModal = () => {
       ) : (
         <Text fs="italic">{t("noChangelog")}</Text>
       )}
-      <Button onClick={() => modals.close("changelog-modal")}>
+      <Button w="fit-content" onClick={() => modals.close("changelog-modal")}>
         {t("common:next")}
       </Button>
     </Stack>
