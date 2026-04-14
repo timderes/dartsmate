@@ -31,6 +31,9 @@ const handler = {
   setDefaultProfileUUID(uuid: string) {
     void ipcRenderer.invoke("setDefaultProfileUUID", uuid);
   },
+  getUpdateInfo() {
+    return ipcRenderer.invoke("getUpdateInfo");
+  },
   getDefaultProfileUUID() {
     return ipcRenderer.invoke("getDefaultProfileUUID");
   },

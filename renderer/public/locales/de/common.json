@@ -102,5 +102,7 @@
   "country": "Land",
   "confirmCloseAppTitle": "{{APP_NAME}} wirklich beenden?",
   "confirmCloseAppText": "Möchten Sie die Anwendung wirklich schließen? Alle nicht gespeicherten Daten gehen verloren.",
-  "changelogTitle": "Neue Funktionen in Version {{VERSION}}"
+  "changelogTitle": "Neue Funktionen in Version {{VERSION}}",
+  "changelogNoInfo": "Keine Änderungsinformationen verfügbar...",
+  "versionLabel": "Version {{VERSION}}"
 }

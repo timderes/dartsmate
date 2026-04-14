@@ -20,6 +20,11 @@ ipcMain.handle("getDefaultProfileUUID", (): string | undefined => {
   return uuid;
 });
 
+ipcMain.handle("getUpdateInfo", () => {
+  const updateInfo = appSettingsStore.get("updateInfo");
+  return updateInfo;
+});
+
 ipcMain.handle("removeDefaultProfileUUID", () => {
   appSettingsStore.delete("defaultProfileUUID");
 });

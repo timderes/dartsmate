@@ -1,11 +1,13 @@
 import Store from "electron-store";
 import pkg from "../../package.json";
 import { IS_APP_RUNNING_IN_PRODUCTION_MODE } from "../constants/application";
+import type { UpdateInfo } from "electron-updater";
 
 type AppSettingsStoreType = {
   defaultProfileUUID?: string;
   locale?: string;
   latestSeenChangelogVersion?: string;
+  updateInfo: UpdateInfo | null;
 };
 
 const lowerCasedProductName = pkg.productName.toLowerCase();

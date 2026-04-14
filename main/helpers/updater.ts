@@ -7,6 +7,7 @@ import { ipcMain, BrowserWindow } from "electron";
 import log from "electron-log";
 import { getWindow } from "./window-registry";
 import { IS_APP_RUNNING_IN_PRODUCTION_MODE } from "../constants/application";
+import { appSettingsStore } from "./stores";
 
 /**
  * Registers the application updater and sets up IPC handlers for update events.
@@ -18,6 +19,7 @@ let isUpdateInstalling = false;
 const registerUpdater = () => {
   autoUpdater.autoDownload = false;
   autoUpdater.logger = log;
+  autoUpdater.fullChangelog = true;
 
   // Send update status to all available app windows
   const broadcast = (
@@ -31,7 +33,11 @@ const registerUpdater = () => {
 
   // Handle all events and broadcast them to renderer process
   autoUpdater.on("checking-for-update", () => broadcast("checking"));
-  autoUpdater.on("update-available", (info) => broadcast("available", info));
+  autoUpdater.on("update-available", (info) => {
+    // Set update info to the electron store, so the changelog can be shown
+    appSettingsStore.set("updateInfo", info ?? null);
+    broadcast("available", info);
+  });
   autoUpdater.on("update-not-available", () => broadcast("not-available"));
   autoUpdater.on("download-progress", (progress) =>
     broadcast("progress", progress),
