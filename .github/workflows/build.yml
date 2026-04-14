@@ -37,7 +37,7 @@ jobs:
           cache: "npm"
       - name: Cache Electron binaries (Unix)
         if: runner.os != 'Windows'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cache/electron
@@ -49,7 +49,7 @@ jobs:
             ${{ runner.os }}-electron-
       - name: Cache Electron binaries (Windows)
         if: runner.os == 'Windows'
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ${{ env.LOCALAPPDATA }}\electron
@@ -60,7 +60,7 @@ jobs:
       - run: npm ci
       - run: npm run ${{ matrix.build-script }}
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: app-${{ runner.os }}
           path: |
