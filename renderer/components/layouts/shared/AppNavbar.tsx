@@ -53,6 +53,7 @@ const AppNavbar = ({ ...props }: AppShellNavbarProps) => {
       modalId: "changelog-modal",
       fullScreen: true,
       withCloseButton: false,
+      closeOnEscape: false,
       title: t("changelogTitle", { VERSION: APP_VERSION }),
       children: <ChangelogModal />,
       onClose: () => {

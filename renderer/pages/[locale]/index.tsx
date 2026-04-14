@@ -28,7 +28,9 @@ const IndexPage = () => {
           modals.open({
             modalId: "changelog-modal",
             fullScreen: true,
-            withCloseButton: false, // Only close with next button
+            // Only close with next button
+            withCloseButton: false,
+            closeOnEscape: false,
             title: t("changelogTitle", { VERSION: APP_VERSION }),
             children: <ChangelogModal />,
             onClose: () => {
