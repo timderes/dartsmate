@@ -102,6 +102,7 @@
   "country": "Country",
   "confirmCloseAppTitle": "Really quit {{APP_NAME}}?",
   "confirmCloseAppText": "Do you really want to close the application? All unsaved data will be lost.",
+  "openChangelog": "What's New?",
   "changelogTitle": "New features in version {{VERSION}}",
   "changelogNoInfo": "No update details available...",
   "versionLabel": "Version {{VERSION}}\n"

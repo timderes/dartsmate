@@ -11,10 +11,12 @@ import {
   Text,
 } from "@mantine/core";
 import { upperFirst, useNetwork, useOs } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
+import ChangelogModal from "@/components/updater/ChangelogModal";
+import { APP_VERSION } from "@utils/constants";
 
 import navbarRoutes from "@utils/content/navbarRoutes";
 import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
-import { APP_VERSION } from "@utils/constants";
 
 /**
  * The navigation sidebar displaying the app routes.
@@ -41,6 +43,21 @@ const AppNavbar = ({ ...props }: AppShellNavbarProps) => {
       currentRoute === localizedRoute ||
       currentRoute.startsWith(`${localizedRoute}/`)
     );
+  };
+
+  const isIndexRoute = isActiveRoute("/");
+
+  const openChangelogModal = () => {
+    modals.open({
+      modalId: "changelog-modal",
+      fullScreen: true,
+      withCloseButton: false,
+      title: t("changelogTitle", { VERSION: APP_VERSION }),
+      children: <ChangelogModal />,
+      onClose: () => {
+        window.ipc.setLatestSeenChangeLogVersion(APP_VERSION);
+      },
+    });
   };
 
   return (
@@ -76,6 +93,17 @@ const AppNavbar = ({ ...props }: AppShellNavbarProps) => {
           <Text component="span" fz="xs">
             {networkStatus.online ? t("online") : t("offline")}
           </Text>
+          {isIndexRoute && (
+            <Text
+              component="span"
+              fz="xs"
+              mt="xs"
+              style={{ cursor: "pointer" }}
+              onClick={openChangelogModal}
+            >
+              {t("openChangelog")}
+            </Text>
+          )}
         </Stack>
       </AppShell.Section>
     </AppShell.Navbar>
