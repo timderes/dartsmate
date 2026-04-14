@@ -25,7 +25,7 @@ const handler = {
   getLatestSeenChangelogVersion() {
     return ipcRenderer.invoke("getLatestSeenChangelogVersion");
   },
-  setLatestSeenChangeLogVersion(version: string) {
+  setLatestSeenChangelogVersion(version: string) {
     void ipcRenderer.invoke("setLatestSeenChangelogVersion", version);
   },
   setDefaultProfileUUID(uuid: string) {

@@ -55,7 +55,7 @@ const AppNavbar = ({ ...props }: AppShellNavbarProps) => {
       title: t("changelogTitle", { VERSION: APP_VERSION }),
       children: <ChangelogModal />,
       onClose: () => {
-        window.ipc.setLatestSeenChangeLogVersion(APP_VERSION);
+        window.ipc.setLatestSeenChangelogVersion(APP_VERSION);
       },
     });
   };
