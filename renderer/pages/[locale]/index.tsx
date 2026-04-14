@@ -2,7 +2,6 @@ import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import DefaultLayout from "@components/layouts/Default";
 import {
   Accordion,
-  Button,
   Container,
   SimpleGrid,
   Stack,
@@ -18,7 +17,7 @@ import { useEffect } from "react";
 import { APP_VERSION } from "@/utils/constants";
 import { modals } from "@mantine/modals";
 import Logger from "electron-log/renderer";
-import type { UpdateInfo } from "electron-updater";
+import ChangelogModal from "@/components/updater/ChangelogModal";
 
 const IndexPage = () => {
   const defaultProfile = useDefaultProfile();
@@ -32,62 +31,16 @@ const IndexPage = () => {
       .getLatestSeenChangelogVersion()
       .then((latestSeenVersion) => {
         if (latestSeenVersion !== APP_VERSION) {
-          // If the versions are different, it means the user hasn't seen the
-          // changelog for the current version
-          window.ipc
-            .getUpdateInfo()
-            .then((updateInfo: UpdateInfo) => {
-              modals.open({
-                modalId: "changelog-modal",
-                fullScreen: true,
-                withCloseButton: false, // Only close with next button
-                title: t("changelogTitle", {
-                  VERSION: latestSeenVersion ?? APP_VERSION,
-                }),
-
-                children: (
-                  <>
-                    {updateInfo?.releaseNotes &&
-                    Array.isArray(updateInfo.releaseNotes) &&
-                    updateInfo.releaseNotes.length > 0 ? (
-                      updateInfo.releaseNotes.map((noteObj, index) => (
-                        <div key={index} style={{ marginBottom: 24 }}>
-                          <Text fw={700} mb={4}>
-                            {noteObj.version && (
-                              <>
-                                {t("versionLabel", {
-                                  VERSION: noteObj.version,
-                                })}
-                              </>
-                            )}
-                          </Text>
-                          <div
-                            dangerouslySetInnerHTML={{
-                              __html:
-                                typeof noteObj.note === "string"
-                                  ? noteObj.note
-                                  : String(noteObj.note),
-                            }}
-                          />
-                        </div>
-                      ))
-                    ) : (
-                      <Text fs="italic">{t("changelogNoInfo")}</Text>
-                    )}
-                    <Button onClick={() => modals.close("changelog-modal")}>
-                      {t("next")}
-                    </Button>
-                  </>
-                ),
-                onClose: () => {
-                  window.ipc.setLatestSeenChangeLogVersion(APP_VERSION);
-                },
-              });
-            })
-            .catch((error) => {
-              console.error("Error fetching update info:", error);
-              Logger.error("Error fetching update info:", error);
-            });
+          modals.open({
+            modalId: "changelog-modal",
+            fullScreen: true,
+            withCloseButton: false, // Only close with next button
+            title: t("changelogTitle", { VERSION: APP_VERSION }),
+            children: <ChangelogModal />,
+            onClose: () => {
+              window.ipc.setLatestSeenChangeLogVersion(APP_VERSION);
+            },
+          });
         }
       })
       .catch((error) => {
@@ -139,6 +92,6 @@ const IndexPage = () => {
 
 export default IndexPage;
 
-export const getStaticProps = makeStaticProperties(["common", "gameModes"]);
+export const getStaticProps = makeStaticProperties(["common", "gameModes", "changelog"]);
 
 export { getStaticPaths };
