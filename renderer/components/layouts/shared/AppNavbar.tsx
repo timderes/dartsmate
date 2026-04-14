@@ -2,19 +2,25 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
 import {
+  ActionIcon,
   AppShell,
   type AppShellNavbarProps,
   Divider,
+  Flex,
   NavLink,
   ScrollAreaAutosize,
   Stack,
   Text,
+  Tooltip,
 } from "@mantine/core";
 import { upperFirst, useNetwork, useOs } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
+import { IconStar } from "@tabler/icons-react";
+import ChangelogModal from "@/components/updater/ChangelogModal";
+import { APP_SHELL, APP_VERSION } from "@utils/constants";
 
 import navbarRoutes from "@utils/content/navbarRoutes";
 import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
-import { APP_VERSION } from "@utils/constants";
 
 /**
  * The navigation sidebar displaying the app routes.
@@ -43,6 +49,21 @@ const AppNavbar = ({ ...props }: AppShellNavbarProps) => {
     );
   };
 
+  const isIndexRoute = isActiveRoute("/");
+
+  const openChangelogModal = () => {
+    modals.open({
+      modalId: "changelog-modal",
+      fullScreen: true,
+      withCloseButton: false,
+      title: t("changelogTitle", { VERSION: APP_VERSION }),
+      children: <ChangelogModal />,
+      onClose: () => {
+        window.ipc.setLatestSeenChangeLogVersion(APP_VERSION);
+      },
+    });
+  };
+
   return (
     <AppShell.Navbar {...props}>
       <AppShell.Section component={ScrollAreaAutosize} grow>
@@ -66,6 +87,20 @@ const AppNavbar = ({ ...props }: AppShellNavbarProps) => {
       </AppShell.Section>
       <Divider />
       <AppShell.Section p="lg">
+        {isIndexRoute && (
+          <Flex justify="center" mb="xs">
+            <Tooltip label={t("openChangelog")} withArrow>
+              <ActionIcon
+                color="gray"
+                size={APP_SHELL.ICON_SIZE}
+                onClick={openChangelogModal}
+                variant="transparent"
+              >
+                <IconStar />
+              </ActionIcon>
+            </Tooltip>
+          </Flex>
+        )}
         <Stack c="dimmed" gap={0} ta="center">
           <Text component="span" fz="xs">
             {APP_VERSION}
