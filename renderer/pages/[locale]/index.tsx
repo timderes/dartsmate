@@ -10,7 +10,7 @@ import { MATCH_MODES, TRAINING_MODES } from "@utils/content/gameModes";
 import { useEffect } from "react";
 import { APP_VERSION } from "@/utils/constants";
 import { modals } from "@mantine/modals";
-import Logger from "electron-log/renderer";
+import log from "electron-log/renderer";
 import ChangelogModal from "@/components/updater/ChangelogModal";
 
 const IndexPage = () => {
@@ -39,7 +39,7 @@ const IndexPage = () => {
       })
       .catch((error) => {
         console.error("Error fetching latest seen changelog version:", error);
-        Logger.error("Error fetching latest seen changelog version:", error);
+        log.error("Error fetching latest seen changelog version:", error);
       });
   }, [t]);
 
