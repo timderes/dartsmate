@@ -28,7 +28,7 @@
     "newMatch": "New Match",
     "practice": "Practice",
     "history": "Match History",
-    "profile": "Profile",
+    "profiles": "Profiles",
     "statistics": "Statistics",
     "settings": "Settings"
   },
@@ -101,5 +101,6 @@
   "playGameMode": "Start {{GAME_MODE}}...",
   "country": "Country",
   "confirmCloseAppTitle": "Really quit {{APP_NAME}}?",
-  "confirmCloseAppText": "Do you really want to close the application? All unsaved data will be lost."
+  "confirmCloseAppText": "Do you really want to close the application? All unsaved data will be lost.",
+  "searchInputPlaceholder": "Search Player..."
 }

@@ -1,0 +1,204 @@
+import { useTranslation } from "next-i18next";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
+import useGetAllProfiles from "@/hooks/getAllProfiles";
+import DefaultLayout from "@components/layouts/Default";
+import {
+  Card,
+  Divider,
+  Flex,
+  Grid,
+  Group,
+  NavLink,
+  ScrollArea,
+  Stack,
+  Text,
+  TextInput,
+  Title,
+} from "@mantine/core";
+import ProfileAvatar from "@/components/content/ProfileAvatar";
+import { useEffect, useState } from "react";
+import type { Profile } from "@/types/profile";
+import getFormattedName from "@/utils/misc/getFormattedName";
+import Stat from "@/components/content/Stat";
+import { APP_NAME, APP_SHELL, DATE_OPTIONS } from "@/utils/constants";
+import ProfileSettingsMenu from "@/components/content/profile/ProfileSettingsMenu";
+import { IconSearch, IconUserPlus, IconX } from "@tabler/icons-react";
+import { useDebouncedCallback } from "@mantine/hooks";
+import useDefaultProfile from "@/hooks/getDefaultProfile";
+import { useField } from "@mantine/form";
+import { modals } from "@mantine/modals";
+import SharedConfirmModalProps from "@/utils/modals/sharedConfirmModalProps";
+import { useRouter } from "next/router";
+
+const ProfileAllPage = () => {
+  const {
+    t,
+    i18n: { language: locale },
+  } = useTranslation();
+  const router = useRouter();
+  const allProfiles = useGetAllProfiles();
+  const [filteredProfiles, setFilteredProfiles] = useState<
+    Profile[] | undefined
+  >(undefined);
+  const defaultProfile = useDefaultProfile();
+  const [activeProfile, setActiveProfile] = useState<Profile | undefined>(
+    undefined,
+  );
+
+  const search = useField({
+    initialValue: "",
+    onValueChange: (value) => handleSearch(value),
+  });
+  useEffect(() => {
+    setFilteredProfiles(allProfiles);
+    setActiveProfile(defaultProfile ?? undefined);
+  }, [allProfiles, defaultProfile]);
+
+  const handleSearch = useDebouncedCallback((query: string) => {
+    if (!query.trim()) {
+      setFilteredProfiles(allProfiles);
+      return;
+    }
+
+    // Get profiles that match first name, last name or username match the query
+    const filtered = allProfiles?.filter(
+      (profile) =>
+        profile.username.toLowerCase().includes(query.toLowerCase()) ||
+        profile.name.firstName.toLowerCase().includes(query.toLowerCase()) ||
+        profile.name.lastName.toLowerCase().includes(query.toLowerCase()) ||
+        // Combined first and last name (e.g. "John Doe" should match "John" and "Doe")
+        `${profile.name.firstName} ${profile.name.lastName}`
+          .toLowerCase()
+          .includes(query.toLowerCase()),
+    );
+    setFilteredProfiles(filtered);
+  }, 500);
+
+  const handleSetActiveProfile = (profile: Profile) => {
+    setActiveProfile(profile);
+
+    setFilteredProfiles(allProfiles);
+    search.setValue("");
+  };
+
+  const handleCreateProfile = () => {
+    modals.openConfirmModal({
+      title: t("profile:buttons.createProfile"),
+      children: <Text>{t("profile:createProfileText")}</Text>,
+      labels: {
+        confirm: t("profile:buttons.createProfile"),
+        cancel: t("cancel"),
+      },
+      onConfirm: () => {
+        void router.push({
+          pathname: `/${locale}/profile/create`,
+          query: { isGuest: true },
+        });
+      },
+      ...SharedConfirmModalProps,
+    });
+  };
+
+  return (
+    <DefaultLayout withNavbarOpen>
+      <Grid gutter={0}>
+        <Grid.Col span={3}>
+          <ScrollArea.Autosize
+            mih={`calc(100dvh - ${APP_SHELL.HEADER_HEIGHT}px)`}
+            mah={`calc(100dvh - ${APP_SHELL.HEADER_HEIGHT}px)`}
+          >
+            <NavLink
+              autoContrast
+              leftSection={<IconSearch />}
+              rightSection={
+                search.getValue() ? (
+                  <IconX onClick={() => search.setValue("")} />
+                ) : undefined
+              }
+              label={
+                <TextInput
+                  placeholder={t("searchInputPlaceholder")}
+                  variant="unstyled"
+                  {...search.getInputProps()}
+                />
+              }
+            />
+            <NavLink
+              autoContrast
+              leftSection={<IconUserPlus />}
+              label={t("profile:buttons.createProfile")}
+              onClick={() => handleCreateProfile()}
+            />
+            {filteredProfiles?.map((profile) => (
+              <NavLink
+                autoContrast
+                active={activeProfile?.uuid === profile.uuid}
+                key={profile.uuid}
+                leftSection={<ProfileAvatar profile={profile} size="sm" />}
+                label={profile.username}
+                onClick={() => handleSetActiveProfile(profile)}
+                variant="filled"
+              />
+            ))}
+          </ScrollArea.Autosize>
+        </Grid.Col>
+        <Grid.Col span={9}>
+          <ScrollArea.Autosize
+            mah={`calc(100dvh - ${APP_SHELL.HEADER_HEIGHT}px)`}
+          >
+            {filteredProfiles && activeProfile ? (
+              <>
+                <Card component={Stack} radius={0}>
+                  <Flex justify="space-between">
+                    <Group>
+                      <ProfileAvatar profile={activeProfile} size="xl" />
+                      <Stack gap={0}>
+                        <Title>{getFormattedName(activeProfile.name)} </Title>
+                        <Text opacity={0.7}>@{activeProfile.username}</Text>
+                      </Stack>
+                    </Group>
+                    <ProfileSettingsMenu profile={activeProfile} />
+                  </Flex>
+                  <Text>
+                    {t("profile:playingWithAppSince", {
+                      APP_NAME,
+                      DATE: new Date(
+                        activeProfile.createdAt,
+                      ).toLocaleDateString(locale, DATE_OPTIONS),
+                    })}
+                  </Text>
+                  <Divider />
+                  <Group grow>
+                    <Stat
+                      text={t("stats.matches")}
+                      value={activeProfile.statistics.playedMatches}
+                    />
+                    <Stat
+                      text={t("stats.avg")}
+                      value={activeProfile.statistics.average}
+                      decimalScale={2}
+                    />
+                    <Stat
+                      text={t("stats.dartsThrown")}
+                      value={activeProfile.statistics.thrownDarts}
+                    />
+                    <Stat
+                      text={t("stats.180s")}
+                      value={activeProfile.statistics.thrownOneHundredAndEighty}
+                    />
+                  </Group>
+                </Card>
+              </>
+            ) : undefined}
+          </ScrollArea.Autosize>
+        </Grid.Col>
+      </Grid>
+    </DefaultLayout>
+  );
+};
+
+export default ProfileAllPage;
+
+export const getStaticProps = makeStaticProperties(["common", "profile"]);
+
+export { getStaticPaths };
