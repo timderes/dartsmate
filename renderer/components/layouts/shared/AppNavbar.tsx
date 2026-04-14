@@ -4,6 +4,7 @@ import { useTranslation } from "next-i18next";
 import {
   AppShell,
   type AppShellNavbarProps,
+  Button,
   Divider,
   NavLink,
   ScrollAreaAutosize,
@@ -11,10 +12,13 @@ import {
   Text,
 } from "@mantine/core";
 import { upperFirst, useNetwork, useOs } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
+import ChangelogModal from "@/components/updater/ChangelogModal";
+import { APP_VERSION } from "@utils/constants";
 
 import navbarRoutes from "@utils/content/navbarRoutes";
 import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
-import { APP_VERSION } from "@utils/constants";
+import sharedChangelogModalProps from "@/utils/modals/sharedChangelogModalProps";
 
 /**
  * The navigation sidebar displaying the app routes.
@@ -41,6 +45,19 @@ const AppNavbar = ({ ...props }: AppShellNavbarProps) => {
       currentRoute === localizedRoute ||
       currentRoute.startsWith(`${localizedRoute}/`)
     );
+  };
+
+  const isIndexRoute = isActiveRoute("/");
+
+  const openChangelogModal = () => {
+    modals.open({
+      title: t("changelogTitle", { VERSION: APP_VERSION }),
+      children: <ChangelogModal />,
+      onClose: () => {
+        window.ipc.setLatestSeenChangelogVersion(APP_VERSION);
+      },
+      ...sharedChangelogModalProps,
+    });
   };
 
   return (
@@ -76,6 +93,11 @@ const AppNavbar = ({ ...props }: AppShellNavbarProps) => {
           <Text component="span" fz="xs">
             {networkStatus.online ? t("online") : t("offline")}
           </Text>
+          {isIndexRoute && (
+            <Button fz="xs" variant="transparent" onClick={openChangelogModal}>
+              {t("openChangelog")}
+            </Button>
+          )}
         </Stack>
       </AppShell.Section>
     </AppShell.Navbar>
