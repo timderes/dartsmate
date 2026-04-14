@@ -68,3 +68,6 @@ jobs:
             release/**
             build/**
             out/**
+          # Retain artifacts for 7 days to allow time for manual download and testing.
+          # Then they will be automatically deleted to save storage space.
+          retention-days: 7
