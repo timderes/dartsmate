@@ -31,6 +31,7 @@ describe("useDartGame Reducer", () => {
     players: [createMockPlayer("1", "Alice"), createMockPlayer("2", "Bob")],
     currentPlayerIndex: 0,
     currentLegIndex: 0,
+    currentLegStartingPlayerIndex: 0,
     currentSetIndex: 0,
     matchRound: [],
     multiplier: { double: false, triple: false },
@@ -206,7 +207,8 @@ describe("useDartGame Reducer", () => {
       ...initialState,
       legs: 3,
       sets: 1,
-      currentLegIndex: 2,
+      currentLegIndex: 0,
+      currentLegStartingPlayerIndex: 0,
       players: [
         { ...initialState.players[0], scoreLeft: 40, legsWon: 2 },
         initialState.players[1],
@@ -240,7 +242,8 @@ describe("useDartGame Reducer", () => {
       ...initialState,
       legs: 3,
       sets: 3,
-      currentLegIndex: 2,
+      currentLegIndex: 0,
+      currentLegStartingPlayerIndex: 0,
       players: [
         { ...initialState.players[0], scoreLeft: 40, legsWon: 2, setsWon: 0 },
         initialState.players[1],
@@ -278,7 +281,8 @@ describe("useDartGame Reducer", () => {
       legs: 3,
       sets: 3,
       currentSetIndex: 2,
-      currentLegIndex: 2,
+      currentLegIndex: 0,
+      currentLegStartingPlayerIndex: 0,
       players: [
         { ...initialState.players[0], scoreLeft: 40, legsWon: 2, setsWon: 2 },
         initialState.players[1],
