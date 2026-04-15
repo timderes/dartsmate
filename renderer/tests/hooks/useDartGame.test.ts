@@ -208,7 +208,7 @@ describe("useDartGame Reducer", () => {
       legs: 3,
       sets: 1,
       currentLegIndex: 0,
-    currentLegStartingPlayerIndex: 0,
+      currentLegStartingPlayerIndex: 0,
       players: [
         { ...initialState.players[0], scoreLeft: 40, legsWon: 2 },
         initialState.players[1],
@@ -243,7 +243,7 @@ describe("useDartGame Reducer", () => {
       legs: 3,
       sets: 3,
       currentLegIndex: 0,
-    currentLegStartingPlayerIndex: 0,
+      currentLegStartingPlayerIndex: 0,
       players: [
         { ...initialState.players[0], scoreLeft: 40, legsWon: 2, setsWon: 0 },
         initialState.players[1],
@@ -282,7 +282,7 @@ describe("useDartGame Reducer", () => {
       sets: 3,
       currentSetIndex: 2,
       currentLegIndex: 0,
-    currentLegStartingPlayerIndex: 0,
+      currentLegStartingPlayerIndex: 0,
       players: [
         { ...initialState.players[0], scoreLeft: 40, legsWon: 2, setsWon: 2 },
         initialState.players[1],
