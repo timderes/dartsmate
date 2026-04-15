@@ -41,8 +41,6 @@ const CreateProfilePage: NextPage = () => {
     { label: t("profile:step.label.avatar"), step: StepThree },
   ];
 
-  const isFormValid = form.isValid();
-
   const [active, setActive] = useState(0);
   const isFirstPage = active === 0;
   const isLastPage = active === steps.length;

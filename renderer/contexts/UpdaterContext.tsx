@@ -1,4 +1,4 @@
-import type { UpdateInfo } from "electron-updater";
+import type { ProgressInfo, UpdateInfo } from "electron-updater";
 import { createContext, type PropsWithChildren, useContext } from "react";
 
 export type UpdateStatus =
@@ -16,6 +16,7 @@ type UpdaterContextType = {
   updateInfo: UpdateInfo | null;
   error: string | null;
   progress: number;
+  progressInfo: ProgressInfo | null;
   downloaded: boolean;
 };
 
@@ -31,6 +32,7 @@ export const UpdaterProvider = ({
   downloaded,
   error,
   progress,
+  progressInfo,
   status,
   updateInfo,
 }: UpdaterProviderProps) => {
@@ -40,6 +42,7 @@ export const UpdaterProvider = ({
         downloaded,
         error,
         progress,
+        progressInfo,
         status,
         updateInfo,
       }}

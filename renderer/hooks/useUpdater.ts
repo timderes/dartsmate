@@ -12,6 +12,7 @@ const useUpdater = () => {
   const [updateInfo, setUpdateInfo] = useState<UpdateInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [progressInfo, setProgressInfo] = useState<ProgressInfo | null>(null);
   const [downloaded, setDownloaded] = useState(false);
   const isMounted = useMounted();
 
@@ -40,7 +41,11 @@ const useUpdater = () => {
 
         case "progress":
           setStatus("downloading");
-          if (data) setProgress((data as ProgressInfo).percent ?? 0);
+          if (data) {
+            const info = data as ProgressInfo;
+            setProgress(info.percent ?? 0);
+            setProgressInfo(info);
+          }
           break;
 
         case "downloaded":
@@ -75,6 +80,7 @@ const useUpdater = () => {
     updateInfo,
     error,
     progress,
+    progressInfo,
     downloaded,
   };
 };
