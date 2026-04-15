@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import getDefaultIconSize from "utils/misc/getDefaultIconSize";
 
 // import { notifications } from "@mantine/notifications";
-// import log from "electron-log/renderer";
+import log from "electron-log/renderer";
 import useDefaultProfile from "hooks/getDefaultProfile";
 import deleteProfileFromDatabase from "@lib/db/profiles/deleteProfile";
 import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
@@ -45,7 +45,7 @@ const SettingsPage = () => {
             void router.push(`/${locale}/profileSetupIntro`);
           })
           .catch((e) => {
-            console.error(e);
+            log.error("Failed to delete profile. Error:", e);
           });
       },
       ...SharedConfirmModalProps,
