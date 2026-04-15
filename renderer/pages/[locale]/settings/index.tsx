@@ -11,13 +11,15 @@ import { useRouter } from "next/router";
 import getDefaultIconSize from "utils/misc/getDefaultIconSize";
 
 // import { notifications } from "@mantine/notifications";
-// import log from "electron-log/renderer";
+import log from "electron-log/renderer";
 import useDefaultProfile from "hooks/getDefaultProfile";
 import deleteProfileFromDatabase from "@lib/db/profiles/deleteProfile";
 import SharedConfirmModalProps from "utils/modals/sharedConfirmModalProps";
+import { useProfile } from "@/contexts/ProfileContext";
 
 const SettingsPage = () => {
   const defaultProfile = useDefaultProfile();
+  const { refreshProfile } = useProfile();
 
   const router = useRouter();
   const {
@@ -36,12 +38,15 @@ const SettingsPage = () => {
       onConfirm: () => {
         if (!defaultProfile) throw new Error("Unable to delete the profile!");
 
-        deleteProfileFromDatabase(defaultProfile.uuid).catch((e) => {
-          console.error(e);
-        });
-
-        window.ipc.removeDefaultProfileUUID();
-        void router.push(`/${locale}/profileSetupIntro`);
+        deleteProfileFromDatabase(defaultProfile.uuid)
+          .then(async () => {
+            window.ipc.removeDefaultProfileUUID();
+            await refreshProfile();
+            void router.push(`/${locale}/profileSetupIntro`);
+          })
+          .catch((e) => {
+            log.error("Failed to delete profile. Error:", e);
+          });
       },
       ...SharedConfirmModalProps,
     });

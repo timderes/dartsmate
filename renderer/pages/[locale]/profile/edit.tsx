@@ -33,6 +33,7 @@ import log from "electron-log/renderer";
 import useDefaultProfile from "@hooks/getDefaultProfile";
 import updateProfileFromDatabase from "@lib/db/profiles/updateProfile";
 import LoadingOverlay from "@components/LoadingOverlay";
+import { useProfile } from "@/contexts/ProfileContext";
 
 const EditProfilePage: NextPage = () => {
   const {
@@ -42,6 +43,7 @@ const EditProfilePage: NextPage = () => {
   const theme = useMantineTheme();
   const router = useRouter();
 
+  const { refreshProfile } = useProfile();
   const defaultProfile = useDefaultProfile();
 
   const [avatarColor, setAvatarColor] = useState<
@@ -126,12 +128,13 @@ const EditProfilePage: NextPage = () => {
       { ...form.values, updatedAt: Date.now() },
       form.values.uuid,
     )
-      .then(() => {
+      .then(async () => {
         notifications.show({
           title: t("profile:notifications.updateProfileSuccess.title"),
           message: t("profile:notifications.updateProfileSuccess.text"),
         });
 
+        await refreshProfile();
         void router.push(`/${locale}/profile`);
       })
       .catch((err) => {
