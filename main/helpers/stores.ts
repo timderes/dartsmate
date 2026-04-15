@@ -5,6 +5,7 @@ import { IS_APP_RUNNING_IN_PRODUCTION_MODE } from "../constants/application";
 type AppSettingsStoreType = {
   defaultProfileUUID?: string;
   locale?: string;
+  latestSeenChangelogVersion?: string;
 };
 
 const lowerCasedProductName = pkg.productName.toLowerCase();

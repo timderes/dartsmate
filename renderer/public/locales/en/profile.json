@@ -74,5 +74,8 @@
   "cancelProfileCreation": {
     "title": "Cancel Profile Creation",
     "text": "Are you sure you want to cancel profile creation? All changes will be lost."
+  },
+  "formError": {
+    "toShort": "The {{FIELD}} must be at least {{CHARS}} characters long."
   }
 }

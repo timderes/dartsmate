@@ -24,6 +24,16 @@ ipcMain.handle("removeDefaultProfileUUID", () => {
   appSettingsStore.delete("defaultProfileUUID");
 });
 
+ipcMain.handle("getLatestSeenChangelogVersion", (): string | undefined => {
+  const version = appSettingsStore.get("latestSeenChangelogVersion");
+  return version;
+});
+
+ipcMain.handle("setLatestSeenChangelogVersion", (_, version: string) => {
+  appSettingsStore.set("latestSeenChangelogVersion", version);
+  log.info(`Set latest seen changelog version to ${version}`);
+});
+
 ipcMain.on("minimize-app-window", () => {
   const focusedWindow = BrowserWindow.getFocusedWindow();
 

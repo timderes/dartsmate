@@ -31,7 +31,9 @@ const registerUpdater = () => {
 
   // Handle all events and broadcast them to renderer process
   autoUpdater.on("checking-for-update", () => broadcast("checking"));
-  autoUpdater.on("update-available", (info) => broadcast("available", info));
+  autoUpdater.on("update-available", (info) => {
+    broadcast("available", info);
+  });
   autoUpdater.on("update-not-available", () => broadcast("not-available"));
   autoUpdater.on("download-progress", (progress) =>
     broadcast("progress", progress),

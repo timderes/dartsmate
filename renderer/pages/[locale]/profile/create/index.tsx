@@ -21,8 +21,8 @@ import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
 import { APP_SHELL } from "@/utils/constants";
 
 /**
- *
- *
+ * The profile creation page, which is a multi-step form that allows users to create a new profile.
+ * Can be used to create a guest profile, when `isGuest` is passed as a query parameter.
  */
 const CreateProfilePage: NextPage = () => {
   const params = useSearchParams();

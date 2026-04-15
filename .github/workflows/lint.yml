@@ -1,6 +1,7 @@
 name: Lint and format code
 
-# Remove the write permissions, see CodeQL `actions/missing-workflow-permissions`
+# Keep workflow permissions minimal; `actions: write` is required by `actions/setup-node`
+# to save the npm cache, while `contents` only needs read access.
 permissions:
   actions: write # Needed for caching npm dependencies
   contents: read
