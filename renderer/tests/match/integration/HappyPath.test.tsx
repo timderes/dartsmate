@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { describe, expect, it, vi, beforeEach, type Mock } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MantineProvider } from "@mantine/core";
 import PlayingPage from "@/pages/[locale]/match/playing";
@@ -6,7 +6,7 @@ import PlayingPage from "@/pages/[locale]/match/playing";
 // Mock window.matchMedia which is required by Mantine
 Object.defineProperty(window, "matchMedia", {
   writable: true,
-  value: vi.fn().mockImplementation((query) => ({
+  value: vi.fn().mockImplementation((query: string) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -19,16 +19,22 @@ Object.defineProperty(window, "matchMedia", {
 });
 
 // Mock localStorage
-const localStorageMock = (function() {
+const localStorageMock = (function () {
   let store: Record<string, string> = {};
   return {
     getItem: (key: string) => store[key] || null,
-    setItem: (key: string, value: string) => { store[key] = value.toString(); },
-    clear: () => { store = {}; },
-    removeItem: (key: string) => { delete store[key]; }
+    setItem: (key: string, value: string) => {
+      store[key] = value.toString();
+    },
+    clear: () => {
+      store = {};
+    },
+    removeItem: (key: string) => {
+      delete store[key];
+    },
   };
 })();
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
 import { useDartGame } from "@hooks/useDartGame";
 import { useProfile } from "@/contexts/ProfileContext";
@@ -84,13 +90,13 @@ describe("Match Integration - Happy Path", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (useRouter as any).mockReturnValue(mockRouter);
-    (useProfile as any).mockReturnValue(mockProfile);
+    (useRouter as Mock).mockReturnValue(mockRouter);
+    (useProfile as Mock).mockReturnValue(mockProfile);
   });
 
   it("should complete a full 101-Single match successfully", async () => {
     // 1. Setup initial state for a 101 game
-    let gameState = {
+    const gameState = {
       state: {
         isHydrated: true,
         players: [
@@ -135,7 +141,7 @@ describe("Match Integration - Happy Path", () => {
       },
     };
 
-    (useDartGame as any).mockReturnValue(gameState);
+    (useDartGame as Mock).mockReturnValue(gameState);
 
     const { rerender } = render(
       <MantineProvider>
@@ -143,17 +149,17 @@ describe("Match Integration - Happy Path", () => {
       </MantineProvider>,
     );
 
-    // Verify initial render
+    // Verify initial render - Use getAllByText because username and firstName might both be Alice
     expect(screen.getAllByText("Alice").length).toBeGreaterThan(0);
     expect(screen.getByText("101")).toBeDefined();
 
     // 2. Simulate Alice throwing T20, T10, 11 (Sum: 60 + 30 + 11 = 101)
     // In this integration test, we verify that clicking UI buttons calls the correct actions
-    
+
     // Throw T20
     fireEvent.click(screen.getByText("match:multipliers.triple"));
     expect(gameState.actions.toggleMultiplier).toHaveBeenCalledWith("triple");
-    
+
     fireEvent.click(screen.getByText("20"));
     expect(gameState.actions.throwDart).toHaveBeenCalledWith(20);
 
@@ -161,8 +167,8 @@ describe("Match Integration - Happy Path", () => {
     gameState.state.players[0].scoreLeft = 0;
     gameState.state.players[0].isWinner = true;
     gameState.state.matchStatus = "finished";
-    (useDartGame as any).mockReturnValue(gameState);
-    
+    (useDartGame as Mock).mockReturnValue(gameState);
+
     rerender(
       <MantineProvider>
         <PlayingPage />
@@ -177,7 +183,7 @@ describe("Match Integration - Happy Path", () => {
 
     // Verify navigation to results
     await waitFor(() => {
-        expect(mockRouter.push).toHaveBeenCalledWith("/en/match/view");
+      expect(mockRouter.push).toHaveBeenCalledWith("/en/match/view");
     });
   });
 });

@@ -14,8 +14,8 @@ export default defineConfig({
       "@components": resolve(__dirname, "renderer/components"),
       "@pages": resolve(__dirname, "renderer/pages"),
       "@styles": resolve(__dirname, "renderer/styles"),
-      "utils": resolve(__dirname, "renderer/utils"),
-      "types": resolve(__dirname, "renderer/types"),
+      utils: resolve(__dirname, "renderer/utils"),
+      types: resolve(__dirname, "renderer/types"),
     },
   },
   test: {
