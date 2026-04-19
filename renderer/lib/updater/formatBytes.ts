@@ -1,18 +1,19 @@
 /**
- * Formats a given number of bytes into a human-readable string.
+ * Formats a given number of bytes into a value and unit object.
  *
  * @param bytes - The number of bytes to format.
- * @param decimals - The number of decimal places to include (default: 2).
- * @returns A formatted string with the appropriate unit (e.g., "1.50 MB").
+ * @returns An object containing the value and the appropriate unit (e.g., { value: 1.5, unit: "MB" }).
  */
-export const formatBytes = (bytes: number, decimals = 2): string => {
-  if (!+bytes) return "0 Bytes";
+export const formatBytes = (bytes: number): { value: number; unit: string } => {
+  if (!Number(bytes)) return { value: 0, unit: "Bytes" };
 
   const k = 1024;
-  const dm = decimals < 0 ? 0 : decimals;
   const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+  return {
+    value: bytes / Math.pow(k, i),
+    unit: sizes[i],
+  };
 };

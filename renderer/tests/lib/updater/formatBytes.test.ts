@@ -3,34 +3,25 @@ import { formatBytes } from "@/lib/updater/formatBytes";
 
 describe("formatBytes", () => {
   it("formats 0 bytes correctly", () => {
-    expect(formatBytes(0)).toBe("0 Bytes");
+    expect(formatBytes(0)).toEqual({ value: 0, unit: "Bytes" });
   });
 
   it("formats bytes correctly", () => {
-    expect(formatBytes(500)).toBe("500 Bytes");
+    expect(formatBytes(500)).toEqual({ value: 500, unit: "Bytes" });
   });
 
   it("formats kilobytes correctly", () => {
-    expect(formatBytes(1024)).toBe("1 KB");
-    expect(formatBytes(1536)).toBe("1.5 KB");
+    expect(formatBytes(1024)).toEqual({ value: 1, unit: "KB" });
+    expect(formatBytes(1536)).toEqual({ value: 1.5, unit: "KB" });
   });
 
   it("formats megabytes correctly", () => {
-    expect(formatBytes(1048576)).toBe("1 MB");
-    expect(formatBytes(1572864)).toBe("1.5 MB");
+    expect(formatBytes(1048576)).toEqual({ value: 1, unit: "MB" });
+    expect(formatBytes(1572864)).toEqual({ value: 1.5, unit: "MB" });
   });
 
   it("formats gigabytes correctly", () => {
-    expect(formatBytes(1073741824)).toBe("1 GB");
-    expect(formatBytes(1610612736)).toBe("1.5 GB");
-  });
-
-  it("handles custom decimals correctly", () => {
-    expect(formatBytes(1572864, 0)).toBe("2 MB"); // 1.5 rounds up? Actually toFixed(0) of 1.5 is "2" in JS.
-    expect(formatBytes(1572864, 3)).toBe("1.5 MB"); // parseFloat strips trailing zeros
-  });
-
-  it("handles negative decimals by treating them as 0", () => {
-    expect(formatBytes(1572864, -1)).toBe("2 MB");
+    expect(formatBytes(1073741824)).toEqual({ value: 1, unit: "GB" });
+    expect(formatBytes(1610612736)).toEqual({ value: 1.5, unit: "GB" });
   });
 });
