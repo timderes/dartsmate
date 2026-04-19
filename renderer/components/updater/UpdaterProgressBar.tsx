@@ -31,7 +31,7 @@ const UpdaterProgressBar = ({ ...props }: Omit<ProgressProps, "value">) => {
             {transferred.unit} /{" "}
             <NumberFormatter value={total.value} decimalScale={2} />{" "}
             {total.unit} (
-            <NumberFormatter value={speed.value} decimalScale={2} />
+            <NumberFormatter value={speed.value} decimalScale={2} />{" "}
             {speed.unit}/s)
           </Text>
         )}
