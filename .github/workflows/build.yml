@@ -1,0 +1,73 @@
+name: Build application on all platforms
+
+# Keep workflow permissions minimal; `actions: write` is required by `actions/cache`
+# to save npm/electron caches, while `contents` only needs read access.
+permissions:
+  actions: write # Needed for caching npm dependencies
+  contents: read
+
+# We only need to check if the build works on push to main,
+# as we have linting and formatting checks on pull requests.
+on:
+  push:
+    branches: [main]
+  # pull_request:
+  # branches: [main]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            build-script: build:linux
+          - os: windows-latest
+            # 32-bit (build:win32) is intentionally skipped;
+            # Windows 10/11 dropped 32-bit support in 2020.
+            build-script: build:win64
+          - os: macos-latest
+            build-script: build:mac
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: "npm"
+      - name: Cache Electron binaries (Unix)
+        if: runner.os != 'Windows'
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cache/electron
+            ~/.cache/electron-builder
+            ~/Library/Caches/electron
+            ~/Library/Caches/electron-builder
+          key: ${{ runner.os }}-electron-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-electron-
+      - name: Cache Electron binaries (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/cache@v5
+        with:
+          path: |
+            ${{ env.LOCALAPPDATA }}\electron
+            ${{ env.LOCALAPPDATA }}\electron-builder
+          key: ${{ runner.os }}-electron-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-electron-
+      - run: npm ci
+      - run: npm run ${{ matrix.build-script }}
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: app-${{ runner.os }}
+          path: |
+            dist/**
+            release/**
+            build/**
+            out/**
+          # Retain artifacts for 7 days to allow time for manual download and testing.
+          # Then they will be automatically deleted to save storage space.
+          retention-days: 7

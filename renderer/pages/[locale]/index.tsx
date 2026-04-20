@@ -7,10 +7,40 @@ import { useTranslation } from "next-i18next";
 import GameModeCard from "@components/content/GameModeCard";
 import { IconBarbell, IconTarget } from "@tabler/icons-react";
 import { MATCH_MODES, TRAINING_MODES } from "@utils/content/gameModes";
+import { useEffect } from "react";
+import { APP_VERSION } from "@/utils/constants";
+import { modals } from "@mantine/modals";
+import log from "electron-log/renderer";
+import ChangelogModal from "@/components/updater/ChangelogModal";
+import sharedChangelogModalProps from "@/utils/modals/sharedChangelogModalProps";
 
 const IndexPage = () => {
   const defaultProfile = useDefaultProfile();
   const { t } = useTranslation();
+
+  // On a first load, check if the app has been updated
+  useEffect(() => {
+    // Check for latest seen changelog version in the electron store
+    // and compare it with the current app version
+    window.ipc
+      .getLatestSeenChangelogVersion()
+      .then((latestSeenVersion) => {
+        if (latestSeenVersion !== APP_VERSION) {
+          modals.open({
+            title: t("changelogTitle", { VERSION: APP_VERSION }),
+            children: <ChangelogModal />,
+            onClose: () => {
+              window.ipc.setLatestSeenChangelogVersion(APP_VERSION);
+            },
+            ...sharedChangelogModalProps,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching latest seen changelog version:", error);
+        log.error("Error fetching latest seen changelog version:", error);
+      });
+  }, [t]);
 
   return (
     <DefaultLayout withNavbarOpen>
@@ -55,6 +85,10 @@ const IndexPage = () => {
 
 export default IndexPage;
 
-export const getStaticProps = makeStaticProperties(["common", "gameModes"]);
+export const getStaticProps = makeStaticProperties([
+  "common",
+  "gameModes",
+  "changelog",
+]);
 
 export { getStaticPaths };

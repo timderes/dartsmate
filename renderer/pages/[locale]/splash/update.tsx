@@ -18,13 +18,15 @@ const iconSize = 92; // px
  */
 const SplashUpdatePage = () => {
   const theme = useMantineTheme();
-  const { status, updateInfo, error, progress, downloaded } = useUpdater();
+  const { status, updateInfo, error, progress, progressInfo, downloaded } =
+    useUpdater();
 
   return (
     <UpdaterProvider
       downloaded={downloaded}
       error={error}
       progress={progress}
+      progressInfo={progressInfo}
       status={status}
       updateInfo={updateInfo}
     >

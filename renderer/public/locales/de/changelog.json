@@ -1,0 +1,13 @@
+{
+  "noChangelog": "Dieses Update enthält verschiedene Fehlerbehebungen und Verbesserungen.",
+  "features": "Neuigkeiten",
+  "fixes": "Fehlerbehebungen",
+  "versions": {
+    "0.6.0": {
+      "features": [
+        "Verbesserte Update-Erfahrung mit lokalisierten Versionshinweisen"
+      ],
+      "fixes": []
+    }
+  }
+}

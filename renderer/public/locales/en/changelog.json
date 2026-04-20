@@ -1,0 +1,11 @@
+{
+  "noChangelog": "This update provides various bug fixes and improvements.",
+  "features": "What's New",
+  "fixes": "Bug Fixes",
+  "versions": {
+    "0.6.0": {
+      "features": ["Improved update experience with localized release notes"],
+      "fixes": []
+    }
+  }
+}

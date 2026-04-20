@@ -59,7 +59,7 @@ const SettingsLayout = ({ children, route }: SettingsLayoutProps) => {
 
   return (
     <DefaultLayout withNavbarOpen>
-      <Grid gutter={0}>
+      <Grid gap={0}>
         <Grid.Col span={4}>
           {settingsNavigationLinks.map((navLink) => (
             <NavLink

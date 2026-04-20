@@ -6,13 +6,13 @@ import { FileButton } from "@mantine/core";
 import { useState, useEffect } from "react";
 import resizeAvatarImage from "utils/avatars/resizeAvatarImage";
 import log from "electron-log/renderer";
-import { UseFormReturnType } from "@mantine/form";
+import type { FormRulesRecord, UseFormReturnType } from "@mantine/form";
 import { Profile } from "types/profile";
 
 const StepThree = ({
   form,
 }: {
-  form: UseFormReturnType<Profile, (values: Profile) => Profile>;
+  form: UseFormReturnType<Profile, Profile, FormRulesRecord<Profile>>;
 }) => {
   const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);

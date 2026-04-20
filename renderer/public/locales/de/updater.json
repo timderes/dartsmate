@@ -9,5 +9,6 @@
     "idle": "Suche nach Updates..."
   },
   "downloadUpdate": "Update herunterladen",
-  "installUpdate": "Update installieren"
+  "installUpdate": "Update installieren",
+  "closeUpdaterWithSeconds": "Schließen ({{SECONDS}})"
 }

@@ -32,7 +32,8 @@ import ProfileAvatar from "@components/content/ProfileAvatar";
 import log from "electron-log/renderer";
 import updateProfileFromDatabase from "@lib/db/profiles/updateProfile";
 import LoadingOverlay from "@components/LoadingOverlay";
-import getProfileFromDatabase from "@/lib/db/profiles/getProfile";
+
+import { useProfile } from "@/contexts/ProfileContext";
 
 const EditProfilePage: NextPage = () => {
   const { t } = useTranslation();
@@ -40,7 +41,9 @@ const EditProfilePage: NextPage = () => {
   const router = useRouter();
   const query = router.query;
 
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const { refreshProfile } = useProfile();
+  const defaultProfile = useDefaultProfile();
+
   const [avatarColor, setAvatarColor] = useState<
     DefaultMantineColor | undefined
   >("red"); // The default primary app color
@@ -135,13 +138,14 @@ const EditProfilePage: NextPage = () => {
       { ...form.values, updatedAt: Date.now() },
       form.values.uuid,
     )
-      .then(() => {
+      .then(async () => {
         notifications.show({
           title: t("profile:notifications.updateProfileSuccess.title"),
           message: t("profile:notifications.updateProfileSuccess.text"),
         });
 
-        void router.back();
+        await refreshProfile();
+        void router.push(`/${locale}/profile`);
       })
       .catch((err) => {
         log.error("Failed to updated profile. Error:", err);

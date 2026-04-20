@@ -229,7 +229,7 @@ const NewGamePage = () => {
           </Stack>
         </ScrollArea>
       </Drawer>
-      <Grid gutter={0}>
+      <Grid gap={0}>
         <Grid.Col span="auto" px="xs">
           <Stack gap="lg">
             <Group>

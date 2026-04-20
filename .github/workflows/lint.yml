@@ -1,5 +1,11 @@
 name: Lint and format code
 
+# Keep workflow permissions minimal; `actions: write` is required by `actions/setup-node`
+# to save the npm cache, while `contents` only needs read access.
+permissions:
+  actions: write # Needed for caching npm dependencies
+  contents: read
+
 on:
   push:
     branches: [main]
@@ -14,15 +20,19 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
       - name: Run ESLint
         run: npm run lint
+
+      - name: Run TypeScript type checking
+        run: npm run typecheck
 
       - name: Check formatting with Prettier
         run: npm run format:check

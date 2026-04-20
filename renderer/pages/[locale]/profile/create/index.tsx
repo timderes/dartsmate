@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { Box, Button, Group, Stack, Stepper, Text } from "@mantine/core";
 import { useTranslation } from "next-i18next";
-import { createElement, useState, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import log from "electron-log/renderer";
@@ -12,6 +12,7 @@ import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
 import OnlyControlsLayout from "@components/layouts/OnlyControlsLayout";
 import useProfileForm from "@hooks/useProfileForm";
 import StepOne from "@components/content/profileCreation/StepOne";
+import { useProfile } from "@/contexts/ProfileContext";
 
 import { modals } from "@mantine/modals";
 import StepTwo from "@components/content/profileCreation/StepTwo";
@@ -20,8 +21,8 @@ import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
 import { APP_SHELL } from "@/utils/constants";
 
 /**
- *
- *
+ * The profile creation page, which is a multi-step form that allows users to create a new profile.
+ * Can be used to create a guest profile, when `isGuest` is passed as a query parameter.
  */
 const CreateProfilePage: NextPage = () => {
   const params = useSearchParams();
@@ -32,20 +33,14 @@ const CreateProfilePage: NextPage = () => {
   const router = useRouter();
   const isGuestProfile = params.get("isGuest") ? true : false;
   const { form } = useProfileForm(isGuestProfile);
+  const { refreshProfile } = useProfile();
 
   const pageHeight = `calc(100vh - ${APP_SHELL.HEADER_HEIGHT}px)`;
 
-  const steps = [
-    { label: t("profile:step.label.profile"), step: StepOne },
-    { label: t("profile:step.label.misc"), step: StepTwo },
-    { label: t("profile:step.label.avatar"), step: StepThree },
-  ];
-
-  const isFormValid = form.isValid();
-
   const [active, setActive] = useState(0);
   const isFirstPage = active === 0;
-  const isLastPage = active === steps.length;
+  // Hardcoded value based on the number of steps in the form. Maybe there is a better way to determine this?
+  const isLastPage = active === 3;
 
   const nextStep = () =>
     setActive((current) => (!isLastPage ? current + 1 : current));
@@ -55,13 +50,17 @@ const CreateProfilePage: NextPage = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const { hasErrors } = form.validate();
+    if (hasErrors) return;
+
     if (!isGuestProfile) {
       window.ipc.setDefaultProfileUUID(form.values.uuid);
     }
 
     addProfileToDatabase(form.values)
-      .then(() => {
+      .then(async () => {
         log.info("Successfully added a new profile to the database.");
+        await refreshProfile();
         void router.push(formatLocalizedRoute({ locale, route: "/" }));
       })
       .catch((err) => {
@@ -90,9 +89,9 @@ const CreateProfilePage: NextPage = () => {
   };
 
   const validateAndGoToNextPage = () => {
-    form.validate();
+    const { hasErrors } = form.validate();
 
-    if (isFormValid) {
+    if (!hasErrors) {
       nextStep();
     }
   };
@@ -106,14 +105,21 @@ const CreateProfilePage: NextPage = () => {
             allowNextStepsSelect={false}
             onStepClick={setActive}
           >
-            {steps.map((step, _idx) => (
-              <Stepper.Step key={_idx} label={step.label}>
-                {createElement(step.step, { form })}
-              </Stepper.Step>
-            ))}
+            <Stepper.Step
+              label={t("profile:step.label.profile")}
+              description=""
+            >
+              <StepOne form={form} />
+            </Stepper.Step>
+            <Stepper.Step label={t("profile:step.label.misc")} description="">
+              <StepTwo form={form} />
+            </Stepper.Step>
+            <Stepper.Step label={t("profile:step.label.avatar")} description="">
+              <StepThree form={form} />
+            </Stepper.Step>
             <Stepper.Completed>
               <Group grow>
-                <Button type="submit" disabled={!isFormValid}>
+                <Button type="submit">
                   {t("profile:buttons.createProfile")}
                 </Button>
                 <Button
