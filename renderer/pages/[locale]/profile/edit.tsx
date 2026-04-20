@@ -30,25 +30,23 @@ import resizeAvatarImage from "@utils/avatars/resizeAvatarImage";
 import { DEFAULT_AVATAR_FILE_SIZE } from "@utils/avatars/constants";
 import ProfileAvatar from "@components/content/ProfileAvatar";
 import log from "electron-log/renderer";
-import useDefaultProfile from "@hooks/getDefaultProfile";
 import updateProfileFromDatabase from "@lib/db/profiles/updateProfile";
 import LoadingOverlay from "@components/LoadingOverlay";
+
 import { useProfile } from "@/contexts/ProfileContext";
 
 const EditProfilePage: NextPage = () => {
-  const {
-    t,
-    i18n: { language: locale },
-  } = useTranslation();
+  const { t } = useTranslation();
   const theme = useMantineTheme();
   const router = useRouter();
+  const query = router.query;
 
   const { refreshProfile } = useProfile();
   const defaultProfile = useDefaultProfile();
 
   const [avatarColor, setAvatarColor] = useState<
     DefaultMantineColor | undefined
-  >(defaultProfile?.color);
+  >("red"); // The default primary app color
 
   const form = useForm<Profile>({
     /*
@@ -76,6 +74,7 @@ const EditProfilePage: NextPage = () => {
     },
     validate: {
       // Error messages are currently not used. The form only proceeds if all fields are valid.
+      // TODO: Show the user which fields are invalid
       name: {
         firstName: (value) =>
           value.length < 3 ? "ERR_FIRST_NAME_TO_SHORT" : null,
@@ -87,8 +86,19 @@ const EditProfilePage: NextPage = () => {
   });
 
   useEffect(() => {
-    if (defaultProfile) form.setValues(defaultProfile);
-  }, [defaultProfile]);
+    if (!query.uuid) {
+      // TODO: Handle this better. But currently its okay
+      router.back();
+      return;
+    }
+    void getProfileFromDatabase(query.uuid as string).then((profile) => {
+      if (profile) {
+        form.setValues(profile);
+        setAvatarColor(profile.color);
+        setProfile(profile); // Is this needed anymore?
+      }
+    });
+  }, []);
 
   // Manually update the color, since the ...props method doesn't work on the color swatches
   const updateAvatarColor = (color: DefaultMantineColor) => {
@@ -187,7 +197,7 @@ const EditProfilePage: NextPage = () => {
     });
   };
 
-  if (!defaultProfile) {
+  if (!profile) {
     return <LoadingOverlay />;
   }
 

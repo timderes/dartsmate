@@ -57,7 +57,7 @@ const SettingsPage = () => {
       <Stack>
         {defaultProfile ? (
           <>
-            <Title>{t("routes.profile")}</Title>
+            <Title>{t("profile:step.label.profile")}</Title>
             <Text>{t("settings:profile.text")}</Text>
             <Group>
               <ProfileAvatar size="lg" profile={defaultProfile} />
@@ -70,7 +70,11 @@ const SettingsPage = () => {
             </Group>
             <Button.Group mt="lg">
               <Button
-                onClick={() => void router.push(`/${locale}/profile/edit`)}
+                onClick={() =>
+                  void router.push(
+                    `/${locale}/profile/edit?uuid=${defaultProfile.uuid}`,
+                  )
+                }
                 variant="default"
                 leftSection={<IconUserEdit style={getDefaultIconSize()} />}
               >

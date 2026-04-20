@@ -34,7 +34,8 @@ const SettingsLayout = ({ children, route }: SettingsLayoutProps) => {
       activeRoute: "/",
       icon: <IconUser style={getDefaultIconSize()} />,
       href: `/`,
-      label: t("routes.profile"),
+      // Using "profile:step.label.profile" because "routes.profile" was removed
+      label: t("profile:step.label.profile"),
     },
     {
       activeRoute: "colorScheme",
