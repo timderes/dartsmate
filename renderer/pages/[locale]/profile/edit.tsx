@@ -36,13 +36,15 @@ import LoadingOverlay from "@components/LoadingOverlay";
 import { useProfile } from "@/contexts/ProfileContext";
 
 const EditProfilePage: NextPage = () => {
-  const { t } = useTranslation();
+  const {
+    t,
+    i18n: { language: locale },
+  } = useTranslation();
   const theme = useMantineTheme();
   const router = useRouter();
   const query = router.query;
 
-  const { refreshProfile } = useProfile();
-  const defaultProfile = useDefaultProfile();
+  const { profile, isLoading, refreshProfile } = useProfile();
 
   const [avatarColor, setAvatarColor] = useState<
     DefaultMantineColor | undefined
@@ -91,14 +93,13 @@ const EditProfilePage: NextPage = () => {
       router.back();
       return;
     }
-    void getProfileFromDatabase(query.uuid as string).then((profile) => {
-      if (profile) {
-        form.setValues(profile);
-        setAvatarColor(profile.color);
-        setProfile(profile); // Is this needed anymore?
-      }
-    });
-  }, []);
+
+    if (profile) {
+      form.setValues(profile);
+      setAvatarColor(profile.color);
+      console.info("Loaded profile values into the form: ", profile);
+    }
+  }, [profile]);
 
   // Manually update the color, since the ...props method doesn't work on the color swatches
   const updateAvatarColor = (color: DefaultMantineColor) => {
@@ -197,7 +198,7 @@ const EditProfilePage: NextPage = () => {
     });
   };
 
-  if (!profile) {
+  if (isLoading) {
     return <LoadingOverlay />;
   }
 
