@@ -22,6 +22,9 @@
     "lint:fix": "npm run lint:main -- --fix && npm run lint:renderer -- --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "typecheck:renderer": "tsc --noEmit -p renderer/tsconfig.json",
+    "typecheck:main": "echo \"TODO: implement main process typecheck\" && exit 0",
+    "typecheck": "concurrently --kill-others-on-fail --names \"MAIN,RENDERER\" --prefix-colors \"blue,magenta\" \"npm:typecheck:main\" \"npm:typecheck:renderer\"",
     "release": "electron-builder --publish always",
     "test": "vitest"
   },
