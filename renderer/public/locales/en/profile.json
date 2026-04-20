@@ -81,7 +81,7 @@
   },
   "formError": {
     "toShort": "The {{FIELD}} must be at least {{CHARS}} characters long."
-  }
+  },
   "resetProfileStatisticsConfirmModal": {
     "title": "Reset statistics for {{FIRST_NAME}}?",
     "text_one": "This action cannot be undone and will remove all statistics from one match.",
