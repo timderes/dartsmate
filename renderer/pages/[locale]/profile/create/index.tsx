@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { Box, Button, Group, Stack, Stepper, Text } from "@mantine/core";
 import { useTranslation } from "next-i18next";
-import { createElement, useState, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import log from "electron-log/renderer";
@@ -37,15 +37,10 @@ const CreateProfilePage: NextPage = () => {
 
   const pageHeight = `calc(100vh - ${APP_SHELL.HEADER_HEIGHT}px)`;
 
-  const steps = [
-    { label: t("profile:step.label.profile"), step: StepOne },
-    { label: t("profile:step.label.misc"), step: StepTwo },
-    { label: t("profile:step.label.avatar"), step: StepThree },
-  ];
-
   const [active, setActive] = useState(0);
   const isFirstPage = active === 0;
-  const isLastPage = active === steps.length;
+  // Hardcoded value based on the number of steps in the form. Maybe there is a better way to determine this?
+  const isLastPage = active === 3;
 
   const nextStep = () =>
     setActive((current) => (!isLastPage ? current + 1 : current));
@@ -110,11 +105,18 @@ const CreateProfilePage: NextPage = () => {
             allowNextStepsSelect={false}
             onStepClick={setActive}
           >
-            {steps.map((step, _idx) => (
-              <Stepper.Step key={_idx} label={step.label}>
-                {createElement(step.step, { form })}
-              </Stepper.Step>
-            ))}
+            <Stepper.Step
+              label={t("profile:step.label.profile")}
+              description=""
+            >
+              <StepOne form={form} />
+            </Stepper.Step>
+            <Stepper.Step label={t("profile:step.label.misc")} description="">
+              <StepTwo form={form} />
+            </Stepper.Step>
+            <Stepper.Step label={t("profile:step.label.avatar")} description="">
+              <StepThree form={form} />
+            </Stepper.Step>
             <Stepper.Completed>
               <Group grow>
                 <Button type="submit">

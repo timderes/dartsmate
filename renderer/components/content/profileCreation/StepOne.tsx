@@ -8,7 +8,7 @@ import {
   Text,
   Select,
 } from "@mantine/core";
-import { UseFormReturnType } from "@mantine/form";
+import type { FormRulesRecord, UseFormReturnType } from "@mantine/form";
 import { useTranslation } from "next-i18next";
 import { Profile } from "types/profile";
 import CountryAndCurrency from "@workmate/country-and-currency";
@@ -17,7 +17,7 @@ import { useMemo } from "react";
 const StepOne = ({
   form,
 }: {
-  form: UseFormReturnType<Profile, (values: Profile) => Profile>;
+  form: UseFormReturnType<Profile, Profile, FormRulesRecord<Profile>>;
 }) => {
   const { t } = useTranslation();
 
