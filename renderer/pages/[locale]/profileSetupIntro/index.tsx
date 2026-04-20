@@ -57,7 +57,7 @@ const ProfileSetupIntroPage: NextPage = () => {
 
   return (
     <OnlyControlsLayout>
-      <Grid gutter={0}>
+      <Grid gap={0}>
         <Grid.Col
           span={{
             xs: 6,

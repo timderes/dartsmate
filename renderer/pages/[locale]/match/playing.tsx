@@ -184,9 +184,9 @@ const PlayingPage: NextPage = () => {
 
   return (
     <OnlyControlsLayout>
-      <Grid gutter={0}>
+      <Grid gap={0}>
         <Grid.Col span={{ md: 8, xl: 9 }}>
-          <Grid gutter={0}>
+          <Grid gap={0}>
             {players.map((player, index) => {
               const progressValue = (player.scoreLeft / initialScore) * 100;
               return (
