@@ -101,7 +101,7 @@ const ProfileAllPage = () => {
 
   return (
     <DefaultLayout withNavbarOpen>
-      <Grid gutter={0}>
+      <Grid gap={0}>
         <Grid.Col span={3}>
           <ScrollArea.Autosize
             mih={`calc(100dvh - ${APP_SHELL.HEADER_HEIGHT}px)`}
