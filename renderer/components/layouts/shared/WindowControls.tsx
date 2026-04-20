@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { modals } from "@mantine/modals";
-import { useFullscreen } from "@mantine/hooks";
+import { useFullscreenDocument } from "@mantine/hooks";
 import sendIPC from "@/utils/ipc/send";
 import SharedConfirmModalProps from "@/utils/modals/sharedConfirmModalProps";
 import { ActionIcon, Flex, Group, Text, Tooltip } from "@mantine/core";
@@ -17,7 +17,7 @@ import { APP_NAME, APP_SHELL } from "@/utils/constants";
  */
 const WindowControls = () => {
   const { t } = useTranslation();
-  const { fullscreen, toggle: toggleFullscreen } = useFullscreen();
+  const { fullscreen, toggle: toggleFullscreen } = useFullscreenDocument();
 
   const handleCloseApp = () =>
     modals.openConfirmModal({
