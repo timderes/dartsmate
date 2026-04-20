@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { gameReducer } from "@hooks/useDartGame";
+import { gameReducer } from "@hooks/useDartGame/reducer";
 import { DEFAULT_CHECKOUTS } from "@/utils/match/checkouts/default";
 import type { Player } from "types/match";
 
