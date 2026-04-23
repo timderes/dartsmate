@@ -34,6 +34,7 @@ import {
   IconChartHistogram,
   IconCrown,
   IconListNumbers,
+  IconSwords,
   IconUsers,
 } from "@tabler/icons-react";
 
@@ -62,37 +63,51 @@ const ViewMatchPage: NextPage = () => {
   );
   const isHeadToHead = matchData.players.length === 2;
 
-  const maxRounds = Math.max(0, ...matchData.players.map((player) => player.rounds.length));
+  const maxRounds = matchData.players.reduce(
+    (max, player) => Math.max(max, player.rounds.length),
+    0,
+  );
+  const hasRoundData = maxRounds > 0;
+  const playerProgression = matchData.players.reduce<
+    Record<string, number[]>
+  >((accumulator, player) => {
+    const scoreProgression = [matchData.initialScore];
+
+    player.rounds.forEach((round) => {
+      const previousScore = scoreProgression[scoreProgression.length - 1];
+      scoreProgression.push(
+        round.isBust ? previousScore : Math.max(0, previousScore - round.roundTotal),
+      );
+    });
+
+    accumulator[player.uuid] = scoreProgression;
+    return accumulator;
+  }, {});
+
   const gameProgressionData = Array.from({ length: maxRounds + 1 }, (_, roundIndex) => {
     const roundPoint: Record<string, number | string> = {
-      round: roundIndex,
+      round:
+        roundIndex === 0
+          ? t("results:chartAxis.start")
+          : roundIndex.toString(),
     };
 
     matchData.players.forEach((player) => {
-      let remainingScore = matchData.initialScore;
-
-      for (let currentRoundIndex = 0; currentRoundIndex < roundIndex; currentRoundIndex += 1) {
-        const round = player.rounds[currentRoundIndex];
-
-        if (round && !round.isBust) {
-          remainingScore -= round.roundTotal;
-        }
-      }
-
-      roundPoint[player.username] = remainingScore;
+      // Use UUID keys so series mapping remains stable even with duplicate usernames.
+      const progression = playerProgression[player.uuid];
+      // Keep a continuous line for players that finished in fewer rounds.
+      const normalizedRoundIndex = Math.min(roundIndex, progression.length - 1);
+      roundPoint[player.uuid] = progression[normalizedRoundIndex];
     });
 
     return roundPoint;
   });
 
-  const score180Label = t("stats.180s");
-  const score140Label = t("results:chartLegend.140plus");
-  const score100Label = t("results:chartLegend.100plus");
   const scoringMilestonesData = matchData.players.map((player) => ({
     player: player.username,
-    [score180Label]: getNumberOfRoundsAboveThreshold(player.rounds, 180),
-    [score140Label]: getNumberOfRoundsAboveThreshold(player.rounds, 140),
-    [score100Label]: getNumberOfRoundsAboveThreshold(player.rounds, 100),
+    score180: getNumberOfRoundsAboveThreshold(player.rounds, 180),
+    score140: getNumberOfRoundsAboveThreshold(player.rounds, 140),
+    score100: getNumberOfRoundsAboveThreshold(player.rounds, 100),
   }));
 
   const renderTableRows = rankedPlayers
@@ -174,10 +189,10 @@ const ViewMatchPage: NextPage = () => {
             {t("results:tabs.title.playerStats")}
           </Tabs.Tab>
           {isHeadToHead ? (
-            <Tabs.Tab leftSection={<IconUsers />} value="headToHead">
+            <Tabs.Tab leftSection={<IconSwords />} value="headToHead">
               {t("results:tabs.title.headToHead")}
             </Tabs.Tab>
-          ) : undefined}
+          ) : null}
         </Tabs.List>
         <Tabs.Panel value="result">
           <Table striped highlightOnHover withColumnBorders>
@@ -198,26 +213,31 @@ const ViewMatchPage: NextPage = () => {
           </Table>
         </Tabs.Panel>
         <Tabs.Panel value="charts">
-          <Title>{t("results:chartTitle.gameProgression")}</Title>
-          <LineChart
-            p="lg"
-            h={420}
-            data={gameProgressionData}
-            dataKey="round"
-            series={matchData.players.map((player) => ({
-              name: player.username,
-              color: player.color,
-            }))}
-            curveType="step"
-            withLegend
-            legendProps={{ verticalAlign: "bottom", height: 50 }}
-            xAxisLabel={t("stats.rounds")}
-            yAxisLabel={t("stats.scoreLeft")}
-            yAxisProps={{
-              domain: [0, matchData.initialScore],
-            }}
-          />
-          <Title order={3}>{t("results:chartTitle.scoringMilestones")}</Title>
+          <Title order={2}>{t("results:chartTitle.gameProgression")}</Title>
+          {hasRoundData ? (
+            <LineChart
+              p="lg"
+              h={420}
+              data={gameProgressionData}
+              dataKey="round"
+              series={matchData.players.map((player) => ({
+                name: player.uuid,
+                label: player.username,
+                color: player.color,
+              }))}
+              curveType="step"
+              withLegend
+              legendProps={{ verticalAlign: "bottom", height: 50 }}
+              xAxisLabel={t("stats.rounds")}
+              yAxisLabel={t("stats.scoreLeft")}
+              yAxisProps={{
+                domain: [0, matchData.initialScore],
+              }}
+            />
+          ) : (
+            <Text p="lg">{t("results:noRoundData")}</Text>
+          )}
+          <Title order={2}>{t("results:chartTitle.scoringMilestones")}</Title>
           <BarChart
             mt="md"
             p="lg"
@@ -226,9 +246,9 @@ const ViewMatchPage: NextPage = () => {
             dataKey="player"
             withLegend
             series={[
-              { name: score180Label, color: "red" },
-              { name: score140Label, color: "orange" },
-              { name: score100Label, color: "blue" },
+              { name: "score180", label: t("stats.180s"), color: "red" },
+              { name: "score140", label: t("results:chartLegend.140plus"), color: "orange" },
+              { name: "score100", label: t("results:chartLegend.100plus"), color: "blue" },
             ]}
           />
         </Tabs.Panel>
@@ -360,7 +380,7 @@ const ViewMatchPage: NextPage = () => {
               </Table.Tbody>
             </Table>
           </Tabs.Panel>
-        ) : undefined}
+        ) : null}
       </Tabs>
     </DefaultLayout>
   );

@@ -17,10 +17,14 @@
     "140plus": "140+",
     "100plus": "100+"
   },
+  "chartAxis": {
+    "start": "Start"
+  },
   "headToHead": {
     "metric": "Metric",
     "legsWon": "Legs Won",
     "setsWon": "Sets Won"
   },
+  "noRoundData": "No completed rounds yet, so no progression data is available.",
   "errorNoMatchData": "No results could be loaded for this game."
 }
