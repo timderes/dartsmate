@@ -27,7 +27,7 @@ const AppHeader = () => {
         justify="space-between"
         h={APP_SHELL.HEADER_HEIGHT}
         mah={APP_SHELL.HEADER_HEIGHT}
-        px="sm"
+        px={APP_SHELL.HEADER_PADDING}
         w="100%"
       >
         <Group gap="lg">

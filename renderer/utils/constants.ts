@@ -68,4 +68,5 @@ export const APP_SHELL = {
   ICON_SIZE: 24, // px
   HEADER_HEIGHT: 32, // px
   NAVBAR_WIDTH: 200, // px
+  HEADER_PADDING: "sm", // Mantine spacing value
 };
