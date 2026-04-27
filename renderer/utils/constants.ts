@@ -1,3 +1,4 @@
+import type { MantineSpacing } from "@mantine/core";
 import pkg from "../../package.json";
 import { Checkout, MatchStatus } from "types/match";
 
@@ -64,9 +65,14 @@ export const NOTIFICATION_LIMIT = 3;
 /**
  * Constants related to the AppShell layout components.
  */
-export const APP_SHELL = {
+export const APP_SHELL: {
+  ICON_SIZE: number;
+  HEADER_HEIGHT: number;
+  NAVBAR_WIDTH: number;
+  HEADER_PADDING: MantineSpacing;
+} = {
   ICON_SIZE: 24, // px
   HEADER_HEIGHT: 32, // px
   NAVBAR_WIDTH: 200, // px
-  HEADER_PADDING: "sm", // Mantine spacing value
+  HEADER_PADDING: "sm",
 };
