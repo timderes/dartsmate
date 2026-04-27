@@ -35,7 +35,11 @@ const App = ({ Component, pageProps }: AppProps) => {
   useHotkeys([["CTRL+F1", () => sendIPC("reload-app")]], ["INPUT", "TEXTAREA"]);
 
   return (
-    <MantineProvider defaultColorScheme="auto" theme={appTheme}>
+    <MantineProvider
+      deduplicateInlineStyles
+      defaultColorScheme="auto"
+      theme={appTheme}
+    >
       <Notifications position="top-right" limit={NOTIFICATION_LIMIT} />
       <ModalsProvider>
         <ProfileProvider>
