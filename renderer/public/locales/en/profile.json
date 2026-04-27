@@ -91,5 +91,6 @@
     "title": "Delete {{FIRST_NAME}}'s profile?",
     "text": "This action cannot be undone. All data associated with this profile will be permanently deleted."
   },
-  "createProfileText": "Do you want to create a profile?"
+  "createProfileText": "Do you want to create a profile?",
+  "cantDeleteDefaultProfile": "The default profile cannot be deleted!"
 }

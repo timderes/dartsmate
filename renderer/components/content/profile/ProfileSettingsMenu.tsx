@@ -1,6 +1,5 @@
 import { useTranslation } from "next-i18next";
-
-import { ActionIcon, Menu, type MenuProps, Text } from "@mantine/core";
+import { ActionIcon, Menu, type MenuProps, Text, Tooltip } from "@mantine/core";
 import {
   IconChartBarOff,
   IconFileExport,
@@ -160,13 +159,20 @@ const ProfileSettingsMenu = ({
         >
           {t("profile:setAsDefaultProfile")}
         </Menu.Item>
-        <Menu.Item
-          color="red"
-          leftSection={<IconUserX size={14} />}
-          onClick={() => handleDeleteProfile(profile)}
+        <Tooltip
+          label={t("profile:cantDeleteDefaultProfile")}
+          disabled={profile.uuid !== defaultProfile?.uuid}
+          withArrow
         >
-          {t("profile:deleteProfile")}
-        </Menu.Item>
+          <Menu.Item
+            color="red"
+            disabled={profile.uuid === defaultProfile?.uuid}
+            leftSection={<IconUserX size={14} />}
+            onClick={() => handleDeleteProfile(profile)}
+          >
+            {t("profile:deleteProfile")}
+          </Menu.Item>
+        </Tooltip>
       </Menu.Dropdown>
     </Menu>
   );

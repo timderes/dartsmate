@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
-import { Button, Group, Stack, Text, Title } from "@mantine/core";
+import { Button, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
 import SettingsLayout from "@components/layouts/SettingsLayout";
 
 import ProfileAvatar from "@components/content/ProfileAvatar";
@@ -55,10 +55,10 @@ const SettingsPage = () => {
   return (
     <SettingsLayout route="/">
       <Stack>
+        <Title>{t("profile:step.label.profile")}</Title>
+        <Text>{t("settings:profile.text")}</Text>
         {defaultProfile ? (
           <>
-            <Title>{t("profile:step.label.profile")}</Title>
-            <Text>{t("settings:profile.text")}</Text>
             <Group>
               <ProfileAvatar size="lg" profile={defaultProfile} />
               <Stack gap={0}>
@@ -95,7 +95,19 @@ const SettingsPage = () => {
               </Button>
             </Button.Group>
           </>
-        ) : null}
+        ) : (
+          <>
+            <Group>
+              <Skeleton height={64} circle />
+              <Text>{t("settings:defaultProfile.notFound")}</Text>
+            </Group>
+            <Button
+              onClick={() => void router.push(`/${locale}/profile/create`)}
+            >
+              {t("settings:defaultProfile.createButton")}
+            </Button>
+          </>
+        )}
       </Stack>
     </SettingsLayout>
   );

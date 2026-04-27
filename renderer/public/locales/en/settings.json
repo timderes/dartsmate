@@ -52,6 +52,10 @@
       "successResetAppText": "All settings have been reset."
     }
   },
+  "defaultProfile": {
+    "notFound": "The default profile could not be found.",
+    "createButton": "Create one now!"
+  },
   "languages": {
     "de": "Deutsch",
     "en": "English"
