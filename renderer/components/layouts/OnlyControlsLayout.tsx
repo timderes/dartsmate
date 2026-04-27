@@ -17,7 +17,7 @@ const OnlyControlsLayout = ({
       }}
       {...props}
     >
-      <AppShell.Header>
+      <AppShell.Header className="draggable" px={APP_SHELL.HEADER_PADDING}>
         <WindowControls />
       </AppShell.Header>
       <AppShell.Main>{children}</AppShell.Main>
