@@ -146,7 +146,7 @@ const EditProfilePage: NextPage = () => {
         });
 
         await refreshProfile();
-        void router.push(`/${locale}/profile`);
+        void router.push(`/${locale}/profile/all`);
       })
       .catch((err) => {
         log.error("Failed to updated profile. Error:", err);
