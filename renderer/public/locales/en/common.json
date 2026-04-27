@@ -28,7 +28,7 @@
     "newMatch": "New Match",
     "practice": "Practice",
     "history": "Match History",
-    "profile": "Profile",
+    "profiles": "Profiles",
     "statistics": "Statistics",
     "settings": "Settings"
   },
@@ -105,5 +105,6 @@
   "openChangelog": "What's New?",
   "changelogTitle": "New features in version {{VERSION}}",
   "changelogNoInfo": "No update details available...",
-  "versionLabel": "Version {{VERSION}}"
+  "versionLabel": "Version {{VERSION}}",
+  "searchInputPlaceholder": "Search Player..."
 }

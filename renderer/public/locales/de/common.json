@@ -28,7 +28,7 @@
     "newMatch": "Neues Spiel",
     "practice": "Übung",
     "history": "Spielverlauf",
-    "profile": "Profil",
+    "profiles": "Profile",
     "statistics": "Statistiken",
     "settings": "Einstellungen"
   },
@@ -105,5 +105,6 @@
   "openChangelog": "Was ist neu?",
   "changelogTitle": "Neue Funktionen in Version {{VERSION}}",
   "changelogNoInfo": "Keine Änderungsinformationen verfügbar...",
-  "versionLabel": "Version {{VERSION}}"
+  "versionLabel": "Version {{VERSION}}",
+  "searchInputPlaceholder": "Suche nach einem Spieler..."
 }

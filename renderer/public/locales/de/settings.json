@@ -52,6 +52,10 @@
       "successResetAppText": "Alle Einstellungen wurden zurückgesetzt"
     }
   },
+  "defaultProfile": {
+    "notFound": "Das Standardprofil konnte nicht gefunden werden.",
+    "createButton": "Erstellen Sie jetzt eines!"
+  },
   "languages": {
     "de": "Deutsch",
     "en": "Englisch"
