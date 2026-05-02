@@ -6,6 +6,9 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "04:00"
+    # Group updates into a single development branch,
+    # so we can test them together before merging into main
+    target-branch: "deps-updates"
     open-pull-requests-limit: 10
     groups:
       # Group Mantine UI updates together to ensure consistency
