@@ -46,7 +46,8 @@
     "doubles": "Doubles",
     "triples": "Triples",
     "missed": "Missed",
-    "rounds": "Rounds"
+    "rounds": "Rounds",
+    "hit": "Hit"
   },
   "checkouts": {
     "any": "Any",

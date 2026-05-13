@@ -1,12 +1,10 @@
 import type { NextPage } from "next";
 import { useTranslation } from "next-i18next";
-import { DonutChart, type DonutChartCell } from "@mantine/charts";
-
+import { SankeyChart, type SankeyChartData } from "@mantine/charts";
 import type { Match } from "types/match";
 import ProfileAvatar from "@components/content/ProfileAvatar";
 import DefaultLayout from "@components/layouts/Default";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
-
 import getHighestScore from "@/lib/playing/stats/getHighestScore";
 import getNumberOfRoundsAboveThreshold from "@/lib/playing/stats/getScoresAbove";
 import getMatchAverage from "@/lib/playing/stats/getMatchAverage";
@@ -16,7 +14,6 @@ import { useSessionStorage } from "@mantine/hooks";
 import {
   Group,
   NumberFormatter,
-  Stack,
   Table,
   Text,
   Tabs,
@@ -181,43 +178,57 @@ const ViewMatchPage: NextPage = () => {
             </Tabs.List>
             {matchData.players.map((player) => {
               const categorizedThrows = getCategorizedThrows(player.rounds);
+              const hitCount =
+                categorizedThrows.normals +
+                categorizedThrows.doubles +
+                categorizedThrows.triples;
 
-              const data: DonutChartCell[] = [
-                {
-                  color: "yellow",
-                  name: t("stats.singles"),
-                  value: categorizedThrows.normals,
-                },
-                {
-                  color: "blue",
-                  name: t("stats.doubles"),
-                  value: categorizedThrows.doubles,
-                },
-                {
-                  color: "green",
-                  name: t("stats.triples"),
-                  value: categorizedThrows.triples,
-                },
-
-                {
-                  color: "red",
-                  name: t("stats.missed"),
-                  value: categorizedThrows.missed,
-                },
-              ];
+              const data: SankeyChartData = {
+                nodes: [
+                  { name: t("stats.dartsThrown") }, // 0
+                  { name: t("stats.missed") }, // 1
+                  { name: t("stats.hit") }, // 2
+                  { name: t("stats.singles") }, // 3
+                  { name: t("stats.doubles") }, // 4
+                  { name: t("stats.triples") }, // 5
+                ],
+                links: [
+                  // Total -> Missed (first target)
+                  { source: 0, target: 1, value: categorizedThrows.missed },
+                  // Total -> Hit
+                  { source: 0, target: 2, value: hitCount },
+                  // Hit -> Single/Double/Triple
+                  { source: 2, target: 3, value: categorizedThrows.normals },
+                  { source: 2, target: 4, value: categorizedThrows.doubles },
+                  { source: 2, target: 5, value: categorizedThrows.triples },
+                ],
+              };
 
               return (
                 <Tabs.Panel key={player.uuid} value={player.uuid}>
-                  <Group gap="xl">
-                    <DonutChart data={data} chartLabel="" withTooltip={false} />
-                    <Stack>
-                      {data.map((d) => (
-                        <Text key={d.name}>
-                          {d.name}: {d.value}
-                        </Text>
-                      ))}
-                    </Stack>
-                  </Group>
+                  <SankeyChart
+                    data={data}
+                    height={300}
+                    nodeWidth={18}
+                    nodePadding={12}
+                    linkOpacity={0.6}
+                    colors={[
+                      "indigo.6",
+                      "teal.6",
+                      "orange.6",
+                      "red.6",
+                      "gray.6",
+                    ]}
+                    valueFormatter={(v: number) => String(v)}
+                    withTooltip={false}
+                    sankeyProps={{
+                      align: "left",
+                    }}
+                  />
+                  <pre>
+                    DEBUG:
+                    {JSON.stringify(categorizedThrows, null, 2)}
+                  </pre>
                 </Tabs.Panel>
               );
             })}

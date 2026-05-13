@@ -46,7 +46,8 @@
     "doubles": "Doubles",
     "triples": "Triples",
     "missed": "Nicht getroffen",
-    "rounds": "Runden"
+    "rounds": "Runden",
+    "hit": "Getroffen"
   },
   "checkouts": {
     "any": "Beliebig",
