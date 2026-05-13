@@ -1,12 +1,10 @@
 import type { NextPage } from "next";
 import { useTranslation } from "next-i18next";
-import { DonutChart, type DonutChartCell } from "@mantine/charts";
-
+import { SankeyChart, type SankeyChartData } from "@mantine/charts";
 import type { Match } from "types/match";
 import ProfileAvatar from "@components/content/ProfileAvatar";
 import DefaultLayout from "@components/layouts/Default";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
-
 import getHighestScore from "@/lib/playing/stats/getHighestScore";
 import getNumberOfRoundsAboveThreshold from "@/lib/playing/stats/getScoresAbove";
 import getMatchAverage from "@/lib/playing/stats/getMatchAverage";
@@ -14,9 +12,9 @@ import { getLocaleDate } from "@utils/misc/getLocalDate";
 import getCategorizedThrows from "@/lib/playing/stats/getCategorizedThrows";
 import { useSessionStorage } from "@mantine/hooks";
 import {
+  Container,
   Group,
   NumberFormatter,
-  Stack,
   Table,
   Text,
   Tabs,
@@ -181,43 +179,47 @@ const ViewMatchPage: NextPage = () => {
             </Tabs.List>
             {matchData.players.map((player) => {
               const categorizedThrows = getCategorizedThrows(player.rounds);
+              const hitCount =
+                categorizedThrows.normals +
+                categorizedThrows.doubles +
+                categorizedThrows.triples;
 
-              const data: DonutChartCell[] = [
-                {
-                  color: "yellow",
-                  name: t("stats.singles"),
-                  value: categorizedThrows.normals,
-                },
-                {
-                  color: "blue",
-                  name: t("stats.doubles"),
-                  value: categorizedThrows.doubles,
-                },
-                {
-                  color: "green",
-                  name: t("stats.triples"),
-                  value: categorizedThrows.triples,
-                },
+              const links = [
+                { source: 0, target: 1, value: categorizedThrows.missed },
+                { source: 0, target: 2, value: hitCount },
+                { source: 2, target: 3, value: categorizedThrows.normals },
+                { source: 2, target: 4, value: categorizedThrows.doubles },
+                { source: 2, target: 5, value: categorizedThrows.triples },
+              ].filter(
+                (link) =>
+                  // Filter out links with zero value to avoid breaking the chart
+                  link.value > 0,
+              );
 
-                {
-                  color: "red",
-                  name: t("stats.missed"),
-                  value: categorizedThrows.missed,
-                },
-              ];
+              const data: SankeyChartData = {
+                nodes: [
+                  { name: t("stats.dartsThrown") },
+                  { name: t("stats.missed") },
+                  { name: t("stats.hit") },
+                  { name: t("stats.singles") },
+                  { name: t("stats.doubles") },
+                  { name: t("stats.triples") },
+                ],
+                links,
+              };
 
               return (
                 <Tabs.Panel key={player.uuid} value={player.uuid}>
-                  <Group gap="xl">
-                    <DonutChart data={data} chartLabel="" withTooltip={false} />
-                    <Stack>
-                      {data.map((d) => (
-                        <Text key={d.name}>
-                          {d.name}: {d.value}
-                        </Text>
-                      ))}
-                    </Stack>
-                  </Group>
+                  <Container fluid py="md">
+                    <SankeyChart
+                      data={data}
+                      linkOpacity={0.6}
+                      withTooltip={false}
+                      sankeyProps={{
+                        align: "left",
+                      }}
+                    />
+                  </Container>
                 </Tabs.Panel>
               );
             })}
