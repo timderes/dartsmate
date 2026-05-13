@@ -19,6 +19,7 @@ import {
   Tabs,
   Title,
   Tooltip,
+  Container,
 } from "@mantine/core";
 import {
   IconChartHistogram,
@@ -183,48 +184,38 @@ const ViewMatchPage: NextPage = () => {
                 categorizedThrows.doubles +
                 categorizedThrows.triples;
 
+              const links = [
+                { source: 0, target: 1, value: categorizedThrows.missed },
+                { source: 0, target: 2, value: hitCount },
+                { source: 2, target: 3, value: categorizedThrows.normals },
+                { source: 2, target: 4, value: categorizedThrows.doubles },
+                { source: 2, target: 5, value: categorizedThrows.triples },
+              ].filter((link) => link.value > 0); // Somehow the chart will break if there are links with value 0, so we filter those out
+
               const data: SankeyChartData = {
                 nodes: [
-                  { name: t("stats.dartsThrown") }, // 0
-                  { name: t("stats.missed") }, // 1
-                  { name: t("stats.hit") }, // 2
-                  { name: t("stats.singles") }, // 3
-                  { name: t("stats.doubles") }, // 4
-                  { name: t("stats.triples") }, // 5
+                  { name: t("stats.dartsThrown") },
+                  { name: t("stats.missed") },
+                  { name: t("stats.hit") },
+                  { name: t("stats.singles") },
+                  { name: t("stats.doubles") },
+                  { name: t("stats.triples") },
                 ],
-                links: [
-                  // Total -> Missed (first target)
-                  { source: 0, target: 1, value: categorizedThrows.missed },
-                  // Total -> Hit
-                  { source: 0, target: 2, value: hitCount },
-                  // Hit -> Single/Double/Triple
-                  { source: 2, target: 3, value: categorizedThrows.normals },
-                  { source: 2, target: 4, value: categorizedThrows.doubles },
-                  { source: 2, target: 5, value: categorizedThrows.triples },
-                ],
+                links,
               };
 
               return (
                 <Tabs.Panel key={player.uuid} value={player.uuid}>
-                  <SankeyChart
-                    data={data}
-                    height={300}
-                    nodeWidth={18}
-                    nodePadding={12}
-                    linkOpacity={0.6}
-                    colors={[
-                      "indigo.6",
-                      "teal.6",
-                      "orange.6",
-                      "red.6",
-                      "gray.6",
-                    ]}
-                    valueFormatter={(v: number) => String(v)}
-                    withTooltip={false}
-                    sankeyProps={{
-                      align: "left",
-                    }}
-                  />
+                  <Container fluid py="md">
+                    <SankeyChart
+                      data={data}
+                      linkOpacity={0.6}
+                      withTooltip={false}
+                      sankeyProps={{
+                        align: "left",
+                      }}
+                    />
+                  </Container>
                 </Tabs.Panel>
               );
             })}
