@@ -3,6 +3,23 @@
   "features": "What's New",
   "fixes": "Bug Fixes",
   "versions": {
+    "0.7.0": {
+      "features": [
+        "Added a new Profiles overview page to quickly view all profiles.",
+        "Improved the match statistics view with a new Sankey chart for better dart throw visualization.",
+        "The app now shows the changelog directly after updates.",
+        "Added a re-open changelog link in the navigation bar.",
+        "The updater now displays download statistics during updates.",
+        "The updater now closes automatically with a countdown after finishing updates."
+      ],
+      "fixes": [
+        "Faster and smoother account creation.",
+        "Improved overall app performance and responsiveness.",
+        "Checkout options are now fully translated.",
+        "Improved window dragging behavior and spacing in the layout.",
+        "Various stability and update process improvements."
+      ]
+    },
     "0.6.0": {
       "features": ["Improved update experience with localized release notes"],
       "fixes": []

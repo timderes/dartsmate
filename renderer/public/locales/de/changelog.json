@@ -3,6 +3,23 @@
   "features": "Neuigkeiten",
   "fixes": "Fehlerbehebungen",
   "versions": {
+    "0.7.0": {
+      "features": [
+        "Neue Profilübersicht hinzugefügt, um alle Profile schnell anzuzeigen.",
+        "Verbesserte Match-Statistiken mit einer neuen Sankey-Visualisierung für geworfene Darts.",
+        "Die App zeigt jetzt den Changelog direkt nach einem Update an.",
+        "Neuer Link zum erneuten Öffnen des Changelogs in der Navigation hinzugefügt.",
+        "Der Updater zeigt jetzt Download-Statistiken während des Updates an.",
+        "Der Updater schließt sich nach Abschluss automatisch mit einem Countdown."
+      ],
+      "fixes": [
+        "Schnellere und flüssigere Account-Erstellung.",
+        "Verbesserte Gesamtperformance und Reaktionsgeschwindigkeit der App.",
+        "Checkout-Optionen sind jetzt vollständig übersetzt.",
+        "Verbessertes Verhalten beim Drag- und Drop des Fensters sowie optimierte Abstände im Layout.",
+        "Verschiedene Verbesserungen während des Update-Prozesses der App."
+      ]
+    },
     "0.6.0": {
       "features": [
         "Verbesserte Update-Erfahrung mit lokalisierten Versionshinweisen"
