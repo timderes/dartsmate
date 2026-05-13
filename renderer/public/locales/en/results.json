@@ -5,11 +5,26 @@
     "title": {
       "result": "Results",
       "charts": "Charts",
-      "playerStats": "Player Stats"
+      "playerStats": "Player Stats",
+      "headToHead": "Head-to-Head"
     }
   },
   "chartTitle": {
-    "gameProgression": "Game Progression"
+    "gameProgression": "Game Progression",
+    "scoringMilestones": "Scoring Milestones"
   },
+  "chartLegend": {
+    "140plus": "140+",
+    "100plus": "100+"
+  },
+  "chartAxis": {
+    "start": "Start"
+  },
+  "headToHead": {
+    "metric": "Metric",
+    "legsWon": "Legs Won",
+    "setsWon": "Sets Won"
+  },
+  "noRoundData": "No completed rounds yet, so no progression data is available.",
   "errorNoMatchData": "No results could be loaded for this game."
 }
