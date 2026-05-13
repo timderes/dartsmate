@@ -14,8 +14,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-            # 32-bit (build:win32) is intentionally skipped;
-            # Windows 10/11 dropped 32-bit support in 2020. 
+          # 32-bit (build:win32) is intentionally skipped;
+          # Windows 10/11 dropped 32-bit support in 2020.
           - os: windows-latest
             script: build:win64
           - os: ubuntu-latest
