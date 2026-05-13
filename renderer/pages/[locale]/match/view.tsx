@@ -12,6 +12,7 @@ import { getLocaleDate } from "@utils/misc/getLocalDate";
 import getCategorizedThrows from "@/lib/playing/stats/getCategorizedThrows";
 import { useSessionStorage } from "@mantine/hooks";
 import {
+  Container,
   Group,
   NumberFormatter,
   Table,
@@ -19,7 +20,6 @@ import {
   Tabs,
   Title,
   Tooltip,
-  Container,
 } from "@mantine/core";
 import {
   IconChartHistogram,
@@ -190,7 +190,11 @@ const ViewMatchPage: NextPage = () => {
                 { source: 2, target: 3, value: categorizedThrows.normals },
                 { source: 2, target: 4, value: categorizedThrows.doubles },
                 { source: 2, target: 5, value: categorizedThrows.triples },
-              ].filter((link) => link.value > 0); // Somehow the chart will break if there are links with value 0, so we filter those out
+              ].filter(
+                (link) =>
+                  // Filter out links with zero value to avoid breaking the chart
+                  link.value > 0,
+              );
 
               const data: SankeyChartData = {
                 nodes: [
