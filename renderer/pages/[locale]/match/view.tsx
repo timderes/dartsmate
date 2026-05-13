@@ -225,10 +225,6 @@ const ViewMatchPage: NextPage = () => {
                       align: "left",
                     }}
                   />
-                  <pre>
-                    DEBUG:
-                    {JSON.stringify(categorizedThrows, null, 2)}
-                  </pre>
                 </Tabs.Panel>
               );
             })}
