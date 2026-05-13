@@ -19,12 +19,12 @@
         "Verbessertes Verhalten beim Drag- und Drop des Fensters sowie optimierte Abstände im Layout.",
         "Verschiedene Verbesserungen während des Update-Prozesses der App."
       ]
+    },
+    "0.6.0": {
+      "features": [
+        "Verbesserte Update-Erfahrung mit lokalisierten Versionshinweisen"
+      ],
+      "fixes": []
     }
-  },
-  "0.6.0": {
-    "features": [
-      "Verbesserte Update-Erfahrung mit lokalisierten Versionshinweisen"
-    ],
-    "fixes": []
   }
 }
