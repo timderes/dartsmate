@@ -15,5 +15,9 @@
   "score": "Punktzahl",
   "checkout": "Checkout",
   "legsHelpTooltip": "Die Anzahl der Legs, die ein Spieler für ein Set braucht.",
-  "setsHelpTooltip": "Die Anzahl der Sets, die für den Spielsieg nötig sind."
+  "setsHelpTooltip": "Die Anzahl der Sets, die für den Spielsieg nötig sind.",
+  "fetchProfilesErrorNotification": {
+    "title": "Die Profile konnten nicht geladen werden!",
+    "message": "Bitte starte die App neu und versuche es erneut."
+  }
 }

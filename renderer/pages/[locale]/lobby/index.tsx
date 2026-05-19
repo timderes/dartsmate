@@ -43,6 +43,7 @@ import getFormattedName from "@utils/misc/getFormattedName";
 import EmptyState from "@components/content/EmptyState";
 import getAllProfilesFromDatabase from "@lib/db/profiles/getAllProfiles";
 import { notifications } from "@mantine/notifications";
+import Logger from "electron-log/renderer";
 
 const NewGamePage = () => {
   const {
@@ -62,9 +63,12 @@ const NewGamePage = () => {
         });
       })
       .catch((e) => {
+        console.error("Error fetching profiles from database:", e);
+        Logger.error("Error fetching profiles from database:", e);
+
         notifications.show({
-          title: "Error!",
-          message: e as string,
+          title: t("lobby:fetchProfilesErrorNotification.title"),
+          message: t("lobby:fetchProfilesErrorNotification.message"),
         });
       });
 
