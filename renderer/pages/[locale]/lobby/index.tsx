@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "next-i18next";
-import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
-import DefaultLayout from "@components/layouts/Default";
+import { useRouter } from "next/router";
 import {
   ActionIcon,
   Button,
@@ -19,70 +18,44 @@ import {
   Tooltip,
   rem,
 } from "@mantine/core";
-import type { Profile } from "types/profile";
-import ProfileAvatar from "@components/content/ProfileAvatar";
-import { useDisclosure, useSessionStorage } from "@mantine/hooks";
+import { useDisclosure } from "@mantine/hooks";
 import {
   IconHelpCircleFilled,
   IconUserMinus,
   IconUserPlus,
   IconUserQuestion,
 } from "@tabler/icons-react";
-import { useRouter } from "next/router";
-import { useForm } from "@mantine/form";
-import type { Match, Player } from "types/match";
-import {
-  APP_VERSION,
-  DEFAULT_MATCH_SETTINGS,
-  LEGS,
-  MATCH_SCORE,
-  SETS,
-} from "@utils/constants";
-import { v4 as getUUID } from "uuid";
-import getFormattedName from "@utils/misc/getFormattedName";
+import DefaultLayout from "@components/layouts/Default";
 import EmptyState from "@components/content/EmptyState";
+import ProfileAvatar from "@components/content/ProfileAvatar";
 import getAllProfilesFromDatabase from "@lib/db/profiles/getAllProfiles";
+import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
+import getFormattedName from "@utils/misc/getFormattedName";
+import { LEGS, MATCH_SCORE, SETS } from "@utils/constants";
+import type { Profile } from "@/types/profile";
 import { notifications } from "@mantine/notifications";
 import Logger from "electron-log/renderer";
-import useLobby from "@/hooks/useLobby";
-
-/**
- * Converts a `Profile` to a `Player` object by adding the necessary
- * properties for match tracking.
- *
- * These properties are only used while playing or viewing the match
- * results and are not stored in the database as part of the player's
- * profile.
- *
- * The `-1` value for `scoreLeft` indicates that the player has not
- * started scoring yet (thrown a dart).
- */
-const addMatchPropertiesToProfile = (profile: Profile): Player => {
-  return {
-    ...profile,
-    scoreLeft: -1,
-    isWinner: false,
-    rounds: [],
-    legsWon: 0,
-    setsWon: 0,
-  };
-};
+import useDartGameSetup from "@/hooks/useDartGameSetup";
 
 const NewGamePage = () => {
   const {
     t,
     i18n: { language: locale },
   } = useTranslation();
-  const lobby = useLobby();
 
-  const getAllProfiles = () =>
+  const router = useRouter();
+  const [opened, { open, close }] = useDisclosure(false);
+  const game = useDartGameSetup();
+
+  useEffect(() => {
     getAllProfilesFromDatabase()
       .then((profiles) => {
-        lobby.initialize(profiles);
+        game.initializeProfiles(profiles);
       })
       .catch((e) => {
-        console.error("Error fetching profiles from database:", e);
-        Logger.error("Error fetching profiles from database:", e);
+        console.error("Error fetching profiles:", e);
+
+        Logger.error("Error fetching profiles:", e);
 
         notifications.show({
           title: t("lobby:fetchProfilesErrorNotification.title"),
@@ -90,84 +63,34 @@ const NewGamePage = () => {
         });
       });
 
-  const [opened, { open, close }] = useDisclosure(false);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    // Reset profiles since they will refetch each render
-    lobby.initialize([]);
-
-    void getAllProfiles();
+    return () => {
+      game.reset();
+    };
   }, []);
 
-  const uuid = getUUID();
-
-  const [, setMatchStorage] = useSessionStorage<Match>({
-    key: "currentMatch",
-    defaultValue: undefined,
-  });
-
-  const matchSettings = useForm<Match>({
-    initialValues: {
-      appVersion: APP_VERSION,
-      createdAt: Date.now(),
-      initialScore: DEFAULT_MATCH_SETTINGS.SCORE,
-      matchCheckout: DEFAULT_MATCH_SETTINGS.CHECKOUT,
-      matchStatus: DEFAULT_MATCH_SETTINGS.STATUS,
-      uuid: uuid,
-      players: [],
-      updatedAt: Date.now(),
-      legs: DEFAULT_MATCH_SETTINGS.LEGS,
-      sets: DEFAULT_MATCH_SETTINGS.SETS,
-    },
-  });
-
-  const handleRemovePlayer = (uuid: Profile["uuid"]) => {
-    lobby.removePlayer(uuid);
-
-    matchSettings.setValues({
-      players: lobby.selectedProfiles.map((profile) => ({
-        ...addMatchPropertiesToProfile(profile),
-      })),
-    });
-  };
-
-  const handleAddPlayer = (profile: Profile) => {
-    lobby.addPlayer(profile);
-    const updatedProfiles = [...lobby.selectedProfiles, profile];
-
-    matchSettings.setValues({
-      players: updatedProfiles.map((profile) => ({
-        ...addMatchPropertiesToProfile(profile),
-      })),
-    });
-  };
-
   const handleStartMatch = () => {
-    if (!matchSettings.isValid()) return;
+    if (!game.isMatchValid) return;
 
-    setMatchStorage(matchSettings.values);
+    game.saveMatchToSession();
     void router.push(`/${locale}/match/playing`);
   };
 
   const renderPlayer = (profile: Profile) => {
+    const isSelected = game.isSelected(profile.uuid);
+
     return (
       <Group justify="space-between">
         <Group>
-          <ProfileAvatar
-            profile={profile}
-            src={profile.avatarImage}
-            size="lg"
-          />
+          <ProfileAvatar profile={profile} size="lg" />
           <Text>
-            {getFormattedName(profile.name)}{" "}
+            {getFormattedName(profile.name)}
             <Text component="span" c="dimmed" display="block" size="xs">
               {profile.username}
             </Text>
           </Text>
         </Group>
-        {lobby.selectedProfiles.includes(profile) ? (
+
+        {isSelected ? (
           <Tooltip
             label={t("lobby:removePlayerFromLobby", {
               PLAYER_NAME: profile.username,
@@ -175,9 +98,8 @@ const NewGamePage = () => {
             withArrow
           >
             <ActionIcon
-              onClick={() => handleRemovePlayer(profile.uuid)}
-              disabled={false}
               variant="default"
+              onClick={() => game.removePlayer(profile.uuid)}
             >
               <IconUserMinus
                 style={{
@@ -195,9 +117,8 @@ const NewGamePage = () => {
             withArrow
           >
             <ActionIcon
-              onClick={() => handleAddPlayer(profile)}
-              disabled={false}
               variant="default"
+              onClick={() => game.addPlayer(profile)}
             >
               <IconUserPlus
                 style={{
@@ -215,7 +136,7 @@ const NewGamePage = () => {
   return (
     <DefaultLayout withNavbarOpen={false}>
       <Drawer opened={opened} onClose={close} title={t("lobby:addPlayer")}>
-        <ScrollArea pr="xl" h="auto">
+        <ScrollArea pr="xl">
           <Stack>
             <Button
               onClick={() =>
@@ -227,13 +148,9 @@ const NewGamePage = () => {
             >
               {t("lobby:createGuestPlayer")}
             </Button>
-            {lobby.availableProfiles.map((guestPlayer) => {
-              if (lobby.selectedProfiles.includes(guestPlayer)) return;
-
-              return (
-                <div key={guestPlayer.uuid}>{renderPlayer(guestPlayer)}</div>
-              );
-            })}
+            {game.availableToSelect.map((profile) => (
+              <div key={profile.uuid}>{renderPlayer(profile)}</div>
+            ))}
           </Stack>
         </ScrollArea>
       </Drawer>
@@ -242,30 +159,31 @@ const NewGamePage = () => {
           <Stack gap="lg">
             <Group>
               <Title>{t("lobby:title.players")}</Title>
+
               <Button ml="auto" size="xs" onClick={open}>
                 {t("lobby:addPlayer")}
               </Button>
             </Group>
-            {lobby.selectedProfiles.map((player) => (
+            {game.selectedProfiles.map((player) => (
               <div key={player.uuid}>{renderPlayer(player)}</div>
             ))}
-            {lobby.selectedProfiles.length === 0 ? (
+            {game.selectedProfiles.length === 0 && (
               <EmptyState
                 icon={<IconUserQuestion size={64} opacity={0.6} />}
                 title={t("lobby:emptyLobbyState.title")}
                 text={t("lobby:emptyLobbyState.text")}
               />
-            ) : undefined}
+            )}
           </Stack>
         </Grid.Col>
-        <Grid.Col span={4} px="xs" h="100%">
+        <Grid.Col span={4} px="xs">
           <Stack gap="xs">
             <Title>{t("lobby:title.matchSettings")}</Title>
             <NumberInput
               label={t("lobby:score")}
               min={MATCH_SCORE.MIN}
               max={MATCH_SCORE.MAX}
-              {...matchSettings.getInputProps("initialScore")}
+              {...game.matchForm.getInputProps("initialScore")}
             />
             <Group grow>
               <NumberInput
@@ -285,7 +203,7 @@ const NewGamePage = () => {
                 }
                 min={SETS.MIN}
                 max={SETS.MAX}
-                {...matchSettings.getInputProps("sets")}
+                {...game.matchForm.getInputProps("sets")}
               />
               <NumberInput
                 label={
@@ -303,13 +221,11 @@ const NewGamePage = () => {
                 }
                 min={LEGS.MIN}
                 max={LEGS.MAX}
-                {...matchSettings.getInputProps("legs")}
+                {...game.matchForm.getInputProps("legs")}
               />
             </Group>
             <Select
               label={t("lobby:checkout")}
-              {...matchSettings.getInputProps("matchCheckout")}
-              defaultValue={matchSettings.values.matchCheckout}
               data={[
                 {
                   label: t("checkouts.any"),
@@ -328,12 +244,13 @@ const NewGamePage = () => {
                   value: "Triple",
                 },
               ]}
+              {...game.matchForm.getInputProps("matchCheckout")}
             />
             <Divider />
             <Button
-              disabled={lobby.isLobbyEmpty}
-              onClick={() => handleStartMatch()}
               mt="auto"
+              disabled={game.selectedProfiles.length === 0}
+              onClick={handleStartMatch}
             >
               {t("lobby:startMatch")}
             </Button>
