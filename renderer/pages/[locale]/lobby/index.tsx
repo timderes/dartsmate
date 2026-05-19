@@ -106,7 +106,7 @@ const NewGamePage = () => {
     },
   });
 
-  const handleRemovePlayer = (uuid: Profile["uuid"]): void => {
+  const handleRemovePlayer = (uuid: Profile["uuid"]) => {
     const updatedProfiles = selectedProfiles.filter(
       (profile) => profile.uuid !== uuid,
     );
@@ -124,7 +124,7 @@ const NewGamePage = () => {
     });
   };
 
-  const handleAddPlayer = (profile: Profile): void => {
+  const handleAddPlayer = (profile: Profile) => {
     selectedProfilesActions.append(profile);
     const updatedProfiles = [...selectedProfiles, profile];
 
@@ -140,7 +140,7 @@ const NewGamePage = () => {
     });
   };
 
-  const handleStartMatch = (): void => {
+  const handleStartMatch = () => {
     if (!matchSettings.isValid()) return;
 
     setMatchStorage(matchSettings.values);
