@@ -6,6 +6,12 @@ permissions:
   actions: write # Needed for caching npm dependencies
   contents: read
 
+# Cancel previous runs of the same workflow on the same branch
+# to avoid redundant CI jobs when new commits are pushed.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches: [main, "deps-updates"]
