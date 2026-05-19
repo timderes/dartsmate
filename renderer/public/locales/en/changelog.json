@@ -6,6 +6,7 @@
     "0.7.0": {
       "features": [
         "Added a new Profiles overview page to quickly view all profiles.",
+        "During the match, players can now see their won legs and sets.",
         "Improved the match statistics view with a new Sankey chart for better dart throw visualization.",
         "The app now shows the changelog directly after updates.",
         "Added a re-open changelog link in the navigation bar.",
