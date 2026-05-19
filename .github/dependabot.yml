@@ -22,8 +22,18 @@ updates:
         patterns:
           - "react"
           - "react-dom"
+          - "@types/react"
       # Group Electron related packages
       electron:
         patterns:
           - "electron"
           - "electron-*"
+      next:
+        patterns:
+          - "next"
+          - "@next/*"
+          - "next-*"
+      dexie:
+        patterns:
+          - "dexie"
+          - "dexie-*"
