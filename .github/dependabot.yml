@@ -6,6 +6,9 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "04:00"
+    # Open Dependabot PRs against the deps-updates branch,
+    # so grouped updates can be tested there before merging into main
+    target-branch: "deps-updates"
     open-pull-requests-limit: 10
     groups:
       # Group Mantine UI updates together to ensure consistency
@@ -13,16 +16,24 @@ updates:
         patterns:
           - "@mantine/*"
           - "postcss-preset-mantine"
-      # Group React and Next.js updates (often related)
-      framework:
+      # Group React updates together to ensure compatibility
+      # between react and react-dom
+      react:
         patterns:
           - "react"
           - "react-dom"
-          - "next"
-          - "next-i18next"
-          - "nextron"
+          - "@types/react"
       # Group Electron related packages
       electron:
         patterns:
           - "electron"
           - "electron-*"
+      next:
+        patterns:
+          - "next"
+          - "@next/*"
+          - "next-*"
+      dexie:
+        patterns:
+          - "dexie"
+          - "dexie-*"
