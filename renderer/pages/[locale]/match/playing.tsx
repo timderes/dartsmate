@@ -282,9 +282,7 @@ const PlayingPage: NextPage = () => {
                         }
                       />
                       <Flex
-                        direction={{
-                          xs: "column",
-                        }}
+                        direction="column"
                         tt="uppercase"
                         fz="xs"
                         px="lg"
