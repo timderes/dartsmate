@@ -319,7 +319,7 @@ const NewGamePage = () => {
             />
             <Divider />
             <Button
-              disabled={lobby.selectedProfiles.length === 0}
+              disabled={lobby.isLobbyEmpty}
               onClick={() => handleStartMatch()}
               mt="auto"
             >

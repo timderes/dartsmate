@@ -26,9 +26,12 @@ const useLobby = () => {
     availableProfilesActions.setState(profiles);
   };
 
+  const isLobbyEmpty = selectedProfiles.length === 0;
+
   return {
     availableProfiles,
     selectedProfiles,
+    isLobbyEmpty,
     addPlayer,
     removePlayer,
     resetPlayers,
