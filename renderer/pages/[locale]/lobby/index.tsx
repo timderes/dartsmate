@@ -21,7 +21,7 @@ import {
 } from "@mantine/core";
 import type { Profile } from "types/profile";
 import ProfileAvatar from "@components/content/ProfileAvatar";
-import { useDisclosure, useListState, useSessionStorage } from "@mantine/hooks";
+import { useDisclosure, useSessionStorage } from "@mantine/hooks";
 import {
   IconHelpCircleFilled,
   IconUserMinus,
@@ -44,23 +44,19 @@ import EmptyState from "@components/content/EmptyState";
 import getAllProfilesFromDatabase from "@lib/db/profiles/getAllProfiles";
 import { notifications } from "@mantine/notifications";
 import Logger from "electron-log/renderer";
+import useLobby from "@/hooks/useLobby";
 
 const NewGamePage = () => {
   const {
     t,
     i18n: { language: locale },
   } = useTranslation();
-  const [selectedProfiles, selectedProfilesActions] = useListState<Profile>([]);
-  const [availableProfiles, availableProfilesActions] = useListState<Profile>(
-    [],
-  );
+  const lobby = useLobby();
 
   const getAllProfiles = () =>
     getAllProfilesFromDatabase()
       .then((profiles) => {
-        profiles.forEach((profile) => {
-          availableProfilesActions.append(profile);
-        });
+        lobby.setAvailableProfiles(profiles);
       })
       .catch((e) => {
         console.error("Error fetching profiles from database:", e);
@@ -78,8 +74,7 @@ const NewGamePage = () => {
 
   useEffect(() => {
     // Reset profiles since they will refetch each render
-    selectedProfilesActions.setState([]);
-    availableProfilesActions.setState([]);
+    lobby.resetPlayers();
 
     void getAllProfiles();
   }, []);
@@ -107,13 +102,10 @@ const NewGamePage = () => {
   });
 
   const handleRemovePlayer = (uuid: Profile["uuid"]) => {
-    const updatedProfiles = selectedProfiles.filter(
-      (profile) => profile.uuid !== uuid,
-    );
-    selectedProfilesActions.setState(updatedProfiles);
+    lobby.removePlayer(uuid);
 
     matchSettings.setValues({
-      players: updatedProfiles.map((profile) => ({
+      players: lobby.selectedProfiles.map((profile) => ({
         ...profile,
         scoreLeft: -1,
         isWinner: false,
@@ -125,8 +117,8 @@ const NewGamePage = () => {
   };
 
   const handleAddPlayer = (profile: Profile) => {
-    selectedProfilesActions.append(profile);
-    const updatedProfiles = [...selectedProfiles, profile];
+    lobby.addPlayer(profile);
+    const updatedProfiles = [...lobby.selectedProfiles, profile];
 
     matchSettings.setValues({
       players: updatedProfiles.map((profile) => ({
@@ -163,7 +155,7 @@ const NewGamePage = () => {
             </Text>
           </Text>
         </Group>
-        {selectedProfiles.includes(profile) ? (
+        {lobby.selectedProfiles.includes(profile) ? (
           <Tooltip
             label={t("lobby:removePlayerFromLobby", {
               PLAYER_NAME: profile.username,
@@ -223,8 +215,8 @@ const NewGamePage = () => {
             >
               {t("lobby:createGuestPlayer")}
             </Button>
-            {availableProfiles.map((guestPlayer) => {
-              if (selectedProfiles.includes(guestPlayer)) return;
+            {lobby.availableProfiles.map((guestPlayer) => {
+              if (lobby.selectedProfiles.includes(guestPlayer)) return;
 
               return (
                 <div key={guestPlayer.uuid}>{renderPlayer(guestPlayer)}</div>
@@ -242,10 +234,10 @@ const NewGamePage = () => {
                 {t("lobby:addPlayer")}
               </Button>
             </Group>
-            {selectedProfiles.map((player) => (
+            {lobby.selectedProfiles.map((player) => (
               <div key={player.uuid}>{renderPlayer(player)}</div>
             ))}
-            {selectedProfiles.length === 0 ? (
+            {lobby.selectedProfiles.length === 0 ? (
               <EmptyState
                 icon={<IconUserQuestion size={64} opacity={0.6} />}
                 title={t("lobby:emptyLobbyState.title")}
@@ -327,7 +319,7 @@ const NewGamePage = () => {
             />
             <Divider />
             <Button
-              disabled={selectedProfiles.length === 0}
+              disabled={lobby.selectedProfiles.length === 0}
               onClick={() => handleStartMatch()}
               mt="auto"
             >
