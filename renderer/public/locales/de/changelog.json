@@ -6,6 +6,7 @@
     "0.7.0": {
       "features": [
         "Neue Profilübersicht hinzugefügt, um alle Profile schnell anzuzeigen.",
+        "Während des Spiels können Spieler nun ihre gewonnenen Legs und Sets sehen.",
         "Verbesserte Match-Statistiken mit einer neuen Sankey-Visualisierung für geworfene Darts.",
         "Die App zeigt jetzt den Changelog direkt nach einem Update an.",
         "Neuer Link zum erneuten Öffnen des Changelogs in der Navigation hinzugefügt.",

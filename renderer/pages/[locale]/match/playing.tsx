@@ -282,10 +282,7 @@ const PlayingPage: NextPage = () => {
                         }
                       />
                       <Flex
-                        direction={{
-                          xs: "column",
-                          xl: "row",
-                        }}
+                        direction="column"
                         tt="uppercase"
                         fz="xs"
                         px="lg"
@@ -312,6 +309,24 @@ const PlayingPage: NextPage = () => {
                           {/* Fixed lazy calculation with proper utility */}
                           {getTotalDartsThrown(players[index].rounds)}
                         </span>
+                        {state.legs > 1 && ( // No need to show leg count if it's a single-leg match
+                          <span>
+                            {t("leg", {
+                              // Always use plural here
+                              count: 2,
+                            })}
+                            : {players[index].legsWon ?? 0}
+                          </span>
+                        )}
+                        {state.sets > 1 && (
+                          <span>
+                            {t("set", {
+                              // Always use plural here
+                              count: 2,
+                            })}
+                            : {players[index].setsWon ?? 0}
+                          </span>
+                        )}
                       </Flex>
                       <Progress
                         color={player.color}
