@@ -99,7 +99,7 @@ const useDartGameSetup = () => {
   /**
    * Save current match setup to session storage
    */
-  const saveMatchToSession = () => {
+  const saveMatchToSessionStorage = () => {
     setMatchStorage(matchForm.values);
   };
 
@@ -130,7 +130,7 @@ const useDartGameSetup = () => {
     match: matchForm.values,
     matchForm,
     isMatchValid: matchForm.isValid(),
-    saveMatchToSession,
+    saveMatchToSessionStorage,
     reset,
   };
 };

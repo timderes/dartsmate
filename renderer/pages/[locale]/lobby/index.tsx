@@ -71,7 +71,7 @@ const NewGamePage = () => {
   const handleStartMatch = () => {
     if (!game.isMatchValid) return;
 
-    game.saveMatchToSession();
+    game.saveMatchToSessionStorage();
     void router.push(`/${locale}/match/playing`);
   };
 
