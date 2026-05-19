@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
 import { Box, Button, Group, Stack, Stepper, Text } from "@mantine/core";
 import { useTranslation } from "next-i18next";
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import log from "electron-log/renderer";
@@ -47,7 +47,7 @@ const CreateProfilePage: NextPage = () => {
   const prevStep = () =>
     setActive((current) => (!isFirstPage ? current - 1 : current));
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
 
     const { hasErrors } = form.validate();
