@@ -30,7 +30,7 @@ import {
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
-import type { Match } from "types/match";
+import type { Match, Player } from "types/match";
 import {
   APP_VERSION,
   DEFAULT_MATCH_SETTINGS,
@@ -45,6 +45,28 @@ import getAllProfilesFromDatabase from "@lib/db/profiles/getAllProfiles";
 import { notifications } from "@mantine/notifications";
 import Logger from "electron-log/renderer";
 import useLobby from "@/hooks/useLobby";
+
+/**
+ * Converts a `Profile` to a `Player` object by adding the necessary
+ * properties for match tracking.
+ *
+ * These properties are only used while playing or viewing the match
+ * results and are not stored in the database as part of the player's
+ * profile.
+ *
+ * The `-1` value for `scoreLeft` indicates that the player has not
+ * started scoring yet (thrown a dart).
+ */
+const addMatchPropertiesToProfile = (profile: Profile): Player => {
+  return {
+    ...profile,
+    scoreLeft: -1,
+    isWinner: false,
+    rounds: [],
+    legsWon: 0,
+    setsWon: 0,
+  };
+};
 
 const NewGamePage = () => {
   const {
@@ -106,12 +128,7 @@ const NewGamePage = () => {
 
     matchSettings.setValues({
       players: lobby.selectedProfiles.map((profile) => ({
-        ...profile,
-        scoreLeft: -1,
-        isWinner: false,
-        rounds: [],
-        legsWon: 0,
-        setsWon: 0,
+        ...addMatchPropertiesToProfile(profile),
       })),
     });
   };
@@ -122,12 +139,7 @@ const NewGamePage = () => {
 
     matchSettings.setValues({
       players: updatedProfiles.map((profile) => ({
-        ...profile,
-        scoreLeft: -1,
-        isWinner: false,
-        rounds: [],
-        legsWon: 0,
-        setsWon: 0,
+        ...addMatchPropertiesToProfile(profile),
       })),
     });
   };
