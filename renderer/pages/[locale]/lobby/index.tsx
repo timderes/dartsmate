@@ -56,7 +56,7 @@ const NewGamePage = () => {
   const getAllProfiles = () =>
     getAllProfilesFromDatabase()
       .then((profiles) => {
-        lobby.setAvailableProfiles(profiles);
+        lobby.initialize(profiles);
       })
       .catch((e) => {
         console.error("Error fetching profiles from database:", e);
@@ -74,7 +74,7 @@ const NewGamePage = () => {
 
   useEffect(() => {
     // Reset profiles since they will refetch each render
-    lobby.resetPlayers();
+    lobby.initialize([]);
 
     void getAllProfiles();
   }, []);

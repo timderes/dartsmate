@@ -2,40 +2,38 @@ import type { Profile } from "@/types/profile";
 import { useListState } from "@mantine/hooks";
 
 const useLobby = () => {
-  const [availableProfiles, availableProfilesActions] = useListState<Profile>(
-    [],
-  );
-  const [selectedProfiles, selectedProfilesActions] = useListState<Profile>([]);
+  const [available, availableActions] = useListState<Profile>([]);
+  const [selected, selectedActions] = useListState<Profile>([]);
 
-  const addPlayer = (profile: Profile) => {
-    selectedProfilesActions.append(profile);
+  const addPlayer = (p: Profile) => {
+    if (selected.some((x) => x.uuid === p.uuid)) return;
+    selectedActions.append(p);
   };
 
   const removePlayer = (uuid: Profile["uuid"]) => {
-    selectedProfilesActions.setState(
-      selectedProfiles.filter((p) => p.uuid !== uuid),
-    );
+    selectedActions.setState(selected.filter((p) => p.uuid !== uuid));
   };
 
-  const resetPlayers = () => {
-    selectedProfilesActions.setState([]);
-    availableProfilesActions.setState([]);
+  const isSelected = (uuid: Profile["uuid"]) => {
+    return selected.some((p) => p.uuid === uuid);
   };
 
-  const setAvailableProfiles = (profiles: Profile[]) => {
-    availableProfilesActions.setState(profiles);
+  const initialize = (profiles: Profile[]) => {
+    availableActions.setState(profiles);
+    selectedActions.setState([]);
   };
 
-  const isLobbyEmpty = selectedProfiles.length === 0;
+  const isLobbyEmpty = selected.length === 0;
 
   return {
-    availableProfiles,
-    selectedProfiles,
+    availableProfiles: available,
+    selectedProfiles: selected,
     isLobbyEmpty,
+
     addPlayer,
     removePlayer,
-    resetPlayers,
-    setAvailableProfiles,
+    isSelected,
+    initialize,
   };
 };
 
