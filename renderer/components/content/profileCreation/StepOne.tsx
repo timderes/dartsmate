@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import type { FormRulesRecord, UseFormReturnType } from "@mantine/form";
 import { useTranslation } from "next-i18next";
-import { Profile } from "types/profile";
+import type { Profile } from "@/types/profile";
 import CountryAndCurrency from "@workmate/country-and-currency";
 import { useMemo } from "react";
 

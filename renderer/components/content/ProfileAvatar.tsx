@@ -1,6 +1,6 @@
 import { Avatar } from "@mantine/core";
 import type { AvatarProps } from "@mantine/core";
-import type { Profile } from "types/profile";
+import type { Profile } from "@/types/profile";
 
 type ProfileAvatarProps = AvatarProps & {
   profile: Profile;

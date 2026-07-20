@@ -1,7 +1,7 @@
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { v4 as getUUID } from "uuid";
-import type { Profile } from "types/profile";
+import type { Profile } from "@/types/profile";
 import { DefaultMantineColor, useMantineTheme } from "@mantine/core";
 import { useTranslation } from "next-i18next";
 

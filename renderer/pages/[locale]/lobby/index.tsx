@@ -1,7 +1,7 @@
 import { useEffect, type ReactNode } from "react";
 import { useTranslation } from "next-i18next";
-import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
-import DefaultLayout from "@components/layouts/Default";
+import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import DefaultLayout from "@/components/layouts/Default";
 import {
   ActionIcon,
   Button,
@@ -19,8 +19,8 @@ import {
   Tooltip,
   rem,
 } from "@mantine/core";
-import type { Profile } from "types/profile";
-import ProfileAvatar from "@components/content/ProfileAvatar";
+import type { Profile } from "@/types/profile";
+import ProfileAvatar from "@/components/content/ProfileAvatar";
 import { useDisclosure, useListState, useSessionStorage } from "@mantine/hooks";
 import {
   IconHelpCircleFilled,
@@ -30,18 +30,18 @@ import {
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
-import type { Match } from "types/match";
+import type { Match } from "@/types/match";
 import {
   APP_VERSION,
   DEFAULT_MATCH_SETTINGS,
   LEGS,
   MATCH_SCORE,
   SETS,
-} from "@utils/constants";
+} from "@/utils/constants";
 import { v4 as getUUID } from "uuid";
-import getFormattedName from "@utils/misc/getFormattedName";
-import EmptyState from "@components/content/EmptyState";
-import getAllProfilesFromDatabase from "@lib/db/profiles/getAllProfiles";
+import getFormattedName from "@/utils/misc/getFormattedName";
+import EmptyState from "@/components/content/EmptyState";
+import getAllProfilesFromDatabase from "@/lib/db/profiles/getAllProfiles";
 import { notifications } from "@mantine/notifications";
 
 const NewGamePage = () => {

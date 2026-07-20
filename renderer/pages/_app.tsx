@@ -4,8 +4,8 @@ import { appWithTranslation } from "next-i18next";
 import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
 import { useHotkeys } from "@mantine/hooks";
-import sendIPC from "@utils/ipc/send";
-import { NOTIFICATION_LIMIT } from "utils/constants";
+import sendIPC from "@/utils/ipc/send";
+import { NOTIFICATION_LIMIT } from "@/utils/constants";
 import { ProfileProvider } from "@/contexts/ProfileContext";
 
 // All packages except `@mantine/hooks` require styles imports!

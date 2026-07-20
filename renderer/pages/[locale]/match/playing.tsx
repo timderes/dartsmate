@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
+import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
 import {
   Badge,
   Button,
@@ -28,27 +28,20 @@ import { useRouter } from "next/router";
 import { modals } from "@mantine/modals";
 import { IconCrown, IconEraser, IconPlayerPlay } from "@tabler/icons-react";
 import log from "electron-log/renderer";
-
-import type { Player } from "types/match";
-
-import OnlyControlsLayout from "@components/layouts/OnlyControlsLayout";
-import ProfileAvatar from "@components/content/ProfileAvatar";
-import { useDartGame } from "@hooks/useDartGame";
-
-import addMatchToDatabase from "@lib/db/matches/addMatch";
-import updateProfileFromDatabase from "@lib/db/profiles/updateProfile";
-
-import getMatchWinner from "@lib/playing/getMatchWinner";
+import type { Player } from "@/types/match";
+import OnlyControlsLayout from "@/components/layouts/OnlyControlsLayout";
+import ProfileAvatar from "@/components/content/ProfileAvatar";
+import { useDartGame } from "@/hooks/useDartGame";
+import addMatchToDatabase from "@/lib/db/matches/addMatch";
+import updateProfileFromDatabase from "@/lib/db/profiles/updateProfile";
+import getMatchWinner from "@/lib/playing/getMatchWinner";
 import updatePlayerStatistics from "@/lib/playing/player/updatePlayerStatistics";
-
-import { DARTBOARD_ZONES, THROWS_PER_ROUND } from "@utils/constants";
-import getFormattedName from "@utils/misc/getFormattedName";
-import SharedConfirmModalProps from "@utils/modals/sharedConfirmModalProps";
-
+import { DARTBOARD_ZONES, THROWS_PER_ROUND } from "@/utils/constants";
+import getFormattedName from "@/utils/misc/getFormattedName";
+import SharedConfirmModalProps from "@/utils/modals/sharedConfirmModalProps";
 import { useProfile } from "@/contexts/ProfileContext";
-
 // Statistics utilities
-import getFirstNineAverage from "@lib/playing/stats/getFirstNineAverage";
+import getFirstNineAverage from "@/lib/playing/stats/getFirstNineAverage";
 import getHighestScore from "@/lib/playing/stats/getHighestScore";
 import getMatchAverage from "@/lib/playing/stats/getMatchAverage";
 import getScores from "@/lib/playing/stats/getScores";

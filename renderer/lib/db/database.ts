@@ -1,7 +1,7 @@
 import Dexie, { type EntityTable } from "dexie";
-import { APP_NAME } from "utils/constants";
-import type { Match } from "types/match";
-import type { Profile } from "types/profile";
+import { APP_NAME } from "@/utils/constants";
+import type { Match } from "@/types/match";
+import type { Profile } from "@/types/profile";
 
 const lowerCasedAppName = APP_NAME.toLowerCase();
 

@@ -1,4 +1,4 @@
-import { Match } from "types/match";
+import { Match } from "@/types/match";
 
 import database from "../database";
 

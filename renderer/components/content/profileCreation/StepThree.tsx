@@ -1,13 +1,13 @@
 import { Button, Group, Paper, Title, Text } from "@mantine/core";
 import { useTranslation } from "next-i18next";
-import ProfileAvatar from "@components/content/ProfileAvatar";
+import ProfileAvatar from "@/components/content/ProfileAvatar";
 import { IconCamera, IconPhotoUp, IconPhotoX } from "@tabler/icons-react";
 import { FileButton } from "@mantine/core";
 import { useState, useEffect } from "react";
-import resizeAvatarImage from "utils/avatars/resizeAvatarImage";
+import resizeAvatarImage from "@/utils/avatars/resizeAvatarImage";
 import log from "electron-log/renderer";
 import type { FormRulesRecord, UseFormReturnType } from "@mantine/form";
-import { Profile } from "types/profile";
+import type { Profile } from "@/types/profile";
 
 const StepThree = ({
   form,

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
+import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
 import {
   BackgroundImage,
   Button,
@@ -11,10 +11,10 @@ import {
   Title,
 } from "@mantine/core";
 import { useTranslation } from "next-i18next";
-import sendIPC from "utils/ipc/send";
+import sendIPC from "@/utils/ipc/send";
 import { useRouter } from "next/router";
-import OnlyControlsLayout from "@components/layouts/OnlyControlsLayout";
-import { APP_NAME, APP_SHELL } from "utils/constants";
+import OnlyControlsLayout from "@/components/layouts/OnlyControlsLayout";
+import { APP_NAME, APP_SHELL } from "@/utils/constants";
 
 /**
  * Renders the `ProfileSetupIntroPage`, displayed when no default profile exists.

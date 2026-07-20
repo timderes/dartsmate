@@ -8,7 +8,7 @@ import {
 } from "@tabler/icons-react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import getDefaultIconSize from "utils/misc/getDefaultIconSize";
+import getDefaultIconSize from "@/utils/misc/getDefaultIconSize";
 
 type SettingsLayoutProps = {
   children: React.ReactNode;

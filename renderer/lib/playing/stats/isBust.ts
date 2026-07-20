@@ -1,4 +1,4 @@
-import type { Checkout } from "types/match";
+import type { Checkout } from "@/types/match";
 
 /**
  * Checks if the current throw results in a bust situation based on the remaining score.

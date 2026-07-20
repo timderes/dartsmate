@@ -1,6 +1,6 @@
 import { Box, type BoxComponentProps, Skeleton, Title } from "@mantine/core";
 import DarkenedText from "./content/DarkenedText";
-import type { Profile } from "types/profile";
+import type { Profile } from "@/types/profile";
 import { useTranslation } from "next-i18next";
 
 type HeaderGreetingProps = BoxComponentProps & {

@@ -1,4 +1,4 @@
-import type { Profile } from "types/profile";
+import type { Profile } from "@/types/profile";
 
 /**
  * Constructs the formatted full name from a Profile or Player object.
