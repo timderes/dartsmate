@@ -1,5 +1,5 @@
-import type { MatchRound } from "types/match";
-import { THROWS_PER_ROUND } from "utils/constants";
+import type { MatchRound } from "@/types/match";
+import { THROWS_PER_ROUND } from "@/utils/constants";
 
 /**
  * Calculates the average score of the first nine throws based on the player's rounds.

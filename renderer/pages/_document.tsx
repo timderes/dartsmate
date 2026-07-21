@@ -1,7 +1,7 @@
 import { Head, Html, Main, NextScript } from "next/document";
 import { ColorSchemeScript } from "@mantine/core";
-import { i18n } from "next-i18next";
-import i18next from "../../next-i18next.config.js";
+import { i18n } from "next-i18next/pages";
+import i18next from "../../next-i18next.config";
 import { APP_NAME } from "../utils/constants";
 
 const Document = () => {

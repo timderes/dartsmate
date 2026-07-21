@@ -1,6 +1,6 @@
 import { Text } from "@mantine/core";
 import { useUpdater } from "@/contexts/UpdaterContext";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { APP_NAME } from "@/utils/constants";
 
 const UpdaterStatusText = () => {

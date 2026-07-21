@@ -1,4 +1,4 @@
-import type { MatchRound } from "types/match";
+import type { MatchRound } from "@/types/match";
 
 /**
  * Calculates the total number of darts thrown across all rounds.

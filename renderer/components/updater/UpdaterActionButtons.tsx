@@ -1,7 +1,7 @@
 import { useUpdater } from "@/contexts/UpdaterContext";
 import { Button } from "@mantine/core";
 import log from "electron-log/renderer";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { useEffect, useState } from "react";
 
 /**

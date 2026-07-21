@@ -1,4 +1,4 @@
-import type { MatchRound } from "types/match";
+import type { MatchRound } from "@/types/match";
 
 const getCategorizedThrows = (
   rounds: MatchRound[],

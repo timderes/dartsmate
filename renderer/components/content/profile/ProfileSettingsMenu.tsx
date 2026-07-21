@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { ActionIcon, Menu, type MenuProps, Text, Tooltip } from "@mantine/core";
 import {
   IconChartBarOff,

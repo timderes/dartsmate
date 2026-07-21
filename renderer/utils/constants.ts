@@ -1,6 +1,6 @@
 import type { MantineSpacing } from "@mantine/core";
 import pkg from "../../package.json";
-import { Checkout, MatchStatus } from "types/match";
+import type { Checkout, MatchStatus } from "@/types/match";
 
 export const APP_NAME = pkg.productName;
 export const APP_VERSION = pkg.version;

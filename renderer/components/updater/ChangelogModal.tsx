@@ -1,6 +1,6 @@
 import { Button, List, Stack, Text, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { APP_VERSION } from "@/utils/constants";
 
 const ChangelogModal = () => {

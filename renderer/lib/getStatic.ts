@@ -1,12 +1,11 @@
 import type { GetStaticPaths, GetStaticPropsContext } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import i18next from "../../next-i18next.config.js";
+import { serverSideTranslations } from "next-i18next/pages/serverSideTranslations";
+import i18nConfig from "@/../next-i18next.config";
 
-const locales = i18next.i18n.locales;
-const defaultLocale = i18next.i18n.defaultLocale;
+const { locales, defaultLocale } = i18nConfig.i18n;
 
 export const getI18nPaths = () => {
-  return locales.map((locale) => ({
+  return locales.map((locale: string) => ({
     params: {
       locale,
     },
@@ -27,7 +26,7 @@ export const getI18nProperties = async (
   const locale = (context?.params?.locale as string) ?? defaultLocale;
 
   return {
-    ...(await serverSideTranslations(locale, namespaces)),
+    ...(await serverSideTranslations(locale, namespaces, i18nConfig)),
   };
 };
 

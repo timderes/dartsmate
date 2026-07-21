@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import getProfileFromDatabase from "@/lib/db/profiles/getProfile";
-import type { Profile } from "types/profile";
+import type { Profile } from "@/types/profile";
 
 type ProfileContextType = {
   profile: Profile | undefined;
