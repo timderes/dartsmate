@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 
 import {
   AppShell,
@@ -14,10 +14,9 @@ import {
 import { upperFirst, useNetwork, useOs } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import ChangelogModal from "@/components/updater/ChangelogModal";
-import { APP_VERSION } from "@utils/constants";
-
-import navbarRoutes from "@utils/content/navbarRoutes";
-import formatLocalizedRoute from "@utils/navigation/formatLocalizedRoute";
+import { APP_VERSION } from "@/utils/constants";
+import navbarRoutes from "@/utils/content/navbarRoutes";
+import formatLocalizedRoute from "@/utils/navigation/formatLocalizedRoute";
 import sharedChangelogModalProps from "@/utils/modals/sharedChangelogModalProps";
 
 /**

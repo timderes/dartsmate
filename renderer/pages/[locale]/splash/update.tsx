@@ -1,5 +1,5 @@
 import { useMantineTheme } from "@mantine/core";
-import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
+import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
 import AnimatedLoaderIcon from "@/components/content/AnimatedLoaderIcon";
 import { UpdaterProvider } from "@/contexts/UpdaterContext";
 import useUpdater from "@/hooks/useUpdater";

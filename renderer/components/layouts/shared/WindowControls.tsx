@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { modals } from "@mantine/modals";
 import { useFullscreenDocument } from "@mantine/hooks";
 import sendIPC from "@/utils/ipc/send";

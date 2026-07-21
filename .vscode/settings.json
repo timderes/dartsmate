@@ -16,7 +16,6 @@
     "javascriptreact",
     "typescriptreact"
   ],
-  "typescript.tsdk": "node_modules\\typescript\\lib",
   "cSpell.words": [
     "Autosize",
     "dartsmate",
@@ -42,5 +41,6 @@
   "i18n-ally.localesPaths": ["renderer/public/locales"],
   "i18n-ally.namespace": true,
   "i18n-ally.defaultNamespace": "common",
-  "i18n-ally.keystyle": "nested"
+  "i18n-ally.keystyle": "nested",
+  "js/ts.tsdk.path": "node_modules\\typescript\\lib"
 }

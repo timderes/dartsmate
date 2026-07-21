@@ -1,14 +1,14 @@
 import type { NextPage } from "next";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { SankeyChart, type SankeyChartData } from "@mantine/charts";
-import type { Match } from "types/match";
-import ProfileAvatar from "@components/content/ProfileAvatar";
-import DefaultLayout from "@components/layouts/Default";
-import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
+import type { Match } from "@/types/match";
+import ProfileAvatar from "@/components/content/ProfileAvatar";
+import DefaultLayout from "@/components/layouts/Default";
+import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
 import getHighestScore from "@/lib/playing/stats/getHighestScore";
 import getNumberOfRoundsAboveThreshold from "@/lib/playing/stats/getScoresAbove";
 import getMatchAverage from "@/lib/playing/stats/getMatchAverage";
-import { getLocaleDate } from "@utils/misc/getLocalDate";
+import { getLocaleDate } from "@/utils/misc/getLocalDate";
 import getCategorizedThrows from "@/lib/playing/stats/getCategorizedThrows";
 import { useSessionStorage } from "@mantine/hooks";
 import {

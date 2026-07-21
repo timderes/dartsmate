@@ -1,4 +1,4 @@
-import type { Player } from "types/match";
+import type { Player } from "@/types/match";
 
 /**
  * Returns the player who won the match. Otherwise, returns undefined.

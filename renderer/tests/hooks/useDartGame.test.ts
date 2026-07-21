@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { gameReducer } from "@hooks/useDartGame";
+import { gameReducer } from "@/hooks/useDartGame";
 import { DEFAULT_CHECKOUTS } from "@/utils/match/checkouts/default";
-import type { Player } from "types/match";
+import type { Player } from "@/types/match";
 
 const createMockPlayer = (id: string, name: string): Player => ({
   uuid: id,

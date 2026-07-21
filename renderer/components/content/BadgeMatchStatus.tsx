@@ -1,6 +1,6 @@
 import { Badge } from "@mantine/core";
 import type { BadgeProps, MantineColor } from "@mantine/core";
-import type { MatchStatus } from "types/match";
+import type { MatchStatus } from "@/types/match";
 
 type BadgeMatchStatusProps = BadgeProps & {
   matchStatus: MatchStatus;

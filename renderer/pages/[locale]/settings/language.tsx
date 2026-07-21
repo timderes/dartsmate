@@ -1,8 +1,8 @@
-import SettingsLayout from "@components/layouts/SettingsLayout";
+import SettingsLayout from "@/components/layouts/SettingsLayout";
 import { type ComboboxData, Select, Stack, Text, Title } from "@mantine/core";
 
-import { getStaticPaths, makeStaticProperties } from "@lib/getStatic";
-import { useTranslation } from "next-i18next";
+import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { useTranslation } from "next-i18next/pages";
 import i18next from "../../../../next-i18next.config";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
@@ -14,7 +14,7 @@ const colorSchemePage = () => {
     i18n: { language: locale },
   } = useTranslation();
 
-  const locals: ComboboxData = i18next.i18n.locales.map((locale) => ({
+  const locals: ComboboxData = i18next.i18n.locales.map((locale: string) => ({
     label: t(`settings:languages.${locale}`),
     value: locale,
   }));
@@ -23,7 +23,9 @@ const colorSchemePage = () => {
     window.ipc.setLocale(locale);
   }, [locale]);
 
-  const handleChangeLanguage = (newLanguage: string) => {
+  const handleChangeLanguage = (newLanguage: string | null) => {
+    if (!newLanguage) return;
+
     const newPath = router.pathname.replace("[locale]", newLanguage);
     void router.push(newPath);
   };
@@ -38,7 +40,7 @@ const colorSchemePage = () => {
           label={t("settings:language.title")}
           defaultValue={locale}
           data={locals}
-          onChange={(newLanguage) => handleChangeLanguage(newLanguage!)}
+          onChange={(newLanguage) => handleChangeLanguage(newLanguage)}
         />
       </Stack>
     </SettingsLayout>

@@ -1,0 +1,33 @@
+# The branch is needed for the dependabot workflow to run.
+# This workflow ensures that the branch exists before dependabot runs.
+
+name: Ensure deps-updates branch
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  ensure-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Create deps-updates branch if missing
+        run: |
+          if git show-ref --verify --quiet refs/remotes/origin/deps-updates; then
+            echo "deps-updates already exists"
+          else
+            git checkout -b deps-updates origin/main
+            git push origin deps-updates
+            echo "Created deps-updates branch"
+          fi

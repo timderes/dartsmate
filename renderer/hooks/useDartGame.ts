@@ -5,8 +5,8 @@ import type {
   DartThrow,
   MatchRound,
   Checkout,
-} from "types/match";
-import type { GameAction, GameState } from "types/GameState";
+} from "@/types/match";
+import type { GameAction, GameState } from "@/types/GameState";
 import { useSessionStorage } from "@mantine/hooks";
 import {
   SCORE_BULLSEYE,
@@ -14,10 +14,10 @@ import {
   SCORE_OUTER_BULL,
   THROWS_PER_ROUND,
   APP_VERSION,
-} from "@utils/constants";
-import { applyScoreMultiplier } from "@utils/match/helper/applyScoreMultiplier";
-import isNonMultipleScore from "@utils/match/helper/isNonMultipleScore";
-import isBust from "@lib/playing/stats/isBust";
+} from "@/utils/constants";
+import { applyScoreMultiplier } from "@/utils/match/helper/applyScoreMultiplier";
+import isNonMultipleScore from "@/utils/match/helper/isNonMultipleScore";
+import isBust from "@/lib/playing/stats/isBust";
 import getScores from "@/lib/playing/stats/getScores";
 import getTotalRoundScore from "@/lib/playing/stats/getTotalRoundScore";
 import { useElapsedTime } from "use-elapsed-time";
