@@ -5,6 +5,7 @@ import DefaultLayout from "@/components/layouts/Default";
 import {
   ActionIcon,
   Button,
+  Checkbox,
   Divider,
   Drawer,
   Flex,
@@ -99,6 +100,7 @@ const NewGamePage = () => {
       updatedAt: Date.now(),
       legs: DEFAULT_MATCH_SETTINGS.LEGS,
       sets: DEFAULT_MATCH_SETTINGS.SETS,
+      startWithBullOff: DEFAULT_MATCH_SETTINGS.START_WITH_BULL_OFF,
     },
   });
 
@@ -251,7 +253,7 @@ const NewGamePage = () => {
           </Stack>
         </Grid.Col>
         <Grid.Col span={4} px="xs" h="100%">
-          <Stack gap="xs">
+          <Stack gap="md">
             <Title>{t("lobby:title.matchSettings")}</Title>
             <NumberInput
               label={t("lobby:score")}
@@ -320,6 +322,12 @@ const NewGamePage = () => {
                   value: "Triple",
                 },
               ]}
+            />
+            <Checkbox
+              label={t("lobby:startWithBullOff")}
+              {...matchSettings.getInputProps("startWithBullOff", {
+                type: "checkbox",
+              })}
             />
             <Divider />
             <Button

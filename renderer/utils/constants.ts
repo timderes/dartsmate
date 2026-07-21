@@ -32,12 +32,14 @@ export const DEFAULT_MATCH_SETTINGS: {
   STATUS: MatchStatus;
   LEGS: number;
   SETS: number;
+  START_WITH_BULL_OFF: boolean;
 } = {
   CHECKOUT: "Double",
   SCORE: 501,
   STATUS: "started",
   LEGS: 3,
   SETS: 1,
+  START_WITH_BULL_OFF: true,
 };
 
 // Define the range of valid scores for a match

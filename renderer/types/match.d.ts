@@ -22,6 +22,7 @@ export type Match = {
   updatedAt: number;
   legs: number;
   sets: number;
+  startWithBullOff?: boolean; // Added in 0.8.0
 };
 
 export type MatchRound = {

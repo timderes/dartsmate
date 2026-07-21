@@ -15,5 +15,6 @@
   "score": "Score",
   "checkout": "Checkout",
   "legsHelpTooltip": "The number of legs a player needs to win a set.",
-  "setsHelpTooltip": "The number of sets needed to win the match."
+  "setsHelpTooltip": "The number of sets needed to win the match.",
+  "startWithBullOff": "Start Match with Bull-Off"
 }
