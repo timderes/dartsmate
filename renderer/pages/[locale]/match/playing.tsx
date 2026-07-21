@@ -22,7 +22,7 @@ import {
   rem,
   useMantineTheme,
 } from "@mantine/core";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { useLocalStorage } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import { modals } from "@mantine/modals";

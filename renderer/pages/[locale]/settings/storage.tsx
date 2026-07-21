@@ -8,7 +8,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { modals } from "@mantine/modals";
 import deleteAllMatchesFromDatabase from "@/lib/db/matches/deleteAllMatches";
 import { notifications } from "@mantine/notifications";

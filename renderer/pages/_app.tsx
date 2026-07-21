@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 import { createTheme, MantineProvider } from "@mantine/core";
-import { appWithTranslation } from "next-i18next";
+import { appWithTranslation } from "next-i18next/pages";
 import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
 import { useHotkeys } from "@mantine/hooks";

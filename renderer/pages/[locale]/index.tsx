@@ -3,7 +3,7 @@ import DefaultLayout from "@/components/layouts/Default";
 import { Accordion, Container, SimpleGrid, Stack, Text } from "@mantine/core";
 import HeaderGreeting from "@/components/HeaderGreeting";
 import useDefaultProfile from "@/hooks/getDefaultProfile";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import GameModeCard from "@/components/content/GameModeCard";
 import { IconBarbell, IconTarget } from "@tabler/icons-react";
 import { MATCH_MODES, TRAINING_MODES } from "@/utils/content/gameModes";

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { SankeyChart, type SankeyChartData } from "@mantine/charts";
 import type { Match } from "@/types/match";
 import ProfileAvatar from "@/components/content/ProfileAvatar";

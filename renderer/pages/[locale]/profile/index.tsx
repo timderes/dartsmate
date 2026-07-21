@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import type { NextPage } from "next";
 import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
 import DefaultLayout from "@/components/layouts/Default";

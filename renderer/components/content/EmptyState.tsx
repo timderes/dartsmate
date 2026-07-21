@@ -1,6 +1,6 @@
 import { Paper, Title, Text, Stack } from "@mantine/core";
 import type { PaperProps } from "@mantine/core";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import type { ReactNode } from "react";
 
 type EmptyStateProps = {

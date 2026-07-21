@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
 import { Button, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
 import SettingsLayout from "@/components/layouts/SettingsLayout";

@@ -11,7 +11,7 @@ import {
 } from "@mantine/core";
 import { IconDeviceDesktop, IconMoon, IconSun } from "@tabler/icons-react";
 import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import getDefaultIconSize from "@/utils/misc/getDefaultIconSize";
 import log from "electron-log/renderer";
 

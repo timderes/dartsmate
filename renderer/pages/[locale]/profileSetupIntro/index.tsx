@@ -10,7 +10,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import sendIPC from "@/utils/ipc/send";
 import { useRouter } from "next/router";
 import OnlyControlsLayout from "@/components/layouts/OnlyControlsLayout";

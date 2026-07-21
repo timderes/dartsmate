@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import DefaultLayout from "@/components/layouts/Default";
 import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { useEffect, useState } from "react";
 import type { Profile } from "@/types/profile";
 import { useForm } from "@mantine/form";

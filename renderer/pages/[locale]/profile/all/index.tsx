@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
 import useGetAllProfiles from "@/hooks/getAllProfiles";
 import DefaultLayout from "@/components/layouts/Default";

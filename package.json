@@ -72,7 +72,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "next": "^16.1.6",
-    "next-i18next": "^15.4.3",
+    "next-i18next": "^16.0.8",
     "nextron": "^9.5.0",
     "postcss": "^8.5.5",
     "postcss-preset-mantine": "^1.18.0",
