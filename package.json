@@ -5,7 +5,7 @@
   "description": "Analyze, track and compare your dart games.",
   "version": "0.7.0",
   "author": "DartsMate Contributors",
-  "main": "app/background.js",
+  "main": "app/main.js",
   "repository": "https://github.com/timderes/dartsmate",
   "scripts": {
     "dev": "nextron",
@@ -73,7 +73,7 @@
     "lint-staged": "^16.4.0",
     "next": "^16.2.10",
     "next-i18next": "^16.0.8",
-    "nextron": "^9.5.0",
+    "nextron": "^10.0.0",
     "postcss": "^8.5.5",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
