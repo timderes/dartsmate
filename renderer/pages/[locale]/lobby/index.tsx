@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useReducer, type ReactNode } from "react";
 import { useTranslation } from "next-i18next/pages";
 import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
 import DefaultLayout from "@/components/layouts/Default";
@@ -22,7 +22,7 @@ import {
 } from "@mantine/core";
 import type { Profile } from "@/types/profile";
 import ProfileAvatar from "@/components/content/ProfileAvatar";
-import { useDisclosure, useListState, useSessionStorage } from "@mantine/hooks";
+import { useDisclosure, useListState } from "@mantine/hooks";
 import {
   IconHelpCircleFilled,
   IconUserMinus,
@@ -30,7 +30,6 @@ import {
   IconUserQuestion,
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { useForm } from "@mantine/form";
 import type { Match } from "@/types/match";
 import { LEGS, MATCH_SCORE, SETS } from "@/utils/constants";
 import getFormattedName from "@/utils/misc/getFormattedName";
@@ -38,16 +37,34 @@ import EmptyState from "@/components/content/EmptyState";
 import getAllProfilesFromDatabase from "@/lib/db/profiles/getAllProfiles";
 import { notifications } from "@mantine/notifications";
 import createInitialLobbyState from "@/lib/lobby/createInitialLobbyState";
+import lobbyReducer from "@/lib/lobby/reducer";
+import { useForm } from "@mantine/form";
 
 const NewGamePage = () => {
   const {
     t,
     i18n: { language: locale },
   } = useTranslation();
-  const [selectedProfiles, selectedProfilesActions] = useListState<Profile>([]);
+
   const [availableProfiles, availableProfilesActions] = useListState<Profile>(
     [],
   );
+
+  const [lobbyState, dispatch] = useReducer(
+    lobbyReducer,
+    createInitialLobbyState(),
+  );
+
+  const matchSettings = useForm<Match>({
+    initialValues: createInitialLobbyState(),
+
+    onValuesChange: (values) => {
+      dispatch({
+        type: "UPDATE_MATCH_SETTINGS",
+        payload: values,
+      });
+    },
+  });
 
   const getAllProfiles = () =>
     getAllProfilesFromDatabase()
@@ -69,59 +86,33 @@ const NewGamePage = () => {
 
   useEffect(() => {
     // Reset profiles since they will refetch each render
-    selectedProfilesActions.setState([]);
+    // TODO: Add here : dispatch({ type: "RESET_PLAYERS" });
     availableProfilesActions.setState([]);
 
     void getAllProfiles();
   }, []);
 
-  const [, setMatchStorage] = useSessionStorage<Match>({
-    key: "currentMatch",
-    defaultValue: undefined,
-  });
-
-  const matchSettings = useForm<Match>({
-    initialValues: createInitialLobbyState(),
-  });
-
   const handleRemovePlayer = (uuid: Profile["uuid"]): void => {
-    const updatedProfiles = selectedProfiles.filter(
-      (profile) => profile.uuid !== uuid,
-    );
-    selectedProfilesActions.setState(updatedProfiles);
-
-    matchSettings.setValues({
-      players: updatedProfiles.map((profile) => ({
-        ...profile,
-        scoreLeft: -1,
-        isWinner: false,
-        rounds: [],
-        legsWon: 0,
-        setsWon: 0,
-      })),
-    });
+    dispatch({ type: "REMOVE_PLAYER", payload: { playerUUID: uuid } });
   };
 
   const handleAddPlayer = (profile: Profile): void => {
-    selectedProfilesActions.append(profile);
-    const updatedProfiles = [...selectedProfiles, profile];
-
-    matchSettings.setValues({
-      players: updatedProfiles.map((profile) => ({
-        ...profile,
-        scoreLeft: -1,
-        isWinner: false,
-        rounds: [],
-        legsWon: 0,
-        setsWon: 0,
-      })),
+    dispatch({
+      type: "ADD_PLAYER",
+      payload: {
+        player: profile,
+      },
     });
   };
 
   const handleStartMatch = (): void => {
-    if (!matchSettings.isValid()) return;
+    const startWithBullOff = lobbyState.startWithBullOff;
 
-    setMatchStorage(matchSettings.values);
+    if (startWithBullOff) {
+      void router.push(`/${locale}/match/bullOff`);
+      return;
+    }
+
     void router.push(`/${locale}/match/playing`);
   };
 
@@ -141,7 +132,7 @@ const NewGamePage = () => {
             </Text>
           </Text>
         </Group>
-        {selectedProfiles.includes(profile) ? (
+        {lobbyState.players.some((p) => p.uuid === profile.uuid) ? (
           <Tooltip
             label={t("lobby:removePlayerFromLobby", {
               PLAYER_NAME: profile.username,
@@ -202,7 +193,8 @@ const NewGamePage = () => {
               {t("lobby:createGuestPlayer")}
             </Button>
             {availableProfiles.map((guestPlayer) => {
-              if (selectedProfiles.includes(guestPlayer)) return;
+              if (lobbyState.players.some((p) => p.uuid === guestPlayer.uuid))
+                return;
 
               return (
                 <div key={guestPlayer.uuid}>{renderPlayer(guestPlayer)}</div>
@@ -220,10 +212,10 @@ const NewGamePage = () => {
                 {t("lobby:addPlayer")}
               </Button>
             </Group>
-            {selectedProfiles.map((player) => (
+            {lobbyState.players.map((player) => (
               <div key={player.uuid}>{renderPlayer(player)}</div>
             ))}
-            {selectedProfiles.length === 0 ? (
+            {lobbyState.players.length === 0 ? (
               <EmptyState
                 icon={<IconUserQuestion size={64} opacity={0.6} />}
                 title={t("lobby:emptyLobbyState.title")}
@@ -311,7 +303,7 @@ const NewGamePage = () => {
             />
             <Divider />
             <Button
-              disabled={selectedProfiles.length === 0}
+              disabled={lobbyState.players.length === 0}
               onClick={() => handleStartMatch()}
               mt="auto"
             >

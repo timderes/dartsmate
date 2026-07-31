@@ -13,6 +13,7 @@ const lobbyReducer = (state: LobbyState, action: LobbyAction): LobbyState => {
     // Players
     //
     case "ADD_PLAYER":
+      console.info("Adding player to lobby:", action.payload.player);
       return {
         ...state,
         players: [
@@ -24,6 +25,7 @@ const lobbyReducer = (state: LobbyState, action: LobbyAction): LobbyState => {
       };
 
     case "REMOVE_PLAYER":
+      console.info("Removing player from lobby:", action.payload.playerUUID);
       return {
         ...state,
         players: state.players.filter(
@@ -35,6 +37,7 @@ const lobbyReducer = (state: LobbyState, action: LobbyAction): LobbyState => {
     // Match Settings
     //
     case "UPDATE_MATCH_SETTINGS":
+      console.info("Updating match settings:", action.payload);
       return {
         ...state,
         ...action.payload,
