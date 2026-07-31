@@ -1,7 +1,6 @@
 import useLobby from "@/hooks/useLobby";
 import { LEGS, MATCH_SCORE, SETS } from "@/utils/constants";
 import {
-  Button,
   Checkbox,
   Divider,
   Flex,
@@ -14,6 +13,7 @@ import {
 } from "@mantine/core";
 import { IconHelpCircleFilled } from "@tabler/icons-react";
 import { useTranslation } from "next-i18next/pages";
+import LobbyStartMatchButton from "./LobbyStartMatchButton";
 
 const LobbySettings = (): React.JSX.Element => {
   const { t } = useTranslation(["common"]);
@@ -124,15 +124,7 @@ const LobbySettings = (): React.JSX.Element => {
         defaultChecked={lobbyState.startWithBullOff}
       />
       <Divider />
-      <Button
-        disabled={lobbyState.players.length === 0}
-        onClick={() =>
-          console.info("Starting match with settings:", lobbyState)
-        }
-        mt="auto"
-      >
-        {t("lobby:startMatch")}
-      </Button>
+      <LobbyStartMatchButton />
     </Stack>
   );
 };
