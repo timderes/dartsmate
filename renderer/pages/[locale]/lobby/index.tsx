@@ -5,6 +5,11 @@ import LobbyProvider from "@/providers/LobbyProvider";
 import LobbySettings from "@/components/lobby/LobbySettings";
 import LobbyPlayerList from "@/components/lobby/LobbyPlayerList";
 
+/**
+ * The LobbyContent component is responsible for rendering the main content of the lobby page,
+ * including the player list and match settings. It uses a grid layout to organize these
+ * components side by side.
+ */
 const LobbyContent = () => {
   return (
     <Grid gap="xs" p="xs">
