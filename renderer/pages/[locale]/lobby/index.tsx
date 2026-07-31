@@ -32,18 +32,12 @@ import {
 import { useRouter } from "next/router";
 import { useForm } from "@mantine/form";
 import type { Match } from "@/types/match";
-import {
-  APP_VERSION,
-  DEFAULT_MATCH_SETTINGS,
-  LEGS,
-  MATCH_SCORE,
-  SETS,
-} from "@/utils/constants";
-import { v4 as getUUID } from "uuid";
+import { LEGS, MATCH_SCORE, SETS } from "@/utils/constants";
 import getFormattedName from "@/utils/misc/getFormattedName";
 import EmptyState from "@/components/content/EmptyState";
 import getAllProfilesFromDatabase from "@/lib/db/profiles/getAllProfiles";
 import { notifications } from "@mantine/notifications";
+import createInitialLobbyState from "@/lib/lobby/createInitialLobbyState";
 
 const NewGamePage = () => {
   const {
@@ -81,27 +75,13 @@ const NewGamePage = () => {
     void getAllProfiles();
   }, []);
 
-  const uuid = getUUID();
-
   const [, setMatchStorage] = useSessionStorage<Match>({
     key: "currentMatch",
     defaultValue: undefined,
   });
 
   const matchSettings = useForm<Match>({
-    initialValues: {
-      appVersion: APP_VERSION,
-      createdAt: Date.now(),
-      initialScore: DEFAULT_MATCH_SETTINGS.SCORE,
-      matchCheckout: DEFAULT_MATCH_SETTINGS.CHECKOUT,
-      matchStatus: DEFAULT_MATCH_SETTINGS.STATUS,
-      uuid: uuid,
-      players: [],
-      updatedAt: Date.now(),
-      legs: DEFAULT_MATCH_SETTINGS.LEGS,
-      sets: DEFAULT_MATCH_SETTINGS.SETS,
-      startWithBullOff: DEFAULT_MATCH_SETTINGS.START_WITH_BULL_OFF,
-    },
+    initialValues: createInitialLobbyState(),
   });
 
   const handleRemovePlayer = (uuid: Profile["uuid"]): void => {
