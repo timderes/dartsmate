@@ -5,7 +5,7 @@ import createMatchPlayer from "./createMatchPlayer";
 // This will be expanded in the future to include more properties
 // related to the lobby state, such as player information, game
 // settings, etc.
-type LobbyState = Match;
+export type LobbyState = Match;
 
 const lobbyReducer = (state: LobbyState, action: LobbyAction): LobbyState => {
   switch (action.type) {
@@ -31,6 +31,13 @@ const lobbyReducer = (state: LobbyState, action: LobbyAction): LobbyState => {
         players: state.players.filter(
           (p) => p.uuid !== action.payload.playerUUID,
         ),
+      };
+
+    case "RESET_PLAYERS":
+      console.info("Resetting players in lobby");
+      return {
+        ...state,
+        players: [],
       };
 
     //

@@ -4,6 +4,7 @@ import { Profile } from "@/types/profile";
 export type LobbyAction =
   | { type: "ADD_PLAYER"; payload: { player: Profile } }
   | { type: "REMOVE_PLAYER"; payload: { playerUUID: Player["uuid"] } }
+  | { type: "RESET_PLAYERS" }
   | {
       type: "UPDATE_MATCH_SETTINGS";
       payload: Partial<Match>;
