@@ -1,7 +1,7 @@
 import SettingsLayout from "@/components/layouts/SettingsLayout";
 import { type ComboboxData, Select, Stack, Text, Title } from "@mantine/core";
 
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import { useTranslation } from "next-i18next/pages";
 import i18next from "../../../../next-i18next.config";
 import { useEffect } from "react";
@@ -51,4 +51,4 @@ export default colorSchemePage;
 
 export const getStaticProps = makeStaticProperties(["common", "settings"]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";
