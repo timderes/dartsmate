@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import {
   BackgroundImage,
   Button,
@@ -76,4 +76,4 @@ export default ProfileSetupIntroPage;
 
 export const getStaticProps = makeStaticProperties(["common", "appIntro"]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";

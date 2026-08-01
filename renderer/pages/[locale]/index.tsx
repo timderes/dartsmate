@@ -1,4 +1,4 @@
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import DefaultLayout from "@/components/layouts/Default";
 import { Accordion, Container, SimpleGrid, Stack, Text } from "@mantine/core";
 import HeaderGreeting from "@/components/HeaderGreeting";
@@ -91,4 +91,4 @@ export const getStaticProps = makeStaticProperties([
   "changelog",
 ]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";

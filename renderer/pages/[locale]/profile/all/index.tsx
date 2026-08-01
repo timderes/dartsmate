@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next/pages";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import useGetAllProfiles from "@/hooks/getAllProfiles";
 import DefaultLayout from "@/components/layouts/Default";
 import {
@@ -201,4 +201,4 @@ export default ProfileAllPage;
 
 export const getStaticProps = makeStaticProperties(["common", "profile"]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";

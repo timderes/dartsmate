@@ -5,6 +5,11 @@ name: Ensure deps-updates branch
 
 on:
   workflow_dispatch:
+
+  # Ensure the branch exists one hour before the weekly Dependabot run
+  schedule:
+    - cron: "0 3 * * 1"
+
   push:
     branches:
       - main
@@ -18,13 +23,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Create deps-updates branch if missing
         run: |
-          if git show-ref --verify --quiet refs/remotes/origin/deps-updates; then
+          if git ls-remote --exit-code --heads origin deps-updates > /dev/null; then
             echo "deps-updates already exists"
           else
             git checkout -b deps-updates origin/main

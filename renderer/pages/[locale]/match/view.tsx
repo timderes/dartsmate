@@ -4,7 +4,7 @@ import { SankeyChart, type SankeyChartData } from "@mantine/charts";
 import type { Match } from "@/types/match";
 import ProfileAvatar from "@/components/content/ProfileAvatar";
 import DefaultLayout from "@/components/layouts/Default";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import getHighestScore from "@/lib/playing/stats/getHighestScore";
 import getNumberOfRoundsAboveThreshold from "@/lib/playing/stats/getScoresAbove";
 import getMatchAverage from "@/lib/playing/stats/getMatchAverage";
@@ -239,4 +239,4 @@ export const getStaticProps = makeStaticProperties([
   "results",
 ]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";

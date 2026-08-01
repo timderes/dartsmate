@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next/pages";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import DefaultLayout from "@/components/layouts/Default";
 import getAllMatchesFromDatabase from "@/lib/db/matches/getAllMatches";
 import { useEffect, useState } from "react";
@@ -160,4 +160,4 @@ export default HistoryPage;
 
 export const getStaticProps = makeStaticProperties(["common", "match"]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";
