@@ -62,7 +62,7 @@
     "concurrently": "^9.2.1",
     "dexie": "^4.4.4",
     "dexie-react-hooks": "^4.4.0",
-    "electron": "^43.1.1",
+    "electron": "^43.2.0",
     "electron-builder": "^26.15.3",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
