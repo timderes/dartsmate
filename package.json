@@ -74,7 +74,7 @@
     "next": "^16.2.12",
     "next-i18next": "^16.0.8",
     "nextron": "^10.0.0",
-    "postcss": "^8.5.5",
+    "postcss": "^8.5.25",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
     "prettier": "3.8.3",
