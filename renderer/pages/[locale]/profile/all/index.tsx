@@ -147,48 +147,47 @@ const ProfileAllPage = () => {
             mah={`calc(100dvh - ${APP_SHELL.HEADER_HEIGHT}px)`}
           >
             {filteredProfiles && activeProfile ? (
-              <>
-                <Card component={Stack} radius={0}>
-                  <Flex justify="space-between">
-                    <Group>
-                      <ProfileAvatar profile={activeProfile} size="xl" />
-                      <Stack gap={0}>
-                        <Title>{getFormattedName(activeProfile.name)} </Title>
-                        <Text opacity={0.7}>@{activeProfile.username}</Text>
-                      </Stack>
-                    </Group>
-                    <ProfileSettingsMenu profile={activeProfile} />
-                  </Flex>
-                  <Text>
-                    {t("profile:playingWithAppSince", {
-                      APP_NAME,
-                      DATE: new Date(
-                        activeProfile.createdAt,
-                      ).toLocaleDateString(locale, DATE_OPTIONS),
-                    })}
-                  </Text>
-                  <Divider />
-                  <Group grow>
-                    <Stat
-                      text={t("stats.matches")}
-                      value={activeProfile.statistics.playedMatches}
-                    />
-                    <Stat
-                      text={t("stats.avg")}
-                      value={activeProfile.statistics.average}
-                      decimalScale={2}
-                    />
-                    <Stat
-                      text={t("stats.dartsThrown")}
-                      value={activeProfile.statistics.thrownDarts}
-                    />
-                    <Stat
-                      text={t("stats.180s")}
-                      value={activeProfile.statistics.thrownOneHundredAndEighty}
-                    />
+              <Card component={Stack} radius={0}>
+                <Flex justify="space-between">
+                  <Group>
+                    <ProfileAvatar profile={activeProfile} size="xl" />
+                    <Stack gap={0}>
+                      <Title>{getFormattedName(activeProfile.name)} </Title>
+                      <Text opacity={0.7}>@{activeProfile.username}</Text>
+                    </Stack>
                   </Group>
-                </Card>
-              </>
+                  <ProfileSettingsMenu profile={activeProfile} />
+                </Flex>
+                <Text>
+                  {t("profile:playingWithAppSince", {
+                    APP_NAME,
+                    DATE: new Date(activeProfile.createdAt).toLocaleDateString(
+                      locale,
+                      DATE_OPTIONS,
+                    ),
+                  })}
+                </Text>
+                <Divider />
+                <Group grow>
+                  <Stat
+                    text={t("stats.matches")}
+                    value={activeProfile.statistics.playedMatches}
+                  />
+                  <Stat
+                    text={t("stats.avg")}
+                    value={activeProfile.statistics.average}
+                    decimalScale={2}
+                  />
+                  <Stat
+                    text={t("stats.dartsThrown")}
+                    value={activeProfile.statistics.thrownDarts}
+                  />
+                  <Stat
+                    text={t("stats.180s")}
+                    value={activeProfile.statistics.thrownOneHundredAndEighty}
+                  />
+                </Group>
+              </Card>
             ) : undefined}
           </ScrollArea.Autosize>
         </Grid.Col>
