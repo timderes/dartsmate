@@ -6,9 +6,9 @@ import {
   CheckIcon,
   Text,
   Title,
+  useMantineTheme,
 } from "@mantine/core";
 import { useTranslation } from "next-i18next/pages";
-import { useMantineTheme } from "@mantine/core";
 import type { FormRulesRecord, UseFormReturnType } from "@mantine/form";
 import type { Profile } from "@/types/profile";
 import { useMemo } from "react";
