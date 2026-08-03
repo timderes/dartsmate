@@ -36,7 +36,7 @@
   },
   "bullOffActiveNextPlayer": {
     "title": "{{FIRST_NAME}}, du bist an der Reihe!",
-    "helpText": "Versuche so nah wie möglich an die Bullseye zu kommen. Der Spieler, der am nächsten an der Bullseye ist, beginnt das erste Leg."
+    "helpText": "Versuche, so nah wie möglich an das Bullseye zu werfen. Der Spieler, der dem Bullseye am nächsten ist, beginnt das erste Leg."
   },
   "bullOff": "Ausbullen"
 }

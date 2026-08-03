@@ -36,7 +36,7 @@
   },
   "bullOffActiveNextPlayer": {
     "title": "{{FIRST_NAME}}, it's your turn!",
-    "helpText": "Try to get as close as possible to the bullseye. The player who is closest to the bullseye starts the first leg."
+    "helpText": "Try to throw as close to the bullseye as possible. The player who is closest to the bullseye starts the first leg."
   },
   "bullOff": "Bull-Off"
 }
