@@ -42,5 +42,9 @@
   "i18n-ally.namespace": true,
   "i18n-ally.defaultNamespace": "common",
   "i18n-ally.keystyle": "nested",
-  "js/ts.tsdk.path": "node_modules\\typescript\\lib"
+  "js/ts.tsdk.path": "node_modules\\typescript\\lib",
+  "sonarlint.connectedMode.project": {
+    "connectionId": "http-localhost-9000",
+    "projectKey": "dartsmate"
+  }
 }

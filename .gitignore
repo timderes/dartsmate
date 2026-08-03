@@ -7,3 +7,5 @@ dist
 TODO
 next-env.d.ts
 *.tsbuildinfo
+# SonarQube
+.scannerwork/*
