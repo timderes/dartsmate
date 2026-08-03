@@ -7,6 +7,7 @@ import {
   Button,
   Divider,
   Drawer,
+  EmptyState,
   Flex,
   Grid,
   Group,
@@ -40,7 +41,6 @@ import {
 } from "@/utils/constants";
 import { v4 as getUUID } from "uuid";
 import getFormattedName from "@/utils/misc/getFormattedName";
-import EmptyState from "@/components/content/EmptyState";
 import getAllProfilesFromDatabase from "@/lib/db/profiles/getAllProfiles";
 import { notifications } from "@mantine/notifications";
 
@@ -243,9 +243,9 @@ const NewGamePage = () => {
             ))}
             {selectedProfiles.length === 0 ? (
               <EmptyState
+                description={t("lobby:emptyLobbyState.text")}
                 icon={<IconUserQuestion size={64} opacity={0.6} />}
                 title={t("lobby:emptyLobbyState.title")}
-                text={t("lobby:emptyLobbyState.text")}
               />
             ) : undefined}
           </Stack>
