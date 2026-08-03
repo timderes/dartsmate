@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next/pages";
 
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import DefaultLayout from "@/components/layouts/Default";
 
 const PracticePage = () => {
@@ -18,4 +18,4 @@ export default PracticePage;
 
 export const getStaticProps = makeStaticProperties(["common"]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";

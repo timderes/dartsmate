@@ -24,7 +24,7 @@
   "matchResult": "Spielergebnis",
   "historyEmptyState": {
     "title": "Keine Spiele gefunden",
-    "text": "Es wurden noch keine Spiele gespielt. Beginnen Sie ein neues Spiel, um die Ergebnisse hier zu sehen."
+    "text": "Es wurden noch keine Spiele gespielt. Starte ein neues Spiel, um die Ergebnisse hier zu sehen."
   },
   "modals": {
     "deleteMatchTitle": "Spiel wirklich löschen?",

@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next/pages";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import { Button, Group, Skeleton, Stack, Text, Title } from "@mantine/core";
 import SettingsLayout from "@/components/layouts/SettingsLayout";
 import ProfileAvatar from "@/components/content/ProfileAvatar";
@@ -118,4 +118,4 @@ export const getStaticProps = makeStaticProperties([
   "settings",
 ]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";

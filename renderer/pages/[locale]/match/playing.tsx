@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import {
   Badge,
   Button,
@@ -444,4 +444,4 @@ export default PlayingPage;
 
 export const getStaticProps = makeStaticProperties(["common", "match"]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";

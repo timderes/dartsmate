@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next/pages";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import DefaultLayout from "@/components/layouts/Default";
 import getAllMatchesFromDatabase from "@/lib/db/matches/getAllMatches";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import {
   ActionIcon,
   ActionIconGroup,
   AvatarGroup,
+  EmptyState,
   Stack,
   Table,
   Text,
@@ -21,7 +22,6 @@ import deleteMatchFromDatabase from "@/lib/db/matches/deleteMatch";
 import { notifications } from "@mantine/notifications";
 import { useSessionStorage } from "@mantine/hooks";
 import { useRouter } from "next/router";
-import EmptyState from "@/components/content/EmptyState";
 import SharedConfirmModalProps from "@/utils/modals/sharedConfirmModalProps";
 import getMatchWinner from "@/lib/playing/getMatchWinner";
 import { APP_SHELL } from "@/utils/constants";
@@ -137,18 +137,9 @@ const HistoryPage = () => {
           </Table>
         ) : (
           <EmptyState
-            ta="center"
             title={t("match:historyEmptyState.title")}
-            text={t("match:historyEmptyState.text")}
-            icon={
-              <IconFileUnknown
-                style={{
-                  margin: "0 auto",
-                  height: 92,
-                  width: 92,
-                }}
-              />
-            }
+            description={t("match:historyEmptyState.text")}
+            icon={<IconFileUnknown size={64} style={{ opacity: 0.6 }} />}
           />
         )}
       </Stack>
@@ -160,4 +151,4 @@ export default HistoryPage;
 
 export const getStaticProps = makeStaticProperties(["common", "match"]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";

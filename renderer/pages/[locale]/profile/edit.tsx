@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import DefaultLayout from "@/components/layouts/Default";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import { useTranslation } from "next-i18next/pages";
 import { useEffect, useState } from "react";
 import type { Profile } from "@/types/profile";
@@ -266,4 +266,4 @@ export default EditProfilePage;
 
 export const getStaticProps = makeStaticProperties(["common", "profile"]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";

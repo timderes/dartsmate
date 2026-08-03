@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next/pages";
 import type { NextPage } from "next";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import DefaultLayout from "@/components/layouts/Default";
 import {
   ActionIcon,
@@ -101,4 +101,4 @@ export default ProfileIndexPage;
 
 export const getStaticProps = makeStaticProperties(["common", "profile"]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";

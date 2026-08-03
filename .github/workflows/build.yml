@@ -30,14 +30,14 @@ jobs:
             build-script: build:mac
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: "npm"
       - name: Cache Electron binaries (Unix)
         if: runner.os != 'Windows'
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             ~/.cache/electron
@@ -49,7 +49,7 @@ jobs:
             ${{ runner.os }}-electron-
       - name: Cache Electron binaries (Windows)
         if: runner.os == 'Windows'
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             ${{ env.LOCALAPPDATA }}\electron

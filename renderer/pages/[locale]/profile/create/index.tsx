@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import { Box, Button, Group, Stack, Stepper, Text } from "@mantine/core";
 import { useTranslation } from "next-i18next/pages";
 import { useState, type FormEvent } from "react";
@@ -155,4 +155,4 @@ export const getStaticProps = makeStaticProperties([
   "profile",
 ]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";

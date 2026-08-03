@@ -37,3 +37,14 @@ updates:
         patterns:
           - "dexie"
           - "dexie-*"
+
+  # Check for GitHub Actions workflow updates weekly
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+    # Target deps-updates branch for grouped updates testing before merging into main
+    target-branch: "deps-updates"
+    open-pull-requests-limit: 10

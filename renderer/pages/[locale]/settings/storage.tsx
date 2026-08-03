@@ -7,7 +7,7 @@ import {
   Title,
   useMantineTheme,
 } from "@mantine/core";
-import { getStaticPaths, makeStaticProperties } from "@/lib/getStatic";
+import { makeStaticProperties } from "@/lib/getStatic";
 import { useTranslation } from "next-i18next/pages";
 import { modals } from "@mantine/modals";
 import deleteAllMatchesFromDatabase from "@/lib/db/matches/deleteAllMatches";
@@ -164,4 +164,4 @@ export default storagePage;
 
 export const getStaticProps = makeStaticProperties(["common", "settings"]);
 
-export { getStaticPaths };
+export { getStaticPaths } from "@/lib/getStatic";
