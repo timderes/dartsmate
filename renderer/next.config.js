@@ -14,5 +14,6 @@ module.exports = {
   webpack: (config) => {
     return config;
   },
+  reactStrictMode: true,
   // transpilePackages: []
 };
