@@ -3,11 +3,12 @@ import useLobby from "@/hooks/useLobby";
 import { makeStaticProperties } from "@/lib/getStatic";
 import { APP_SHELL } from "@/utils/constants";
 import { Button, Center, Group, Stack, Text, Title } from "@mantine/core";
-
 import type { NextPage } from "next";
 import { useTranslation } from "next-i18next/pages";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useSessionStorage } from "@mantine/hooks";
+import type { Match } from "@/types/match";
 
 const BullOffContent = () => {
   const router = useRouter();
@@ -19,6 +20,9 @@ const BullOffContent = () => {
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const isLastPlayer = currentPlayerIndex === state.players.length - 1;
   const [showBullOffTable, setShowBullOffTable] = useState(false);
+  const [, setCurrentMatch] = useSessionStorage<Match>({
+    key: "currentMatch",
+  });
 
   const handleNextPlayer = () => {
     if (isLastPlayer) {
@@ -63,6 +67,12 @@ const BullOffContent = () => {
       type: "SET_PLAYER_ORDER",
       payload: { playerUUIDs },
     });
+  };
+
+  const handleStart = () => {
+    setCurrentMatch(state);
+
+    void router.push(`/${locale}/match/playing`);
   };
 
   if (showBullOffTable) {
@@ -110,10 +120,7 @@ const BullOffContent = () => {
           ))}
         </Stack>
 
-        <Button
-          mt="xl"
-          onClick={() => void router.push(`/${locale}/match/playing`)}
-        >
+        <Button mt="xl" onClick={() => handleStart()}>
           {t("lobby:startMatch")}
         </Button>
       </>
