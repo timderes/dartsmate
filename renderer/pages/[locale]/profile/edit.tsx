@@ -96,7 +96,7 @@ const EditProfilePage: NextPage = () => {
 
     if (!uuid) {
       // TODO: Handle this better. But currently its okay
-      void router.back();
+      router.back();
       return;
     }
 
@@ -110,7 +110,7 @@ const EditProfilePage: NextPage = () => {
 
         if (!profile) {
           log.error(`Profile with uuid ${uuid} was not found.`);
-          void router.back();
+          router.back();
           return;
         }
 
@@ -285,7 +285,7 @@ const EditProfilePage: NextPage = () => {
           >
             {t("profile:buttons.updateProfile")}
           </Button>
-          <Button variant="default" onClick={() => void router.back()}>
+          <Button variant="default" onClick={() => router.back()}>
             {t("cancel")}
           </Button>
         </Group>
