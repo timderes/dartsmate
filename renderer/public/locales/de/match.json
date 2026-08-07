@@ -42,5 +42,6 @@
   "bullOffFinished": {
     "title": "Das Ausbullen ist abgeschlossen!",
     "helpText": "Verschiebe nun die Spieler, in die richtige Reihenfolge, um zu starten. Der Spieler, der dem Bullseye am nächsten war, beginnt das erste Leg."
-  }
+  },
+  "skipBullOff": "Ausbullen überspringen"
 }

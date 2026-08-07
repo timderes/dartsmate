@@ -2,7 +2,7 @@ import DefaultLayout from "@/components/layouts/Default";
 import { Center, Stack } from "@mantine/core";
 import type { NextPage } from "next";
 import BullOffActiveStep from "@/components/bull-off/BullOffActiveStep";
-import { BullOffFinalTable } from "@/components/bull-off/BullOffFinalTable";
+import BullOffSorting from "@/components/bull-off/BullOffSorting";
 import useBullOff from "@/hooks/useBullOff";
 import useLobby from "@/hooks/useLobby";
 import BullOffProvider from "@/providers/BullOffProvider";
@@ -43,7 +43,7 @@ const BullOffContent = () => {
   }
 
   return showBullOffTable ? (
-    <BullOffFinalTable
+    <BullOffSorting
       players={players}
       onMovePlayer={movePlayerInTable}
       onStart={startMatch}

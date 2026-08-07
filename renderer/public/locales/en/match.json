@@ -42,5 +42,6 @@
   "bullOffFinished": {
     "title": "Bull-Off finished!",
     "helpText": "Now order the players in the correct sequence to start. The player who was closest to the bullseye starts the first leg."
-  }
+  },
+  "skipBullOff": "Skip Bull-Off"
 }
