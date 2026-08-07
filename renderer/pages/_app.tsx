@@ -7,6 +7,7 @@ import { useHotkeys } from "@mantine/hooks";
 import sendIPC from "@/utils/ipc/send";
 import { NOTIFICATION_LIMIT } from "@/utils/constants";
 import { ProfileProvider } from "@/contexts/ProfileContext";
+import LobbyProvider from "@/providers/LobbyProvider";
 
 // All packages except `@mantine/hooks` require styles imports!
 import "@mantine/core/styles.css";
@@ -43,7 +44,9 @@ const App = ({ Component, pageProps }: AppProps) => {
       <Notifications position="top-right" limit={NOTIFICATION_LIMIT} />
       <ModalsProvider>
         <ProfileProvider>
-          <Component {...pageProps} />
+          <LobbyProvider>
+            <Component {...pageProps} />
+          </LobbyProvider>
         </ProfileProvider>
       </ModalsProvider>
     </MantineProvider>

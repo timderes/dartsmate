@@ -6,6 +6,12 @@ export type LobbyAction =
   | { type: "REMOVE_PLAYER"; payload: { playerUUID: Player["uuid"] } }
   | { type: "RESET_PLAYERS" }
   | {
+      type: "SET_PLAYER_ORDER";
+      payload: {
+        playerUUIDs: Player["uuid"][];
+      };
+    }
+  | {
       type: "UPDATE_MATCH_SETTINGS";
       payload: Partial<Match>;
     };

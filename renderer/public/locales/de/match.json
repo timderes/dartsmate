@@ -33,5 +33,15 @@
   "notifications": {
     "successDeleteMatchTitle": "Spiel gelöscht",
     "successDeleteMatchText": "Das Spiel wurde erfolgreich gelöscht."
-  }
+  },
+  "bullOffActiveNextPlayer": {
+    "title": "{{FIRST_NAME}}, du bist an der Reihe!",
+    "helpText": "Versuche, so nah wie möglich an das Bullseye zu werfen. Der Spieler, der dem Bullseye am nächsten ist, beginnt das erste Leg."
+  },
+  "bullOff": "Ausbullen",
+  "bullOffFinished": {
+    "title": "Das Ausbullen ist abgeschlossen!",
+    "helpText": "Verschiebe nun die Spieler, in die richtige Reihenfolge, um zu starten. Der Spieler, der dem Bullseye am nächsten war, beginnt das erste Leg."
+  },
+  "skipBullOff": "Ausbullen überspringen"
 }

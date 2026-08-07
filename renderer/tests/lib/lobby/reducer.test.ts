@@ -74,6 +74,82 @@ describe("lobby reducer", () => {
     expect(state.sets).not.toBe(7);
   });
 
+  it("should set a custom player order by UUID", () => {
+    const playerOne = {
+      ...createMockPlayer(),
+      uuid: "player-one",
+      username: "player-one",
+      name: { firstName: "Player", lastName: "One" },
+    };
+    const playerTwo = {
+      ...createMockPlayer(),
+      uuid: "player-two",
+      username: "player-two",
+      name: { firstName: "Player", lastName: "Two" },
+    };
+    const playerThree = {
+      ...createMockPlayer(),
+      uuid: "player-three",
+      username: "player-three",
+      name: { firstName: "Player", lastName: "Three" },
+    };
+
+    const state = {
+      ...createInitialLobbyState(),
+      players: [playerOne, playerTwo, playerThree],
+    };
+
+    const nextState = lobbyReducer(state, {
+      type: "SET_PLAYER_ORDER",
+      payload: {
+        playerUUIDs: [playerThree.uuid, playerOne.uuid, playerTwo.uuid],
+      },
+    });
+
+    expect(nextState.players.map((player) => player.uuid)).toEqual([
+      "player-three",
+      "player-one",
+      "player-two",
+    ]);
+    expect(state.players.map((player) => player.uuid)).toEqual([
+      "player-one",
+      "player-two",
+      "player-three",
+    ]);
+  });
+
+  it("should ignore unknown UUIDs while setting player order", () => {
+    const playerOne = {
+      ...createMockPlayer(),
+      uuid: "player-one",
+      username: "player-one",
+      name: { firstName: "Player", lastName: "One" },
+    };
+    const playerTwo = {
+      ...createMockPlayer(),
+      uuid: "player-two",
+      username: "player-two",
+      name: { firstName: "Player", lastName: "Two" },
+    };
+
+    const state = {
+      ...createInitialLobbyState(),
+      players: [playerOne, playerTwo],
+    };
+
+    const nextState = lobbyReducer(state, {
+      type: "SET_PLAYER_ORDER",
+      payload: {
+        playerUUIDs: [playerTwo.uuid, "unknown-player", playerOne.uuid],
+      },
+    });
+
+    expect(nextState.players.map((player) => player.uuid)).toEqual([
+      "player-two",
+      "player-one",
+    ]);
+  });
+
   it("should return the current state for unknown action types", () => {
     const state = createInitialLobbyState();
 

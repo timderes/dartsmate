@@ -1,7 +1,6 @@
 import { makeStaticProperties } from "@/lib/getStatic";
 import DefaultLayout from "@/components/layouts/Default";
 import { Grid } from "@mantine/core";
-import LobbyProvider from "@/providers/LobbyProvider";
 import LobbySettings from "@/components/lobby/LobbySettings";
 import LobbyPlayerList from "@/components/lobby/LobbyPlayerList";
 
@@ -34,11 +33,9 @@ const LobbyContent = () => {
  */
 const LobbyPage = () => {
   return (
-    <LobbyProvider>
-      <DefaultLayout withNavbarOpen={false}>
-        <LobbyContent />
-      </DefaultLayout>
-    </LobbyProvider>
+    <DefaultLayout withNavbarOpen={false}>
+      <LobbyContent />
+    </DefaultLayout>
   );
 };
 

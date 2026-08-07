@@ -33,5 +33,15 @@
   "notifications": {
     "successDeleteMatchTitle": "Match deleted",
     "successDeleteMatchText": "The match was successfully deleted."
-  }
+  },
+  "bullOffActiveNextPlayer": {
+    "title": "{{FIRST_NAME}}, it's your turn!",
+    "helpText": "Try to throw as close to the bullseye as possible. The player who is closest to the bullseye starts the first leg."
+  },
+  "bullOff": "Bull-Off",
+  "bullOffFinished": {
+    "title": "Bull-Off finished!",
+    "helpText": "Now order the players in the correct sequence to start. The player who was closest to the bullseye starts the first leg."
+  },
+  "skipBullOff": "Skip Bull-Off"
 }
