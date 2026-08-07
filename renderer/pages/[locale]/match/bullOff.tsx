@@ -1,167 +1,55 @@
 import DefaultLayout from "@/components/layouts/Default";
-import useLobby from "@/hooks/useLobby";
-import { makeStaticProperties } from "@/lib/getStatic";
-import { APP_SHELL } from "@/utils/constants";
-import { Button, Center, Group, Stack, Text, Title } from "@mantine/core";
+import { Center, Stack } from "@mantine/core";
 import type { NextPage } from "next";
-import { useTranslation } from "next-i18next/pages";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { useSessionStorage } from "@mantine/hooks";
-import type { Match } from "@/types/match";
-
-const BullOffContent = () => {
-  const router = useRouter();
-  const { dispatch, state } = useLobby();
-  const {
-    t,
-    i18n: { language: locale },
-  } = useTranslation();
-  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-  const isLastPlayer = currentPlayerIndex === state.players.length - 1;
-  const [showBullOffTable, setShowBullOffTable] = useState(false);
-  const [, setCurrentMatch] = useSessionStorage<Match>({
-    key: "currentMatch",
-  });
-
-  const handleNextPlayer = () => {
-    if (isLastPlayer) {
-      setShowBullOffTable(true);
-      return;
-    }
-
-    setCurrentPlayerIndex((index) => index + 1);
-  };
-
-  const handleMovePlayerUp = (index: number) => {
-    if (index === 0) {
-      return;
-    }
-
-    const playerUUIDs = state.players.map((player) => player.uuid);
-
-    [playerUUIDs[index - 1], playerUUIDs[index]] = [
-      playerUUIDs[index],
-      playerUUIDs[index - 1],
-    ];
-
-    dispatch({
-      type: "SET_PLAYER_ORDER",
-      payload: { playerUUIDs },
-    });
-  };
-
-  const handleMovePlayerDown = (index: number) => {
-    if (index === state.players.length - 1) {
-      return;
-    }
-
-    const playerUUIDs = state.players.map((player) => player.uuid);
-
-    [playerUUIDs[index], playerUUIDs[index + 1]] = [
-      playerUUIDs[index + 1],
-      playerUUIDs[index],
-    ];
-
-    dispatch({
-      type: "SET_PLAYER_ORDER",
-      payload: { playerUUIDs },
-    });
-  };
-
-  const handleStart = () => {
-    setCurrentMatch(state);
-
-    void router.push(`/${locale}/match/playing`);
-  };
-
-  if (showBullOffTable) {
-    return (
-      <>
-        <Text fz="md" tt="uppercase" opacity={0.7} style={{ letterSpacing: 4 }}>
-          {t("match:bullOff")}
-        </Text>
-
-        <Title maw={600}>{t("match:bullOffFinished.title")}</Title>
-
-        <Text maw={600}>{t("match:bullOffFinished.helpText")}</Text>
-
-        <Stack mt="xl" w="100%" maw={500}>
-          {state.players.map((player, index) => (
-            <Group key={player.uuid} justify="space-between" p="md">
-              <Text fw={500}>
-                {index + 1}. {player.name.firstName}
-              </Text>
-
-              <Group gap="xs">
-                <Button
-                  variant="default"
-                  size="xs"
-                  disabled={index === 0}
-                  onClick={() => {
-                    handleMovePlayerUp(index);
-                  }}
-                >
-                  ↑
-                </Button>
-
-                <Button
-                  variant="default"
-                  size="xs"
-                  disabled={index === state.players.length - 1}
-                  onClick={() => {
-                    handleMovePlayerDown(index);
-                  }}
-                >
-                  ↓
-                </Button>
-              </Group>
-            </Group>
-          ))}
-        </Stack>
-
-        <Button mt="xl" onClick={() => handleStart()}>
-          {t("lobby:startMatch")}
-        </Button>
-      </>
-    );
-  }
-
-  return (
-    <>
-      <Text fz="md" tt="uppercase" opacity={0.7} style={{ letterSpacing: 4 }}>
-        {t("match:bullOff")} ({currentPlayerIndex + 1}/{state.players.length})
-      </Text>
-      <Title maw={600}>
-        {t("match:bullOffActiveNextPlayer.title", {
-          FIRST_NAME: state.players[currentPlayerIndex]?.name.firstName,
-        })}
-      </Title>
-      <Text maw={600}>{t("match:bullOffActiveNextPlayer.helpText")}</Text>
-
-      <Group mt="lg">
-        <Button onClick={handleNextPlayer}>{t("next")}</Button>
-        <Button variant="transparent" onClick={() => setShowBullOffTable(true)}>
-          {t("skip")}
-        </Button>
-      </Group>
-    </>
-  );
-};
+import BullOffActiveStep from "@/components/bull-off/BullOffActiveStep";
+import { BullOffFinalTable } from "@/components/bull-off/BullOffFinalTable";
+import useBullOff from "@/hooks/useBullOff";
+import useLobby from "@/hooks/useLobby";
+import BullOffProvider from "@/providers/BullOffProvider";
+import log from "electron-log/renderer";
+import { APP_SHELL } from "@/utils/constants";
+import { makeStaticProperties } from "@/lib/getStatic";
 
 const BullOffPage: NextPage = () => {
   return (
     <DefaultLayout withNavbarOpen={false}>
-      <Center
-        component={Stack}
-        ta="center"
-        mih={`calc(100dvh - ${APP_SHELL.HEADER_HEIGHT}px)`}
-        justify="center"
-        align="center"
-      >
-        <BullOffContent />
-      </Center>
+      <BullOffProvider>
+        <Center
+          component={Stack}
+          ta="center"
+          mih={`calc(100dvh - ${APP_SHELL.HEADER_HEIGHT}px)`}
+          justify="center"
+          align="center"
+        >
+          <BullOffContent />
+        </Center>
+      </BullOffProvider>
     </DefaultLayout>
+  );
+};
+
+const BullOffContent = () => {
+  const { showBullOffTable, movePlayerInTable, startMatch } = useBullOff();
+  const { state: gameState } = useLobby();
+  const players = gameState.players ?? [];
+
+  // Currently not a robust solution, but it should be enough for now.
+  // If the players array is empty, we log an error to help with debugging.
+  //
+  // It's pretty much a edge case, but it can happen if the game state is not
+  // properly initialized or if there's a bug in the lobby logic.
+  if (!players || players.length === 0) {
+    log.error("No players found in game state while bull-off.");
+  }
+
+  return showBullOffTable ? (
+    <BullOffFinalTable
+      players={players}
+      onMovePlayer={movePlayerInTable}
+      onStart={startMatch}
+    />
+  ) : (
+    <BullOffActiveStep />
   );
 };
 
