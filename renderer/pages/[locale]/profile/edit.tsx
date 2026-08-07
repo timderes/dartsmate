@@ -31,6 +31,7 @@ import { DEFAULT_AVATAR_FILE_SIZE } from "@/utils/avatars/constants";
 import ProfileAvatar from "@/components/content/ProfileAvatar";
 import log from "electron-log/renderer";
 import updateProfileFromDatabase from "@/lib/db/profiles/updateProfile";
+import getProfileFromDatabase from "@/lib/db/profiles/getProfile";
 import LoadingOverlay from "@/components/LoadingOverlay";
 
 import { useProfile } from "@/contexts/ProfileContext";
@@ -42,9 +43,8 @@ const EditProfilePage: NextPage = () => {
   } = useTranslation();
   const theme = useMantineTheme();
   const router = useRouter();
-  const query = router.query;
-
-  const { profile, isLoading, refreshProfile } = useProfile();
+  const { refreshProfile } = useProfile();
+  const [isLoading, setIsLoading] = useState(true);
 
   const [avatarColor, setAvatarColor] = useState<
     DefaultMantineColor | undefined
@@ -88,18 +88,50 @@ const EditProfilePage: NextPage = () => {
   });
 
   useEffect(() => {
-    if (!query.uuid) {
+    if (!router.isReady) return;
+
+    const uuid = Array.isArray(router.query.uuid)
+      ? router.query.uuid[0]
+      : router.query.uuid;
+
+    if (!uuid) {
       // TODO: Handle this better. But currently its okay
-      router.back();
+      void router.back();
       return;
     }
 
-    if (profile) {
-      form.setValues(profile);
-      setAvatarColor(profile.color);
-      console.info("Loaded profile values into the form: ", profile);
-    }
-  }, [profile]);
+    let isMounted = true;
+
+    const loadProfileForEdit = async () => {
+      setIsLoading(true);
+
+      try {
+        const profile = await getProfileFromDatabase(uuid);
+
+        if (!profile) {
+          log.error(`Profile with uuid ${uuid} was not found.`);
+          void router.back();
+          return;
+        }
+
+        if (!isMounted) return;
+        form.setValues(profile);
+        setAvatarColor(profile.color);
+      } catch (error) {
+        log.error("Failed to load profile for editing. Error:", error);
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    void loadProfileForEdit();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [router.isReady, router.query.uuid]);
 
   // Manually update the color, since the ...props method doesn't work on the color swatches
   const updateAvatarColor = (color: DefaultMantineColor) => {
