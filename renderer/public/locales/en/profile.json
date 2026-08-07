@@ -73,6 +73,10 @@
     "createProfileError": {
       "title": "Profile could not be created!",
       "text": "Please try again later."
+    },
+    "resizeAvatarError": {
+      "title": "Error resizing avatar!",
+      "text": "Please try again later."
     }
   },
   "cancelProfileCreation": {

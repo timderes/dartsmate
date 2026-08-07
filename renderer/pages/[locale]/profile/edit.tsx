@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import DefaultLayout from "@/components/layouts/Default";
 import { makeStaticProperties } from "@/lib/getStatic";
 import { useTranslation } from "next-i18next/pages";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import type { Profile } from "@/types/profile";
 import { useForm } from "@mantine/form";
 import {
@@ -46,23 +46,16 @@ const EditProfilePage: NextPage = () => {
   const { refreshProfile } = useProfile();
   const [isLoading, setIsLoading] = useState(true);
 
-  const [avatarColor, setAvatarColor] = useState<
-    DefaultMantineColor | undefined
-  >("red"); // The default primary app color
+  const [avatarColor, setAvatarColor] = useState<DefaultMantineColor>(
+    theme.primaryColor ?? "red",
+  );
 
   const form = useForm<Profile>({
-    /*
-     * Providing initial values prevents runtime errors by ensuring the validate
-     * function has data to work with, even before user input.
-     */
     initialValues: {
       bio: "",
-      color: "red",
+      color: avatarColor,
       createdAt: 0,
-      name: {
-        firstName: "",
-        lastName: "",
-      },
+      name: { firstName: "", lastName: "" },
       statistics: {
         average: 0,
         playedMatches: 0,
@@ -75,15 +68,13 @@ const EditProfilePage: NextPage = () => {
       uuid: "",
     },
     validate: {
-      // Error messages are currently not used. The form only proceeds if all fields are valid.
-      // TODO: Show the user which fields are invalid
       name: {
         firstName: (value) =>
-          value.length < 3 ? "ERR_FIRST_NAME_TO_SHORT" : null,
+          value.length < 3 ? "ERR_FIRST_NAME_TOO_SHORT" : null,
         lastName: (value) =>
-          value.length < 3 ? "ERR_LAST_NAME_TO_SHORT" : null,
+          value.length < 3 ? "ERR_LAST_NAME_TOO_SHORT" : null,
       },
-      username: (value) => (value.length < 3 ? "ERR_USERNAME_TO_SHORT" : null),
+      username: (value) => (value.length < 3 ? "ERR_USERNAME_TOO_SHORT" : null),
     },
   });
 
@@ -95,7 +86,6 @@ const EditProfilePage: NextPage = () => {
       : router.query.uuid;
 
     if (!uuid) {
-      // TODO: Handle this better. But currently its okay
       router.back();
       return;
     }
@@ -103,20 +93,18 @@ const EditProfilePage: NextPage = () => {
     let isMounted = true;
 
     const loadProfileForEdit = async () => {
-      setIsLoading(true);
-
       try {
         const profile = await getProfileFromDatabase(uuid);
-
         if (!profile) {
           log.error(`Profile with uuid ${uuid} was not found.`);
           router.back();
           return;
         }
 
-        if (!isMounted) return;
-        form.setValues(profile);
-        setAvatarColor(profile.color);
+        if (isMounted) {
+          form.setValues(profile);
+          setAvatarColor(profile.color);
+        }
       } catch (error) {
         log.error("Failed to load profile for editing. Error:", error);
       } finally {
@@ -133,38 +121,29 @@ const EditProfilePage: NextPage = () => {
     };
   }, [router.isReady, router.query.uuid]);
 
-  // Manually update the color, since the ...props method doesn't work on the color swatches
   const updateAvatarColor = (color: DefaultMantineColor) => {
     setAvatarColor(color);
-    form.setValues({
-      color: color,
-    });
-
-    /*
-     * Set form to dirty and touched, so the user can submit the form
-     * without updating or clicking a form field
-     */
-    form.setDirty({
-      color: true,
-    });
-    form.setTouched({
-      color: true,
-    });
+    form.setValues({ color });
+    form.setDirty({ color: true });
+    form.setTouched({ color: true });
   };
 
-  const swatches = Object.keys(theme.colors).map((color) => (
-    <Tooltip key={color} label={t(`color.${color}`)} withArrow>
-      <ColorSwatch
-        color={theme.colors[color][6]}
-        style={{ cursor: "pointer" }}
-        onClick={() => updateAvatarColor(color)}
-      >
-        {color === avatarColor ? (
-          <CheckIcon width={15} style={{ color: theme.white }} />
-        ) : null}
-      </ColorSwatch>
-    </Tooltip>
-  ));
+  // Generate swatches efficiently
+  const swatches = useMemo(() => {
+    return Object.keys(theme.colors).map((color) => (
+      <Tooltip key={color} label={t(`color.${color}`)} withArrow>
+        <ColorSwatch
+          color={theme.colors[color][6]}
+          style={{ cursor: "pointer" }}
+          onClick={() => updateAvatarColor(color)}
+        >
+          {color === avatarColor && (
+            <CheckIcon width={15} style={{ color: theme.white }} />
+          )}
+        </ColorSwatch>
+      </Tooltip>
+    ));
+  }, [theme, avatarColor, t]);
 
   const handleEdit = () => {
     updateProfileFromDatabase(
@@ -190,43 +169,34 @@ const EditProfilePage: NextPage = () => {
   };
 
   const handleFileChange = (files: FileWithPath[]) => {
+    if (!files?.[0]) return;
+
     const file = files[0];
 
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = async (e) => {
-      if (!e.target) return;
-
-      try {
-        const resizedBase64 = await resizeAvatarImage({ file: file });
+    resizeAvatarImage({ file })
+      .then((resizedBase64) => {
         form.setFieldValue("avatarImage", resizedBase64);
-      } catch (error) {
-        log.error("Error resizing the file: ", error);
-      }
-    };
-
-    reader.readAsDataURL(file);
+      })
+      .catch((error) => {
+        log.error("Error resizing the file:", error);
+        notifications.show({
+          title: t("profile:notifications.resizeAvatarError.title"),
+          message: t("profile:notifications.resizeAvatarError.text"),
+        });
+      });
   };
 
   const handleImageRejection = (files: FileRejection[]) => {
-    /**
-     * We expect that the array contains only one file since the dropzone
-     * is configured to accept a single file at a time. Nonetheless, we
-     * check if files array is not empty to prevent accessing undefined.
-     */
-    if (files.length === 0) {
+    if (!files?.length) {
       log.error("Expected one image file, but the file array was empty.");
       return;
     }
 
     const file = files[0];
-
     notifications.show({
       autoClose: 20000, // 20 seconds
-      title: t(`errors.${file.errors[0].code}.title`),
-      message: t(`errors.${file.errors[0].code}.message`),
+      title: t(`errors.${file.errors?.[0]?.code}.title`),
+      message: t(`errors.${file.errors?.[0]?.code}.message`),
     });
   };
 
@@ -238,8 +208,8 @@ const EditProfilePage: NextPage = () => {
     <DefaultLayout withNavbarOpen>
       <Stack gap="xl" mt="xl">
         <Dropzone
-          onDrop={(files) => handleFileChange(files)}
-          onReject={(files) => handleImageRejection(files)}
+          onDrop={handleFileChange}
+          onReject={handleImageRejection}
           maxSize={DEFAULT_AVATAR_FILE_SIZE}
           accept={IMAGE_MIME_TYPE}
           maxFiles={1}
@@ -247,12 +217,13 @@ const EditProfilePage: NextPage = () => {
         >
           <ProfileAvatar profile={form.values} size="xl" mx="auto" />
         </Dropzone>
-        <Button
-          disabled={!form.values.avatarImage}
-          onClick={() => form.setFieldValue("avatarImage", undefined)}
-        >
-          {t("profile:buttons.resetAvatarImage")}
-        </Button>
+
+        {form.values.avatarImage && (
+          <Button onClick={() => form.setFieldValue("avatarImage", undefined)}>
+            {t("profile:buttons.resetAvatarImage")}
+          </Button>
+        )}
+
         <Group mx="auto">{swatches}</Group>
         <Group grow>
           <TextInput
