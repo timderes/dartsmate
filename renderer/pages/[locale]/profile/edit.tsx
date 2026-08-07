@@ -128,7 +128,6 @@ const EditProfilePage: NextPage = () => {
     form.setTouched({ color: true });
   };
 
-  // Generate swatches efficiently
   const swatches = useMemo(() => {
     return Object.keys(theme.colors).map((color) => (
       <Tooltip key={color} label={t(`color.${color}`)} withArrow>
