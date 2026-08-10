@@ -81,7 +81,7 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-image-file-resizer": "^0.4.8",
-    "recharts": "^3.9.2",
+    "recharts": "^3.10.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.58.2",
     "use-elapsed-time": "^3.0.4",
