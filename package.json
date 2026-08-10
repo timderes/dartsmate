@@ -59,7 +59,7 @@
     "@types/node": "^26.1.2",
     "@types/react": "^19.2.18",
     "@workmate/country-and-currency": "^1.2.2",
-    "concurrently": "^9.2.1",
+    "concurrently": "^10.0.4",
     "dexie": "^4.4.4",
     "dexie-react-hooks": "^4.4.0",
     "electron": "^43.3.0",
