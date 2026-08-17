@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useCallback, useContext, useState } from "react";
 import { useRouter } from "next/router";
 import { useSessionStorage } from "@mantine/hooks";
+import { useTranslation } from "next-i18next/pages";
 
 import useLobby from "@/hooks/useLobby";
 import useBullOff from "@/hooks/useBullOff";
@@ -29,6 +30,10 @@ vi.mock("next/router", () => ({
 
 vi.mock("@mantine/hooks", () => ({
   useSessionStorage: vi.fn(),
+}));
+
+vi.mock("next-i18next/pages", () => ({
+  useTranslation: vi.fn(),
 }));
 
 vi.mock("electron-log/renderer", () => ({
@@ -91,6 +96,12 @@ const setup = ({
     removeCurrentMatch,
   ]);
 
+  vi.mocked(useTranslation).mockReturnValue({
+    i18n: {
+      language: locale,
+    },
+  } as never);
+
   vi.mocked(useRouter).mockReturnValue({
     locale,
     push,
@@ -131,6 +142,7 @@ describe("useBullOff", () => {
 
     expect(result).toBe(contextState);
     expect(useLobby).not.toHaveBeenCalled();
+    expect(useTranslation).not.toHaveBeenCalled();
   });
 
   it("should move to next player when current player is not the last", () => {
@@ -213,7 +225,7 @@ describe("useBullOff", () => {
     expect(dispatch).not.toHaveBeenCalled();
   });
 
-  it("should persist match and navigate to playing page when starting", () => {
+  it("should persist match and navigate using the selected language when starting", () => {
     const players = [{ ...createMockPlayer(), uuid: "player-1" }];
 
     const { hook, setCurrentMatch, push, state } = setup({
@@ -224,6 +236,24 @@ describe("useBullOff", () => {
     hook.startMatch();
 
     expect(setCurrentMatch).toHaveBeenCalledWith(state);
+    expect(push).toHaveBeenCalledWith("/de/match/playing");
+  });
+
+  it("should use the translation language instead of the router locale when starting", () => {
+    const players = [{ ...createMockPlayer(), uuid: "player-1" }];
+
+    const { hook, push } = setup({
+      players,
+      locale: "de",
+    });
+
+    vi.mocked(useRouter).mockReturnValue({
+      locale: "en",
+      push,
+    } as never);
+
+    hook.startMatch();
+
     expect(push).toHaveBeenCalledWith("/de/match/playing");
   });
 

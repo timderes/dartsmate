@@ -3,6 +3,11 @@
   "features": "What's New",
   "fixes": "Bug Fixes",
   "versions": {
+    "0.8.1": {
+      "fixes": [
+        "After a Bull-Off, the selected language is now correctly retained, preventing the interface from unexpectedly switching to English."
+      ]
+    },
     "0.8.0": {
       "features": [
         "Added a Bull-Off option to the lobby, allowing the starting player to be decided by a Bull-Off.",

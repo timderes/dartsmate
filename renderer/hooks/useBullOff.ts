@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useState, useCallback, useContext } from "react";
 import log from "electron-log/renderer";
 import BullOffContext from "@/contexts/BullOffContext";
+import { useTranslation } from "next-i18next/pages";
 
 export type BullOffState = {
   currentPlayerIndex: number;
@@ -24,6 +25,9 @@ const useBullOff = (): BullOffState => {
   }
 
   const router = useRouter();
+  const {
+    i18n: { language: locale },
+  } = useTranslation();
   const { dispatch, state } = useLobby();
   const [, setCurrentMatch] = useSessionStorage<Match>({ key: "currentMatch" });
 
@@ -75,7 +79,7 @@ const useBullOff = (): BullOffState => {
 
   const startMatch = useCallback(() => {
     setCurrentMatch(state);
-    router.push(`/${router.locale ?? "en"}/match/playing`).catch((err) => {
+    router.push(`/${locale}/match/playing`).catch((err) => {
       log.error("Navigation error:", err);
     });
   }, [router, state, setCurrentMatch]);
