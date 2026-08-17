@@ -3,6 +3,15 @@
   "features": "What's New",
   "fixes": "Bug Fixes",
   "versions": {
+    "0.8.0": {
+      "features": [
+        "Added a Bull-Off option to the lobby, allowing the starting player to be decided by a Bull-Off.",
+        "Additionally, this update includes further improvements and optimizations."
+      ],
+      "fixes": [
+        "Fixed an issue where editing a profile could load the wrong profile."
+      ]
+    },
     "0.7.0": {
       "features": [
         "Added a new Profiles overview page to quickly view all profiles.",

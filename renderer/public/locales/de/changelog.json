@@ -3,6 +3,15 @@
   "features": "Neuigkeiten",
   "fixes": "Fehlerbehebungen",
   "versions": {
+    "0.8.0": {
+      "features": [
+        "Die Möglichkeit zum Ausbullen wurde zur Lobby hinzugefügt. Damit kann der Startspieler bestimmt werden.",
+        "Zusätzlich bringt dieses Update weitere Verbesserungen und Optimierungen."
+      ],
+      "fixes": [
+        "Fehler behoben, durch den beim Bearbeiten eines Profils das falsche Profil geladen werden konnte."
+      ]
+    },
     "0.7.0": {
       "features": [
         "Neue Profilübersicht hinzugefügt, um alle Profile schnell anzuzeigen.",
