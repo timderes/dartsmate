@@ -73,7 +73,7 @@
     "lint-staged": "^16.4.0",
     "next": "^16.2.12",
     "next-i18next": "^16.0.8",
-    "nextron": "^10.0.0",
+    "nextron": "^10.2.0",
     "postcss": "^8.5.26",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
