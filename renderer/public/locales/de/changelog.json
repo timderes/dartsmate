@@ -3,6 +3,11 @@
   "features": "Neuigkeiten",
   "fixes": "Fehlerbehebungen",
   "versions": {
+    "0.8.1": {
+      "fixes": [
+        "Nach dem Bull-Off wird die ausgewählte Sprache jetzt korrekt beibehalten, sodass die Oberfläche nicht mehr unerwartet auf Englisch wechselt."
+      ]
+    },
     "0.8.0": {
       "features": [
         "Die Möglichkeit zum Ausbullen wurde zur Lobby hinzugefügt. Damit kann der Startspieler bestimmt werden.",
