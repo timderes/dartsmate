@@ -47,6 +47,14 @@ npm install
 npm run dev
 ```
 
+## Minimum System Requirements
+
+To run DartsMate, your system must meet the following minimum requirements:
+
+- **Windows**: Windows 10 or later (Only 64-bit versions)
+- **macOS**: macOS 13 Ventura or later
+- **Linux**: 64-bit Linux
+
 ### Tech Stack
 
 - [Nextron](https://github.com/saltyshiomix/nextron) – Framework combining Electron + Next.js
@@ -73,7 +81,6 @@ See the full list of contributors [here](CONTRIBUTORS.md).
 | `npm run dev`           | Starts the Nextron development environment with hot reloading                                |
 | `npm run build`         | Builds a production-ready app for the current platform                                       |
 | `npm run build:all`     | Builds production-ready versions for **all** supported platforms (Windows, macOS, and Linux) |
-| `npm run build:win32`   | Builds a **Windows 32-bit** executable                                                       |
 | `npm run build:win64`   | Builds a **Windows 64-bit** executable                                                       |
 | `npm run build:mac`     | Builds a **macOS** application<br>⚠️ Requires building on a macOS machine                    |
 | `npm run build:linux`   | Builds a **Linux** executable                                                                |
