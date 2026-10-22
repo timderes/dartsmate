@@ -1,9 +1,6 @@
 import { app } from "electron";
-import i18nConfig from "../../../next-i18next.config";
+import { defaultLocale, supportedLocales } from "../../../shared/i18n/locales";
 import log from "electron-log";
-
-const defaultLocale = i18nConfig.i18n.defaultLocale;
-const supportedLocales = i18nConfig.i18n.locales;
 
 /**
  * Checks if the user's current os locale is included in the
@@ -32,4 +29,4 @@ const getPreferredLocale = (): string => {
   return defaultLocale;
 };
 
-export { getPreferredLocale as default, defaultLocale, supportedLocales };
+export default getPreferredLocale;

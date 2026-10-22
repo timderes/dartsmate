@@ -79,6 +79,9 @@ const UpdaterActionButtons = () => {
       </Button>
     );
   }
+
+  // No action button is needed for other updater states
+  return null;
 };
 
 export default UpdaterActionButtons;

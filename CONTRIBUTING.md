@@ -58,7 +58,7 @@ Thanks for helping and taking the time to translate DartsMate into your language
 
 1. Fork the repository and create a new branch for your language (e.g. `feat/add-spanish-language`).
 
-2. Open `next-i18next.config.js` and add your language code to the `locales` array. For example, if you want to add Spanish, you would add `'es'` to the array.
+2. Open `shared/i18n/locales.ts` and add your language code to the `supportedLocales` array. For example, if you want to add Spanish, you would add `"es"` to the array.
    **NOTE: Use the `Set 1` language codes: [ISO 639 language codes](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)!**
 
 3. Create a new folder in the `renderer/public/locales` directory with the name of your language code (e.g., `es` for Spanish).

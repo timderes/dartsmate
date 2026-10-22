@@ -1,5 +1,5 @@
 import { app } from "electron";
-import { getSystemVersion } from "process";
+import { getSystemVersion } from "node:process";
 import log from "electron-log";
 
 /**

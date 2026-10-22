@@ -2,7 +2,7 @@ import { app } from "electron";
 import serve from "electron-serve";
 import createWindow from "./helpers/create-window";
 import "./helpers/ipc";
-import path from "path";
+import path from "node:path";
 import log from "electron-log";
 import { appSettingsStore } from "./helpers/stores";
 import getPreferredLocale from "./helpers/utils/getPreferredLocale";
@@ -13,7 +13,7 @@ import {
 } from "./constants/application";
 import registerUpdater, { isUpdateInstalling } from "./helpers/updater";
 
-const sessionId = new Date().valueOf();
+const sessionId = Date.now().toString();
 
 if (IS_APP_RUNNING_IN_PRODUCTION_MODE) {
   serve({ directory: "app" });
