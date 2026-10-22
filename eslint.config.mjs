@@ -95,7 +95,15 @@ export default tseslint.config(
 
   // 3b. Main/Root Project Configuration
   {
-    files: ["main/**/*.ts", "main/**/*.tsx", "*.ts", "*.mts", "*.cts"],
+    files: [
+      "main/**/*.ts",
+      "main/**/*.tsx",
+      "shared/**/*.ts",
+      "shared/**/*.tsx",
+      "*.ts",
+      "*.mts",
+      "*.cts",
+    ],
     languageOptions: {
       parserOptions: {
         project: ["./tsconfig.json"],
