@@ -14,9 +14,9 @@ concurrency:
 
 on:
   push:
-    branches: [main, "deps-updates"]
+    branches: [main]
   pull_request:
-    branches: [main, "deps-updates"]
+    branches: [main]
 
 jobs:
   lint:

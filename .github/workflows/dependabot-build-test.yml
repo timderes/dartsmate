@@ -1,0 +1,31 @@
+# This is a small and quick workflow to build test Dependabot's PRs,
+# so that we don't have to run the full build workflow for them.
+#
+# We assume that if it works on Linux, it will work on all platforms,
+# as the build scripts are the same for all platforms.
+name: Dependabot build test
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    name: Build test (Ubuntu)
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build:linux

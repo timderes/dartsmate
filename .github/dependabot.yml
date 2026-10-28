@@ -6,9 +6,6 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "04:00"
-    # Open Dependabot PRs against the deps-updates branch,
-    # so grouped updates can be tested there before merging into main
-    target-branch: "deps-updates"
     open-pull-requests-limit: 10
     groups:
       # Group Mantine UI updates together to ensure consistency
@@ -45,6 +42,4 @@ updates:
       interval: "weekly"
       day: "monday"
       time: "04:00"
-    # Target deps-updates branch for grouped updates testing before merging into main
-    target-branch: "deps-updates"
     open-pull-requests-limit: 10

@@ -11,8 +11,13 @@ permissions:
 on:
   push:
     branches: [main]
-  # pull_request:
-  # branches: [main]
+    # This is a workaround for stopping the workflow from running
+    # if the PR is only a dependency update from Dependabot.
+    # All Dependabot's PRs have already been build tested, so we don't
+    # need to run the build again.
+    paths-ignore:
+      - "package.json"
+      - "package-lock.json"
 
 jobs:
   build:
