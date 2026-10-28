@@ -6,16 +6,47 @@ permissions:
   actions: write # Needed for caching npm dependencies
   contents: read
 
-# We only need to check if the build works on push to main,
-# as we have linting and formatting checks on pull requests.
+# Cancel an outdated main build when a newer commit is pushed.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Check the full build after changes reach main, except for Dependabot pull
+# requests, which already run the lightweight build test separately.
 on:
   push:
     branches: [main]
-  # pull_request:
-  # branches: [main]
 
 jobs:
+  identify-change:
+    name: Identify Dependabot merge
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      skip-build: ${{ steps.pull-request.outputs.skip-build }}
+    steps:
+      - name: Check associated pull requests
+        id: pull-request
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const { data: pullRequests } =
+              await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                owner,
+                repo,
+                commit_sha: context.sha,
+              });
+            const isDependabotMerge = pullRequests.some(
+              pullRequest => pullRequest.user?.login === 'dependabot[bot]'
+            );
+            core.setOutput('skip-build', isDependabotMerge ? 'true' : 'false');
+
   build:
+    needs: identify-change
+    if: needs.identify-change.outputs.skip-build != 'true'
     strategy:
       fail-fast: false
       matrix:
