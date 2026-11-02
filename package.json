@@ -76,7 +76,7 @@
     "postcss": "^8.5.28",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
-    "prettier": "3.9.6",
+    "prettier": "3.9.10",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-image-file-resizer": "^0.4.8",
